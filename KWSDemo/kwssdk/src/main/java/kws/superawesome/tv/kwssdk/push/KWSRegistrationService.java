@@ -76,11 +76,12 @@ public class KWSRegistrationService {
         @Override
         protected void onHandleIntent(Intent intent) {
 
-            final ResultReceiver receiver = intent.getParcelableExtra("receiver");
+            ResultReceiver receiver = intent.getParcelableExtra("receiver");
+            String gcmSender = KWS.sdk.getGcmSender();
 
             try {
                 InstanceID instanceID = InstanceID.getInstance(this);
-                String token = instanceID.getToken(KWS.sdk.gcmSender, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                String token = instanceID.getToken(gcmSender, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("token", token);

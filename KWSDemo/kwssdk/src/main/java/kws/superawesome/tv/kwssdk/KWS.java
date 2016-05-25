@@ -24,11 +24,11 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     private KWS() {}
 
     // setup variables
-    public String oauthToken;
-    public String kwsApiUrl;
-    public KWSInterface listener;
-    public String gcmSender;
-    public KWSMetadata metadata;
+    private String oauthToken;
+    private String kwsApiUrl;
+    private KWSInterface listener;
+    private String gcmSender;
+    private KWSMetadata metadata;
 
     // <Setup> functions
 
@@ -108,6 +108,24 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     @Override
     public void didNotRegister() {
         lisDidFailBecauseOfError();
+    }
+
+    // getters
+
+    public String getOauthToken () {
+        return oauthToken;
+    }
+
+    public String getKwsApiUrl () {
+        return kwsApiUrl;
+    }
+
+    public String getGcmSender () {
+        return gcmSender;
+    }
+
+    public KWSMetadata getMetadata () {
+        return metadata;
     }
 
     // <Private> functions

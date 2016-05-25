@@ -7,6 +7,7 @@ import kws.superawesome.tv.kwslib.SANetwork;
 import kws.superawesome.tv.kwslib.SANetworkInterface;
 import kws.superawesome.tv.kwslib.SANetworkResponse;
 import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.KWSUser;
 
 /**
@@ -23,12 +24,16 @@ public class KWSCheckPermission {
      */
     public void check () {
 
-        if (KWS.sdk.kwsApiUrl != null && KWS.sdk.oauthToken != null && KWS.sdk.metadata != null){
-            int userId= KWS.sdk.metadata.userId;
-            String endpoint = KWS.sdk.kwsApiUrl + "users/" + userId;
+        String kwsApiUrl = KWS.sdk.getKwsApiUrl();
+        String oauthToken = KWS.sdk.getOauthToken();
+        KWSMetadata metadata = KWS.sdk.getMetadata();
+
+        if (kwsApiUrl != null && oauthToken != null && metadata != null){
+            int userId= metadata.userId;
+            String endpoint = kwsApiUrl + "users/" + userId;
 
             SANetwork network = new SANetwork();
-            network.sendGET(endpoint, KWS.sdk.oauthToken, new SANetworkInterface() {
+            network.sendGET(endpoint, oauthToken, new SANetworkInterface() {
                 @Override
                 public void success(Object data) {
                     SANetworkResponse response = (SANetworkResponse)data;

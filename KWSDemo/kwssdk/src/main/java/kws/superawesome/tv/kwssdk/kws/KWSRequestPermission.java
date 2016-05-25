@@ -27,10 +27,14 @@ public class KWSRequestPermission {
      */
     public void request () {
 
-        if (KWS.sdk.kwsApiUrl != null && KWS.sdk.oauthToken != null && KWS.sdk.metadata != null) {
+        String kwsApiUrl = KWS.sdk.getKwsApiUrl();
+        String oauthToken = KWS.sdk.getOauthToken();
+        KWSMetadata metadata = KWS.sdk.getMetadata();
 
-            int userId= KWS.sdk.metadata.userId;
-            String endpoint = KWS.sdk.kwsApiUrl + "users/" + userId + "/request-permissions";
+        if (kwsApiUrl != null && oauthToken != null && metadata != null){
+
+            int userId= metadata.userId;
+            String endpoint = kwsApiUrl + "users/" + userId + "/request-permissions";
             JSONObject body = new JSONObject();
             JSONArray array = new JSONArray();
             array.put("sendPushNotification");
@@ -41,7 +45,7 @@ public class KWSRequestPermission {
             }
 
             SANetwork network = new SANetwork();
-            network.sendPOST(endpoint, KWS.sdk.oauthToken, body, new SANetworkInterface() {
+            network.sendPOST(endpoint, oauthToken, body, new SANetworkInterface() {
                 @Override
                 public void success(Object data) {
 

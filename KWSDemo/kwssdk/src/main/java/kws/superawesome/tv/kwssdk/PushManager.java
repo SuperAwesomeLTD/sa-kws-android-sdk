@@ -46,7 +46,7 @@ public class PushManager {
                 @Override
                 public void didGetToken(String token) {
                     pushRegister.register(token);
-                    Log.d("SuperAwesome", "Toke is " + token);
+                    Log.d("SuperAwesome", "Token is " + token);
                     lisDidRegister();
                 }
 

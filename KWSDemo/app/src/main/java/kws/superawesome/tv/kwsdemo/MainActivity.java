@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         String token01 = "89022jksjlaljkiouwqjnsasaljoisaoiwqoioiqw.jsajkjssu.hsjkajksajlsajlksa";
         String token1 = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjc0NCwiYXBwSWQiOjMxMywiY2xpZW50SWQiOiJzYS1tb2JpbGUtYXBwLXNkay1jbGllbnQtMCIsInNjb3BlIjoidXNlciIsImlhdCI6MTQ2NDA4NTUyMSwiZXhwIjoxNDY0MTcxOTIxLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.dnzKjgkaUF3hjSlu22BtzBGBmuFchYVcXdicptUfSyI";
         String token3 = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjc0NiwiYXBwSWQiOjMxMywiY2xpZW50SWQiOiJzYS1tb2JpbGUtYXBwLXNkay1jbGllbnQtMCIsInNjb3BlIjoidXNlciIsImlhdCI6MTQ2NDA4MjQwMywiZXhwIjoxNDY0MTY4ODAzLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.PEcEcUwKzB7YEMWXLSP8VqCn8yH01i-ZJtgtefDh7Fg";
-        String token4 = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjc0NywiYXBwSWQiOjMxMywiY2xpZW50SWQiOiJzYS1tb2JpbGUtYXBwLXNkay1jbGllbnQtMCIsInNjb3BlIjoidXNlciIsImlhdCI6MTQ2NDA5MjYyMiwiZXhwIjoxNDY0MTc5MDIyLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.tdgWVh_FSsF67RxXiGaYzQPpAwoXs7JnRS2FJkKfn1U";
+        String token4 = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjc0OSwiYXBwSWQiOjMxMywiY2xpZW50SWQiOiJzYS1tb2JpbGUtYXBwLXNkay1jbGllbnQtMCIsInNjb3BlIjoidXNlciIsImlhdCI6MTQ2NDE4MDIzMiwiZXhwIjoxNDY0MjY2NjMyLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.B7o2FhN6hv8PxLsWr7VqKxLoIQT_bsB9jtq9Qr0mfOw";
 
         KWS.sdk.setApplicationContext(getApplicationContext());
         KWS.sdk.setup(token4, "https://kwsapi.demo.superawesome.tv/v1/", "32", new KWSInterface() {
