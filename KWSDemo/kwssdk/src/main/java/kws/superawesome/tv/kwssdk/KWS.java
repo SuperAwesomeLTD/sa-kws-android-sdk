@@ -130,16 +130,27 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     // <Private> functions
 
-    KWSMetadata getMetadata(String  oauthToken) {
+    public KWSMetadata getMetadata(String  oauthToken) {
 
         // get token
         String[] components = oauthToken.split("\\.");
         String tokenO = null;
-        if (components.length >= 2) tokenO = components[1] + "==";
+        if (components.length >= 2) tokenO = components[1];
         if (tokenO == null) return null;
 
         // get JSON from base64 data
-        byte[] data = Base64.decode(tokenO, Base64.DEFAULT);
+        byte[] data;
+        try {
+            data = Base64.decode(tokenO, Base64.DEFAULT);
+        } catch (IllegalArgumentException e1) {
+            try {
+                tokenO += "==";
+                data = Base64.decode(tokenO, Base64.DEFAULT);
+            } catch (IllegalArgumentException e2) {
+                return null;
+            }
+        }
+
         try {
             String jsonData = new String(data, "UTF-8");
 
