@@ -144,10 +144,15 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
             data = Base64.decode(tokenO, Base64.DEFAULT);
         } catch (IllegalArgumentException e1) {
             try {
-                tokenO += "==";
+                tokenO += "=";
                 data = Base64.decode(tokenO, Base64.DEFAULT);
             } catch (IllegalArgumentException e2) {
-                return null;
+                try {
+                    tokenO += "=";
+                    data = Base64.decode(tokenO, Base64.DEFAULT);
+                } catch (IllegalArgumentException e3){
+                    return null;
+                }
             }
         }
 
