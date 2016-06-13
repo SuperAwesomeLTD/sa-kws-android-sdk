@@ -22,7 +22,7 @@ public interface KWSInterface {
      This function is called by the KWS singleton when the user has been
      successfully registered
      */
-    void didRegisterForRemoteNotifications();
+    void didRegisterForRemoteNotifications(String token);
 
     /**
      This function is called by the KWS singleton when the user is not allowed

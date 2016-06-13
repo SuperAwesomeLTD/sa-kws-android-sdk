@@ -50,7 +50,7 @@ public class PushManager {
         else {
             kwsRegistration.listener = new KWSRegistrationServiceInterface() {
                 @Override
-                public void didGetToken(String token) {
+                public void didGetToken(final String token) {
 
                     Log.d("SuperAwesome", "Token is " + token);
 
@@ -58,8 +58,7 @@ public class PushManager {
                     updateToken.listener = new KWSSubscribeTokenInterface() {
                         @Override
                         public void tokenWasSubscribed() {
-                            Log.d("SuperAwesome", "Token was successfully updated");
-                            lisDidRegister();
+                            lisDidRegister(token);
                         }
 
                         @Override
@@ -109,9 +108,9 @@ public class PushManager {
 
     // <Listener> functions
 
-    void lisDidRegister () {
+    void lisDidRegister (String token) {
         if (listener != null) {
-            listener.didRegister();
+            listener.didRegister(token);
         }
     }
 

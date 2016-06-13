@@ -1,21 +1,11 @@
 package kws.superawesome.tv.kwsdemo;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.KWSInterface;
-import kws.superawesome.tv.kwssdk.KWSManager;
-import kws.superawesome.tv.kwssdk.KWSManagerInterface;
-import kws.superawesome.tv.kwssdk.PushManager;
-import kws.superawesome.tv.kwssdk.PushManagerInterface;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void didRegisterForRemoteNotifications() {
+            public void didRegisterForRemoteNotifications(String token) {
                 Log.d("SuperAwesome", "User successfully registered for remote notifications");
             }
 

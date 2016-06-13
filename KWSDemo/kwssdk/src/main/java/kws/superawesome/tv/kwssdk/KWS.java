@@ -103,8 +103,8 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     // <PushManagerInterface>
 
     @Override
-    public void didRegister() {
-        lisDidRegisterForRemoteNotifications();
+    public void didRegister(String token) {
+        lisDidRegisterForRemoteNotifications(token);
     }
 
     @Override
@@ -193,9 +193,9 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
         }
     }
 
-    void lisDidRegisterForRemoteNotifications() {
+    void lisDidRegisterForRemoteNotifications (String token) {
         if (listener != null) {
-            listener.didRegisterForRemoteNotifications();
+            listener.didRegisterForRemoteNotifications(token);
         }
     }
 
