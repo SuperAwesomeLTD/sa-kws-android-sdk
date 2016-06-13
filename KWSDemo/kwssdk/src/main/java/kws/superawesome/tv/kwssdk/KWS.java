@@ -57,6 +57,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
         PushManager.sharedInstance.registerForPushNotifications();
     }
 
+    public void unregisterForRemoteNotifications () {
+        PushManager.sharedInstance.unregisterForRemoteNotifications();
+    }
+
     // <KWSManagerInterface>
 
     @Override
@@ -124,7 +128,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     // <Private> functions
 
-    public KWSMetadata getMetadata(String  oauthToken) {
+    private KWSMetadata getMetadata(String  oauthToken) {
 
         // get token
         String[] components = oauthToken.split("\\.");

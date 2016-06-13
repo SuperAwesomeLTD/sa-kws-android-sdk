@@ -9,6 +9,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import kws.superawesome.tv.kwslib.SAApplication;
 import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
 import kws.superawesome.tv.kwssdk.kws.KWSSubscribeTokenInterface;
+import kws.superawesome.tv.kwssdk.kws.KWSUnsubscribeToken;
+import kws.superawesome.tv.kwssdk.kws.KWSUnsubscribeTokenInterface;
 import kws.superawesome.tv.kwssdk.push.KWSRegistrationService;
 import kws.superawesome.tv.kwssdk.push.KWSRegistrationServiceInterface;
 import kws.superawesome.tv.kwssdk.push.PushRegisterPermission;
@@ -25,6 +27,7 @@ public class PushManager {
     private PushRegisterPermission pushRegister = null;
     private KWSRegistrationService kwsRegistration = null;
     private KWSSubscribeToken updateToken = null;
+    private KWSUnsubscribeToken unsubscribeToken = null;
 
     // listener
     public PushManagerInterface listener = null;
@@ -34,6 +37,7 @@ public class PushManager {
         kwsRegistration = new KWSRegistrationService();
         pushRegister = new PushRegisterPermission();
         updateToken = new KWSSubscribeToken();
+        unsubscribeToken = new KWSUnsubscribeToken();
     }
 
     // public function
@@ -73,6 +77,22 @@ public class PushManager {
             };
             kwsRegistration.register();
         }
+    }
+
+    public void unregisterForRemoteNotifications () {
+        String token = pushRegister.getToken();
+        unsubscribeToken.listener = new KWSUnsubscribeTokenInterface() {
+            @Override
+            public void tokenWasUnsubscribed() {
+                Log.d("SuperAwesome", "Token unsubscribed");
+            }
+
+            @Override
+            public void tokenError() {
+                Log.d("SuperAwesome", "Token failed to be unsubscribed");
+            }
+        };
+        unsubscribeToken.request(token);
     }
 
     // <Private> functions

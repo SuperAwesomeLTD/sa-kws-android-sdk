@@ -44,6 +44,10 @@ public class PushRegisterPermission {
         }
     }
 
+    public String getToken () {
+        return sharedPreferences.getString(kPushToken, null);
+    }
+
     public void register(String token) {
         editor.putString(kPushToken, token);
         editor.apply();
