@@ -76,7 +76,7 @@ public class KWSMetadata implements Parcelable, JSONSerializable {
             appId = json.optInt("appId");
         }
         if (!json.isNull("clientId")) {
-            appId = json.optInt("clientId");
+            clientId = json.optString("clientId");
         }
         if (!json.isNull("scope")) {
             scope = json.optString("scope");

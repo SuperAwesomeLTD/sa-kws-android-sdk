@@ -7,6 +7,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import kws.superawesome.tv.kwslib.SAApplication;
+import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
+import kws.superawesome.tv.kwssdk.kws.KWSSubscribeTokenInterface;
 import kws.superawesome.tv.kwssdk.push.KWSRegistrationService;
 import kws.superawesome.tv.kwssdk.push.KWSRegistrationServiceInterface;
 import kws.superawesome.tv.kwssdk.push.PushRegisterPermission;
@@ -22,32 +24,46 @@ public class PushManager {
     // private variables
     private PushRegisterPermission pushRegister = null;
     private KWSRegistrationService kwsRegistration = null;
+    private KWSSubscribeToken updateToken = null;
 
     // listener
     public PushManagerInterface listener = null;
 
     // private constructor
     private PushManager () {
+        kwsRegistration = new KWSRegistrationService();
         pushRegister = new PushRegisterPermission();
+        updateToken = new KWSSubscribeToken();
     }
 
     // public function
 
     public void registerForPushNotifications () {
 
-        Context context = SAApplication.getSAApplicationContext();
-
         if (!checkPlayServices()) {
             lisDidNotRegister();
         }
         else {
-            kwsRegistration = new KWSRegistrationService();
             kwsRegistration.listener = new KWSRegistrationServiceInterface() {
                 @Override
                 public void didGetToken(String token) {
-                    pushRegister.register(token);
+
                     Log.d("SuperAwesome", "Token is " + token);
-                    lisDidRegister();
+
+                    pushRegister.register(token);
+                    updateToken.listener = new KWSSubscribeTokenInterface() {
+                        @Override
+                        public void tokenWasSubscribed() {
+                            Log.d("SuperAwesome", "Token was successfully updated");
+                            lisDidRegister();
+                        }
+
+                        @Override
+                        public void tokenError() {
+                            lisDidNotRegister();
+                        }
+                    };
+                    updateToken.request(token);
                 }
 
                 @Override
@@ -55,7 +71,7 @@ public class PushManager {
                     lisDidNotRegister();
                 }
             };
-            kwsRegistration.register(context);
+            kwsRegistration.register();
         }
     }
 

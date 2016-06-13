@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "920541491030",
+    "firebase_url": "https://project-7691549555051749193.firebaseio.com",
+    "project_id": "project-7691549555051749193",
+    "storage_bucket": "project-7691549555051749193.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920541491030:android:20f569f1f129d32c",
+        "android_client_info": {
+          "package_name": "kws.superawesome.tv.kwsdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920541491030-qcd5m45tlp0rgo0p5t4or83svbu0pa6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD42NkUdGy34asXxQQ9QIJF7BYyed5E4LQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

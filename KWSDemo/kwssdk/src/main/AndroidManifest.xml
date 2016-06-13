@@ -10,22 +10,13 @@
         android:supportsRtl="true">
 
         <service android:name="kws.superawesome.tv.kwslib.SAAsyncTask$SAAsync" android:exported="false"/>
-        <service android:name="kws.superawesome.tv.kwssdk.push.KWSRegistrationService$KWSRegistrationIntentService" android:exported="false"/>
 
         <service
-            android:name="kws.superawesome.tv.kwssdk.push.KWSIdListenerService"
-            android:exported="false">
+            android:name="kws.superawesome.tv.kwssdk.push.KWSRegistrationService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-
-        <!--<service-->
-            <!--android:name=".MyFirebaseInstanceIDService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
-            <!--</intent-filter>-->
-        <!--</service>-->
 
     </application>
 

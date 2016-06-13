@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.KWSInterface;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjc0OSwiYXBwSWQiOjMxMywiY2xpZW50SWQiOiJzYS1tb2JpbGUtYXBwLXNkay1jbGllbnQtMCIsInNjb3BlIjoidXNlciIsImlhdCI6MTQ2NTgwNjg0NSwiZXhwIjoxNDY1ODkzMjQ1LCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.IiPf7JuntZKUChKl1yy0FWLnNE4I7zChcZtL0dCZnKk";
         KWS.sdk.setApplicationContext(getApplicationContext());

@@ -1,14 +1,9 @@
 package kws.superawesome.tv.kwssdk.push;
-
-import android.app.IntentService;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.ResultReceiver;
+import android.util.Log;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import kws.superawesome.tv.kwssdk.KWS;
 
@@ -16,39 +11,43 @@ import kws.superawesome.tv.kwssdk.KWS;
  * Created by gabriel.coman on 24/05/16.
  */
 
-public class KWSRegistrationService {
+public class KWSRegistrationService extends FirebaseInstanceIdService {
 
-    // constants
-    public static final int STATUS_FINISHED = 1;
-    public static final int STATUS_ERROR = 2;
-
-    // private data
-    private KWSRegistrationServiceReceiver receiver = null;
 
     // listener
     public KWSRegistrationServiceInterface listener = null;
 
-    // Main function
-    public void register (Context c) {
+    // privates
+    private Handler handler = new Handler();
+    private Runnable runnable = null;
+    private int tries = 0;
+    private final int NR_TRIES = 5;
 
-        // receive data
-        receiver = new KWSRegistrationServiceReceiver(new Handler());
-        receiver.setReceiver(new KWSRegistrationServiceReceiverInterface() {
+    public void register() {
+
+        runnable = new Runnable() {
             @Override
-            public void onReceiveResult(int resultCode, Bundle resultData) {
+            public void run() {
+                String token = FirebaseInstanceId.getInstance().getToken();
 
-                String token = resultData.getString("token");
-                switch (resultCode) {
-                    case STATUS_FINISHED:lisDidGetToken(token);break;
-                    case STATUS_ERROR:lisDidNotGetToken();break;
+                if (token != null) {
+                    lisDidGetToken(token);
+                } else if (tries > NR_TRIES) {
+                    lisDidNotGetToken();
+                } else {
+                    tries++;
+                    handler.postDelayed(this, 1000);
                 }
             }
-        });
+        };
+        handler.postDelayed(runnable, 1000);
+    }
 
-        // send data
-        Intent intent = new Intent(c, KWSRegistrationIntentService.class);
-        intent.putExtra("receiver", receiver);
-        c.startService(intent);
+    @Override
+    public void onTokenRefresh() {
+        super.onTokenRefresh();
+
+        String token = FirebaseInstanceId.getInstance().getToken();
     }
 
     // <Private> functions
@@ -64,56 +63,5 @@ public class KWSRegistrationService {
             listener.didNotGetToken();
         }
     }
-
-    public static class KWSRegistrationIntentService extends IntentService {
-
-        private static final String TAG = "KWSRegistrationIntent";
-
-        public KWSRegistrationIntentService() {
-            super(TAG);
-        }
-
-        @Override
-        protected void onHandleIntent(Intent intent) {
-
-            ResultReceiver receiver = intent.getParcelableExtra("receiver");
-            String gcmSender = KWS.sdk.getGcmSender();
-
-            try {
-                InstanceID instanceID = InstanceID.getInstance(this);
-                String token = instanceID.getToken(gcmSender, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("token", token);
-                receiver.send(STATUS_FINISHED, bundle);
-
-            } catch (Exception e) {
-                receiver.send(STATUS_ERROR, Bundle.EMPTY);
-            }
-        }
-    }
-}
-
-class KWSRegistrationServiceReceiver extends ResultReceiver {
-    private KWSRegistrationServiceReceiverInterface mReceiver;
-
-    public KWSRegistrationServiceReceiver(Handler handler) {
-        super(handler);
-    }
-
-    public void setReceiver(KWSRegistrationServiceReceiverInterface receiver) {
-        mReceiver = receiver;
-    }
-
-    @Override
-    protected void onReceiveResult(int resultCode, Bundle resultData) {
-        if (mReceiver != null) {
-            mReceiver.onReceiveResult(resultCode, resultData);
-        }
-    }
-}
-
-interface KWSRegistrationServiceReceiverInterface {
-    void onReceiveResult(int resultCode, Bundle resultData);
 }
 
