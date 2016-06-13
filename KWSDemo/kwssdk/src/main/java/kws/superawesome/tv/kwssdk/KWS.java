@@ -27,16 +27,14 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     private String oauthToken;
     private String kwsApiUrl;
     private KWSInterface listener;
-    private String gcmSender;
     private KWSMetadata metadata;
 
     // <Setup> functions
 
-    public void setup(String oauthToken, String kwsApiUrl, String gcmSender, KWSInterface listener) {
+    public void setup(String oauthToken, String kwsApiUrl, KWSInterface listener) {
         this.oauthToken = oauthToken;
         this.kwsApiUrl = kwsApiUrl;
         this.listener = listener;
-        this.gcmSender = gcmSender;
         this.metadata = getMetadata(oauthToken);
         Log.d("SuperAwesome", metadata.writeToJson().toString());
     }
@@ -118,10 +116,6 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     public String getKwsApiUrl () {
         return kwsApiUrl;
-    }
-
-    public String getGcmSender () {
-        return gcmSender;
     }
 
     public KWSMetadata getMetadata () {

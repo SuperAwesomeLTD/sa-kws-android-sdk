@@ -12,6 +12,13 @@
         <service android:name="kws.superawesome.tv.kwslib.SAAsyncTask$SAAsync" android:exported="false"/>
 
         <service
+            android:name="kws.superawesome.tv.kwslib.SAStubMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
             android:name="kws.superawesome.tv.kwssdk.push.KWSRegistrationService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>

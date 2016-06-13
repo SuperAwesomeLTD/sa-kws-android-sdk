@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjc0OSwiYXBwSWQiOjMxMywiY2xpZW50SWQiOiJzYS1tb2JpbGUtYXBwLXNkay1jbGllbnQtMCIsInNjb3BlIjoidXNlciIsImlhdCI6MTQ2NTgwNjg0NSwiZXhwIjoxNDY1ODkzMjQ1LCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.IiPf7JuntZKUChKl1yy0FWLnNE4I7zChcZtL0dCZnKk";
         KWS.sdk.setApplicationContext(getApplicationContext());
-        KWS.sdk.setup(token, "https://kwsapi.demo.superawesome.tv/v1/", "32", new KWSInterface() {
+        KWS.sdk.setup(token, "https://kwsapi.demo.superawesome.tv/v1/", new KWSInterface() {
             @Override
             public void isAllowedToRegisterForRemoteNotifications() {
                 Log.d("SuperAwesome", "User is allowed to register for remote notifications");
