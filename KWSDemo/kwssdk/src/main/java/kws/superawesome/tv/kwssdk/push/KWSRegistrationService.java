@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import kws.superawesome.tv.kwssdk.KWS;
 
@@ -31,6 +32,7 @@ public class KWSRegistrationService extends FirebaseInstanceIdService {
                 String token = FirebaseInstanceId.getInstance().getToken();
 
                 if (token != null) {
+                    // FirebaseMessaging.getInstance().subscribeToTopic("movies");
                     lisDidGetToken(token);
                 } else if (tries > NR_TRIES) {
                     lisDidNotGetToken();

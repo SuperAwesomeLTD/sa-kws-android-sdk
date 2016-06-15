@@ -38,6 +38,7 @@ public class KWSParentEmail {
             array.put("sendPushNotification");
             try {
                 body.put("permissions", array);
+                body.put("parentEmail", email);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
