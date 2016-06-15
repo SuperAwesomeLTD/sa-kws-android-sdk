@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import kws.superawesome.tv.kwslib.SAUtils;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.KWSInterface;
 
@@ -48,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void didFailBecauseRemoteNotificationsAreDisabled() {
                 Log.d("SuperAwesome", "User could not register because remote notifications are disabled");
+            }
+
+            @Override
+            public void didFailBecauseParentEmailIsInvalid() {
+                Log.d("SuperAwesome", "User could not register because parent email is invalid");
             }
 
             @Override

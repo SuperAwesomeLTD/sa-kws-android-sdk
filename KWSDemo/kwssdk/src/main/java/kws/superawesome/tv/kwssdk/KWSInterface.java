@@ -45,6 +45,11 @@ public interface KWSInterface {
     void didFailBecauseRemoteNotificationsAreDisabled();
 
     /**
+     * Parent email is invalid
+     */
+    void didFailBecauseParentEmailIsInvalid();
+
+    /**
      This function is called by the KWS singleton because of some network or
      some other kidn of error
      */

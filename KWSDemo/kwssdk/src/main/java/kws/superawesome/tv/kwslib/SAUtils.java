@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Patterns;
 import android.view.Display;
@@ -55,5 +56,14 @@ public class SAUtils {
             s += alphabet.charAt(index);
         }
         return s;
+    }
+
+    /**
+     * Validate email
+     * @param target
+     * @return true of false
+     */
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

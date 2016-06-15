@@ -97,7 +97,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     @Override
     public void emailError() {
-        lisDidFailBecauseOfError();
+        lisDidFailBecauseParentEmailIsInvalid();
     }
 
     // <PushManagerInterface>
@@ -214,6 +214,12 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     void lisDidFailBecauseRemoteNotificationsAreDisabled() {
         if (listener != null) {
             listener.didFailBecauseRemoteNotificationsAreDisabled();
+        }
+    }
+
+    void lisDidFailBecauseParentEmailIsInvalid () {
+        if (listener != null) {
+            listener.didFailBecauseParentEmailIsInvalid();
         }
     }
 

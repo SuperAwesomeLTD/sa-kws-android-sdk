@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import kws.superawesome.tv.kwslib.SANetwork;
 import kws.superawesome.tv.kwslib.SANetworkInterface;
 import kws.superawesome.tv.kwslib.SANetworkResponse;
+import kws.superawesome.tv.kwslib.SAUtils;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.models.KWSError;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
@@ -31,41 +32,44 @@ public class KWSParentEmail {
 
         if (kwsApiUrl != null && oauthToken != null && metadata != null){
 
-            int userId= metadata.userId;
-            String endpoint = kwsApiUrl + "users/" + userId + "/request-permissions";
-            JSONObject body = new JSONObject();
-            JSONArray array = new JSONArray();
-            array.put("sendPushNotification");
-            try {
-                body.put("permissions", array);
-                body.put("parentEmail", email);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            if (SAUtils.isValidEmail(email)) {
+                int userId= metadata.userId;
+                String endpoint = kwsApiUrl + "users/" + userId + "/request-permissions";
+                JSONObject body = new JSONObject();
+                JSONArray array = new JSONArray();
+                array.put("sendPushNotification");
+                try {
+                    body.put("permissions", array);
+                    body.put("parentEmail", email);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-            SANetwork network = new SANetwork();
-            network.sendPOST(endpoint, oauthToken, body, new SANetworkInterface() {
-                @Override
-                public void success(Object data) {
+                SANetwork network = new SANetwork();
+                network.sendPOST(endpoint, oauthToken, body, new SANetworkInterface() {
+                    @Override
+                    public void success(Object data) {
 
-                    SANetworkResponse response = (SANetworkResponse)data;
-                    int status = response.statusCode;
+                        SANetworkResponse response = (SANetworkResponse)data;
+                        int status = response.statusCode;
 
-                    if (status == 200 || status == 204) {
-                        lisEmailSubmittedInKWS();
+                        if (status == 200 || status == 204) {
+                            lisEmailSubmittedInKWS();
+                        }
+                        else {
+                            lisEmailError();
+                        }
                     }
-                    else {
+
+                    @Override
+                    public void failure() {
                         lisEmailError();
                     }
-                }
+                });
+            } else {
 
-                @Override
-                public void failure() {
-                    lisEmailError();
-                }
-            });
+            }   lisEmailError();
         }
-
     }
 
     // <Private> functions
