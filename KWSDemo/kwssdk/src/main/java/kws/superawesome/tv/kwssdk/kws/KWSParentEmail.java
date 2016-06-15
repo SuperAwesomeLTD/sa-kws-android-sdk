@@ -33,6 +33,7 @@ public class KWSParentEmail {
         if (kwsApiUrl != null && oauthToken != null && metadata != null){
 
             if (SAUtils.isValidEmail(email)) {
+
                 int userId= metadata.userId;
                 String endpoint = kwsApiUrl + "users/" + userId + "/request-permissions";
                 JSONObject body = new JSONObject();
@@ -67,8 +68,8 @@ public class KWSParentEmail {
                     }
                 });
             } else {
-
-            }   lisEmailError();
+                lisEmailError();
+            }
         }
     }
 
