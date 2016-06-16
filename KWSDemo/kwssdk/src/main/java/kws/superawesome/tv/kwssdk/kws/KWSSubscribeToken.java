@@ -34,7 +34,7 @@ public class KWSSubscribeToken {
             JSONObject body = new JSONObject();
             try {
                 body.put("token", token);
-                // body.put("platform", "android");
+                body.put("platform", "android");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
