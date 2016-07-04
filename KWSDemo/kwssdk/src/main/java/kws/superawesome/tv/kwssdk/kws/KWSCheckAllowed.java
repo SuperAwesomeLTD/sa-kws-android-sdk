@@ -13,10 +13,10 @@ import kws.superawesome.tv.kwssdk.models.KWSUser;
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSCheckPermission {
+public class KWSCheckAllowed {
 
     // listener interface
-    public KWSCheckPermissionInterface listener = null;
+    public KWSCheckAllowedInterface listener = null;
 
     /**
      Main function of the class - that performs all the logic to find out if the

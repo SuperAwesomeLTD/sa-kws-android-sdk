@@ -1,9 +1,7 @@
 package kws.superawesome.tv.kwssdk;
 
-import android.view.View;
-
-import kws.superawesome.tv.kwssdk.kws.KWSCheckPermission;
-import kws.superawesome.tv.kwssdk.kws.KWSCheckPermissionInterface;
+import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowed;
+import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowedInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRequestPermission;
 import kws.superawesome.tv.kwssdk.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.push.PushRegisterPermission;
@@ -12,7 +10,7 @@ import kws.superawesome.tv.kwssdk.push.PushRegisterPermissionInterface;
 /**
  * Created by gabriel.coman on 24/05/16.
  */
-public class KWSManager implements KWSCheckPermissionInterface, KWSRequestPermissionInterface, PushRegisterPermissionInterface {
+public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissionInterface, PushRegisterPermissionInterface {
 
     // singleton instance
     public static KWSManager sharedInstance = new KWSManager();
@@ -22,13 +20,13 @@ public class KWSManager implements KWSCheckPermissionInterface, KWSRequestPermis
 
     // private vars
     private PushRegisterPermission pushRegister = null;
-    private KWSCheckPermission kwsCheck = null;
+    private KWSCheckAllowed kwsCheck = null;
     private KWSRequestPermission kwsRequest = null;
 
     // private constructor
     private KWSManager(){
         pushRegister = new PushRegisterPermission();
-        kwsCheck = new KWSCheckPermission();
+        kwsCheck = new KWSCheckAllowed();
         kwsRequest = new KWSRequestPermission();
     }
 

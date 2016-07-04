@@ -3,7 +3,7 @@ package kws.superawesome.tv.kwssdk.kws;
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public interface KWSCheckPermissionInterface {
+public interface KWSCheckAllowedInterface {
 
     /**
      This is called when SDK has found push notification permissions are

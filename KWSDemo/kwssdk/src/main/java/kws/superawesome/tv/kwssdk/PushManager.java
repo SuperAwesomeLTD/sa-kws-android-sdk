@@ -11,8 +11,8 @@ import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
 import kws.superawesome.tv.kwssdk.kws.KWSSubscribeTokenInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSUnsubscribeToken;
 import kws.superawesome.tv.kwssdk.kws.KWSUnsubscribeTokenInterface;
-import kws.superawesome.tv.kwssdk.push.KWSRegistrationService;
-import kws.superawesome.tv.kwssdk.push.KWSRegistrationServiceInterface;
+import kws.superawesome.tv.kwssdk.firebase.FirebaseGetToken;
+import kws.superawesome.tv.kwssdk.firebase.FirebaseGetTokenInterface;
 import kws.superawesome.tv.kwssdk.push.PushRegisterPermission;
 
 /**
@@ -25,8 +25,8 @@ public class PushManager {
 
     // private variables
     private PushRegisterPermission pushRegister = null;
-    private KWSRegistrationService kwsRegistration = null;
-    private KWSSubscribeToken updateToken = null;
+    private FirebaseGetToken firebaseGetToken = null;
+    private KWSSubscribeToken subscribeToken = null;
     private KWSUnsubscribeToken unsubscribeToken = null;
 
     // listener
@@ -34,9 +34,9 @@ public class PushManager {
 
     // private constructor
     private PushManager () {
-        kwsRegistration = new KWSRegistrationService();
+        firebaseGetToken = new FirebaseGetToken();
         pushRegister = new PushRegisterPermission();
-        updateToken = new KWSSubscribeToken();
+        subscribeToken = new KWSSubscribeToken();
         unsubscribeToken = new KWSUnsubscribeToken();
     }
 
@@ -48,14 +48,14 @@ public class PushManager {
             lisDidNotRegister();
         }
         else {
-            kwsRegistration.listener = new KWSRegistrationServiceInterface() {
-                @Override
-                public void didGetToken(final String token) {
 
+            firebaseGetToken.listener = new FirebaseGetTokenInterface() {
+                @Override
+                public void didGetFirebaseToken(final String token) {
                     Log.d("SuperAwesome", "Token is " + token);
 
                     pushRegister.register(token);
-                    updateToken.listener = new KWSSubscribeTokenInterface() {
+                    subscribeToken.listener = new KWSSubscribeTokenInterface() {
                         @Override
                         public void tokenWasSubscribed() {
                             lisDidRegister(token);
@@ -66,15 +66,20 @@ public class PushManager {
                             lisDidNotRegister();
                         }
                     };
-                    updateToken.request(token);
+                    subscribeToken.request(token);
                 }
 
                 @Override
-                public void didNotGetToken() {
+                public void didFailToGetFirebaseToken() {
+                    lisDidNotRegister();
+                }
+
+                @Override
+                public void didFailBecauseFirebaseIsNotSetup() {
                     lisDidNotRegister();
                 }
             };
-            kwsRegistration.register();
+            firebaseGetToken.register();
         }
     }
 
@@ -100,10 +105,7 @@ public class PushManager {
         Context context = SAApplication.getSAApplicationContext();
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            return false;
-        }
-        return true;
+        return resultCode == ConnectionResult.SUCCESS;
     }
 
     // <Listener> functions

@@ -1,28 +1,26 @@
-package kws.superawesome.tv.kwssdk.push;
+package kws.superawesome.tv.kwssdk.firebase;
+
 import android.os.Handler;
-import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import kws.superawesome.tv.kwssdk.KWS;
 
 /**
- * Created by gabriel.coman on 24/05/16.
+ * Created by gabriel.coman on 04/07/16.
  */
+public class FirebaseGetToken extends FirebaseInstanceIdService {
 
-public class KWSRegistrationService extends FirebaseInstanceIdService {
-
+    // constants
+    private final int NR_TRIES = 5;
+    private final int DELAY = 1000;
 
     // listener
-    public KWSRegistrationServiceInterface listener = null;
+    public FirebaseGetTokenInterface listener = null;
 
     // privates
     private Handler handler = new Handler();
     private Runnable runnable = null;
     private int tries = 0;
-    private final int NR_TRIES = 5;
 
     public void register() {
 
@@ -32,17 +30,16 @@ public class KWSRegistrationService extends FirebaseInstanceIdService {
                 String token = FirebaseInstanceId.getInstance().getToken();
 
                 if (token != null) {
-                    // FirebaseMessaging.getInstance().subscribeToTopic("movies");
-                    lisDidGetToken(token);
+                    lisDidGetFirebaseToken(token);
                 } else if (tries > NR_TRIES) {
-                    lisDidNotGetToken();
+                    lisDidFailToGetFirebaseToken();
                 } else {
                     tries++;
-                    handler.postDelayed(this, 1000);
+                    handler.postDelayed(this, DELAY);
                 }
             }
         };
-        handler.postDelayed(runnable, 1000);
+        handler.postDelayed(runnable, DELAY);
     }
 
     @Override
@@ -54,16 +51,15 @@ public class KWSRegistrationService extends FirebaseInstanceIdService {
 
     // <Private> functions
 
-    void lisDidGetToken(String token) {
+    void lisDidGetFirebaseToken(String token) {
         if (listener != null) {
-            listener.didGetToken(token);
+            listener.didGetFirebaseToken(token);
         }
     }
 
-    void lisDidNotGetToken() {
+    void lisDidFailToGetFirebaseToken() {
         if (listener != null) {
-            listener.didNotGetToken();
+            listener.didFailToGetFirebaseToken();
         }
     }
 }
-

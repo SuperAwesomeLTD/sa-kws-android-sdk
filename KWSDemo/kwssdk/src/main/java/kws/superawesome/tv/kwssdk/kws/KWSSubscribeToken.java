@@ -47,7 +47,7 @@ public class KWSSubscribeToken {
 
                     SANetworkResponse response = (SANetworkResponse)data;
                     Log.d("SuperAwesome", "Payload ==> " + response.payload);
-                    lisTokenWasUpdated();
+                    lisTokenWasSubsribed();
                 }
 
                 @Override
@@ -61,7 +61,7 @@ public class KWSSubscribeToken {
         }
     }
 
-    private void lisTokenWasUpdated () {
+    private void lisTokenWasSubsribed () {
         if (listener != null) {
             listener.tokenWasSubscribed();
         }

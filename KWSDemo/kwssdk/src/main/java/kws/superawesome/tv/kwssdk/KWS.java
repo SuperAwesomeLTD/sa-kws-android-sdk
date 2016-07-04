@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwssdk;
 
 import android.content.Context;
+import android.media.RemoteController;
 import android.util.Base64;
 import android.util.Log;
 
@@ -36,7 +37,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
         this.kwsApiUrl = kwsApiUrl;
         this.listener = listener;
         this.metadata = getMetadata(oauthToken);
-        Log.d("SuperAwesome", metadata.writeToJson().toString());
+        if (metadata != null) {
+            JSONObject smetadata = metadata.writeToJson();
+            Log.d("SuperAwesome", smetadata.toString());
+        }
     }
 
     // <Public> functions
@@ -65,51 +69,51 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     @Override
     public void pushDisabledInKWS() {
-        lisDidFailBecauseKWSDoesNotAllowRemoteNotifications();
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.NoKWSPermission);
     }
 
     @Override
     public void parentEmailIsMissingInKWS() {
-        lisDidFailBecauseKWSCouldNotFindParentEmail();
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.ParentEmailNotFound);
     }
 
     @Override
     public void networkError() {
-        lisDidFailBecauseOfError();
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.NetworkError);
     }
 
     @Override
     public void isAllowedToRegister() {
-        lisIsAllowedToRegisterForRemoteNotifications();
+        lisKWSSDKDoesAllowUserToRegisterForRemoteNotifications();
     }
 
     @Override
     public void isAlreadyRegistered() {
-        lisIsAlreadyRegisteredForRemoteNotifications();
+        lisKWSSDKDidRegisterUserForRemoteNotifications();
     }
 
     // <KWSParentEmailInterface>
 
     @Override
     public void emailSubmittedInKWS() {
-        lisIsAllowedToRegisterForRemoteNotifications();
+        lisKWSSDKDoesAllowUserToRegisterForRemoteNotifications();
     }
 
     @Override
     public void emailError() {
-        lisDidFailBecauseParentEmailIsInvalid();
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.ParentEmailInvalid);
     }
 
     // <PushManagerInterface>
 
     @Override
     public void didRegister(String token) {
-        lisDidRegisterForRemoteNotifications(token);
+        lisKWSSDKDidRegisterUserForRemoteNotifications();
     }
 
     @Override
     public void didNotRegister() {
-        lisDidFailBecauseOfError();
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FirebaseCouldNotGetToken);
     }
 
     // getters
@@ -181,51 +185,27 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     // <Listener> functions
 
-    void lisIsAllowedToRegisterForRemoteNotifications () {
+    void lisKWSSDKDoesAllowUserToRegisterForRemoteNotifications () {
         if (listener != null) {
-            listener.isAllowedToRegisterForRemoteNotifications();
+            listener.kwsSDKDoesAllowUserToRegisterForRemoteNotifications();
         }
     }
 
-    void lisIsAlreadyRegisteredForRemoteNotifications() {
+    void lisKWSSDKDidRegisterUserForRemoteNotifications () {
         if (listener != null) {
-            listener.isAlreadyRegisteredForRemoteNotifications();
+            listener.kwsSDKDidRegisterUserForRemoteNotifications();
         }
     }
 
-    void lisDidRegisterForRemoteNotifications (String token) {
+    void lisKWSSDKDidUnregisterUserForRemoteNotifications () {
         if (listener != null) {
-            listener.didRegisterForRemoteNotifications(token);
+            listener.kwsSDKDidUnregisterUserForRemoteNotifications();
         }
     }
 
-    void lisDidFailBecauseKWSDoesNotAllowRemoteNotifications() {
+    void lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError (KWSErrorType type) {
         if (listener != null) {
-            listener.didFailBecauseKWSDoesNotAllowRemoteNotifications();;
-        }
-    }
-
-    void lisDidFailBecauseKWSCouldNotFindParentEmail() {
-        if (listener != null) {
-            listener.didFailBecauseKWSCouldNotFindParentEmail();
-        }
-    }
-
-    void lisDidFailBecauseRemoteNotificationsAreDisabled() {
-        if (listener != null) {
-            listener.didFailBecauseRemoteNotificationsAreDisabled();
-        }
-    }
-
-    void lisDidFailBecauseParentEmailIsInvalid () {
-        if (listener != null) {
-            listener.didFailBecauseParentEmailIsInvalid();
-        }
-    }
-
-    void lisDidFailBecauseOfError() {
-        if (listener != null) {
-            listener.didFailBecauseOfError();
+            listener.kwsSDKDidFailToRegisterUserForRemoteNotificationsWithError(type);
         }
     }
 }
