@@ -10,19 +10,16 @@
         android:value="@integer/google_play_services_version"
         android:supportsRtl="true">
 
-        <service android:name="kws.superawesome.tv.kwslib.SAAsyncTask$SAAsync" android:exported="false"/>
-
         <service
-            android:name="kws.superawesome.tv.kwslib.SAStubMessagingService">
+            android:name="kws.superawesome.tv.firebase.FirebaseGetToken">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 
-        <service
-            android:name="kws.superawesome.tv.kwssdk.firebase.FirebaseGetToken">
+        <service android:name="kws.superawesome.tv.firebase.FirebaseStubMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 

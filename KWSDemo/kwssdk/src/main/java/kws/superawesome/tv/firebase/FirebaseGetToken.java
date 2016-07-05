@@ -1,0 +1,65 @@
+package kws.superawesome.tv.firebase;
+
+import android.os.Handler;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
+/**
+ * Created by gabriel.coman on 04/07/16.
+ */
+public class FirebaseGetToken extends FirebaseInstanceIdService {
+
+    // constants
+    private final int NR_TRIES = 5;
+    private final int DELAY = 1000;
+
+    // listener
+    public FirebaseGetTokenInterface listener = null;
+
+    // privates
+    private Handler handler = new Handler();
+    private Runnable runnable = null;
+    private int tries = 0;
+
+    public void register() {
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                String token = FirebaseInstanceId.getInstance().getToken();
+
+                if (token != null) {
+                    lisDidGetFirebaseToken(token);
+                } else if (tries > NR_TRIES) {
+                    lisDidFailToGetFirebaseToken();
+                } else {
+                    tries++;
+                    handler.postDelayed(this, DELAY);
+                }
+            }
+        };
+        handler.postDelayed(runnable, DELAY);
+    }
+
+    @Override
+    public void onTokenRefresh() {
+        super.onTokenRefresh();
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+    }
+
+    // <Private> functions
+
+    void lisDidGetFirebaseToken(String token) {
+        if (listener != null) {
+            listener.didGetFirebaseToken(token);
+        }
+    }
+
+    void lisDidFailToGetFirebaseToken() {
+        if (listener != null) {
+            listener.didFailToGetFirebaseToken();
+        }
+    }
+}
