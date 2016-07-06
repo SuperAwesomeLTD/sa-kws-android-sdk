@@ -77,13 +77,13 @@ public class KWSCheckAllowed {
 
     private void lisPushEnabledInKWS () {
         if (listener != null) {
-            listener.pushEnabledInKWS();
+            listener.pushAllowedInKWS();
         }
     }
 
     private void  lisPushDisabledInKWS () {
         if (listener != null) {
-            listener.pushDisabledInKWS();
+            listener.pushNotAllowedInKWS();
         }
     }
 

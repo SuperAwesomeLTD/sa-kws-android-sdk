@@ -9,13 +9,13 @@ public interface KWSCheckAllowedInterface {
      This is called when SDK has found push notification permissions are
      enabled in KWS
      */
-    void pushEnabledInKWS ();
+    void pushAllowedInKWS();
 
     /**
      This is called when SDK has found push notification permissions are
      disabled in KWS
      */
-    void pushDisabledInKWS ();
+    void pushNotAllowedInKWS();
 
     /**
      This is called in case of any type of network error

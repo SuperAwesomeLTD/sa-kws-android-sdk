@@ -1,10 +1,10 @@
 package kws.superawesome.tv;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import tv.superawesome.lib.sautils.SAApplication;
 
@@ -14,7 +14,6 @@ import kws.superawesome.tv.kws.KWSUnsubscribeToken;
 import kws.superawesome.tv.kws.KWSUnsubscribeTokenInterface;
 import kws.superawesome.tv.firebase.FirebaseGetToken;
 import kws.superawesome.tv.firebase.FirebaseGetTokenInterface;
-import kws.superawesome.tv.push.PushRegisterPermission;
 
 /**
  * Created by gabriel.coman on 24/05/16.
@@ -25,7 +24,6 @@ public class PushManager {
     public static PushManager sharedInstance = new PushManager();
 
     // private variables
-    private PushRegisterPermission pushRegister = null;
     private FirebaseGetToken firebaseGetToken = null;
     private KWSSubscribeToken subscribeToken = null;
     private KWSUnsubscribeToken unsubscribeToken = null;
@@ -36,7 +34,6 @@ public class PushManager {
     // private constructor
     private PushManager () {
         firebaseGetToken = new FirebaseGetToken();
-        pushRegister = new PushRegisterPermission();
         subscribeToken = new KWSSubscribeToken();
         unsubscribeToken = new KWSUnsubscribeToken();
     }
@@ -53,7 +50,6 @@ public class PushManager {
             firebaseGetToken.listener = new FirebaseGetTokenInterface() {
                 @Override
                 public void didGetFirebaseToken(final String token) {
-                    pushRegister.register(token);
                     subscribeToken.listener = new KWSSubscribeTokenInterface() {
                         @Override
                         public void tokenWasSubscribed() {
@@ -83,7 +79,6 @@ public class PushManager {
     }
 
     public void unregisterForRemoteNotifications () {
-        String token = pushRegister.getToken();
         unsubscribeToken.listener = new KWSUnsubscribeTokenInterface() {
             @Override
             public void tokenWasUnsubscribed() {
@@ -95,7 +90,7 @@ public class PushManager {
                 lisDidNotUnregister();
             }
         };
-        pushRegister.unregister();
+        String token = firebaseGetToken.getSavedToken();
         unsubscribeToken.request(token);
     }
 

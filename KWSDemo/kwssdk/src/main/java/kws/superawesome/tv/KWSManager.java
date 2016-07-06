@@ -4,13 +4,11 @@ import kws.superawesome.tv.kws.KWSCheckAllowed;
 import kws.superawesome.tv.kws.KWSCheckAllowedInterface;
 import kws.superawesome.tv.kws.KWSRequestPermission;
 import kws.superawesome.tv.kws.KWSRequestPermissionInterface;
-import kws.superawesome.tv.push.PushRegisterPermission;
-import kws.superawesome.tv.push.PushRegisterPermissionInterface;
 
 /**
  * Created by gabriel.coman on 24/05/16.
  */
-public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissionInterface, PushRegisterPermissionInterface {
+public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissionInterface {
 
     // singleton instance
     public static KWSManager sharedInstance = new KWSManager();
@@ -19,13 +17,11 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     public KWSManagerInterface listener = null;
 
     // private vars
-    private PushRegisterPermission pushRegister = null;
     private KWSCheckAllowed kwsCheck = null;
     private KWSRequestPermission kwsRequest = null;
 
     // private constructor
     private KWSManager(){
-        pushRegister = new PushRegisterPermission();
         kwsCheck = new KWSCheckAllowed();
         kwsRequest = new KWSRequestPermission();
     }
@@ -39,33 +35,19 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     // <KWSCheckPermissionProtocol>
 
     @Override
-    public void pushEnabledInKWS() {
-        pushRegister.listener = this;
-        pushRegister.isRegistered();
+    public void pushAllowedInKWS() {
+        kwsRequest.listener = this;
+        kwsRequest.request();
     }
 
     @Override
-    public void pushDisabledInKWS() {
-        pushRegister.unregister();
+    public void pushNotAllowedInKWS() {
         lisPushDisabledInKWS();
     }
 
     @Override
     public void checkError() {
         lisNetworkError();
-    }
-
-    // <PushRegisterPermissionProtocol>
-
-    @Override
-    public void isRegisteredInSystem() {
-        lisIsAlreadyRegistered();
-    }
-
-    @Override
-    public void isNotRegisteredInSystem() {
-        kwsRequest.listener = this;
-        kwsRequest.request();
     }
 
     // <KWSRequestPermissionProtocol>
