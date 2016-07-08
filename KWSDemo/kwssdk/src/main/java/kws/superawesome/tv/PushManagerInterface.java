@@ -5,7 +5,9 @@ package kws.superawesome.tv;
  */
 public interface PushManagerInterface {
     void didRegister (String token);
-    void didNotRegister ();
     void didUnregister ();
-    void didNotUnregister ();
+    void didFailBecauseNoGoogleServicesFound ();
+    void didFailToGetFirebaseToken ();
+    void networkErrorTryingToSubscribeToken ();
+    void networkErrorTryingToUnsubscribeToken ();
 }

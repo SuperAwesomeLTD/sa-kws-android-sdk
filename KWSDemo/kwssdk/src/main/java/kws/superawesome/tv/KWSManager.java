@@ -47,7 +47,7 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
 
     @Override
     public void checkError() {
-        lisNetworkError();
+        lisNetworkErrorCheckingForKWS();
     }
 
     // <KWSRequestPermissionProtocol>
@@ -63,8 +63,8 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     }
 
     @Override
-    public void requestError() {
-        lisNetworkError();
+    public void permissionError() {
+        lisNetworkErrorRequestingPermissionFromKWS();
     }
 
     // <Private Del> functions
@@ -81,21 +81,21 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
         }
     }
 
-    void lisNetworkError () {
+    void lisNetworkErrorCheckingForKWS () {
         if (listener != null) {
-            listener.networkError();
+            listener.networkErrorCheckingForKWS();
+        }
+    }
+
+    void lisNetworkErrorRequestingPermissionFromKWS () {
+        if (listener != null) {
+            listener.networkErrorRequestingPermissionFromKWS();
         }
     }
 
     void lisIsAllowedToRegister () {
         if (listener != null) {
             listener.isAllowedToRegister();
-        }
-    }
-
-    void lisIsAlreadyRegistered () {
-        if (listener != null) {
-            listener.isAlreadyRegistered();
         }
     }
 }

@@ -7,8 +7,8 @@ public interface KWSManagerInterface {
 
     void pushDisabledInKWS ();
     void parentEmailIsMissingInKWS ();
-    void networkError ();
     void isAllowedToRegister ();
-    void isAlreadyRegistered ();
+    void networkErrorCheckingForKWS ();
+    void networkErrorRequestingPermissionFromKWS ();
 
 }

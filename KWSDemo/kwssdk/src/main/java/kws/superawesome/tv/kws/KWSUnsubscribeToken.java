@@ -78,7 +78,7 @@ public class KWSUnsubscribeToken {
 
     private void lisTokenError () {
         if (listener != null) {
-            listener.tokenError();
+            listener.tokenUnsubscribeError();
         }
     }
 }

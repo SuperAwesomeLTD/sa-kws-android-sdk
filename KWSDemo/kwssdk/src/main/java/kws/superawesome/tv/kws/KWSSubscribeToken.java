@@ -77,7 +77,7 @@ public class KWSSubscribeToken {
 
     private void lisTokenError () {
         if (listener != null) {
-            listener.tokenError();
+            listener.tokenSubscribeError();
         }
     }
 }

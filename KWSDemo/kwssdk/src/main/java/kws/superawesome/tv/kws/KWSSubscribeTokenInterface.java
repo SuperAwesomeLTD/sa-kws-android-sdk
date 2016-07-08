@@ -6,6 +6,6 @@ package kws.superawesome.tv.kws;
 public interface KWSSubscribeTokenInterface {
 
     void tokenWasSubscribed();
-    void tokenError ();
+    void tokenSubscribeError();
 
 }

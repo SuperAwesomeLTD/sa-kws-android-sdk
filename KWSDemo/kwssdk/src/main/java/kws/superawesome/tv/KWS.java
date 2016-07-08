@@ -1,7 +1,6 @@
 package kws.superawesome.tv;
 
 import android.content.Context;
-import android.media.RemoteController;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
@@ -34,6 +33,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     private KWSInterface listener;
     private Context context;
     private KWSMetadata metadata;
+    private KWSParentEmail parentEmail;
 
     // <Setup> functions
 
@@ -48,14 +48,18 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
             JSONObject smetadata = metadata.writeToJson();
             Log.d("SuperAwesome", smetadata.toString());
         }
+
+        KWSManager.sharedInstance.listener = this;
+        PushManager.sharedInstance.listener = this;
+        parentEmail = new KWSParentEmail();
+        parentEmail.listener = this;
     }
 
     // <Public> functions
 
-    public void checkIfNotificationsAreAllowed () {
-        // add listener
-        KWSManager.sharedInstance.listener = this;
+    public void registerForRemoteNotifications () {
 
+        // add listener
         if (stringPermissionPopup) {
             SAAlert permissionAlert = new SAAlert();
             permissionAlert.show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
@@ -90,14 +94,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     }
 
     public void submitParentEmail (String  email) {
-        KWSParentEmail parentEmail = new KWSParentEmail();
-        parentEmail.listener = this;
         parentEmail.submitEmail(email);
-    }
-
-    public void registerForRemoteNotifications () {
-        PushManager.sharedInstance.listener = this;
-        PushManager.sharedInstance.registerForPushNotifications();
     }
 
     public void unregisterForRemoteNotifications () {
@@ -108,39 +105,44 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     @Override
     public void pushDisabledInKWS() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.NoKWSPermission);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.KWS_ParentHasDisabledRemoteNotifications);
     }
 
     @Override
     public void parentEmailIsMissingInKWS() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.ParentEmailNotFound);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.KWS_UserHasNoParentEmail);
     }
 
     @Override
-    public void networkError() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.NetworkError);
+    public void networkErrorCheckingForKWS() {
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorCheckingIfUserHasRemoteNotificationsEnabledInKWS);
+    }
+
+    @Override
+    public void networkErrorRequestingPermissionFromKWS() {
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorRequestingRemoteNotificationsPermissionInKWS);
     }
 
     @Override
     public void isAllowedToRegister() {
-        lisKWSSDKDoesAllowUserToRegisterForRemoteNotifications();
-    }
-
-    @Override
-    public void isAlreadyRegistered() {
-        lisKWSSDKDidRegisterUserForRemoteNotifications();
+        PushManager.sharedInstance.registerForPushNotifications();
     }
 
     // <KWSParentEmailInterface>
 
     @Override
     public void emailSubmittedInKWS() {
-        lisKWSSDKDoesAllowUserToRegisterForRemoteNotifications();
+        PushManager.sharedInstance.registerForPushNotifications();
     }
 
     @Override
     public void emailError() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.ParentEmailInvalid);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorSubmittingParentEmail);
+    }
+
+    @Override
+    public void invalidEmail() {
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.KWS_ParentEmailInvalid);
     }
 
     // <PushManagerInterface>
@@ -151,18 +153,28 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     }
 
     @Override
-    public void didNotRegister() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FirebaseCouldNotGetToken);
-    }
-
-    @Override
     public void didUnregister() {
         lisKWSSDKDidUnregisterUserForRemoteNotifications();
     }
 
     @Override
-    public void didNotUnregister() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.CouldNotUnsubscribeInKWS);
+    public void didFailBecauseNoGoogleServicesFound() {
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.System_GoogleServicesNotFound);
+    }
+
+    @Override
+    public void didFailToGetFirebaseToken() {
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.System_FirebaseCouldNotGetToken);
+    }
+
+    @Override
+    public void networkErrorTryingToSubscribeToken() {
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorSubscribingTokenToKWS);
+    }
+
+    @Override
+    public void networkErrorTryingToUnsubscribeToken() {
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorUnsubscribingTokenFromKWS);
     }
 
     // getters
@@ -224,17 +236,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
         SAApplication.setSAApplicationContext(_appContext);
     }
 
-    public Context getApplicationContext() {
-        return SAApplication.getSAApplicationContext();
-    }
-
     // <Listener> functions
-
-    void lisKWSSDKDoesAllowUserToRegisterForRemoteNotifications () {
-        if (listener != null) {
-            listener.kwsSDKDoesAllowUserToRegisterForRemoteNotifications();
-        }
-    }
 
     void lisKWSSDKDidRegisterUserForRemoteNotifications () {
         if (listener != null) {

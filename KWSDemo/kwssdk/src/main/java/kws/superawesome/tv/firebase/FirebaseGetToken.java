@@ -15,7 +15,7 @@ import tv.superawesome.lib.sautils.SAApplication;
 public class FirebaseGetToken extends FirebaseInstanceIdService {
 
     // constants
-    private final int NR_TRIES = 5;
+    private final int NR_TRIES = 30;
     private final int DELAY = 1000;
     private final String PREFERENCES = "MyPreferences";
     private final String kPushToken = "KWSPushToken";

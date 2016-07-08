@@ -70,7 +70,7 @@ public class KWSParentEmail {
                     }
                 });
             } else {
-                lisEmailError();
+                lisInvalidError();
             }
         }
     }
@@ -86,6 +86,12 @@ public class KWSParentEmail {
     void lisEmailError () {
         if (listener != null) {
             listener.emailError();
+        }
+    }
+
+    void lisInvalidError () {
+        if (listener != null) {
+            listener.invalidEmail();
         }
     }
 }

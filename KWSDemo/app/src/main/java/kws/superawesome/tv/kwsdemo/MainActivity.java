@@ -1,6 +1,5 @@
 package kws.superawesome.tv.kwsdemo;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements KWSInterface {
             log += "Trying to register user\n";
             logView.setText(log);
             KWS.sdk.setup(this, TOKEN, API, true, this);
-            KWS.sdk.checkIfNotificationsAreAllowed();
+            KWS.sdk.registerForRemoteNotifications();
         } else {
             log += "No user registered\n";
             logView.setText(log);
@@ -118,13 +117,6 @@ public class MainActivity extends AppCompatActivity implements KWSInterface {
     // MARL: KWSInterface
 
     @Override
-    public void kwsSDKDoesAllowUserToRegisterForRemoteNotifications() {
-        log += "KWS allows user to regiser\n";
-        logView.setText(log);
-        KWS.sdk.registerForRemoteNotifications();
-    }
-
-    @Override
     public void kwsSDKDidRegisterUserForRemoteNotifications() {
         log += "User is registered\n";
         logView.setText(log);
@@ -138,44 +130,62 @@ public class MainActivity extends AppCompatActivity implements KWSInterface {
 
     @Override
     public void kwsSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType type) {
-        switch (type){
-            case NoKWSPermission: {
+
+        switch (type) {
+            case KWS_ParentHasDisabledRemoteNotifications: {
                 log += "User has  no permissions (KWS)\n";
                 logView.setText(log);
                 break;
             }
-            case NoSystemPermission: {
-                log += "User has no pemrissions (System)\n";
+            case System_UserHasDisabledRemoteNotifications: {
+                log += "User has  no permissions (System)\n";
                 logView.setText(log);
                 break;
             }
-            case ParentEmailNotFound: {
-                log += "User has no parent email in KWS\n";
+            case KWS_UserHasNoParentEmail: {
+                log += "User has  no parent email (KWS)\n";
                 logView.setText(log);
                 KWS.sdk.showParentEmailPopup();
                 break;
             }
-            case ParentEmailInvalid: {
+            case KWS_ParentEmailInvalid: {
                 log += "Parent email is invalid\n";
                 logView.setText(log);
                 break;
             }
-            case FirebaseNotSetup: {
-                log += "Firebase is not setup\n";
+            case System_GoogleServicesNotFound: {
+                log += "No Google Play Services found\n";
                 logView.setText(log);
                 break;
             }
-            case FirebaseCouldNotGetToken: {
-                log += "Could not register - Firebase could not get token\n";
+            case System_FirebaseCouldNotGetToken: {
+                log += "Firebase could not get token\n";
                 logView.setText(log);
                 break;
             }
-            case NetworkError: {
-                log += "Could not register - Network error\n";
+            case Network_ErrorCheckingIfUserHasRemoteNotificationsEnabledInKWS: {
+                log += "Network error checking for KWS notification permission\n";
+                logView.setText(log);
                 break;
             }
-            case CouldNotUnsubscribeInKWS: {
-                log += "Could not un-register - Network error\n";
+            case Network_ErrorRequestingRemoteNotificationsPermissionInKWS: {
+                log += "Network error requesting notification permission in KWS\n";
+                logView.setText(log);
+                break;
+            }
+            case Network_ErrorSubmittingParentEmail: {
+                log += "Network error submitting parent email to KWS\n";
+                logView.setText(log);
+                break;
+            }
+            case Network_ErrorSubscribingTokenToKWS: {
+                log += "Network error subscribing Firebase token to KWS\n";
+                logView.setText(log);
+                break;
+            }
+            case Network_ErrorUnsubscribingTokenFromKWS: {
+                log += "Network error ubsubscribing Firebase token to KWS\n";
+                logView.setText(log);
                 break;
             }
         }

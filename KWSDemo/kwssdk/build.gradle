@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.google.gms.google-services'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -95,4 +96,3 @@ dependencies {
 }
 
 // ADD THIS AT THE BOTTOM
-apply plugin: 'com.google.gms.google-services'

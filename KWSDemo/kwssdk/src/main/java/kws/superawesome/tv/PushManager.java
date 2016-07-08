@@ -43,7 +43,7 @@ public class PushManager {
     public void registerForPushNotifications () {
 
         if (!checkPlayServices()) {
-            lisDidNotRegister();
+            lisDidFailBecauseNoGoogleServicesFound();
         }
         else {
 
@@ -57,8 +57,8 @@ public class PushManager {
                         }
 
                         @Override
-                        public void tokenError() {
-                            lisDidNotRegister();
+                        public void tokenSubscribeError() {
+                            lisNetworkErrorTryingToSubscribeToken();
                         }
                     };
                     subscribeToken.request(token);
@@ -66,12 +66,7 @@ public class PushManager {
 
                 @Override
                 public void didFailToGetFirebaseToken() {
-                    lisDidNotRegister();
-                }
-
-                @Override
-                public void didFailBecauseFirebaseIsNotSetup() {
-                    lisDidNotRegister();
+                    lisDidFailToGetFirebaseToken();
                 }
             };
             firebaseGetToken.register();
@@ -86,8 +81,8 @@ public class PushManager {
             }
 
             @Override
-            public void tokenError() {
-                lisDidNotUnregister();
+            public void tokenUnsubscribeError() {
+                lisNetworkErrorTryingToUnsubscribeToken();
             }
         };
         String token = firebaseGetToken.getSavedToken();
@@ -111,21 +106,33 @@ public class PushManager {
         }
     }
 
-    void lisDidNotRegister () {
-        if (listener != null) {
-            listener.didNotRegister();
-        }
-    }
-
     void lisDidUnregister () {
         if (listener != null) {
             listener.didUnregister();
         }
     }
 
-    void lisDidNotUnregister () {
+    void lisDidFailBecauseNoGoogleServicesFound () {
         if (listener != null) {
-            listener.didNotUnregister();
+            listener.didFailBecauseNoGoogleServicesFound ();
+        }
+    }
+
+    void lisDidFailToGetFirebaseToken () {
+        if (listener != null) {
+            listener.didFailToGetFirebaseToken();
+        }
+    }
+
+    void lisNetworkErrorTryingToSubscribeToken () {
+        if (listener != null) {
+            listener.networkErrorTryingToSubscribeToken();
+        }
+    }
+
+    void lisNetworkErrorTryingToUnsubscribeToken () {
+        if (listener != null) {
+            listener.networkErrorTryingToUnsubscribeToken();
         }
     }
 }

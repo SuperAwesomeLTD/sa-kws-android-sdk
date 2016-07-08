@@ -6,5 +6,4 @@ package kws.superawesome.tv.firebase;
 public interface FirebaseGetTokenInterface {
     void didGetFirebaseToken(String token);
     void didFailToGetFirebaseToken ();
-    void didFailBecauseFirebaseIsNotSetup ();
 }

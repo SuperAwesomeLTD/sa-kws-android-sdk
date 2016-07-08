@@ -107,7 +107,7 @@ public class KWSRequestPermission {
 
     private void lisPequestError () {
         if (listener != null) {
-            listener.requestError();
+            listener.permissionError();
         }
     }
 }

@@ -12,8 +12,13 @@ public interface KWSParentEmailInterface {
     void emailSubmittedInKWS ();
 
     /**
-     This function is called when there's an network or email error of any kind
+     This function is called when there's a network or email error of any kind
      */
     void emailError ();
+
+    /**
+     * Called when the email is invalid
+     */
+    void invalidEmail ();
 
 }

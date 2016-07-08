@@ -20,5 +20,5 @@ public interface KWSRequestPermissionInterface {
     /**
      This funciton is called in case of any type of network error
      */
-    void requestError ();
+    void permissionError();
 }
