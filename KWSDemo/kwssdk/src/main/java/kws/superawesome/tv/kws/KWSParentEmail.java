@@ -72,6 +72,8 @@ public class KWSParentEmail {
             } else {
                 lisInvalidError();
             }
+        } else {
+            lisEmailError();
         }
     }
 
