@@ -1,9 +1,9 @@
-package kws.superawesome.tv;
+package kws.superawesome.tv.kwssdk;
 
-import kws.superawesome.tv.kws.KWSCheckAllowed;
-import kws.superawesome.tv.kws.KWSCheckAllowedInterface;
-import kws.superawesome.tv.kws.KWSRequestPermission;
-import kws.superawesome.tv.kws.KWSRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowed;
+import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowedInterface;
+import kws.superawesome.tv.kwssdk.kws.KWSRequestPermission;
+import kws.superawesome.tv.kwssdk.kws.KWSRequestPermissionInterface;
 
 /**
  * Created by gabriel.coman on 24/05/16.

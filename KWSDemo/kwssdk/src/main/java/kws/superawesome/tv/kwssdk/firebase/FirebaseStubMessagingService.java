@@ -1,4 +1,4 @@
-package kws.superawesome.tv.firebase;
+package kws.superawesome.tv.kwssdk.firebase;
 
 import android.util.Log;
 

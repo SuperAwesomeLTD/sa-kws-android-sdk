@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kws;
+package kws.superawesome.tv.kwssdk.kws;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import tv.superawesome.lib.sautils.SAApplication;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
-import kws.superawesome.tv.KWS;
-import kws.superawesome.tv.models.KWSMetadata;
+import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 
 /**
  * Created by gabriel.coman on 23/05/16.

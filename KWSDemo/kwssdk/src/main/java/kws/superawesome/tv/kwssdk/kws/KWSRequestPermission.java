@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kws;
+package kws.superawesome.tv.kwssdk.kws;
 
 import android.util.Log;
 
@@ -7,8 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sanetwork.request.*;
-import kws.superawesome.tv.KWS;
-import kws.superawesome.tv.models.*;
+import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.models.*;
 import tv.superawesome.lib.sautils.SAApplication;
 
 /**

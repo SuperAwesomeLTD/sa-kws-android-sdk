@@ -12,9 +12,9 @@ import org.json.JSONObject;
 
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
-import kws.superawesome.tv.KWS;
-import kws.superawesome.tv.KWSErrorType;
-import kws.superawesome.tv.KWSInterface;
+import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSErrorType;
+import kws.superawesome.tv.kwssdk.KWSInterface;
 
 public class MainActivity extends AppCompatActivity implements KWSInterface {
 

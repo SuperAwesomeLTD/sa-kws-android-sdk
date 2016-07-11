@@ -1,4 +1,4 @@
-package kws.superawesome.tv.models;
+package kws.superawesome.tv.kwssdk.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,43 +11,47 @@ import tv.superawesome.lib.sajsonparser.JSONSerializable;
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSInnerError implements Parcelable, JSONSerializable {
+public class KWSError implements Parcelable, JSONSerializable {
 
-    // internal error code
+    // error code
     public int code = 0;
 
-    // code meaning
+    // error meaning
     public String codeMeaning;
 
-    // code error
+    // error message
     public String errorMessage;
 
+    // invalid
+    public KWSInvalid invalid;
+
     // normal
-    public KWSInnerError(){
+    public KWSError(){
         // do nothing
     }
 
     // json
-    public KWSInnerError(JSONObject json) throws JSONException {
+    public KWSError(JSONObject json) throws JSONException {
         readFromJson(json);
     }
 
     // parcel
-    protected KWSInnerError(Parcel in) {
+    protected KWSError(Parcel in) {
         code = in.readInt();
         codeMeaning = in.readString();
         errorMessage = in.readString();
+        invalid = in.readParcelable(KWSInvalid.class.getClassLoader());
     }
 
-    public static final Creator<KWSInnerError> CREATOR = new Creator<KWSInnerError>() {
+    public static final Creator<KWSError> CREATOR = new Creator<KWSError>() {
         @Override
-        public KWSInnerError createFromParcel(Parcel in) {
-            return new KWSInnerError(in);
+        public KWSError createFromParcel(Parcel in) {
+            return new KWSError(in);
         }
 
         @Override
-        public KWSInnerError[] newArray(int size) {
-            return new KWSInnerError[size];
+        public KWSError[] newArray(int size) {
+            return new KWSError[size];
         }
     };
 
@@ -61,6 +65,14 @@ public class KWSInnerError implements Parcelable, JSONSerializable {
         }
         if (!json.isNull("errorMessage")) {
             errorMessage = json.optString("errorMessage");
+        }
+        if (!json.isNull("invalid")) {
+            JSONObject obj = json.optJSONObject("invalid");
+            try {
+                invalid = new KWSInvalid(obj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -82,6 +94,11 @@ public class KWSInnerError implements Parcelable, JSONSerializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        try {
+            json.put("invalid", invalid.writeToJson());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return json;
     }
 
@@ -95,5 +112,6 @@ public class KWSInnerError implements Parcelable, JSONSerializable {
         dest.writeInt(code);
         dest.writeString(codeMeaning);
         dest.writeString(errorMessage);
+        dest.writeParcelable(invalid, flags);
     }
 }

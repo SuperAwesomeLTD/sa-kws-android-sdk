@@ -1,4 +1,4 @@
-package kws.superawesome.tv;
+package kws.superawesome.tv.kwssdk;
 
 import android.content.Context;
 import android.text.InputType;
@@ -13,9 +13,9 @@ import java.io.UnsupportedEncodingException;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
 import tv.superawesome.lib.sautils.SAApplication;
-import kws.superawesome.tv.kws.KWSParentEmail;
-import kws.superawesome.tv.kws.KWSParentEmailInterface;
-import kws.superawesome.tv.models.KWSMetadata;
+import kws.superawesome.tv.kwssdk.kws.KWSParentEmail;
+import kws.superawesome.tv.kwssdk.kws.KWSParentEmailInterface;
+import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 
 /**
  * Created by gabriel.coman on 23/05/16.

@@ -1,4 +1,4 @@
-package kws.superawesome.tv;
+package kws.superawesome.tv.kwssdk;
 
 /**
  * Created by gabriel.coman on 04/07/16.

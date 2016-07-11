@@ -1,4 +1,4 @@
-package kws.superawesome.tv.models;
+package kws.superawesome.tv.kwssdk.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

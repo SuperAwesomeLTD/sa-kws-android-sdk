@@ -1,4 +1,4 @@
-package kws.superawesome.tv;
+package kws.superawesome.tv.kwssdk;
 
 import android.content.Context;
 
@@ -8,12 +8,12 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import tv.superawesome.lib.sautils.SAApplication;
 
-import kws.superawesome.tv.kws.KWSSubscribeToken;
-import kws.superawesome.tv.kws.KWSSubscribeTokenInterface;
-import kws.superawesome.tv.kws.KWSUnsubscribeToken;
-import kws.superawesome.tv.kws.KWSUnsubscribeTokenInterface;
-import kws.superawesome.tv.firebase.FirebaseGetToken;
-import kws.superawesome.tv.firebase.FirebaseGetTokenInterface;
+import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
+import kws.superawesome.tv.kwssdk.kws.KWSSubscribeTokenInterface;
+import kws.superawesome.tv.kwssdk.kws.KWSUnsubscribeToken;
+import kws.superawesome.tv.kwssdk.kws.KWSUnsubscribeTokenInterface;
+import kws.superawesome.tv.kwssdk.firebase.FirebaseGetToken;
+import kws.superawesome.tv.kwssdk.firebase.FirebaseGetTokenInterface;
 
 /**
  * Created by gabriel.coman on 24/05/16.

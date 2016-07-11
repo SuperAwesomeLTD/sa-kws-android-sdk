@@ -1,4 +1,4 @@
-package kws.superawesome.tv.firebase;
+package kws.superawesome.tv.kwssdk.firebase;
 
 /**
  * Created by gabriel.coman on 04/07/16.
