@@ -17,12 +17,6 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
     // constants
     private final int NR_TRIES = 30;
     private final int DELAY = 1000;
-    private final String PREFERENCES = "MyPreferences";
-    private final String kPushToken = "KWSPushToken";
-
-    // private vars
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // listener
     public FirebaseGetTokenInterface listener = null;
@@ -34,8 +28,6 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
 
     public FirebaseGetToken () {
         Context context = SAApplication.getSAApplicationContext();
-        sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
     }
 
     public void register() {
@@ -46,8 +38,6 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
                 String token = FirebaseInstanceId.getInstance().getToken();
 
                 if (token != null) {
-                    editor.putString(kPushToken, token);
-                    editor.apply();
                     lisDidGetFirebaseToken(token);
                 } else if (tries > NR_TRIES) {
                     lisDidFailToGetFirebaseToken();
@@ -61,7 +51,7 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
     }
 
     public String getSavedToken () {
-        return sharedPreferences.getString(kPushToken, null);
+        return FirebaseInstanceId.getInstance().getToken();
     }
 
     @Override

@@ -28,9 +28,14 @@ public class KWSParentEmail {
         String oauthToken = KWS.sdk.getOauthToken();
         KWSMetadata metadata = KWS.sdk.getMetadata();
 
+        String finalEmail = null;
+        if (email != null) {
+            finalEmail = email.replace(" ", "");
+        }
+
         if (kwsApiUrl != null && oauthToken != null && metadata != null){
 
-            if (SAUtils.isValidEmail(email)) {
+            if (finalEmail != null && SAUtils.isValidEmail(finalEmail)) {
 
                 int userId= metadata.userId;
                 String endpoint = kwsApiUrl + "users/" + userId + "/request-permissions";
@@ -39,7 +44,7 @@ public class KWSParentEmail {
                 array.put("sendPushNotification");
                 try {
                     body.put("permissions", array);
-                    body.put("parentEmail", email);
+                    body.put("parentEmail", finalEmail);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

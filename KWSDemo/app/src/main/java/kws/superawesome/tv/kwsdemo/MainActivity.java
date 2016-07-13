@@ -132,58 +132,58 @@ public class MainActivity extends AppCompatActivity implements KWSInterface {
     public void kwsSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType type) {
 
         switch (type) {
-            case KWS_ParentHasDisabledRemoteNotifications: {
+            case ParentHasDisabledRemoteNotifications: {
                 log += "User has  no permissions (KWS)\n";
                 logView.setText(log);
                 break;
             }
-            case System_UserHasDisabledRemoteNotifications: {
+            case UserHasDisabledRemoteNotifications: {
                 log += "User has  no permissions (System)\n";
                 logView.setText(log);
                 break;
             }
-            case KWS_UserHasNoParentEmail: {
+            case UserHasNoParentEmail: {
                 log += "User has  no parent email (KWS)\n";
                 logView.setText(log);
                 KWS.sdk.showParentEmailPopup();
                 break;
             }
-            case KWS_ParentEmailInvalid: {
+            case ParentEmailInvalid: {
                 log += "Parent email is invalid\n";
                 logView.setText(log);
                 break;
             }
-            case System_GoogleServicesNotFound: {
+            case FirebaseNotSetup: {
                 log += "No Google Play Services found\n";
                 logView.setText(log);
                 break;
             }
-            case System_FirebaseCouldNotGetToken: {
+            case FirebaseCouldNotGetToken: {
                 log += "Firebase could not get token\n";
                 logView.setText(log);
                 break;
             }
-            case Network_ErrorCheckingIfUserHasRemoteNotificationsEnabledInKWS: {
+            case FailedToCheckIfUserHasNotificationsEnabledInKWS: {
                 log += "Network error checking for KWS notification permission\n";
                 logView.setText(log);
                 break;
             }
-            case Network_ErrorRequestingRemoteNotificationsPermissionInKWS: {
+            case FailedToRequestNotificationsPermissionInKWS: {
                 log += "Network error requesting notification permission in KWS\n";
                 logView.setText(log);
                 break;
             }
-            case Network_ErrorSubmittingParentEmail: {
+            case FailedToSubmitParentEmail: {
                 log += "Network error submitting parent email to KWS\n";
                 logView.setText(log);
                 break;
             }
-            case Network_ErrorSubscribingTokenToKWS: {
+            case FailedToSubscribeTokenToKWS: {
                 log += "Network error subscribing Firebase token to KWS\n";
                 logView.setText(log);
                 break;
             }
-            case Network_ErrorUnsubscribingTokenFromKWS: {
+            case FailedToUbsubscribeTokenToKWS: {
                 log += "Network error ubsubscribing Firebase token to KWS\n";
                 logView.setText(log);
                 break;

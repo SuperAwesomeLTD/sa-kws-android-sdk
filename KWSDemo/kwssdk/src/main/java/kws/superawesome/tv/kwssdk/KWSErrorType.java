@@ -4,70 +4,70 @@ package kws.superawesome.tv.kwssdk;
  * Created by gabriel.coman on 04/07/16.
  */
 public enum KWSErrorType {
-    KWS_ParentHasDisabledRemoteNotifications {
+    ParentHasDisabledRemoteNotifications {
         @Override
         public String toString() {
-            return "KWS_ParentHasDisabledRemoteNotifications";
+            return "ParentHasDisabledRemoteNotifications";
         }
     },
-    System_UserHasDisabledRemoteNotifications {
+    UserHasDisabledRemoteNotifications {
         @Override
         public String toString() {
-            return "System_UserHasDisabledRemoteNotifications";
+            return "UserHasDisabledRemoteNotifications";
         }
     },
-    KWS_UserHasNoParentEmail {
+    UserHasNoParentEmail {
         @Override
         public String toString() {
-            return "KWS_UserHasNoParentEmail";
+            return "UserHasNoParentEmail";
         }
     },
-    KWS_ParentEmailInvalid {
+    ParentEmailInvalid {
         @Override
         public String toString() {
-            return "KWS_ParentEmailInvalid";
+            return "ParentEmailInvalid";
         }
     },
-    System_GoogleServicesNotFound {
+    FirebaseNotSetup {
         @Override
         public String toString() {
-            return "System_GoogleServicesNotFound";
+            return "FirebaseNotSetup";
         }
     },
-    System_FirebaseCouldNotGetToken {
+    FirebaseCouldNotGetToken {
         @Override
         public String toString() {
-            return "System_FirebaseCouldNotGetToken";
+            return "FirebaseCouldNotGetToken";
         }
     },
-    Network_ErrorCheckingIfUserHasRemoteNotificationsEnabledInKWS {
+    FailedToCheckIfUserHasNotificationsEnabledInKWS {
         @Override
         public String toString() {
-            return "Network_ErrorCheckingIfUserHasRemoteNotificationsEnabledInKWS";
+            return "FailedToCheckIfUserHasNotificationsEnabledInKWS";
         }
     },
-    Network_ErrorRequestingRemoteNotificationsPermissionInKWS {
+    FailedToRequestNotificationsPermissionInKWS {
         @Override
         public String toString() {
-            return "Network_ErrorRequestingRemoteNotificationsPermissionInKWS";
+            return "FailedToRequestNotificationsPermissionInKWS";
         }
     },
-    Network_ErrorSubmittingParentEmail {
+    FailedToSubmitParentEmail {
         @Override
         public String toString() {
-            return "Network_ErrorSubmittingParentEmail";
+            return "FailedToSubmitParentEmail";
         }
     },
-    Network_ErrorSubscribingTokenToKWS {
+    FailedToSubscribeTokenToKWS {
         @Override
         public String toString() {
-            return "Network_ErrorSubscribingTokenToKWS";
+            return "FailedToSubscribeTokenToKWS";
         }
     },
-    Network_ErrorUnsubscribingTokenFromKWS {
+    FailedToUbsubscribeTokenToKWS {
         @Override
         public String toString() {
-            return "Network_ErrorUnsubscribingTokenFromKWS";
+            return "FailedToUbsubscribeTokenToKWS";
         }
     }
 }

@@ -61,8 +61,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
         // add listener
         if (stringPermissionPopup) {
-            SAAlert permissionAlert = new SAAlert();
-            permissionAlert.show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
+            SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
                 @Override
                 public void didClickOnOK(String s) {
                     KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
@@ -79,8 +78,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     }
 
     public void showParentEmailPopup () {
-        SAAlert emailAlert = new SAAlert();
-        emailAlert.show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
+        SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
             @Override
             public void didClickOnOK(String s) {
                 submitParentEmail(s);
@@ -105,22 +103,22 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     @Override
     public void pushDisabledInKWS() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.KWS_ParentHasDisabledRemoteNotifications);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.ParentHasDisabledRemoteNotifications);
     }
 
     @Override
     public void parentEmailIsMissingInKWS() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.KWS_UserHasNoParentEmail);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.UserHasNoParentEmail);
     }
 
     @Override
     public void networkErrorCheckingForKWS() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorCheckingIfUserHasRemoteNotificationsEnabledInKWS);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FailedToCheckIfUserHasNotificationsEnabledInKWS);
     }
 
     @Override
     public void networkErrorRequestingPermissionFromKWS() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorRequestingRemoteNotificationsPermissionInKWS);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FailedToRequestNotificationsPermissionInKWS);
     }
 
     @Override
@@ -137,12 +135,12 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     @Override
     public void emailError() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorSubmittingParentEmail);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FailedToSubmitParentEmail);
     }
 
     @Override
     public void invalidEmail() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.KWS_ParentEmailInvalid);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.ParentEmailInvalid);
     }
 
     // <PushManagerInterface>
@@ -159,22 +157,22 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     @Override
     public void didFailBecauseNoGoogleServicesFound() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.System_GoogleServicesNotFound);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FirebaseNotSetup);
     }
 
     @Override
     public void didFailToGetFirebaseToken() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.System_FirebaseCouldNotGetToken);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FirebaseCouldNotGetToken);
     }
 
     @Override
     public void networkErrorTryingToSubscribeToken() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorSubscribingTokenToKWS);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FailedToSubscribeTokenToKWS);
     }
 
     @Override
     public void networkErrorTryingToUnsubscribeToken() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.Network_ErrorUnsubscribingTokenFromKWS);
+        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FailedToUbsubscribeTokenToKWS);
     }
 
     // getters
