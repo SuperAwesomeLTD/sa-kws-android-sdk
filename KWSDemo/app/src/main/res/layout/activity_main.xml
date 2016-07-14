@@ -26,6 +26,11 @@
         android:layout_height="50dp"
         android:text="UnRegister"
         android:onClick="unregisterAction"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Check if registered"
+        android:onClick="checkRegisteredAction"/>
     <TextView
         android:id="@+id/TextLogs"
         android:layout_width="match_parent"

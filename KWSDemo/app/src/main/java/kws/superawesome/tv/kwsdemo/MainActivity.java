@@ -10,13 +10,15 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kws.superawesome.tv.kwssdk.KWSCheckInterface;
+import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
+import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.KWSErrorType;
-import kws.superawesome.tv.kwssdk.KWSInterface;
 
-public class MainActivity extends AppCompatActivity implements KWSInterface {
+public class MainActivity extends AppCompatActivity {
 
     // view
     private TextView logView = null;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements KWSInterface {
                     if (model.status == 1) {
                         registerUser.setText("I am " + username);
                         TOKEN = model.token;
+                        KWS.sdk.setup(MainActivity.this, TOKEN, API, true);
                     } else {
                         log += "Failed to register " + username + "\n";
                         logView.setText(log);
@@ -99,8 +102,70 @@ public class MainActivity extends AppCompatActivity implements KWSInterface {
         if (TOKEN != null) {
             log += "Trying to register user\n";
             logView.setText(log);
-            KWS.sdk.setup(this, TOKEN, API, true, this);
-            KWS.sdk.registerForRemoteNotifications();
+            KWS.sdk.registerForRemoteNotifications(new KWSRegisterInterface() {
+                @Override
+                public void kwsSDKDidRegisterUserForRemoteNotifications() {
+                    log += "User is registered\n";
+                    logView.setText(log);
+                }
+
+                @Override
+                public void kwsSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType type) {
+                    switch (type) {
+                        case ParentHasDisabledRemoteNotifications: {
+                            log += "User has  no permissions (KWS)\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case UserHasDisabledRemoteNotifications: {
+                            log += "User has  no permissions (System)\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case UserHasNoParentEmail: {
+                            log += "User has  no parent email (KWS)\n";
+                            logView.setText(log);
+                            KWS.sdk.showParentEmailPopup();
+                            break;
+                        }
+                        case ParentEmailInvalid: {
+                            log += "Parent email is invalid\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case FirebaseNotSetup: {
+                            log += "No Google Play Services found\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case FirebaseCouldNotGetToken: {
+                            log += "Firebase could not get token\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case FailedToCheckIfUserHasNotificationsEnabledInKWS: {
+                            log += "Network error checking for KWS notification permission\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case FailedToRequestNotificationsPermissionInKWS: {
+                            log += "Network error requesting notification permission in KWS\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case FailedToSubmitParentEmail: {
+                            log += "Network error submitting parent email to KWS\n";
+                            logView.setText(log);
+                            break;
+                        }
+                        case FailedToSubscribeTokenToKWS: {
+                            log += "Network error subscribing Firebase token to KWS\n";
+                            logView.setText(log);
+                            break;
+                        }
+                    }
+                }
+            });
         } else {
             log += "No user registered\n";
             logView.setText(log);
@@ -111,83 +176,42 @@ public class MainActivity extends AppCompatActivity implements KWSInterface {
         log = "";
         log += "Trying to unregister user\n";
         logView.setText(log);
-        KWS.sdk.unregisterForRemoteNotifications();
-    }
+        KWS.sdk.unregisterForRemoteNotifications(new KWSUnregisterInterface() {
+            @Override
+            public void kwsSDKDidUnregisterUserForRemoteNotifications() {
+                log += "User is un-registered\n";
+                logView.setText(log);
+            }
 
-    // MARL: KWSInterface
-
-    @Override
-    public void kwsSDKDidRegisterUserForRemoteNotifications() {
-        log += "User is registered\n";
-        logView.setText(log);
-    }
-
-    @Override
-    public void kwsSDKDidUnregisterUserForRemoteNotifications() {
-        log += "User is un-registered\n";
-        logView.setText(log);
-    }
-
-    @Override
-    public void kwsSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType type) {
-
-        switch (type) {
-            case ParentHasDisabledRemoteNotifications: {
-                log += "User has  no permissions (KWS)\n";
-                logView.setText(log);
-                break;
-            }
-            case UserHasDisabledRemoteNotifications: {
-                log += "User has  no permissions (System)\n";
-                logView.setText(log);
-                break;
-            }
-            case UserHasNoParentEmail: {
-                log += "User has  no parent email (KWS)\n";
-                logView.setText(log);
-                KWS.sdk.showParentEmailPopup();
-                break;
-            }
-            case ParentEmailInvalid: {
-                log += "Parent email is invalid\n";
-                logView.setText(log);
-                break;
-            }
-            case FirebaseNotSetup: {
-                log += "No Google Play Services found\n";
-                logView.setText(log);
-                break;
-            }
-            case FirebaseCouldNotGetToken: {
-                log += "Firebase could not get token\n";
-                logView.setText(log);
-                break;
-            }
-            case FailedToCheckIfUserHasNotificationsEnabledInKWS: {
-                log += "Network error checking for KWS notification permission\n";
-                logView.setText(log);
-                break;
-            }
-            case FailedToRequestNotificationsPermissionInKWS: {
-                log += "Network error requesting notification permission in KWS\n";
-                logView.setText(log);
-                break;
-            }
-            case FailedToSubmitParentEmail: {
-                log += "Network error submitting parent email to KWS\n";
-                logView.setText(log);
-                break;
-            }
-            case FailedToSubscribeTokenToKWS: {
-                log += "Network error subscribing Firebase token to KWS\n";
-                logView.setText(log);
-                break;
-            }
-            case FailedToUbsubscribeTokenToKWS: {
+            @Override
+            public void kwsSDKDidFailToUnregisterUserForRemoteNotifications() {
                 log += "Network error ubsubscribing Firebase token to KWS\n";
                 logView.setText(log);
-                break;
             }
-        }
+        });
+    }
+
+    public void checkRegisteredAction(View v) {
+        log += "Checking if user is registered or not\n";
+        logView.setText(log);
+        KWS.sdk.userIsRegistered(new KWSCheckInterface() {
+            @Override
+            public void kwsSDKUserIsRegistered() {
+                log += "User is already registered for Remote Notifications in KWS\n";
+                logView.setText(log);
+            }
+
+            @Override
+            public void kwsSDKUserIsNotRegistered() {
+                log += "User is not registered yet for Remote Notifications in KWS\n";
+                logView.setText(log);
+            }
+
+            @Override
+            public void kwsSDKDidFailToCheckIfUserIsRegistered() {
+                log += "Failed to check if user is registered for Remote Notifications in KWS\n";
+                logView.setText(log);
+            }
+        });
     }
 }

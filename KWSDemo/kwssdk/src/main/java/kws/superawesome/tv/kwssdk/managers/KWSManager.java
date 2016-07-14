@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk;
+package kws.superawesome.tv.kwssdk.managers;
 
 import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowed;
 import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowedInterface;
@@ -46,7 +46,7 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     }
 
     @Override
-    public void checkError() {
+    public void checkAllowedError() {
         lisNetworkErrorCheckingForKWS();
     }
 

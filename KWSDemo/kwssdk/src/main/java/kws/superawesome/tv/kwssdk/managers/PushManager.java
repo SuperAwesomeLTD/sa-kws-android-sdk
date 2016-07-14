@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk;
+package kws.superawesome.tv.kwssdk.managers;
 
 import android.content.Context;
 

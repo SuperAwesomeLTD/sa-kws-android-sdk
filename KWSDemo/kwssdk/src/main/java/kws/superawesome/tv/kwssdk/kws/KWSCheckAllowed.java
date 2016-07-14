@@ -89,7 +89,7 @@ public class KWSCheckAllowed {
 
     private void lisCheckError () {
         if (listener != null) {
-            listener.checkError();
+            listener.checkAllowedError();
         }
     }
 }

@@ -10,6 +10,12 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import kws.superawesome.tv.kwssdk.managers.CheckManager;
+import kws.superawesome.tv.kwssdk.managers.CheckManagerInterface;
+import kws.superawesome.tv.kwssdk.managers.KWSManager;
+import kws.superawesome.tv.kwssdk.managers.KWSManagerInterface;
+import kws.superawesome.tv.kwssdk.managers.PushManager;
+import kws.superawesome.tv.kwssdk.managers.PushManagerInterface;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
 import tv.superawesome.lib.sautils.SAApplication;
@@ -20,7 +26,7 @@ import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParentEmailInterface {
+public class KWS implements KWSManagerInterface, PushManagerInterface, CheckManagerInterface, KWSParentEmailInterface {
 
     // singleton instance
     public static KWS sdk = new KWS();
@@ -30,18 +36,21 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
     private String oauthToken;
     private String kwsApiUrl;
     private boolean stringPermissionPopup;
-    private KWSInterface listener;
     private Context context;
     private KWSMetadata metadata;
     private KWSParentEmail parentEmail;
 
+    // listeners
+    private KWSRegisterInterface registerListener;
+    private KWSUnregisterInterface unregisterListener;
+    private KWSCheckInterface checkListener;
+
     // <Setup> functions
 
-    public void setup(Context context, String oauthToken, String kwsApiUrl, boolean stringPermissionPopup, KWSInterface listener) {
+    public void setup(Context context, String oauthToken, String kwsApiUrl, boolean stringPermissionPopup) {
         this.context = context;
         this.oauthToken = oauthToken;
         this.kwsApiUrl = kwsApiUrl;
-        this.listener = listener;
         this.stringPermissionPopup = stringPermissionPopup;
         this.metadata = getMetadata(oauthToken);
         if (metadata != null) {
@@ -51,15 +60,23 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
         KWSManager.sharedInstance.listener = this;
         PushManager.sharedInstance.listener = this;
+        CheckManager.sharedInstance.listener = this;
+
         parentEmail = new KWSParentEmail();
         parentEmail.listener = this;
     }
 
-    // <Public> functions
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Public exposed functions
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void registerForRemoteNotifications () {
+    // Main public functions
 
-        // add listener
+    public void registerForRemoteNotifications (KWSRegisterInterface registerListener) {
+        // get listener
+        this.registerListener = registerListener;
+
+        // add registerListener
         if (stringPermissionPopup) {
             SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
                 @Override
@@ -76,6 +93,18 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
             KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
         }
     }
+
+    public void unregisterForRemoteNotifications (KWSUnregisterInterface unregisterInterface) {
+        this.unregisterListener = unregisterInterface;
+        PushManager.sharedInstance.unregisterForRemoteNotifications();
+    }
+
+    public void userIsRegistered (KWSCheckInterface listener) {
+        checkListener = listener;
+        CheckManager.sharedInstance.areNotificationsEnabled();
+    }
+
+    // Aux main functions
 
     public void showParentEmailPopup () {
         SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
@@ -95,9 +124,9 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
         parentEmail.submitEmail(email);
     }
 
-    public void unregisterForRemoteNotifications () {
-        PushManager.sharedInstance.unregisterForRemoteNotifications();
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Implementation of all these listeners
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     // <KWSManagerInterface>
 
@@ -172,10 +201,29 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
 
     @Override
     public void networkErrorTryingToUnsubscribeToken() {
-        lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError(KWSErrorType.FailedToUbsubscribeTokenToKWS);
+        lisKWSSDKDidFailToUnregisterUserForRemoteNotifications();
     }
 
-    // getters
+    // <CheckManagerInterface> implementation
+
+    @Override
+    public void pushAllowedOverall() {
+        lisKWSSDKUserIsRegistered();
+    }
+
+    @Override
+    public void pushDisabledOverall() {
+        lisKWSSDKUserIsNotRegistered();
+    }
+
+    @Override
+    public void networkErrorTryingToCheckUserStatus() {
+        lisKWSSDKDidFailToCheckIfUserIsRegistered();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Getters
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getOauthToken () {
         return oauthToken;
@@ -189,7 +237,9 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
         return metadata;
     }
 
-    // <Private> functions
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Private metadata function
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private KWSMetadata getMetadata(String  oauthToken) {
 
@@ -234,23 +284,56 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, KWSParent
         SAApplication.setSAApplicationContext(_appContext);
     }
 
-    // <Listener> functions
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Listener functions
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // <Listener 1> functions
 
     void lisKWSSDKDidRegisterUserForRemoteNotifications () {
-        if (listener != null) {
-            listener.kwsSDKDidRegisterUserForRemoteNotifications();
+        if (registerListener != null) {
+            registerListener.kwsSDKDidRegisterUserForRemoteNotifications();
         }
     }
 
-    void lisKWSSDKDidUnregisterUserForRemoteNotifications () {
-        if (listener != null) {
-            listener.kwsSDKDidUnregisterUserForRemoteNotifications();
-        }
-    }
 
     void lisKWSSDKDidFailToRegisterUserForRemoteNotificationsWithError (KWSErrorType type) {
-        if (listener != null) {
-            listener.kwsSDKDidFailToRegisterUserForRemoteNotificationsWithError(type);
+        if (registerListener != null) {
+            registerListener.kwsSDKDidFailToRegisterUserForRemoteNotificationsWithError(type);
+        }
+    }
+
+    // <Listener 2> functions
+
+    void lisKWSSDKDidUnregisterUserForRemoteNotifications () {
+        if (unregisterListener != null) {
+            unregisterListener.kwsSDKDidUnregisterUserForRemoteNotifications();
+        }
+    }
+
+    void lisKWSSDKDidFailToUnregisterUserForRemoteNotifications () {
+        if (unregisterListener != null) {
+            unregisterListener.kwsSDKDidFailToUnregisterUserForRemoteNotifications();
+        }
+    }
+
+    // <Listener 3> functions
+
+    void lisKWSSDKUserIsRegistered () {
+        if (checkListener != null) {
+            checkListener.kwsSDKUserIsRegistered();
+        }
+    }
+
+    void lisKWSSDKUserIsNotRegistered () {
+        if (checkListener != null) {
+            checkListener.kwsSDKUserIsNotRegistered();
+        }
+    }
+
+    void lisKWSSDKDidFailToCheckIfUserIsRegistered () {
+        if (checkListener != null) {
+            checkListener.kwsSDKDidFailToCheckIfUserIsRegistered();
         }
     }
 }

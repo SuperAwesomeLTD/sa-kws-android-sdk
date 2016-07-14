@@ -63,11 +63,5 @@ public enum KWSErrorType {
         public String toString() {
             return "FailedToSubscribeTokenToKWS";
         }
-    },
-    FailedToUbsubscribeTokenToKWS {
-        @Override
-        public String toString() {
-            return "FailedToUbsubscribeTokenToKWS";
-        }
     }
 }

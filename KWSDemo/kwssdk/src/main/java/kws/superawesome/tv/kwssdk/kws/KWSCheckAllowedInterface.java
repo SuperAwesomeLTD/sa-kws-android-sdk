@@ -20,5 +20,5 @@ public interface KWSCheckAllowedInterface {
     /**
      This is called in case of any type of network error
      */
-    void checkError ();
+    void checkAllowedError();
 }
