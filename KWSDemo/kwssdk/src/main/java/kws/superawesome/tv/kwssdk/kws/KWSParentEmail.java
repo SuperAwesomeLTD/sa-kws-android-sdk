@@ -29,56 +29,51 @@ public class KWSParentEmail {
         KWSMetadata metadata = KWS.sdk.getMetadata();
         String version = KWS.sdk.getVersion();
 
-        String finalEmail = null;
-        if (email != null) {
-            finalEmail = email.replace(" ", "");
+        if (email == null || email.length() == 0 || SAUtils.isValidEmail(email) == false) {
+            lisInvalidError();
+            return;
         }
 
         if (kwsApiUrl != null && oauthToken != null && metadata != null){
 
-            if (finalEmail != null && SAUtils.isValidEmail(finalEmail)) {
+            int userId= metadata.userId;
+            String endpoint = kwsApiUrl + "users/" + userId + "/request-permissions";
+            JSONObject body = new JSONObject();
+            JSONArray array = new JSONArray();
+            array.put("sendPushNotification");
+            try {
+                body.put("permissions", array);
+                body.put("parentEmail", email);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                int userId= metadata.userId;
-                String endpoint = kwsApiUrl + "users/" + userId + "/request-permissions";
-                JSONObject body = new JSONObject();
-                JSONArray array = new JSONArray();
-                array.put("sendPushNotification");
-                try {
-                    body.put("permissions", array);
-                    body.put("parentEmail", finalEmail);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            JSONObject header = new JSONObject();
+            try {
+                header.put("Authorization", "Bearer " + oauthToken);
+                header.put("Content-Type", "application/json");
+                header.put("kws-sdk-version", version);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                JSONObject header = new JSONObject();
-                try {
-                    header.put("Authorization", "Bearer " + oauthToken);
-                    header.put("Content-Type", "application/json");
-                    header.put("kws-sdk-version", version);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                SANetwork network = new SANetwork();
-                network.sendPOST(SAApplication.getSAApplicationContext(), endpoint, new JSONObject(), header, body, new SANetworkInterface() {
-                    @Override
-                    public void success(int status, String payload) {
-                        if (status == 200 || status == 204) {
-                            lisEmailSubmittedInKWS();
-                        }
-                        else {
-                            lisEmailError();
-                        }
+            SANetwork network = new SANetwork();
+            network.sendPOST(SAApplication.getSAApplicationContext(), endpoint, new JSONObject(), header, body, new SANetworkInterface() {
+                @Override
+                public void success(int status, String payload) {
+                    if (status == 200 || status == 204) {
+                        lisEmailSubmittedInKWS();
                     }
-
-                    @Override
-                    public void failure() {
+                    else {
                         lisEmailError();
                     }
-                });
-            } else {
-                lisInvalidError();
-            }
+                }
+
+                @Override
+                public void failure() {
+                    lisEmailError();
+                }
+            });
         } else {
             lisEmailError();
         }
