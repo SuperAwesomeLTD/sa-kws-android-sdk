@@ -24,6 +24,7 @@ public class KWSSubscribeToken {
         String kwsApiUrl = KWS.sdk.getKwsApiUrl();
         String oauthToken = KWS.sdk.getOauthToken();
         KWSMetadata metadata = KWS.sdk.getMetadata();
+        String version = KWS.sdk.getVersion();
 
         if (kwsApiUrl != null && oauthToken != null && metadata != null){
 
@@ -45,6 +46,7 @@ public class KWSSubscribeToken {
             try {
                 header.put("Authorization", "Bearer " + oauthToken);
                 header.put("Content-Type", "application/json");
+                header.put("kws-sdk-version", version);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

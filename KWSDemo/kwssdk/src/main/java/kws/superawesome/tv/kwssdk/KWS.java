@@ -45,6 +45,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     private KWSUnregisterInterface unregisterListener;
     private KWSCheckInterface checkListener;
 
+    public String getVersion () {
+        return "android-1.1.9";
+    }
+
     // <Setup> functions
 
     public void setup(Context context, String oauthToken, String kwsApiUrl, boolean stringPermissionPopup) {
