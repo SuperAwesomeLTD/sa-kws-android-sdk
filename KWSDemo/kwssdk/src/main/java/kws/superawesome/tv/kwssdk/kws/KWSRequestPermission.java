@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kws.superawesome.tv.kwssdk.models.error.KWSError;
 import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.models.*;

@@ -1,12 +1,14 @@
 package kws.superawesome.tv.kwssdk.kws;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import kws.superawesome.tv.kwssdk.models.KWSUser;
+import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import tv.superawesome.lib.sautils.SAApplication;
 
 /**
@@ -51,7 +53,7 @@ public class KWSCheckAllowed {
                             KWSUser user = new KWSUser(json);
                             Object perm = user.applicationPermissions.sendPushNotification;
 
-                            if (perm == null || perm == true) {
+                            if (perm == null || (boolean)perm == true) {
                                 lisPushEnabledInKWS();
                             } else {
                                 lisPushDisabledInKWS();
@@ -70,6 +72,7 @@ public class KWSCheckAllowed {
                     lisCheckError();
                 }
             });
+
         } else {
             lisCheckError();
         }

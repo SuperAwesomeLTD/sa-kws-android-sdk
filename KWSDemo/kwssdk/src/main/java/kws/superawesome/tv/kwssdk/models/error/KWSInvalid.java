@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.models;
+package kws.superawesome.tv.kwssdk.models.error;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,13 +7,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
 public class KWSInvalid implements Parcelable, JSONSerializable {
 
-    // the inner error details
     public KWSInnerError parentEmail;
 
     // normal
@@ -22,7 +22,7 @@ public class KWSInvalid implements Parcelable, JSONSerializable {
     }
 
     // json
-    public KWSInvalid(JSONObject json) throws JSONException {
+    public KWSInvalid(JSONObject json){
         readFromJson(json);
     }
 
@@ -44,29 +44,6 @@ public class KWSInvalid implements Parcelable, JSONSerializable {
     };
 
     @Override
-    public void readFromJson(JSONObject json) {
-        if (!json.isNull("parentEmail")) {
-            JSONObject obj = json.optJSONObject("parentEmail");
-            try {
-                parentEmail = new KWSInnerError(obj);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public JSONObject writeToJson() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("parentEmail", parentEmail.writeToJson());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -74,5 +51,17 @@ public class KWSInvalid implements Parcelable, JSONSerializable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(parentEmail, flags);
+    }
+
+    @Override
+    public void readFromJson(JSONObject json) {
+        parentEmail = new KWSInnerError(SAJsonParser.getJsonObject(json, "parentEmail"));
+    }
+
+    @Override
+    public JSONObject writeToJson() {
+        return SAJsonParser.create(new Object[] {
+                "parentEmail", parentEmail.writeToJson()
+        });
     }
 }
