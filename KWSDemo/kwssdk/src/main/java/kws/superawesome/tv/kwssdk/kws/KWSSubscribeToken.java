@@ -5,6 +5,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.request.*;
 
 import kws.superawesome.tv.kwssdk.KWS;
@@ -14,61 +15,55 @@ import tv.superawesome.lib.sautils.SAApplication;
 /**
  * Created by gabriel.coman on 13/06/16.
  */
-public class KWSSubscribeToken {
+public class KWSSubscribeToken extends KWSRequest {
 
     // listener
     public KWSSubscribeTokenInterface listener = null;
 
-    // the actual request
-    public void request (String token) {
-        String kwsApiUrl = KWS.sdk.getKwsApiUrl();
-        String oauthToken = KWS.sdk.getOauthToken();
-        KWSMetadata metadata = KWS.sdk.getMetadata();
-        String version = KWS.sdk.getVersion();
+    // private vars
+    private String token = null;
 
-        if (kwsApiUrl != null && oauthToken != null && metadata != null){
+    @Override
+    public String getEndpoint() {
+        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/subscribe-push-notifications";
+    }
 
-            Log.d("SuperAwesome", "Adding token to KWS: " + token);
+    @Override
+    public KWSRequestMethod getMethod() {
+        return KWSRequestMethod.POST;
+    }
 
-            // form the request
-            int userId = metadata.userId;
-            int appId = metadata.appId;
-            String endpoint = kwsApiUrl + "apps/" + appId + "/users/" + userId + "/subscribe-push-notifications";
-            JSONObject body = new JSONObject();
-            try {
-                body.put("token", token);
-                body.put("platform", "android");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public JSONObject getBody() {
+        return SAJsonParser.newObject(new Object[]{
+                "token", token,
+                "platform", "android"
+        });
+    }
 
-            JSONObject header = new JSONObject();
-            try {
-                header.put("Authorization", "Bearer " + oauthToken);
-                header.put("Content-Type", "application/json");
-                header.put("kws-sdk-version", version);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void success(int status, String payload) {
+        Log.d("SuperAwesome", "Payload ==> " + payload);
+        lisTokenWasSubsribed();
+    }
 
-            // send the network request
-            SANetwork network = new SANetwork();
+    @Override
+    public void failure() {
+        lisTokenError();
+    }
 
-            network.sendPOST(SAApplication.getSAApplicationContext(), endpoint, new JSONObject(), header, body, new SANetworkInterface() {
-                @Override
-                public void success(int status, String payload) {
-                    Log.d("SuperAwesome", "Payload ==> " + payload);
-                    lisTokenWasSubsribed();
-                }
-
-                @Override
-                public void failure() {
-                    lisTokenError();
-                }
-            });
+    @Override
+    public void execute(Object param) {
+        // check for param
+        if (param instanceof  String) {
+            token = (String)param;
         } else {
             lisTokenError();
+            return;
         }
+
+        // execute
+        super.execute(param);
     }
 
     private void lisTokenWasSubsribed () {

@@ -125,7 +125,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     }
 
     public void submitParentEmail (String  email) {
-        parentEmail.submitEmail(email);
+        parentEmail.execute(email);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

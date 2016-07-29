@@ -30,14 +30,14 @@ public class CheckManager implements KWSCheckAllowedInterface, KWSCheckRegistere
 
     // main func
     public void areNotificationsEnabled () {
-        kwsCheckAllowed.check();
+        kwsCheckAllowed.execute();
     }
 
     // KWSCheckAllowedInterface
 
     @Override
     public void pushAllowedInKWS() {
-        kwsCheckRegistered.check();
+        kwsCheckRegistered.execute();
     }
 
     @Override

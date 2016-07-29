@@ -66,7 +66,7 @@ public class KWSAddress implements Parcelable, JSONSerializable {
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.create(new Object[]{
+        return SAJsonParser.newObject(new Object[]{
                 "street", street,
                 "city", city,
                 "postCode", postCode,

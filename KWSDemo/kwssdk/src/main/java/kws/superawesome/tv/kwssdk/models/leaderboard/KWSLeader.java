@@ -60,7 +60,7 @@ public class KWSLeader implements Parcelable, JSONSerializable{
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.create(new Object[]{
+        return SAJsonParser.newObject(new Object[]{
                 "rank", rank,
                 "score", score,
                 "user", user

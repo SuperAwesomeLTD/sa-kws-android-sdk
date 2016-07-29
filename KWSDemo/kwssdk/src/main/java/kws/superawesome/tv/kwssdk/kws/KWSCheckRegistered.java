@@ -14,59 +14,35 @@ import tv.superawesome.lib.sautils.SAApplication;
 /**
  * Created by gabriel.coman on 14/07/16.
  */
-public class KWSCheckRegistered {
+public class KWSCheckRegistered extends KWSRequest {
 
     // listener
     public KWSCheckRegisteredInterface listener = null;
 
-    /**
-     * Main check function
-     */
-    public void check () {
-        String kwsApiUrl = KWS.sdk.getKwsApiUrl();
-        String oauthToken = KWS.sdk.getOauthToken();
-        KWSMetadata metadata = KWS.sdk.getMetadata();
-        String version = KWS.sdk.getVersion();
+    @Override
+    public String getEndpoint() {
+        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/has-device-token";
+    }
 
-        if (kwsApiUrl != null && oauthToken != null && metadata != null){
+    @Override
+    public KWSRequestMethod getMethod() {
+        return KWSRequestMethod.GET;
+    }
 
-            // form the request
-            int userId = metadata.userId;
-            int appId = metadata.appId;
-            String endpoint = kwsApiUrl + "apps/" + appId + "/users/" + userId + "/has-device-token";
-
-            JSONObject header = new JSONObject();
-            try {
-                header.put("Authorization", "Bearer " + oauthToken);
-                header.put("Content-Type", "application/json");
-                header.put("kws-sdk-version", version);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            SANetwork network = new SANetwork();
-            network.sendGET(SAApplication.getSAApplicationContext(), endpoint, new JSONObject(), header, new SANetworkInterface() {
-                @Override
-                public void success(int status, String payload) {
-                    if (payload.contentEquals("true")) {
-                        lisUserIsRegistered();
-                    } else if (payload.contentEquals("false")) {
-                        lisUserIsNotRegistered();
-                    } else {
-                        lisCheckRegisteredError();
-                    }
-                }
-
-                @Override
-                public void failure() {
-                    lisCheckRegisteredError();
-                }
-            });
-
-
+    @Override
+    public void success(int status, String payload) {
+        if (payload.contentEquals("true")) {
+            lisUserIsRegistered();
+        } else if (payload.contentEquals("false")) {
+            lisUserIsNotRegistered();
         } else {
             lisCheckRegisteredError();
         }
+    }
+
+    @Override
+    public void failure() {
+        lisCheckRegisteredError();
     }
 
     // Listener functions

@@ -14,68 +14,46 @@ import tv.superawesome.lib.sautils.SAApplication;
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSCheckAllowed {
+public class KWSCheckAllowed extends KWSRequest {
 
     // listener interface
     public KWSCheckAllowedInterface listener = null;
 
-    /**
-     Main function of the class - that performs all the logic to find out if the
-     user has or does not have push notification permissions
-     */
-    public void check () {
+    @Override
+    public String getEndpoint() {
+        return "users/" + super.metadata.userId;
+    }
 
-        String kwsApiUrl = KWS.sdk.getKwsApiUrl();
-        String oauthToken = KWS.sdk.getOauthToken();
-        KWSMetadata metadata = KWS.sdk.getMetadata();
-        String version = KWS.sdk.getVersion();
+    @Override
+    public KWSRequestMethod getMethod() {
+        return KWSRequestMethod.GET;
+    }
 
-        if (kwsApiUrl != null && oauthToken != null && metadata != null){
-            int userId= metadata.userId;
-            String endpoint = kwsApiUrl + "users/" + userId;
-
-            JSONObject header = new JSONObject();
+    @Override
+    public void success(int status, String payload) {
+        if (status == 200 || status == 204) {
             try {
-                header.put("Authorization", "Bearer " + oauthToken);
-                header.put("Content-Type", "application/json");
-                header.put("kws-sdk-version", version);
+                JSONObject json = new JSONObject(payload);
+                KWSUser user = new KWSUser(json);
+                Object perm = user.applicationPermissions.sendPushNotification;
+
+                if (perm == null || (boolean) perm) {
+                    lisPushEnabledInKWS();
+                } else {
+                    lisPushDisabledInKWS();
+                }
+
             } catch (JSONException e) {
-                e.printStackTrace();
+                lisCheckError();
             }
-
-            SANetwork network = new SANetwork();
-            network.sendGET(SAApplication.getSAApplicationContext(), endpoint, new JSONObject(), header, new SANetworkInterface() {
-                @Override
-                public void success(int status, String payload) {
-                    if (status == 200 || status == 204) {
-                        try {
-                            JSONObject json = new JSONObject(payload);
-                            KWSUser user = new KWSUser(json);
-                            Object perm = user.applicationPermissions.sendPushNotification;
-
-                            if (perm == null || (boolean)perm == true) {
-                                lisPushEnabledInKWS();
-                            } else {
-                                lisPushDisabledInKWS();
-                            }
-
-                        } catch (JSONException e) {
-                            lisCheckError();
-                        }
-                    } else {
-                        lisCheckError();
-                    }
-                }
-
-                @Override
-                public void failure() {
-                    lisCheckError();
-                }
-            });
-
         } else {
             lisCheckError();
         }
+    }
+
+    @Override
+    public void failure() {
+        lisCheckError();
     }
 
     // <Private> functions

@@ -7,31 +7,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
 public class KWSMetadata implements Parcelable, JSONSerializable {
 
-    // user id
     public int userId = 0;
-
-    // app id
     public int appId = 0;
-
-    // client id
     public  String clientId;
-
-    // scope of user
     public String scope;
-
-    // start date
     public int iat = 0;
-
-    // expiry date
     public int exp = 0;
-
-    // some kind of domain
     public  String iss;
 
     // normal
@@ -40,7 +28,7 @@ public class KWSMetadata implements Parcelable, JSONSerializable {
     }
 
     // json
-    public KWSMetadata(JSONObject json) throws JSONException {
+    public KWSMetadata(JSONObject json){
         readFromJson(json);
     }
 
@@ -68,72 +56,6 @@ public class KWSMetadata implements Parcelable, JSONSerializable {
     };
 
     @Override
-    public void readFromJson(JSONObject json) {
-        if (!json.isNull("userId")) {
-            userId = json.optInt("userId");
-        }
-        if (!json.isNull("appId")) {
-            appId = json.optInt("appId");
-        }
-        if (!json.isNull("clientId")) {
-            clientId = json.optString("clientId");
-        }
-        if (!json.isNull("scope")) {
-            scope = json.optString("scope");
-        }
-        if (!json.isNull("iat")) {
-            iat = json.optInt("iat");
-        }
-        if (!json.isNull("exp")) {
-            exp = json.optInt("exp");
-        }
-        if (!json.isNull("iss")) {
-            iss = json.optString("iss");
-        }
-    }
-
-    @Override
-    public JSONObject writeToJson() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("userId", userId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("appId", appId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("clientId", clientId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("scope", scope);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("iat", iat);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("exp", exp);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("iss", iss);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -147,5 +69,29 @@ public class KWSMetadata implements Parcelable, JSONSerializable {
         dest.writeInt(iat);
         dest.writeInt(exp);
         dest.writeString(iss);
+    }
+
+    @Override
+    public void readFromJson(JSONObject json) {
+        userId = SAJsonParser.getInt(json, "userId");
+        appId = SAJsonParser.getInt(json, "appId");
+        clientId = SAJsonParser.getString(json, "clientId");
+        scope = SAJsonParser.getString(json, "scope");
+        iat = SAJsonParser.getInt(json, "iat");
+        exp = SAJsonParser.getInt(json, "exp");
+        iss = SAJsonParser.getString(json, "iss");
+    }
+
+    @Override
+    public JSONObject writeToJson() {
+        return SAJsonParser.newObject(new Object[]{
+                "userId", userId,
+                "appId", appId,
+                "clientId", clientId,
+                "scope", scope,
+                "iat", iat,
+                "exp", exp,
+                "iss", iss
+        });
     }
 }

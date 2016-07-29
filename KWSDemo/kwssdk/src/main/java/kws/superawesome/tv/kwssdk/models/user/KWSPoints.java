@@ -68,7 +68,7 @@ public class KWSPoints implements Parcelable, JSONSerializable {
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.create(new Object[]{
+        return SAJsonParser.newObject(new Object[]{
                 "totalReceived", totalReceived,
                 "total", total,
                 "totalPointsReceivedInCurrentApp", totalPointsReceivedInCurrentApp,

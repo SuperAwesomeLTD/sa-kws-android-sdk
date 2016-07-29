@@ -80,7 +80,7 @@ public class KWSPermissions implements Parcelable, JSONSerializable {
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.create(new Object[]{
+        return SAJsonParser.newObject(new Object[]{
                 "accessAddress", accessAddress,
                 "accessPhoneNumber", accessPhoneNumber,
                 "accessFirstName", accessFirstName,

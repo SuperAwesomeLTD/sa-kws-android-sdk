@@ -14,7 +14,7 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSError implements Parcelable, JSONSerializable {
 
-    public int code = 0;
+    public int code;
     public String codeMeaning;
     public String errorMessage;
     public KWSInvalid invalid;
@@ -72,7 +72,7 @@ public class KWSError implements Parcelable, JSONSerializable {
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.create(new Object[]{
+        return SAJsonParser.newObject(new Object[]{
                 "code", code,
                 "codeMeaning", codeMeaning,
                 "errorMessage", errorMessage,

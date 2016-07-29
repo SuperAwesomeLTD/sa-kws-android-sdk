@@ -61,7 +61,7 @@ public class PushManager {
                             lisNetworkErrorTryingToSubscribeToken();
                         }
                     };
-                    subscribeToken.request(token);
+                    subscribeToken.execute(token);
                 }
 
                 @Override
@@ -86,7 +86,7 @@ public class PushManager {
             }
         };
         String token = firebaseGetToken.getSavedToken();
-        unsubscribeToken.request(token);
+        unsubscribeToken.execute(token);
     }
 
     // <Private> functions

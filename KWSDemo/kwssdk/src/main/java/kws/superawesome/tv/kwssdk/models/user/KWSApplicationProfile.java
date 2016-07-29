@@ -76,7 +76,7 @@ public class KWSApplicationProfile implements Parcelable, JSONSerializable {
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.create(new Object[]{
+        return SAJsonParser.newObject(new Object[]{
                 "username", username,
                 "avatarId", avatarId,
                 "customField1", customField1,
