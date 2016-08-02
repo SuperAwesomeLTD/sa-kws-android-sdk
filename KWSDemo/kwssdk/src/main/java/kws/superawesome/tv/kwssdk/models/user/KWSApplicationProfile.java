@@ -87,7 +87,7 @@ public class KWSApplicationProfile implements Parcelable, JSONSerializable {
         });
     }
 
-    @Override
+//    @Override
     public boolean isValid () {
         return true;
     }

@@ -77,7 +77,7 @@ public class KWSPoints implements Parcelable, JSONSerializable {
         });
     }
 
-    @Override
+//    @Override
     public boolean isValid () {
         return true;
     }

@@ -95,7 +95,7 @@ public class KWSPermissions implements Parcelable, JSONSerializable {
         });
     }
 
-    @Override
+//    @Override
     public boolean isValid () {
         return true;
     }

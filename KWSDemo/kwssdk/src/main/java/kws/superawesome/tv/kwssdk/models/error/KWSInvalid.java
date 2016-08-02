@@ -65,7 +65,7 @@ public class KWSInvalid implements Parcelable, JSONSerializable {
         });
     }
 
-    @Override
+//    @Override
     public boolean isValid () {
         return true;
     }

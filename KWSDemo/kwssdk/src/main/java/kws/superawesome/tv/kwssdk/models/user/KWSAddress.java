@@ -74,7 +74,7 @@ public class KWSAddress implements Parcelable, JSONSerializable {
         });
     }
 
-    @Override
+//    @Override
     public boolean isValid () {
         return true;
     }

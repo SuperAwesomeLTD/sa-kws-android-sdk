@@ -67,7 +67,7 @@ public class KWSLeader implements Parcelable, JSONSerializable{
         });
     }
 
-    @Override
+//    @Override
     public boolean isValid () {
         return true;
     }
