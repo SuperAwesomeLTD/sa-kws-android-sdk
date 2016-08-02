@@ -73,4 +73,9 @@ public class KWSAddress implements Parcelable, JSONSerializable {
                 "country", country
         });
     }
+
+    @Override
+    public boolean isValid () {
+        return true;
+    }
 }

@@ -94,6 +94,11 @@ public class KWSModel implements JSONSerializable, Parcelable {
     }
 
     @Override
+    public boolean isValid () {
+        return true;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

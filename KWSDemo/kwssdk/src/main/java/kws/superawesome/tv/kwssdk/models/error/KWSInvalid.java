@@ -61,7 +61,12 @@ public class KWSInvalid implements Parcelable, JSONSerializable {
     @Override
     public JSONObject writeToJson() {
         return SAJsonParser.newObject(new Object[] {
-                "parentEmail", parentEmail.writeToJson()
+                "parentEmail", parentEmail != null ? parentEmail.writeToJson() : null
         });
+    }
+
+    @Override
+    public boolean isValid () {
+        return true;
     }
 }

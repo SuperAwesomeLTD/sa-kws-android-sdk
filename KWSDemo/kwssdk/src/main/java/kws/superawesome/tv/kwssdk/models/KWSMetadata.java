@@ -94,4 +94,9 @@ public class KWSMetadata implements Parcelable, JSONSerializable {
                 "iss", iss
         });
     }
+
+    @Override
+    public boolean isValid () {
+        return true;
+    }
 }

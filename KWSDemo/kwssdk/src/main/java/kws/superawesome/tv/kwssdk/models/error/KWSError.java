@@ -76,7 +76,12 @@ public class KWSError implements Parcelable, JSONSerializable {
                 "code", code,
                 "codeMeaning", codeMeaning,
                 "errorMessage", errorMessage,
-                "invalid", invalid.writeToJson()
+                "invalid", invalid != null ? invalid.writeToJson() : null
         });
+    }
+
+    @Override
+    public boolean isValid () {
+        return true;
     }
 }

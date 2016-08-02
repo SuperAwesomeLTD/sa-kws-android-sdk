@@ -119,10 +119,15 @@ public class KWSUser implements Parcelable, JSONSerializable {
                 "phoneNumber", phoneNumber,
                 "language", language,
                 "email", email,
-                "address", address.writeToJson(),
-                "points", points.writeToJson(),
-                "applicationPermissions", applicationPermissions.writeToJson(),
-                "applicationProfile", applicationProfile.writeToJson()
+                "address", address != null ? address.writeToJson() : null,
+                "points", points != null ? points.writeToJson() : null,
+                "applicationPermissions", applicationPermissions != null ? applicationPermissions.writeToJson() : null,
+                "applicationProfile", applicationProfile != null ? applicationProfile.writeToJson() : null
         });
+    }
+
+    @Override
+    public boolean isValid () {
+        return true;
     }
 }

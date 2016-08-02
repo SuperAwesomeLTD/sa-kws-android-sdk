@@ -74,4 +74,9 @@ public class KWSInnerError implements Parcelable, JSONSerializable {
                 "errorMessage", errorMessage
         });
     }
+
+    @Override
+    public boolean isValid () {
+        return true;
+    }
 }
