@@ -2,9 +2,9 @@ package kws.superawesome.tv.kwssdk.managers;
 
 import android.content.Context;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.iid.FirebaseInstanceId;
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.GoogleApiAvailability;
+//import com.google.firebase.iid.FirebaseInstanceId;
 
 import tv.superawesome.lib.sautils.SAApplication;
 
@@ -61,7 +61,7 @@ public class PushManager {
                             lisNetworkErrorTryingToSubscribeToken();
                         }
                     };
-                    subscribeToken.request(token);
+                    subscribeToken.execute(token);
                 }
 
                 @Override
@@ -86,16 +86,17 @@ public class PushManager {
             }
         };
         String token = firebaseGetToken.getSavedToken();
-        unsubscribeToken.request(token);
+        unsubscribeToken.execute(token);
     }
 
     // <Private> functions
 
     private boolean checkPlayServices() {
-        Context context = SAApplication.getSAApplicationContext();
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
-        return resultCode == ConnectionResult.SUCCESS;
+//        Context context = SAApplication.getSAApplicationContext();
+//        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+//        int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
+//        return resultCode == ConnectionResult.SUCCESS;
+        return true;
     }
 
     // <Listener> functions

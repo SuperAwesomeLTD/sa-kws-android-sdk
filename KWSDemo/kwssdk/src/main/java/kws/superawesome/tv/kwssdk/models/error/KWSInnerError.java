@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.models;
+package kws.superawesome.tv.kwssdk.models.error;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,19 +7,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
 public class KWSInnerError implements Parcelable, JSONSerializable {
 
-    // internal error code
     public int code = 0;
-
-    // code meaning
     public String codeMeaning;
-
-    // code error
     public String errorMessage;
 
     // normal
@@ -28,7 +24,7 @@ public class KWSInnerError implements Parcelable, JSONSerializable {
     }
 
     // json
-    public KWSInnerError(JSONObject json) throws JSONException {
+    public KWSInnerError(JSONObject json){
         readFromJson(json);
     }
 
@@ -52,40 +48,6 @@ public class KWSInnerError implements Parcelable, JSONSerializable {
     };
 
     @Override
-    public void readFromJson(JSONObject json) {
-        if (!json.isNull("code")) {
-            code = json.optInt("code");
-        }
-        if (!json.isNull("codeMeaning")) {
-            codeMeaning = json.optString("codeMeaning");
-        }
-        if (!json.isNull("errorMessage")) {
-            errorMessage = json.optString("errorMessage");
-        }
-    }
-
-    @Override
-    public JSONObject writeToJson() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("code", code);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("codeMeaning", codeMeaning);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("errorMessage", errorMessage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -95,5 +57,26 @@ public class KWSInnerError implements Parcelable, JSONSerializable {
         dest.writeInt(code);
         dest.writeString(codeMeaning);
         dest.writeString(errorMessage);
+    }
+
+    @Override
+    public void readFromJson(JSONObject json) {
+        code = SAJsonParser.getInt(json, "code");
+        codeMeaning = SAJsonParser.getString(json, "codeMeaning");
+        errorMessage = SAJsonParser.getString(json, "errorMessage");
+    }
+
+    @Override
+    public JSONObject writeToJson() {
+        return SAJsonParser.newObject(new Object[]{
+                "code", code,
+                "codeMeaning", codeMeaning,
+                "errorMessage", errorMessage
+        });
+    }
+
+    @Override
+    public boolean isValid () {
+        return true;
     }
 }

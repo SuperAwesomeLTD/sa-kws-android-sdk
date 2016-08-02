@@ -29,7 +29,7 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     // main func
     public void checkIfNotficationsAreAllowed () {
         kwsCheck.listener = this;
-        kwsCheck.check();
+        kwsCheck.execute();
     }
 
     // <KWSCheckPermissionProtocol>
@@ -37,7 +37,7 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     @Override
     public void pushAllowedInKWS() {
         kwsRequest.listener = this;
-        kwsRequest.request();
+        kwsRequest.execute();
     }
 
     @Override
