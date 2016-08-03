@@ -1,20 +1,14 @@
 package kws.superawesome.tv.kwssdk.kws;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sanetwork.request.*;
-import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
-import tv.superawesome.lib.sautils.SAApplication;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSCheckAllowed extends KWSRequest {
+public class KWSCheckAllowed extends KWSService {
 
     // listener interface
     public KWSCheckAllowedInterface listener = null;
@@ -25,8 +19,8 @@ public class KWSCheckAllowed extends KWSRequest {
     }
 
     @Override
-    public KWSRequestMethod getMethod() {
-        return KWSRequestMethod.GET;
+    public KWSHTTPMethod getMethod() {
+        return KWSHTTPMethod.GET;
     }
 
     @Override

@@ -10,9 +10,6 @@ import kws.superawesome.tv.kwssdk.kws.KWSRequestPermissionInterface;
  */
 public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissionInterface {
 
-    // singleton instance
-    public static KWSManager sharedInstance = new KWSManager();
-
     // listener
     public KWSManagerInterface listener = null;
 
@@ -21,7 +18,7 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     private KWSRequestPermission kwsRequest = null;
 
     // private constructor
-    private KWSManager(){
+    public KWSManager(){
         kwsCheck = new KWSCheckAllowed();
         kwsRequest = new KWSRequestPermission();
     }

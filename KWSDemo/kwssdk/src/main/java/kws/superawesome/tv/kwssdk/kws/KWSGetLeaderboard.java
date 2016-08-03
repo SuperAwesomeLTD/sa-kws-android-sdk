@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Created by gabriel.coman on 29/07/16.
  */
-public class KWSGetLeaderboard extends KWSRequest {
+public class KWSGetLeaderboard extends KWSService {
 
     @Override
     public String getEndpoint() {
@@ -13,8 +13,8 @@ public class KWSGetLeaderboard extends KWSRequest {
     }
 
     @Override
-    public KWSRequestMethod getMethod() {
-        return KWSRequestMethod.GET;
+    public KWSHTTPMethod getMethod() {
+        return KWSHTTPMethod.GET;
     }
 
     @Override

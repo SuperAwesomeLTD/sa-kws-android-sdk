@@ -20,7 +20,7 @@ public class KWSModel implements JSONSerializable, Parcelable {
     public String token = null;
     public String error = null;
 
-    public KWSModel(JSONObject json) throws JSONException {
+    public KWSModel(JSONObject json) {
         readFromJson(json);
     }
 

@@ -8,7 +8,7 @@ import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 /**
  * Created by gabriel.coman on 29/07/16.
  */
-public class KWSGetUser extends KWSRequest {
+public class KWSGetUser extends KWSService {
 
     @Override
     public String getEndpoint() {
@@ -16,8 +16,8 @@ public class KWSGetUser extends KWSRequest {
     }
 
     @Override
-    public KWSRequestMethod getMethod() {
-        return KWSRequestMethod.GET;
+    public KWSHTTPMethod getMethod() {
+        return KWSHTTPMethod.GET;
     }
 
     @Override

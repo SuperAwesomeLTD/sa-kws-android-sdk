@@ -5,9 +5,9 @@ import org.json.JSONObject;
 /**
  * Created by gabriel.coman on 29/07/16.
  */
-public interface KWSRequestInterface {
+public interface KWSServiceInterface {
     String getEndpoint ();
-    KWSRequestMethod getMethod ();
+    KWSHTTPMethod getMethod ();
     JSONObject getQuery ();
     JSONObject getHeader ();
     JSONObject getBody ();

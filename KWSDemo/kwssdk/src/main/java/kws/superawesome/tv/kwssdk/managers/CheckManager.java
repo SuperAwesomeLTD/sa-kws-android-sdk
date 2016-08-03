@@ -10,9 +10,6 @@ import kws.superawesome.tv.kwssdk.kws.KWSCheckRegisteredInterface;
  */
 public class CheckManager implements KWSCheckAllowedInterface, KWSCheckRegisteredInterface {
 
-    // singleton instance
-    public static CheckManager sharedInstance = new CheckManager();
-
     // listener
     public CheckManagerInterface listener = null;
 
@@ -21,7 +18,7 @@ public class CheckManager implements KWSCheckAllowedInterface, KWSCheckRegistere
     private KWSCheckRegistered kwsCheckRegistered = null;
 
     // private constructor
-    private CheckManager(){
+    public CheckManager(){
         kwsCheckAllowed = new KWSCheckAllowed();
         kwsCheckAllowed.listener = this;
         kwsCheckRegistered = new KWSCheckRegistered();

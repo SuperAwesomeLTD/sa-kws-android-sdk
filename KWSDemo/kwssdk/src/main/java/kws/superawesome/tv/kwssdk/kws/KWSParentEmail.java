@@ -1,20 +1,14 @@
 package kws.superawesome.tv.kwssdk.kws;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
-import tv.superawesome.lib.sautils.SAApplication;
 import tv.superawesome.lib.sautils.SAUtils;
-import tv.superawesome.lib.sanetwork.request.*;
-import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSParentEmail extends KWSRequest {
+public class KWSParentEmail extends KWSService {
 
     // public listener
     public KWSParentEmailInterface listener = null;
@@ -28,8 +22,8 @@ public class KWSParentEmail extends KWSRequest {
     }
 
     @Override
-    public KWSRequestMethod getMethod() {
-        return KWSRequestMethod.POST;
+    public KWSHTTPMethod getMethod() {
+        return KWSHTTPMethod.POST;
     }
 
     @Override

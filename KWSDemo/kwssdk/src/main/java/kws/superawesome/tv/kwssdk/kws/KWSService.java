@@ -14,7 +14,7 @@ import tv.superawesome.lib.sautils.SAApplication;
 /**
  * Created by gabriel.coman on 29/07/16.
  */
-public class KWSRequest implements KWSRequestInterface {
+public class KWSService implements KWSServiceInterface {
 
     // protected request vars
     protected String kwsApiUrl;
@@ -23,10 +23,10 @@ public class KWSRequest implements KWSRequestInterface {
     protected KWSMetadata metadata;
 
     // private data
-    private Context c;
+    private Context context;
     private SANetwork network;
 
-    public KWSRequest () {
+    public KWSService() {
         network = new SANetwork();
     }
 
@@ -36,8 +36,8 @@ public class KWSRequest implements KWSRequestInterface {
     }
 
     @Override
-    public KWSRequestMethod getMethod() {
-        return KWSRequestMethod.GET;
+    public KWSHTTPMethod getMethod() {
+        return KWSHTTPMethod.GET;
     }
 
     @Override
@@ -74,34 +74,32 @@ public class KWSRequest implements KWSRequestInterface {
         oauthToken = KWS.sdk.getOauthToken();
         metadata = KWS.sdk.getMetadata();
         version = KWS.sdk.getVersion();
-        c = SAApplication.getSAApplicationContext();
+        context = SAApplication.getSAApplicationContext();
 
-        final KWSRequest instance = this;
+        final KWSService instance = this;
 
         // check data
         if (kwsApiUrl != null && oauthToken != null && metadata != null) {
-            if (getMethod() == KWSRequestMethod.POST) {
-                network.sendPOST(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+            if (getMethod() == KWSHTTPMethod.POST) {
+                network.sendPOST(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
                     @Override
-                    public void success(int i, String s) {
-                        instance.success(i, s);
-                    }
-
-                    @Override
-                    public void failure() {
-                        instance.failure();
+                    public void response(int status, String payload, boolean success) {
+                        if (!success) {
+                            instance.failure();
+                        } else {
+                            instance.success(status, payload);
+                        }
                     }
                 });
             } else {
-                network.sendGET(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
+                network.sendGET(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
                     @Override
-                    public void success(int i, String s) {
-                        instance.success(i, s);
-                    }
-
-                    @Override
-                    public void failure() {
-                        instance.failure();
+                    public void response(int status, String payload, boolean success) {
+                        if (!success) {
+                            instance.failure();
+                        } else {
+                            instance.success(status, payload);
+                        }
                     }
                 });
             }

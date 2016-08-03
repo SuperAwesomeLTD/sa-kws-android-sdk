@@ -2,20 +2,14 @@ package kws.superawesome.tv.kwssdk.kws;
 
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
-import tv.superawesome.lib.sanetwork.request.*;
-
-import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import tv.superawesome.lib.sautils.SAApplication;
 
 /**
  * Created by gabriel.coman on 13/06/16.
  */
-public class KWSUnsubscribeToken extends KWSRequest {
+public class KWSUnsubscribeToken extends KWSService {
 
     // listener
     public KWSUnsubscribeTokenInterface listener = null;
@@ -29,8 +23,8 @@ public class KWSUnsubscribeToken extends KWSRequest {
     }
 
     @Override
-    public KWSRequestMethod getMethod() {
-        return KWSRequestMethod.POST;
+    public KWSHTTPMethod getMethod() {
+        return KWSHTTPMethod.POST;
     }
 
     @Override

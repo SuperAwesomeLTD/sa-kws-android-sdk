@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import kws.superawesome.tv.kwssdk.KWSCheckInterface;
 import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
+import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
@@ -67,33 +68,29 @@ public class MainActivity extends AppCompatActivity {
         SANetwork network = new SANetwork();
         network.sendPOST(this, "https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new SANetworkInterface() {
             @Override
-            public void success(int status, String payload) {
+            public void response(int status, String payload, boolean success) {
+
+                // handle failure
+                if (!success) {
+                    log += "Failed to register " + username + "\n";
+                    logView.setText(log);
+                    return;
+                }
 
                 Log.d("SuperAwesome", status + "\n" + payload);
 
-                try {
-                    JSONObject json = new JSONObject(payload);
-                    KWSModel model = new KWSModel(json);
-                    model.username = username;
+                // get json
+                JSONObject json = SAJsonParser.newObject(payload);
+                KWSModel model = new KWSModel(json);
 
-                    if (model.status == 1) {
-                        registerUser.setText("I am " + username);
-                        TOKEN = model.token;
-                        KWS.sdk.setup(MainActivity.this, TOKEN, API, true);
-                    } else {
-                        log += "Failed to register " + username + "\n";
-                        logView.setText(log);
-                    }
-                } catch (JSONException e) {
+                if (model.status == 1) {
+                    registerUser.setText("I am " + username);
+                    TOKEN = model.token;
+                    KWS.sdk.setup(MainActivity.this, TOKEN, API, true);
+                } else {
                     log += "Failed to register " + username + "\n";
                     logView.setText(log);
                 }
-            }
-
-            @Override
-            public void failure() {
-                log += "Failed to register " + username + "\n";
-                logView.setText(log);
             }
         });
     }

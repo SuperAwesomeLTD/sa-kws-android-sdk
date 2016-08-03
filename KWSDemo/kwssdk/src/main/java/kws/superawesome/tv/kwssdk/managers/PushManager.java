@@ -2,9 +2,8 @@ package kws.superawesome.tv.kwssdk.managers;
 
 import android.content.Context;
 
-//import com.google.android.gms.common.ConnectionResult;
-//import com.google.android.gms.common.GoogleApiAvailability;
-//import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import tv.superawesome.lib.sautils.SAApplication;
 
@@ -20,9 +19,6 @@ import kws.superawesome.tv.kwssdk.firebase.FirebaseGetTokenInterface;
  */
 public class PushManager {
 
-    // singleton instance
-    public static PushManager sharedInstance = new PushManager();
-
     // private variables
     private FirebaseGetToken firebaseGetToken = null;
     private KWSSubscribeToken subscribeToken = null;
@@ -32,7 +28,7 @@ public class PushManager {
     public PushManagerInterface listener = null;
 
     // private constructor
-    private PushManager () {
+    public PushManager () {
         firebaseGetToken = new FirebaseGetToken();
         subscribeToken = new KWSSubscribeToken();
         unsubscribeToken = new KWSUnsubscribeToken();
@@ -92,11 +88,10 @@ public class PushManager {
     // <Private> functions
 
     private boolean checkPlayServices() {
-//        Context context = SAApplication.getSAApplicationContext();
-//        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-//        int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
-//        return resultCode == ConnectionResult.SUCCESS;
-        return true;
+        Context context = SAApplication.getSAApplicationContext();
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
+        return resultCode == ConnectionResult.SUCCESS;
     }
 
     // <Listener> functions

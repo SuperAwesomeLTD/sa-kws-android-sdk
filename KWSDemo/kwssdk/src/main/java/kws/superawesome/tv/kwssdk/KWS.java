@@ -45,6 +45,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     private KWSUnregisterInterface unregisterListener;
     private KWSCheckInterface checkListener;
 
+    private KWSManager kwsManager = null;
+    private PushManager pushManager = null;
+    private CheckManager checkManager = null;
+
     public String getVersion () {
         return "android-1.2.1";
     }
@@ -62,9 +66,12 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
             Log.d("SuperAwesome", smetadata.toString());
         }
 
-        KWSManager.sharedInstance.listener = this;
-        PushManager.sharedInstance.listener = this;
-        CheckManager.sharedInstance.listener = this;
+        kwsManager = new KWSManager();
+        kwsManager.listener = this;
+        pushManager = new PushManager();
+        pushManager.listener = this;
+        checkManager = new CheckManager();
+        checkManager.listener = this;
 
         parentEmail = new KWSParentEmail();
         parentEmail.listener = this;
@@ -85,7 +92,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
             SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
                 @Override
                 public void didClickOnOK(String s) {
-                    KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
+                    kwsManager.checkIfNotficationsAreAllowed();
                 }
 
                 @Override
@@ -94,18 +101,18 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
                 }
             });
         } else {
-            KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
+            kwsManager.checkIfNotficationsAreAllowed();
         }
     }
 
     public void unregisterForRemoteNotifications (KWSUnregisterInterface unregisterInterface) {
         this.unregisterListener = unregisterInterface;
-        PushManager.sharedInstance.unregisterForRemoteNotifications();
+        pushManager.unregisterForRemoteNotifications();
     }
 
     public void userIsRegistered (KWSCheckInterface listener) {
         checkListener = listener;
-        CheckManager.sharedInstance.areNotificationsEnabled();
+        checkManager.areNotificationsEnabled();
     }
 
     // Aux main functions
@@ -156,14 +163,14 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
 
     @Override
     public void isAllowedToRegister() {
-        PushManager.sharedInstance.registerForPushNotifications();
+        pushManager.registerForPushNotifications();
     }
 
     // <KWSParentEmailInterface>
 
     @Override
     public void emailSubmittedInKWS() {
-        PushManager.sharedInstance.registerForPushNotifications();
+        pushManager.registerForPushNotifications();
     }
 
     @Override
