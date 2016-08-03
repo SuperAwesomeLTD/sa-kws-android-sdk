@@ -88,7 +88,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.0.2'
     compile 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.1'
     compile 'tv.superawesome.lib.sanetwork:sanetwork:0.1.8'
-    compile 'tv.superawesome.lib.sautils:sautils:0.2.2'
+    compile 'tv.superawesome.lib.sautils:sautils:0.2.3'
 
 }
 
