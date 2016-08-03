@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwssdk.services;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -105,6 +106,7 @@ public class KWSService implements KWSServiceInterface {
             }
         }
         else {
+            Log.d("SuperAwesome", "Herw!");
             failure();
         }
     }

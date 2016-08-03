@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwsdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         // get text view
         logView = (TextView) findViewById(R.id.TextLogs);
+        logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
     }
 
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                                 log += "User has  no parent email (KWS)\n";
                                 logView.setText(log);
                                 final RegisterInterface local = this;
-                                KWS.sdk.submitParentEmail("dev.gabriel.coman@gmail.com", new KWSParentEmailInterface() {
+                                KWS.sdk.submitParentEmailWithPopup(new KWSParentEmailInterface() {
                                     @Override
                                     public void submitted(boolean success) {
                                         if (success) {
@@ -178,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void unregisterAction(View v) {
-        log = "";
         log += "Trying to unregister user\n";
         logView.setText(log);
         KWS.sdk.unregister(new UnregisterInterface() {
@@ -203,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getUserDetails (View v) {
-        log = "";
         log += "Getting user details\n";
         logView.setText(log);
         KWS.sdk.getUser(new KWSGetUserInterface() {
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         KWS.sdk.getLeaderBoard(new KWSGetLeaderboardInterface() {
             @Override
             public void gotLeaderboard(List<KWSLeader> leaderboard) {
-                log += "Got " + leaderboard.size() + " leaders!";
+                log += "Got " + leaderboard.size() + " leaders!\n";
                 logView.setText(log);
             }
         });

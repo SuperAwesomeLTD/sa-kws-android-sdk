@@ -49,9 +49,11 @@
     <TextView
         android:id="@+id/TextLogs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:background="#ffff00"
-        android:singleLine="false"/>
+        android:singleLine="false"
+        android:scrollbars="vertical"
+        android:maxLines="1000"/>
 
 </LinearLayout>

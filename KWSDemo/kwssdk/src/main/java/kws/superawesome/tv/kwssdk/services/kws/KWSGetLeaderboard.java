@@ -47,7 +47,7 @@ public class KWSGetLeaderboard extends KWSService {
 
     @Override
     public void failure() {
-        // do nothing
+        ligGotLeaderboardNOK();
     }
 
     @Override

@@ -33,7 +33,14 @@ public class KWS {
 
     // singleton instance
     public static KWS sdk = new KWS();
-    private KWS() {}
+
+    // private constructor
+    private KWS() {
+        notificationProcess = new NotificationProcess();
+        parentEmail = new KWSParentEmail();
+        getUser = new KWSGetUser();
+        getLeaderboard = new KWSGetLeaderboard();
+    }
 
     // setup variables
     private String oauthToken;
@@ -64,11 +71,6 @@ public class KWS {
             JSONObject smetadata = metadata.writeToJson();
             Log.d("SuperAwesome", smetadata.toString());
         }
-
-        notificationProcess = new NotificationProcess();
-        parentEmail = new KWSParentEmail();
-        getUser = new KWSGetUser();
-        getLeaderboard = new KWSGetLeaderboard();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,19 +120,19 @@ public class KWS {
     // Aux helper functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-//    public void showParentEmailPopup () {
-//        SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
-//            @Override
-//            public void didClickOnOK(String s) {
-//                submitParentEmail(s);
-//            }
-//
-//            @Override
-//            public void didClickOnNOK() {
-//                // do nothing
-//            }
-//        });
-//    }
+    public void submitParentEmailWithPopup (@NonNull final KWSParentEmailInterface listener) {
+        SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
+            @Override
+            public void didClickOnOK(String email) {
+                submitParentEmail(email, listener);
+            }
+
+            @Override
+            public void didClickOnNOK() {
+                // do nothing
+            }
+        });
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters & Setters
