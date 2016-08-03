@@ -25,7 +25,7 @@ public class KWSError implements Parcelable, JSONSerializable {
     }
 
     // json
-    public KWSError(JSONObject json) throws JSONException {
+    public KWSError(JSONObject json) {
         readFromJson(json);
     }
 
