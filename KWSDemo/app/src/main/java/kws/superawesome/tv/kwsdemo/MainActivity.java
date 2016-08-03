@@ -21,6 +21,8 @@ import kws.superawesome.tv.kwssdk.process.UnregisterInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboardInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
+import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
@@ -227,6 +229,18 @@ public class MainActivity extends AppCompatActivity {
             public void gotLeaderboard(List<KWSLeader> leaderboard) {
                 log += "Got " + leaderboard.size() + " leaders!\n";
                 logView.setText(log);
+            }
+        });
+    }
+
+    public void requestPermissions (View v) {
+        KWS.sdk.requestPermission(new KWSPermissionType[]{
+                KWSPermissionType.accessAddress,
+                KWSPermissionType.accessFirstName
+        }, new KWSRequestPermissionInterface() {
+            @Override
+            public void requested(boolean success, boolean requested) {
+                Log.d("SuperAwesome", "Success: " + success + " | " + requested);
             }
         });
     }

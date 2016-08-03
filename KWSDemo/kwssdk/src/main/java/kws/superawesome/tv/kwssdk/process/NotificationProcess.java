@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwssdk.process;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -12,6 +13,7 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSCheckAllowed;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCheckAllowedInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCheckRegistered;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCheckRegisteredInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermission;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRegisterToken;
@@ -68,7 +70,7 @@ public class NotificationProcess {
                 }
 
                 // 1.3 - if user is allowed, request a new permission
-                requestPermission.execute(new KWSRequestPermissionInterface() {
+                requestPermission.execute(new KWSPermissionType[]{KWSPermissionType.sendPushNotification}, new KWSRequestPermissionInterface() {
                     @Override
                     public void requested(boolean success, boolean requested) {
 
@@ -112,6 +114,7 @@ public class NotificationProcess {
                                         }
                                         // 4.2 - all is OK, user is finally registered
                                         else {
+                                            Log.d("SuperAwesome", "Got Token! " + token);
                                             listener.register(true, null);
                                         }
                                     }

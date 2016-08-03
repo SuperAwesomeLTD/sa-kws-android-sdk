@@ -2,10 +2,17 @@ package kws.superawesome.tv.kwssdk.services.kws;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import kws.superawesome.tv.kwssdk.models.error.KWSError;
+import kws.superawesome.tv.kwssdk.models.user.KWSPermissions;
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
 import kws.superawesome.tv.kwssdk.services.KWSService;
 import kws.superawesome.tv.kwssdk.services.KWSServiceResponseInterface;
@@ -19,6 +26,9 @@ public class KWSRequestPermission extends KWSService {
     // public listener
     private KWSRequestPermissionInterface listener = null;
 
+    // list of permissions
+    private KWSPermissionType[] requestedPermissions = null;
+
     @Override
     public String getEndpoint() {
         return "users/" + super.metadata.userId + "/request-permissions";
@@ -31,10 +41,12 @@ public class KWSRequestPermission extends KWSService {
 
     @Override
     public JSONObject getBody() {
+        JSONArray array = new JSONArray();
+        for (KWSPermissionType requestedPermission : requestedPermissions) {
+            array.put(requestedPermission.toString());
+        }
         return SAJsonParser.newObject(new Object[]{
-                "permissions", SAJsonParser.newArray(new Object[]{
-                    "sendPushNotification"
-            })
+                "permissions", array
         });
     }
 
@@ -66,9 +78,20 @@ public class KWSRequestPermission extends KWSService {
     }
 
     @Override
-    public void execute(KWSServiceResponseInterface listener) {
+    public void execute(Object param, KWSServiceResponseInterface listener) {
+
         this.listener = (KWSRequestPermissionInterface) listener;
-        super.execute(this.listener);
+        requestedPermissions = new KWSPermissionType[]{};
+
+        if (param instanceof KWSPermissionType[]) {
+            requestedPermissions = (KWSPermissionType[]) param;
+        } else {
+            lisRequestError();
+            return;
+        }
+
+        Log.d("SuperAwesome", "Requesting KWS permission: " + Arrays.toString(requestedPermissions));
+        super.execute(requestedPermissions, this.listener);
     }
 
     // <Private> functions

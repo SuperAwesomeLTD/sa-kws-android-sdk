@@ -13,39 +13,45 @@
     <Button
         android:id="@+id/CreateUser"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="Register new user"
         android:onClick="createNewUser"/>
     <Button
         android:id="@+id/RegisterUser"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="Register"
         android:onClick="registerAction"/>
     <Button
         android:id="@+id/UnregisterUser"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="UnRegister"
         android:onClick="unregisterAction"/>
     <Button
         android:id="@+id/CheckIfRegistered"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="Check if registered"
         android:onClick="checkRegisteredAction"/>
     <Button
         android:id="@+id/GetUser"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="Get User Details"
         android:onClick="getUserDetails"/>
     <Button
         android:id="@+id/GetLeaderBoard"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="Get Leaderboard"
         android:onClick="getLeaderboard"/>
+    <Button
+        android:id="@+id/RequestPermissions"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="Request some permissions"
+        android:onClick="requestPermissions"/>
     <TextView
         android:id="@+id/TextLogs"
         android:layout_width="match_parent"

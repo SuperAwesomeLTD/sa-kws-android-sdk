@@ -19,6 +19,9 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboard;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboardInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetUser;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
+import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermission;
+import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
 import tv.superawesome.lib.sautils.SAApplication;
@@ -40,6 +43,7 @@ public class KWS {
         parentEmail = new KWSParentEmail();
         getUser = new KWSGetUser();
         getLeaderboard = new KWSGetLeaderboard();
+        requestPermission = new KWSRequestPermission();
     }
 
     // setup variables
@@ -53,6 +57,7 @@ public class KWS {
     private KWSParentEmail parentEmail;
     private KWSGetUser getUser;
     private KWSGetLeaderboard getLeaderboard;
+    private KWSRequestPermission requestPermission;
 
     public String getVersion () {
         return "android-1.2.2";
@@ -97,6 +102,10 @@ public class KWS {
 
     public void getLeaderBoard (@NonNull KWSGetLeaderboardInterface listener) {
         getLeaderboard.execute(listener);
+    }
+
+    public void requestPermission (KWSPermissionType[] requestedPermissions, @NonNull KWSRequestPermissionInterface listener) {
+        requestPermission.execute(requestedPermissions, listener);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
