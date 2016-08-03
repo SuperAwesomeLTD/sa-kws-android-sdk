@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 if (model.status == 1) {
                     createUser.setText("I am " + username);
                     TOKEN = model.token;
-                    KWS.sdk.setup(MainActivity.this, TOKEN, API, true);
+                    KWS.sdk.setup(MainActivity.this, TOKEN, API);
                 } else {
                     log += "Failed to register " + username + "\n";
                     logView.setText(log);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             log += "Trying to register user\n";
             logView.setText(log);
 
-            KWS.sdk.register(new RegisterInterface() {
+            KWS.sdk.registerWithPopup(new RegisterInterface() {
                 @Override
                 public void register(boolean registered, KWSErrorType type) {
                     if (!registered) {

@@ -45,7 +45,6 @@ public class KWS {
     // setup variables
     private String oauthToken;
     private String kwsApiUrl;
-    private boolean stringPermissionPopup;
     private Context context;
     private KWSMetadata metadata;
 
@@ -61,11 +60,10 @@ public class KWS {
 
     // <Setup> functions
 
-    public void setup(Context context, String oauthToken, String kwsApiUrl, boolean stringPermissionPopup) {
+    public void setup(Context context, String oauthToken, String kwsApiUrl) {
         this.context = context;
         this.oauthToken = oauthToken;
         this.kwsApiUrl = kwsApiUrl;
-        this.stringPermissionPopup = stringPermissionPopup;
         this.metadata = processMetadata(oauthToken);
         if (metadata != null) {
             JSONObject smetadata = metadata.writeToJson();
@@ -78,22 +76,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void register (@NonNull final RegisterInterface listener) {
-
-        if (stringPermissionPopup) {
-            SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
-                @Override
-                public void didClickOnOK(String s) {
-                    notificationProcess.register(listener);
-                }
-
-                @Override
-                public void didClickOnNOK() {
-                    // do nothing
-                }
-            });
-        } else {
-            notificationProcess.register(listener);
-        }
+        notificationProcess.register(listener);
     }
 
     public void unregister (@NonNull UnregisterInterface listener) {
@@ -119,6 +102,20 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Aux helper functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void registerWithPopup (@NonNull final RegisterInterface listener) {
+        SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
+            @Override
+            public void didClickOnOK(String s) {
+                register(listener);
+            }
+
+            @Override
+            public void didClickOnNOK() {
+                // do nothing
+            }
+        });
+    }
 
     public void submitParentEmailWithPopup (@NonNull final KWSParentEmailInterface listener) {
         SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
