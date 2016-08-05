@@ -56,7 +56,7 @@ public class NotificationProcess {
         // 1 - check if the user is allowed Remote Notifications in KWS
         checkAllowed.execute(new KWSCheckAllowedInterface() {
             @Override
-            public void checked(boolean success, boolean allowed) {
+            public void allowed(boolean success, boolean allowed) {
                 // 1.1 - a network error occurred
                 if (!success) {
                     listener.register(false, KWSErrorType.FailedToCheckIfUserHasNotificationsEnabledInKWS);
@@ -153,7 +153,7 @@ public class NotificationProcess {
         // 1. check if user is still allowed to have Remote Notifications
         checkAllowed.execute(new KWSCheckAllowedInterface() {
             @Override
-            public void checked(boolean success, boolean allowed) {
+            public void allowed(boolean success, boolean allowed) {
 
                 // 1.1 - network error trying to figure out if the user is allowed
                 if (!success) {
@@ -170,7 +170,7 @@ public class NotificationProcess {
                 // 1.3 - if all is ok, check if the user is already registered
                 checkRegistered.execute(new KWSCheckRegisteredInterface() {
                     @Override
-                    public void checked(boolean success, boolean registered) {
+                    public void allowed(boolean success, boolean registered) {
                         // 2.1 - there was an error trying to figure out if the user is registered
                         if (!success) {
                             listener.isRegistered(false);

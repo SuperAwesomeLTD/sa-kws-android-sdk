@@ -48,19 +48,19 @@ public class KWSCheckRegistered extends KWSService {
 
     void lisUserIsRegistered () {
         if (listener != null) {
-            listener.checked(true, true);
+            listener.allowed(true, true);
         }
     }
 
     void lisUserIsNotRegistered () {
         if (listener != null) {
-            listener.checked(true, false);
+            listener.allowed(true, false);
         }
     }
 
     void lisCheckRegisteredError () {
         if (listener != null) {
-            listener.checked(false, false);
+            listener.allowed(false, false);
         }
     }
 }

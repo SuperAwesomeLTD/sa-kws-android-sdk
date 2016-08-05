@@ -61,19 +61,19 @@ public class KWSCheckAllowed extends KWSService {
 
     private void lisPushEnabledInKWS () {
         if (listener != null) {
-            listener.checked(true, true);
+            listener.allowed(true, true);
         }
     }
 
     private void  lisPushDisabledInKWS () {
         if (listener != null) {
-            listener.checked(true, false);
+            listener.allowed(true, false);
         }
     }
 
     private void lisCheckError () {
         if (listener != null) {
-            listener.checked(false, false);
+            listener.allowed(false, false);
         }
     }
 }

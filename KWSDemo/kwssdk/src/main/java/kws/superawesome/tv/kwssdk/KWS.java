@@ -118,8 +118,6 @@ public class KWS {
             public void pressed(int button, String s) {
                 if (button == SAAlert.OK_BUTTON) {
                     register(listener);
-                } else {
-                    // do nothing
                 }
             }
         });
@@ -131,8 +129,6 @@ public class KWS {
             public void pressed(int button, String email) {
                 if (button == SAAlert.OK_BUTTON) {
                     submitParentEmail(email, listener);
-                } else {
-                    // do nothing
                 }
             }
         });

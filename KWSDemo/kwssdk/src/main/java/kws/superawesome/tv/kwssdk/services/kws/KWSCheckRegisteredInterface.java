@@ -6,5 +6,5 @@ import kws.superawesome.tv.kwssdk.services.KWSServiceResponseInterface;
  * Created by gabriel.coman on 14/07/16.
  */
 public interface KWSCheckRegisteredInterface extends KWSServiceResponseInterface {
-    void checked (boolean success, boolean registered);
+    void allowed (boolean success, boolean registered);
 }
