@@ -14,7 +14,6 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSGetUser extends KWSService {
 
-    // private user
     private KWSGetUserInterface listener = null;
 
     @Override
@@ -28,37 +27,24 @@ public class KWSGetUser extends KWSService {
     }
 
     @Override
-    public void success(int status, String payload) {
-        if ((status == 200 || status == 204) && payload != null) {
-            JSONObject json = SAJsonParser.newObject(payload);
-            KWSUser user = new KWSUser(json);
-            lisGotUserOK(user);
+    public void success(int status, String payload, boolean success) {
+        if (!success) {
+            listener.gotUser(null);
         } else {
-            lisGotUserNOK();
+            if ((status == 200 || status == 204) && payload != null) {
+                JSONObject json = SAJsonParser.newObject(payload);
+                KWSUser user = new KWSUser(json);
+                listener.gotUser(user);
+            } else {
+                listener.gotUser(null);
+            }
         }
-    }
-
-    @Override
-    public void failure() {
-        lisGotUserNOK();
     }
 
     @Override
     public void execute(KWSServiceResponseInterface listener) {
-        this.listener = (KWSGetUserInterface) listener;
+        KWSGetUserInterface local = new KWSGetUserInterface() {public void gotUser(KWSUser user) {}};
+        this.listener = listener != null ? (KWSGetUserInterface) listener : local;
         super.execute(this.listener);
-    }
-
-    // listener methods
-    private void lisGotUserOK (KWSUser user) {
-        if (listener != null) {
-            listener.gotUser(user);
-        }
-    }
-
-    private void lisGotUserNOK () {
-        if (listener != null) {
-            listener.gotUser(null);
-        }
     }
 }

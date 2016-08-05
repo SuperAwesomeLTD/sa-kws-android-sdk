@@ -22,13 +22,9 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
     private Runnable runnable = null;
     private int tries = 0;
 
-    public FirebaseGetToken () {
-        // do nothing
-    }
-
-    public void execute(FirebaseGetTokenInterface listener) {
-
-        this.listener = listener;
+    public void execute(final FirebaseGetTokenInterface listener) {
+        FirebaseGetTokenInterface local = new FirebaseGetTokenInterface() {public void gotToken(boolean success, String token) {}};
+        this.listener = listener != null ? listener : local;
 
         runnable = new Runnable() {
             @Override
@@ -36,9 +32,9 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
                 String token = FirebaseInstanceId.getInstance().getToken();
 
                 if (token != null) {
-                    lisDidGetFirebaseToken(token);
+                    FirebaseGetToken.this.listener.gotToken(true, token);
                 } else if (tries > NR_TRIES) {
-                    lisDidFailToGetFirebaseToken();
+                    FirebaseGetToken.this.listener.gotToken(false, null);
                 } else {
                     tries++;
                     handler.postDelayed(this, DELAY);
@@ -56,19 +52,5 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         super.onTokenRefresh();
         String token = FirebaseInstanceId.getInstance().getToken();
-    }
-
-    // <Private> functions
-
-    void lisDidGetFirebaseToken(String token) {
-        if (listener != null) {
-            listener.gotToken(true, token);
-        }
-    }
-
-    void lisDidFailToGetFirebaseToken() {
-        if (listener != null) {
-            listener.gotToken(false, null);
-        }
     }
 }

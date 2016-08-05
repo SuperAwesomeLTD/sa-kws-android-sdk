@@ -23,10 +23,7 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSRequestPermission extends KWSService {
 
-    // public listener
     private KWSRequestPermissionInterface listener = null;
-
-    // list of permissions
     private KWSPermissionType[] requestedPermissions = null;
 
     @Override
@@ -51,66 +48,42 @@ public class KWSRequestPermission extends KWSService {
     }
 
     @Override
-    public void success(int status, String payload) {
+    public void success(int status, String payload, boolean success) {
         Log.d("SuperAwesome", "Payload ==> " + payload);
+        if (!success) {
+            listener.requested(false, false);
+        } else {
+            if (status == 200 || status == 204) {
+                listener.requested(true, true);
+            } else {
 
-        if (status == 200 || status == 204) {
-            lisPushPermissionRequestedInKWS();
-        }
-        else {
+                /** form the error - if exists */
+                JSONObject json = SAJsonParser.newObject(payload);
+                KWSError error = new KWSError(json);
 
-            /** form the error - if exists */
-            JSONObject json = SAJsonParser.newObject(payload);
-            KWSError error = new KWSError(json);
-
-            if (error.code == 5 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
-                lisParentEmailIsMissingInKWS();
+                if (error.code == 5 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
+                    listener.requested(true, false);
+                } else {
+                    listener.requested(false, false);
+                }
             }
-            else {
-                lisRequestError();
-            }
         }
-    }
-
-    @Override
-    public void failure() {
-        lisRequestError();
     }
 
     @Override
     public void execute(Object param, KWSServiceResponseInterface listener) {
-
-        this.listener = (KWSRequestPermissionInterface) listener;
+        KWSRequestPermissionInterface local = new KWSRequestPermissionInterface() {public void requested(boolean success, boolean requested) {}};
+        this.listener = listener != null ? (KWSRequestPermissionInterface) listener : local;
         requestedPermissions = new KWSPermissionType[]{};
 
         if (param instanceof KWSPermissionType[]) {
             requestedPermissions = (KWSPermissionType[]) param;
         } else {
-            lisRequestError();
+            this.listener.requested(false, false);
             return;
         }
 
         Log.d("SuperAwesome", "Requesting KWS permission: " + Arrays.toString(requestedPermissions));
         super.execute(requestedPermissions, this.listener);
-    }
-
-    // <Private> functions
-
-    private void lisPushPermissionRequestedInKWS () {
-        if (listener != null) {
-            listener.requested(true, true);
-        }
-    }
-
-    private void lisParentEmailIsMissingInKWS () {
-        if (listener != null) {
-            listener.requested(true, false);
-        }
-    }
-
-    private void lisRequestError () {
-        if (listener != null) {
-            listener.requested(false, false);
-        }
     }
 }

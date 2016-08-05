@@ -184,13 +184,14 @@ public class MainActivity extends AppCompatActivity {
     public void unregisterAction(View v) {
         log += "Trying to unregister user\n";
         logView.setText(log);
-        KWS.sdk.unregister(new UnregisterInterface() {
-            @Override
-            public void unregister(boolean unregistered) {
-                log += unregistered ? "User is un-registered\n" : "Network error ubsubscribing Firebase token to KWS\n";
-                logView.setText(log);
-            }
-        });
+//        KWS.sdk.unregister(new UnregisterInterface() {
+//            @Override
+//            public void unregister(boolean unregistered) {
+//                log += unregistered ? "User is un-registered\n" : "Network error ubsubscribing Firebase token to KWS\n";
+//                logView.setText(log);
+//            }
+//        });
+        KWS.sdk.unregister(null);
     }
 
     public void checkRegisteredAction(View v) {

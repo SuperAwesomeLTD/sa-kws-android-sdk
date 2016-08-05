@@ -13,10 +13,7 @@ import tv.superawesome.lib.sautils.SAUtils;
  */
 public class KWSParentEmail extends KWSService {
 
-    // public listener
     private KWSParentEmailInterface listener = null;
-
-    // private var
     private String emailToSubmit = null;
 
     @Override
@@ -40,53 +37,37 @@ public class KWSParentEmail extends KWSService {
     }
 
     @Override
-    public void success(int status, String payload) {
-        if (status == 200 || status == 204) {
-            lisEmailSubmittedInKWS();
+    public void success(int status, String payload, boolean success) {
+        if (!success) {
+            listener.submitted(false);
+        } else {
+            if (status == 200 || status == 204) {
+                listener.submitted(true);
+            } else {
+                listener.submitted(false);
+            }
         }
-        else {
-            lisEmailError();
-        }
-    }
-
-    @Override
-    public void failure() {
-        lisEmailError();
     }
 
     @Override
     public void execute(Object param, KWSServiceResponseInterface listener) {
-
-        this.listener = (KWSParentEmailInterface) listener;
+        KWSParentEmailInterface local = new KWSParentEmailInterface() {public void submitted(boolean success) {}};
+        this.listener = listener != null ? (KWSParentEmailInterface) listener : local;
 
         // get param and correct type
         if (param instanceof String) {
             emailToSubmit = (String)param;
         }  else {
-            lisEmailError();
+            this.listener.submitted(false);
             return;
         }
 
         // check params
         if (emailToSubmit.length() == 0 || !SAUtils.isValidEmail(emailToSubmit)) {
-            lisEmailError();
+            this.listener.submitted(false);
             return;
         }
 
         super.execute(emailToSubmit, this.listener);
-    }
-
-    // <Private> functions
-
-    void lisEmailSubmittedInKWS () {
-        if (listener != null) {
-            listener.submitted(true);
-        }
-    }
-
-    void lisEmailError () {
-        if (listener != null) {
-            listener.submitted(false);
-        }
     }
 }

@@ -14,10 +14,7 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSUnregisterToken extends KWSService {
 
-    // listener
     private KWSUnregisterTokenInterface listener = null;
-
-    // private
     private String token;
 
     @Override
@@ -38,44 +35,29 @@ public class KWSUnregisterToken extends KWSService {
     }
 
     @Override
-    public void success(int status, String payload) {
-        Log.d("SuperAwesome", "Payload ==> " + payload);
-        lisTokenWasUnsubscribed();
-    }
-
-    @Override
-    public void failure() {
-        lisTokenError();
+    public void success(int status, String payload, boolean success) {
+        if (!success) {
+            listener.unregistered(false);
+        } else {
+            Log.d("SuperAwesome", "Payload ==> " + payload);
+            listener.unregistered(true);
+        }
     }
 
     @Override
     public void execute(Object param, KWSServiceResponseInterface listener) {
-
-        this.listener = (KWSUnregisterTokenInterface) listener;
+        KWSUnregisterTokenInterface local = new KWSUnregisterTokenInterface() {public void unregistered(boolean success) {}};
+        this.listener = listener != null ? (KWSUnregisterTokenInterface) listener : local;
 
         // check param
         if (param instanceof String) {
             token = (String)param;
         } else {
-            lisTokenError();
+            this.listener.unregistered(false);
             return;
         }
 
         // execute
         super.execute(param, this.listener);
-    }
-
-    // <Private> functions
-
-    private void lisTokenWasUnsubscribed () {
-        if (listener != null) {
-            listener.unregistered(true);
-        }
-    }
-
-    private void lisTokenError () {
-        if (listener != null) {
-            listener.unregistered(false);
-        }
     }
 }

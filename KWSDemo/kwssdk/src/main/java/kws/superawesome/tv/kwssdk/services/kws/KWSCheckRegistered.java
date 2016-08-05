@@ -9,7 +9,6 @@ import kws.superawesome.tv.kwssdk.services.KWSServiceResponseInterface;
  */
 public class KWSCheckRegistered extends KWSService {
 
-    // listener
     private KWSCheckRegisteredInterface listener = null;
 
     @Override
@@ -23,44 +22,24 @@ public class KWSCheckRegistered extends KWSService {
     }
 
     @Override
-    public void success(int status, String payload) {
-        if (payload.contentEquals("true")) {
-            lisUserIsRegistered();
-        } else if (payload.contentEquals("false")) {
-            lisUserIsNotRegistered();
+    public void success(int status, String payload, boolean success) {
+        if (!success) {
+            listener.allowed(false, false);
         } else {
-            lisCheckRegisteredError();
+            if (payload.contentEquals("true")) {
+                listener.allowed(true, true);
+            } else if (payload.contentEquals("false")) {
+                listener.allowed(true, false);
+            } else {
+                listener.allowed(false, false);
+            }
         }
-    }
-
-    @Override
-    public void failure() {
-        lisCheckRegisteredError();
     }
 
     @Override
     public void execute(KWSServiceResponseInterface listener) {
-        this.listener = (KWSCheckRegisteredInterface) listener;
+        KWSCheckRegisteredInterface local = new KWSCheckRegisteredInterface() {public void allowed(boolean success, boolean registered) {}};
+        this.listener = listener != null ? (KWSCheckRegisteredInterface) listener : local;
         super.execute(this.listener);
-    }
-
-    // Listener functions
-
-    void lisUserIsRegistered () {
-        if (listener != null) {
-            listener.allowed(true, true);
-        }
-    }
-
-    void lisUserIsNotRegistered () {
-        if (listener != null) {
-            listener.allowed(true, false);
-        }
-    }
-
-    void lisCheckRegisteredError () {
-        if (listener != null) {
-            listener.allowed(false, false);
-        }
     }
 }

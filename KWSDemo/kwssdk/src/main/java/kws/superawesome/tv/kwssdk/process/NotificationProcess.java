@@ -49,9 +49,12 @@ public class NotificationProcess {
 
     /**
      * method that handles all the registration needs for the SDK
-     * @param listener object to handle callbacks
+     * @param lis object to handle callbacks
      */
-    public void register (@NonNull final RegisterInterface listener) {
+    public void register (@NonNull final RegisterInterface lis) {
+        // make sure it's not null
+        RegisterInterface local = new RegisterInterface() { public void register(boolean registered, KWSErrorType type) {}};
+        final RegisterInterface listener = lis != null ? lis : local;
 
         // 1 - check if the user is allowed Remote Notifications in KWS
         checkAllowed.execute(new KWSCheckAllowedInterface() {
@@ -129,9 +132,13 @@ public class NotificationProcess {
 
     /**
      * Method that handles all un-registration needs
-     * @param listener object to send callbacks
+     * @param lis object to send callbacks
      */
-    public void unregister (@NonNull final UnregisterInterface listener) {
+    public void unregister (@NonNull final UnregisterInterface lis) {
+        // check for errors
+        UnregisterInterface local = new UnregisterInterface() {public void unregister(boolean unregistered) {}};
+        final UnregisterInterface listener = lis != null ? lis : local;
+
         // get current token
         String token = getToken.getSavedToken();
 
@@ -146,9 +153,12 @@ public class NotificationProcess {
 
     /**
      * Method that handles checking if a user is registered or not
-     * @param listener object to send callbacks
+     * @param lis object to send callbacks
      */
-    public void isRegistered (@NonNull final IsRegisteredInterface listener) {
+    public void isRegistered (@NonNull final IsRegisteredInterface lis) {
+        // check for error
+        IsRegisteredInterface local = new IsRegisteredInterface() {public void isRegistered(boolean registered) {}};
+        final IsRegisteredInterface listener = lis != null ? lis : local;
 
         // 1. check if user is still allowed to have Remote Notifications
         checkAllowed.execute(new KWSCheckAllowedInterface() {

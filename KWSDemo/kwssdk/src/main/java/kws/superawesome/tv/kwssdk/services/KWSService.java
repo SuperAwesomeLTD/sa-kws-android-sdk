@@ -61,12 +61,7 @@ public class KWSService implements KWSServiceInterface {
     }
 
     @Override
-    public void success(int status, String payload) {
-        // do nothing
-    }
-
-    @Override
-    public void failure() {
+    public void success(int status, String payload, boolean success) {
         // do nothing
     }
 
@@ -85,29 +80,20 @@ public class KWSService implements KWSServiceInterface {
                 network.sendPOST(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
                     @Override
                     public void response(int status, String payload, boolean success) {
-                        if (!success) {
-                            instance.failure();
-                        } else {
-                            instance.success(status, payload);
-                        }
+                        instance.success(status, payload, success);
                     }
                 });
             } else {
                 network.sendGET(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
                     @Override
                     public void response(int status, String payload, boolean success) {
-                        if (!success) {
-                            instance.failure();
-                        } else {
-                            instance.success(status, payload);
-                        }
+                        instance.success(status, payload, success);
                     }
                 });
             }
         }
         else {
-            Log.d("SuperAwesome", "Herw!");
-            failure();
+            instance.success(0, null, false);
         }
     }
 

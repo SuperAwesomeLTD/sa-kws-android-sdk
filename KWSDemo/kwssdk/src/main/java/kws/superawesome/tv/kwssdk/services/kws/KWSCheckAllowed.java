@@ -28,52 +28,31 @@ public class KWSCheckAllowed extends KWSService {
     }
 
     @Override
-    public void success(int status, String payload) {
-        if (status == 200 || status == 204) {
-
-            JSONObject json = SAJsonParser.newObject(payload);
-            KWSUser user = new KWSUser(json);
-            Object perm = user.applicationPermissions.sendPushNotification;
-
-            if (perm == null || (boolean) perm) {
-                lisPushEnabledInKWS();
-            } else {
-                lisPushDisabledInKWS();
-            }
-
+    public void success(int status, String payload, boolean success) {
+        if (!success) {
+            listener.allowed(false, false);
         } else {
-            lisCheckError();
-        }
-    }
+            if (status == 200 || status == 204) {
+                JSONObject json = SAJsonParser.newObject(payload);
+                KWSUser user = new KWSUser(json);
+                Object perm = user.applicationPermissions.sendPushNotification;
 
-    @Override
-    public void failure() {
-        lisCheckError();
+                if (perm == null || (boolean) perm) {
+                    listener.allowed(true, true);
+                } else {
+                    listener.allowed(true, false);
+                }
+
+            } else {
+                listener.allowed(false, false);
+            }
+        }
     }
 
     @Override
     public void execute(KWSServiceResponseInterface listener) {
-        this.listener = (KWSCheckAllowedInterface) listener;
+        KWSCheckAllowedInterface local = new KWSCheckAllowedInterface() { public void allowed(boolean success, boolean allowed) {}};
+        this.listener =  (listener != null ? (KWSCheckAllowedInterface) listener : local);
         super.execute(this.listener);
-    }
-
-    // <Private> functions
-
-    private void lisPushEnabledInKWS () {
-        if (listener != null) {
-            listener.allowed(true, true);
-        }
-    }
-
-    private void  lisPushDisabledInKWS () {
-        if (listener != null) {
-            listener.allowed(true, false);
-        }
-    }
-
-    private void lisCheckError () {
-        if (listener != null) {
-            listener.allowed(false, false);
-        }
     }
 }

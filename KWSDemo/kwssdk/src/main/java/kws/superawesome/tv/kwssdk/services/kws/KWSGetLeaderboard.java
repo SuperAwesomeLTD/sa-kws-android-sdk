@@ -20,7 +20,6 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSGetLeaderboard extends KWSService {
 
-    // listener
     private KWSGetLeaderboardInterface listener = null;
 
     @Override
@@ -34,38 +33,25 @@ public class KWSGetLeaderboard extends KWSService {
     }
 
     @Override
-    public void success(int status, String payload) {
-        if ((status == 200 || status == 204) && payload != null) {
-            Log.d("SuperAwesome", "Payload ==> " + payload);
-            JSONObject json = SAJsonParser.newObject(payload);
-            KWSLeaderboard leaderboard = new KWSLeaderboard(json);
-            lisGotLeaderboardOK(leaderboard.results);
+    public void success(int status, String payload, boolean success) {
+        if (!success) {
+            listener.gotLeaderboard(new ArrayList<KWSLeader>());
         } else {
-            ligGotLeaderboardNOK();
+            if ((status == 200 || status == 204) && payload != null) {
+                Log.d("SuperAwesome", "Payload ==> " + payload);
+                JSONObject json = SAJsonParser.newObject(payload);
+                KWSLeaderboard leaderboard = new KWSLeaderboard(json);
+                listener.gotLeaderboard(leaderboard.results);
+            } else {
+                listener.gotLeaderboard(new ArrayList<KWSLeader>());
+            }
         }
-    }
-
-    @Override
-    public void failure() {
-        ligGotLeaderboardNOK();
     }
 
     @Override
     public void execute(KWSServiceResponseInterface listener) {
-        this.listener = (KWSGetLeaderboardInterface) listener;
+        KWSGetLeaderboardInterface local = new KWSGetLeaderboardInterface() {public void gotLeaderboard(List<KWSLeader> leaderboard) {}};
+        this.listener = listener != null ? (KWSGetLeaderboardInterface) listener : local;
         super.execute(this.listener);
-    }
-
-    // list functions
-    private void lisGotLeaderboardOK (List<KWSLeader> leaderboard) {
-        if (listener != null) {
-            listener.gotLeaderboard(leaderboard);
-        }
-    }
-
-    private void ligGotLeaderboardNOK () {
-        if (listener != null) {
-            listener.gotLeaderboard(new ArrayList<KWSLeader>());
-        }
     }
 }
