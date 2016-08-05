@@ -46,7 +46,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     private KWSCheckInterface checkListener;
 
     public String getVersion () {
-        return "android-1.2.1";
+        return "android-1.2.3";
     }
 
     // <Setup> functions
