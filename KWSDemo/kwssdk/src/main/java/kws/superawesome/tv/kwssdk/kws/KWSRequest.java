@@ -83,25 +83,23 @@ public class KWSRequest implements KWSRequestInterface {
             if (getMethod() == KWSRequestMethod.POST) {
                 network.sendPOST(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
                     @Override
-                    public void success(int i, String s) {
-                        instance.success(i, s);
-                    }
-
-                    @Override
-                    public void failure() {
-                        instance.failure();
+                    public void response(int status, String payload, boolean success) {
+                        if (success) {
+                            instance.success(status, payload);
+                        } else {
+                            instance.failure();
+                        }
                     }
                 });
             } else {
                 network.sendGET(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
                     @Override
-                    public void success(int i, String s) {
-                        instance.success(i, s);
-                    }
-
-                    @Override
-                    public void failure() {
-                        instance.failure();
+                    public void response(int status, String payload, boolean success) {
+                        if (success) {
+                            instance.success(status, payload);
+                        } else {
+                            instance.failure();
+                        }
                     }
                 });
             }

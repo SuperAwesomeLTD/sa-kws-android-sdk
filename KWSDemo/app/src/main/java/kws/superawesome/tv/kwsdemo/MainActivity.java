@@ -67,7 +67,13 @@ public class MainActivity extends AppCompatActivity {
         SANetwork network = new SANetwork();
         network.sendPOST(this, "https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new SANetworkInterface() {
             @Override
-            public void success(int status, String payload) {
+            public void response(int status, String payload, boolean success) {
+
+                if (!success) {
+                    log += "Failed to register " + username + "\n";
+                    logView.setText(log);
+                    return;
+                }
 
                 Log.d("SuperAwesome", status + "\n" + payload);
 
@@ -88,12 +94,6 @@ public class MainActivity extends AppCompatActivity {
                     log += "Failed to register " + username + "\n";
                     logView.setText(log);
                 }
-            }
-
-            @Override
-            public void failure() {
-                log += "Failed to register " + username + "\n";
-                logView.setText(log);
             }
         });
     }

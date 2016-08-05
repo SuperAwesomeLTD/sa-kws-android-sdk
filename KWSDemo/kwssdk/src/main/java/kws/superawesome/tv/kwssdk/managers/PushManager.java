@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwssdk.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 //import com.google.android.gms.common.ConnectionResult;
 //import com.google.android.gms.common.GoogleApiAvailability;
@@ -53,6 +54,7 @@ public class PushManager {
                     subscribeToken.listener = new KWSSubscribeTokenInterface() {
                         @Override
                         public void tokenWasSubscribed() {
+                            Log.d("SuperAwesome", "Registered with token " + token);
                             lisDidRegister(token);
                         }
 

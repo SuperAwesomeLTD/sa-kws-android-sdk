@@ -84,13 +84,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
         if (stringPermissionPopup) {
             SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
                 @Override
-                public void didClickOnOK(String s) {
-                    KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
-                }
-
-                @Override
-                public void didClickOnNOK() {
-                    // do nothing
+                public void pressed(int button, String s) {
+                    if (button == SAAlert.OK_BUTTON) {
+                        KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
+                    }
                 }
             });
         } else {
@@ -113,13 +110,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     public void showParentEmailPopup () {
         SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
             @Override
-            public void didClickOnOK(String s) {
-                submitParentEmail(s);
-            }
-
-            @Override
-            public void didClickOnNOK() {
-                // do nothing
+            public void pressed(int button, String s) {
+                if (button == SAAlert.OK_BUTTON) {
+                    submitParentEmail(s);
+                }
             }
         });
     }
