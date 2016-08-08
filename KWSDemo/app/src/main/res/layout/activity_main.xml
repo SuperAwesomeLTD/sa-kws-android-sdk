@@ -52,6 +52,12 @@
         android:layout_height="35dp"
         android:text="Request some permissions"
         android:onClick="requestPermissions"/>
+    <Button
+        android:id="@+id/TriggerEvent"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="Trigger Event"
+        android:onClick="triggerEvent"/>
     <TextView
         android:id="@+id/TextLogs"
         android:layout_width="match_parent"

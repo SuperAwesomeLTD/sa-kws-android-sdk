@@ -23,6 +23,7 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSGetUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
         JSONObject body = SAJsonParser.newObject(new Object[]{
                 "username", username,
                 "password", "testtest",
-                "dateOfBirth", "2011-03-02"
+                "dateOfBirth", "2011-03-02",
+                "country", "US"
         });
 
         JSONObject header = SAJsonParser.newObject(new Object[] {
@@ -184,14 +186,13 @@ public class MainActivity extends AppCompatActivity {
     public void unregisterAction(View v) {
         log += "Trying to unregister user\n";
         logView.setText(log);
-//        KWS.sdk.unregister(new UnregisterInterface() {
-//            @Override
-//            public void unregister(boolean unregistered) {
-//                log += unregistered ? "User is un-registered\n" : "Network error ubsubscribing Firebase token to KWS\n";
-//                logView.setText(log);
-//            }
-//        });
-        KWS.sdk.unregister(null);
+        KWS.sdk.unregister(new UnregisterInterface() {
+            @Override
+            public void unregister(boolean unregistered) {
+                log += unregistered ? "User is un-registered\n" : "Network error ubsubscribing Firebase token to KWS\n";
+                logView.setText(log);
+            }
+        });
     }
 
     public void checkRegisteredAction(View v) {
@@ -242,6 +243,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void requested(boolean success, boolean requested) {
                 Log.d("SuperAwesome", "Success: " + success + " | " + requested);
+            }
+        });
+    }
+
+    public void triggerEvent (View v) {
+        KWS.sdk.triggerEvent("a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, "Sent points!", new KWSTriggerEventInterface() {
+            @Override
+            public void triggered(boolean success) {
+                Log.d("SuperAwesome", "Triggered : " + success);
             }
         });
     }

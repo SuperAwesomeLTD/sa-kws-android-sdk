@@ -22,6 +22,8 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSGetUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermission;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEvent;
+import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
 import tv.superawesome.lib.sautils.SAApplication;
@@ -37,15 +39,6 @@ public class KWS {
     // singleton instance
     public static KWS sdk = new KWS();
 
-    // private constructor
-    private KWS() {
-        notificationProcess = new NotificationProcess();
-        parentEmail = new KWSParentEmail();
-        getUser = new KWSGetUser();
-        getLeaderboard = new KWSGetLeaderboard();
-        requestPermission = new KWSRequestPermission();
-    }
-
     // setup variables
     private String oauthToken;
     private String kwsApiUrl;
@@ -58,9 +51,17 @@ public class KWS {
     private KWSGetUser getUser;
     private KWSGetLeaderboard getLeaderboard;
     private KWSRequestPermission requestPermission;
+    private KWSTriggerEvent triggerEvent;
 
-    public String getVersion () {
-        return "android-1.2.2";
+    // private constructor
+
+    private KWS() {
+        notificationProcess = new NotificationProcess();
+        parentEmail = new KWSParentEmail();
+        getUser = new KWSGetUser();
+        getLeaderboard = new KWSGetLeaderboard();
+        requestPermission = new KWSRequestPermission();
+        triggerEvent = new KWSTriggerEvent();
     }
 
     // <Setup> functions
@@ -108,6 +109,11 @@ public class KWS {
         requestPermission.execute(requestedPermissions, listener);
     }
 
+    public void triggerEvent(String token, int points, String description, @NonNull KWSTriggerEventInterface listener) {
+        triggerEvent.execute(token, points, description, listener);
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Aux helper functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +143,10 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters & Setters
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public String getVersion () {
+        return "android-1.2.2";
+    }
 
     public String getOauthToken () {
         return oauthToken;
