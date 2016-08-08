@@ -3,10 +3,8 @@ package kws.superawesome.tv.kwssdk.models.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
 import tv.superawesome.lib.sajsonparser.JSONSerializable;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
