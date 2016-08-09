@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
@@ -31,11 +32,21 @@ public class KWSTriggerEvent extends KWSService{
 
     @Override
     public JSONObject getBody() {
-        return SAJsonParser.newObject(new Object[]{
-                "token", evtToken,
-                "points", evtPoints,
-                "description", evtDescription
-        });
+        JSONObject body = new JSONObject();
+        try {
+            body.put("points", evtPoints);
+        } catch (JSONException ignored) {}
+        if (evtToken != null) {
+            try {
+                body.put("token", evtToken);
+            } catch (JSONException ignored) {}
+        }
+        if (evtDescription != null && !evtDescription.equals("")) {
+            try {
+                body.put("description", evtDescription);
+            } catch (JSONException ignored) {}
+        }
+        return body;
     }
 
     @Override

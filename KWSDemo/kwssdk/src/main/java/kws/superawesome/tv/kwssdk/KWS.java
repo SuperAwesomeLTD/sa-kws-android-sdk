@@ -64,17 +64,26 @@ public class KWS {
         triggerEvent = new KWSTriggerEvent();
     }
 
-    // <Setup> functions
+    // <Setup> and <Desetup> functions
 
-    public void setup(Context context, String oauthToken, String kwsApiUrl) {
+    public void setup(Context context, @NonNull String oauthToken, String kwsApiUrl) {
         this.context = context;
         this.oauthToken = oauthToken;
         this.kwsApiUrl = kwsApiUrl;
-        this.metadata = processMetadata(oauthToken);
-        if (metadata != null) {
-            JSONObject smetadata = metadata.writeToJson();
-            Log.d("SuperAwesome", smetadata.toString());
+        if (oauthToken != null) {
+            this.metadata = processMetadata(oauthToken);
         }
+        if (metadata != null) {
+            Log.d("SuperAwesome", metadata.writeToJson().toString());
+        } else {
+            Log.d("SuperAwesome", "Warning, could not setup KWS. Probably invalid OAuth Token.");
+        }
+    }
+
+    public void desetup() {
+        this.oauthToken = null;
+        this.kwsApiUrl = null;
+        this.metadata = null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +154,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-1.2.2";
+        return "android-2.0.1";
     }
 
     public String getOauthToken () {
