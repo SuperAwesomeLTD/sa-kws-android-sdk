@@ -76,20 +76,35 @@ public class KWSService implements KWSServiceInterface {
 
         // check data
         if (kwsApiUrl != null && oauthToken != null && metadata != null) {
-            if (getMethod() == KWSHTTPMethod.POST) {
-                network.sendPOST(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
-                    @Override
-                    public void response(int status, String payload, boolean success) {
-                        instance.success(status, payload, success);
-                    }
-                });
-            } else {
-                network.sendGET(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
-                    @Override
-                    public void response(int status, String payload, boolean success) {
-                        instance.success(status, payload, success);
-                    }
-                });
+
+            switch (getMethod()) {
+                case GET: {
+                    network.sendGET(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
+                        @Override
+                        public void response(int status, String payload, boolean success) {
+                            instance.success(status, payload, success);
+                        }
+                    });
+                    break;
+                }
+                case POST: {
+                    network.sendPOST(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+                        @Override
+                        public void response(int status, String payload, boolean success) {
+                            instance.success(status, payload, success);
+                        }
+                    });
+                    break;
+                }
+                case PUT: {
+                    network.sendPUT(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+                        @Override
+                        public void response(int status, String payload, boolean success) {
+                            instance.success(status, payload, success);
+                        }
+                    });
+                    break;
+                }
             }
         }
         else {

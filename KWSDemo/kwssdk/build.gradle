@@ -87,7 +87,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.firebase:firebase-messaging:9.0.2'
     compile 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.1'
-    compile 'tv.superawesome.lib.sanetwork:sanetwork:0.1.9'
+    compile 'tv.superawesome.lib.sanetwork:sanetwork:0.2.0'
     compile 'tv.superawesome.lib.sautils:sautils:0.2.4'
 
 }

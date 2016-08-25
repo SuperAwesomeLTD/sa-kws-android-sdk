@@ -5,5 +5,6 @@ package kws.superawesome.tv.kwssdk.services;
  */
 public enum KWSHTTPMethod {
     GET,
-    POST
+    POST,
+    PUT
 }
