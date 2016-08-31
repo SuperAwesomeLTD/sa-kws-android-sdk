@@ -9,55 +9,126 @@
     android:orientation="vertical"
     tools:context="kws.superawesome.tv.kwsdemo.MainActivity">
 
-
     <Button
         android:id="@+id/CreateUser"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:text="Register new user"
         android:onClick="createNewUser"/>
-    <Button
-        android:id="@+id/RegisterUser"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Register"
-        android:onClick="registerAction"/>
-    <Button
-        android:id="@+id/UnregisterUser"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/RegisterUser"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Register"
+            android:onClick="registerAction"/>
+        <Button
+            android:id="@+id/UnregisterUser"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="UnRegister"
+            android:onClick="unregisterAction"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="UnRegister"
-        android:onClick="unregisterAction"/>
-    <Button
-        android:id="@+id/CheckIfRegistered"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:text="Check if registered"
-        android:onClick="checkRegisteredAction"/>
-    <Button
-        android:id="@+id/GetUser"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:text="Get User Details"
-        android:onClick="getUserDetails"/>
-    <Button
-        android:id="@+id/GetLeaderBoard"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:text="Get Leaderboard"
-        android:onClick="getLeaderboard"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/CheckIfRegistered"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Check if registered"
+            android:onClick="checkRegisteredAction"/>
+        <Button
+            android:id="@+id/GetUser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Get User Details"
+            android:onClick="getUserDetails"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/RequestPermissions"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:text="Request some permissions"
         android:onClick="requestPermissions"/>
-    <Button
-        android:id="@+id/TriggerEvent"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Trigger Event"
-        android:onClick="triggerEvent"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/GetLeaderBoard"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Leaders"
+            android:onClick="getLeaderboard"/>
+
+        <Button
+            android:id="@+id/TriggerEvent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Trigger Evt"
+            android:onClick="triggerEvent"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Get Score"
+            android:onClick="getScore"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="Invite user"
+        android:onClick="inviteUser"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="Check evt 762"
+        android:onClick="checkEvent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Set App Data"
+            android:onClick="setAppData"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Get App Data"
+            android:onClick="getAppData"/>
+
+    </LinearLayout>
+
+
     <TextView
         android:id="@+id/TextLogs"
         android:layout_width="match_parent"

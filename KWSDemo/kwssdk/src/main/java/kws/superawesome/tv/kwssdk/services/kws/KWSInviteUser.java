@@ -29,7 +29,7 @@ public class KWSInviteUser extends KWSService {
     @Override
     public JSONObject getBody() {
         return SAJsonParser.newObject(new Object[] {
-                "emailAddress", emailAddress
+                "email", emailAddress
         });
     }
 

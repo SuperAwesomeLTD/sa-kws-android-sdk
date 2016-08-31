@@ -13,16 +13,23 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
+import kws.superawesome.tv.kwssdk.models.user.KWSScore;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.IsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.RegisterInterface;
 import kws.superawesome.tv.kwssdk.process.UnregisterInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboardInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetScoreInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSHasTriggeredEventInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSInviteUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAUtils;
@@ -242,7 +249,8 @@ public class MainActivity extends AppCompatActivity {
         }, new KWSRequestPermissionInterface() {
             @Override
             public void requested(boolean success, boolean requested) {
-                Log.d("SuperAwesome", "Success: " + success + " | " + requested);
+                log += "Requested perm: " + success + " | " + requested + "\n";
+                logView.setText(log);
             }
         });
     }
@@ -251,8 +259,62 @@ public class MainActivity extends AppCompatActivity {
         KWS.sdk.triggerEvent("a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, "Sent points!", new KWSTriggerEventInterface() {
             @Override
             public void triggered(boolean success) {
-                Log.d("SuperAwesome", "Triggered : " + success);
+                log += "Triggered evt: " + success + "\n";
+                logView.setText(log);
             }
         });
     }
+
+    public void getScore (View v) {
+        KWS.sdk.getScore(new KWSGetScoreInterface() {
+            @Override
+            public void gotScore(KWSScore score) {
+                log += "Rank: " + score.rank + " Score: " + score.score + "\n";
+                logView.setText(log);
+            }
+        });
+    }
+
+    public void inviteUser (View v) {
+        KWS.sdk.inviteUser("gabriel.coman@superawesome.tv", new KWSInviteUserInterface() {
+            @Override
+            public void invited(boolean success) {
+                log += "Invited gabriel.coman@superawesome.tv " + success + "\n";
+                logView.setText(log);
+            }
+        });
+    }
+
+    public void checkEvent (View v) {
+        KWS.sdk.hasTriggeredEvent(762, new KWSHasTriggeredEventInterface() {
+            @Override
+            public void hasTriggered(Boolean triggered) {
+                log += "Event 762 is : " + triggered + "\n";
+                logView.setText(log);
+            }
+        });
+    }
+
+    public void setAppData (View v) {
+        KWS.sdk.setAppData("new_val", 33, new KWSSetAppDataInterface() {
+            @Override
+            public void setAppData(boolean success) {
+                log += "Set new_val=33 with " + success + "\n";
+                logView.setText(log);
+            }
+        });
+    }
+
+    public void getAppData (View v) {
+        KWS.sdk.getAppData(new KWSGetAppDataInterface() {
+            @Override
+            public void gotAppData(List<KWSAppData> appData) {
+                for (KWSAppData data : appData) {
+                    log += "[" + data.name + "]=" + data.value + "\n";
+                }
+                logView.setText(log);
+            }
+        });
+    }
+
 }

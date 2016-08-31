@@ -11,19 +11,32 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.IsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.NotificationProcess;
 import kws.superawesome.tv.kwssdk.process.RegisterInterface;
 import kws.superawesome.tv.kwssdk.process.UnregisterInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppData;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboard;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboardInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetScore;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetScoreInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetUser;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSHasTriggeredEvent;
+import kws.superawesome.tv.kwssdk.services.kws.KWSHasTriggeredEventInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSInviteUser;
+import kws.superawesome.tv.kwssdk.services.kws.KWSInviteUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermission;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppData;
+import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEvent;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUser;
+import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUserInterface;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
 import tv.superawesome.lib.sautils.SAApplication;
@@ -52,6 +65,12 @@ public class KWS {
     private KWSGetLeaderboard getLeaderboard;
     private KWSRequestPermission requestPermission;
     private KWSTriggerEvent triggerEvent;
+    private KWSGetScore getScore;
+    private KWSInviteUser inviteUser;
+    private KWSHasTriggeredEvent hasTriggeredEvent;
+    private KWSGetAppData getAppData;
+    private KWSSetAppData setAppData;
+    private KWSUpdateUser updateUser;
 
     // private constructor
 
@@ -62,6 +81,12 @@ public class KWS {
         getLeaderboard = new KWSGetLeaderboard();
         requestPermission = new KWSRequestPermission();
         triggerEvent = new KWSTriggerEvent();
+        getScore = new KWSGetScore();
+        inviteUser = new KWSInviteUser();
+        hasTriggeredEvent = new KWSHasTriggeredEvent();
+        getAppData = new KWSGetAppData();
+        setAppData = new KWSSetAppData();
+        updateUser = new KWSUpdateUser();
     }
 
     // <Setup> and <Desetup> functions
@@ -122,6 +147,29 @@ public class KWS {
         triggerEvent.execute(token, points, description, listener);
     }
 
+    public void getScore(@NonNull KWSGetScoreInterface listener) {
+        getScore.execute(listener);
+    }
+
+    public void inviteUser (@NonNull String emailAddress, @NonNull KWSInviteUserInterface listener) {
+        inviteUser.execute(emailAddress, listener);
+    }
+
+    public void hasTriggeredEvent (int eventId, @NonNull KWSHasTriggeredEventInterface listener) {
+        hasTriggeredEvent.execute(eventId, listener);
+    }
+
+    public void getAppData (@NonNull KWSGetAppDataInterface listener) {
+        getAppData.execute(listener);
+    }
+
+    public void setAppData(@NonNull String name, int value, KWSSetAppDataInterface listener) {
+        setAppData.execute(name, value, listener);
+    }
+
+    public void updateUser(@NonNull KWSUser updatedUser, KWSUpdateUserInterface listener) {
+        updateUser.execute(updatedUser, listener);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Aux helper functions
