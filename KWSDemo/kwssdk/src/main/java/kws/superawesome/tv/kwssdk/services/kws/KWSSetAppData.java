@@ -36,11 +36,7 @@ public class KWSSetAppData extends KWSService {
 
     @Override
     public void success(int status, String payload, boolean success) {
-        if (!success) {
-            listener.setAppData(false);
-        } else {
-            listener.setAppData(true);
-        }
+        listener.setAppData(success && (status == 200 || status == 204));
     }
 
     public void execute(String name, int value, KWSServiceResponseInterface listener) {

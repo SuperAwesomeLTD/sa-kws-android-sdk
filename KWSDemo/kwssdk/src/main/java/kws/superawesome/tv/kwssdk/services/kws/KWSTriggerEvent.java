@@ -51,15 +51,7 @@ public class KWSTriggerEvent extends KWSService{
 
     @Override
     public void success(int status, String payload, boolean success) {
-        if (!success) {
-            listener.triggered(false);
-        } else {
-            if (status == 200 || status == 204) {
-                listener.triggered(true);
-            } else {
-                listener.triggered(false);
-            }
-        }
+        listener.triggered(success && (status == 200 || status == 204));
     }
 
     public void execute(String token, int points, String description, KWSServiceResponseInterface listener) {

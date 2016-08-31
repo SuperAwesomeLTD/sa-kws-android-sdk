@@ -37,12 +37,7 @@ public class KWSRegisterToken extends KWSService {
 
     @Override
     public void success(int status, String payload, boolean success) {
-        if (!success) {
-            listener.registered(false);
-        } else {
-            Log.d("SuperAwesome", "Payload ==> " + payload);
-            listener.registered(true);
-        }
+        listener.registered(success && (status == 200 || status == 204));
     }
 
     @Override

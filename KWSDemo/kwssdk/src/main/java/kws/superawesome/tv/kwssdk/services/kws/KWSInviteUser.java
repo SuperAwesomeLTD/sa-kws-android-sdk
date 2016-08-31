@@ -35,15 +35,7 @@ public class KWSInviteUser extends KWSService {
 
     @Override
     public void success(int status, String payload, boolean success) {
-        if (!success) {
-            listener.invited(false);
-        } else {
-            if (status == 200 || status == 204) {
-                listener.invited(true);
-            } else {
-                listener.invited(false);
-            }
-        }
+        listener.invited(success && (status == 200 || status == 204));
     }
 
     public void execute(String emailAddress, KWSServiceResponseInterface listener) {
