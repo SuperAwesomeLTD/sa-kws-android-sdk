@@ -38,15 +38,7 @@ public class KWSParentEmail extends KWSService {
 
     @Override
     public void success(int status, String payload, boolean success) {
-        if (!success) {
-            listener.submitted(false);
-        } else {
-            if (status == 200 || status == 204) {
-                listener.submitted(true);
-            } else {
-                listener.submitted(false);
-            }
-        }
+        listener.submitted (success && (status == 200 || status == 204));
     }
 
     @Override

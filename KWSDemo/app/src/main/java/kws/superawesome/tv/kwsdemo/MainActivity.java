@@ -31,6 +31,7 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUserInterface;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
@@ -110,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     public void registerAction(View v) {
         if (TOKEN != null) {
             log += "Trying to register user\n";
             logView.setText(log);
+
 
             KWS.sdk.registerWithPopup(new RegisterInterface() {
                 @Override
@@ -253,6 +256,8 @@ public class MainActivity extends AppCompatActivity {
                 logView.setText(log);
             }
         });
+
+
     }
 
     public void triggerEvent (View v) {
@@ -283,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
                 logView.setText(log);
             }
         });
+
     }
 
     public void checkEvent (View v) {
@@ -293,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 logView.setText(log);
             }
         });
+
     }
 
     public void setAppData (View v) {

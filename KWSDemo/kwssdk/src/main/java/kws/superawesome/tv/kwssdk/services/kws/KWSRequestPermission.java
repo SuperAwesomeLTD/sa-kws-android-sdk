@@ -61,7 +61,7 @@ public class KWSRequestPermission extends KWSService {
                 JSONObject json = SAJsonParser.newObject(payload);
                 KWSError error = new KWSError(json);
 
-                if (error.code == 5 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
+                if (error.code == 10 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
                     listener.requested(true, false);
                 } else {
                     listener.requested(false, false);

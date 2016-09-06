@@ -33,6 +33,7 @@ public class KWSUpdateUser extends KWSService {
         return SAJsonParser.newObject(new Object[] {
                 "firstName", updatedUser.firstName,
                 "lastName", updatedUser.lastName,
+                "dateOfBirth", updatedUser.dateOfBirth,
                 "email", updatedUser.email,
                 "phoneNumber", updatedUser.phoneNumber,
                 "gender", updatedUser.gender,
