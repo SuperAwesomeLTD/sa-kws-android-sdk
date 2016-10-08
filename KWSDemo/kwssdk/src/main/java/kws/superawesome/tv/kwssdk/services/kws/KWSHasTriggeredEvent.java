@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class KWSHasTriggeredEvent extends KWSService {
         }
     }
 
-    public void execute(int eventId, KWSServiceResponseInterface listener) {
+    public void execute(Context context, int eventId, KWSServiceResponseInterface listener) {
         // get vars
         this.eventId = eventId;
 
@@ -59,6 +60,6 @@ public class KWSHasTriggeredEvent extends KWSService {
         this.listener = listener != null ? (KWSHasTriggeredEventInterface) listener : new KWSHasTriggeredEventInterface() {@Override public void hasTriggered(Boolean triggered) {}};
 
         // execute
-        super.execute(this.listener);
+        super.execute(context, this.listener);
     }
 }

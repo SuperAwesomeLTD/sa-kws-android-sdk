@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,9 +76,9 @@ public class KWSUpdateUser extends KWSService {
         }
     }
 
-    public void execute(KWSUser user, KWSServiceResponseInterface listener) {
+    public void execute(Context context, KWSUser user, KWSServiceResponseInterface listener) {
         this.listener = listener != null ? (KWSUpdateUserInterface) listener : new KWSUpdateUserInterface() {@Override public void updated(boolean success, boolean updated) {}};
         updatedUser = user;
-        super.execute(listener);
+        super.execute(context, listener);
     }
 }

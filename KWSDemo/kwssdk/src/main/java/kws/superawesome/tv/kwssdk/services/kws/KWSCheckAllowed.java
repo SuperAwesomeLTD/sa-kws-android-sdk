@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,9 +52,9 @@ public class KWSCheckAllowed extends KWSService {
     }
 
     @Override
-    public void execute(KWSServiceResponseInterface listener) {
+    public void execute(Context context, KWSServiceResponseInterface listener) {
         KWSCheckAllowedInterface local = new KWSCheckAllowedInterface() { public void allowed(boolean success, boolean allowed) {}};
         this.listener =  (listener != null ? (KWSCheckAllowedInterface) listener : local);
-        super.execute(this.listener);
+        super.execute(context, this.listener);
     }
 }

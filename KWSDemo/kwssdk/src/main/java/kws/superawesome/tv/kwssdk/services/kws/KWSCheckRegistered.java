@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
+
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
 import kws.superawesome.tv.kwssdk.services.KWSService;
 import kws.superawesome.tv.kwssdk.services.KWSServiceResponseInterface;
@@ -37,9 +39,9 @@ public class KWSCheckRegistered extends KWSService {
     }
 
     @Override
-    public void execute(KWSServiceResponseInterface listener) {
+    public void execute(Context context, KWSServiceResponseInterface listener) {
         KWSCheckRegisteredInterface local = new KWSCheckRegisteredInterface() {public void allowed(boolean success, boolean registered) {}};
         this.listener = listener != null ? (KWSCheckRegisteredInterface) listener : local;
-        super.execute(this.listener);
+        super.execute(context, this.listener);
     }
 }

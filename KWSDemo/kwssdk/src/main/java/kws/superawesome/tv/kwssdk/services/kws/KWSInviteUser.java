@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
+
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
@@ -38,7 +40,7 @@ public class KWSInviteUser extends KWSService {
         listener.invited(success && (status == 200 || status == 204));
     }
 
-    public void execute(String emailAddress, KWSServiceResponseInterface listener) {
+    public void execute(Context context, String emailAddress, KWSServiceResponseInterface listener) {
         // get vars
         this.emailAddress = emailAddress;
 
@@ -52,6 +54,6 @@ public class KWSInviteUser extends KWSService {
         }
 
         // execute
-        super.execute(this.listener);
+        super.execute(context, this.listener);
     }
 }

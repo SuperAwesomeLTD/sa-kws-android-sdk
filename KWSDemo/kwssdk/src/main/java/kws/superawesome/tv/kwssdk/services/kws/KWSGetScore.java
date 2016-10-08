@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -44,9 +45,9 @@ public class KWSGetScore extends KWSService {
     }
 
     @Override
-    public void execute(KWSServiceResponseInterface listener) {
+    public void execute(Context context, KWSServiceResponseInterface listener) {
         KWSGetScoreInterface local = new KWSGetScoreInterface() {@Override public void gotScore(KWSScore score) {}};
         this.listener = listener != null ? (KWSGetScoreInterface) listener : local;
-        super.execute(this.listener);
+        super.execute(context, this.listener);
     }
 }

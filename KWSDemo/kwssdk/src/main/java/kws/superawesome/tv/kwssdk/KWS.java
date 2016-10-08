@@ -1,7 +1,6 @@
 package kws.superawesome.tv.kwssdk;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
@@ -11,11 +10,14 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.IsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.NotificationProcess;
 import kws.superawesome.tv.kwssdk.process.RegisterInterface;
 import kws.superawesome.tv.kwssdk.process.UnregisterInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUser;
+import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppData;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboard;
@@ -28,6 +30,8 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSHasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.services.kws.KWSHasTriggeredEventInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSInviteUser;
 import kws.superawesome.tv.kwssdk.services.kws.KWSInviteUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmail;
+import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermission;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
@@ -39,10 +43,6 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUser;
 import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUserInterface;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
-import tv.superawesome.lib.sautils.SAApplication;
-import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmail;
-import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 
 /**
  * Created by gabriel.coman on 23/05/16.
@@ -52,10 +52,9 @@ public class KWS {
     // singleton instance
     public static KWS sdk = new KWS();
 
-    // setup variables
+    // startSession variables
     private String oauthToken;
     private String kwsApiUrl;
-    private Context context;
     private KWSMetadata metadata;
 
     // internal services & processes
@@ -71,6 +70,7 @@ public class KWS {
     private KWSGetAppData getAppData;
     private KWSSetAppData setAppData;
     private KWSUpdateUser updateUser;
+    private KWSCreateUser createUser;
 
     // private constructor
 
@@ -87,12 +87,12 @@ public class KWS {
         getAppData = new KWSGetAppData();
         setAppData = new KWSSetAppData();
         updateUser = new KWSUpdateUser();
+        createUser = new KWSCreateUser();
     }
 
     // <Setup> and <Desetup> functions
 
-    public void setup(Context context, @NonNull String oauthToken, String kwsApiUrl) {
-        this.context = context;
+    public void startSession (String oauthToken, String kwsApiUrl) {
         this.oauthToken = oauthToken;
         this.kwsApiUrl = kwsApiUrl;
         if (oauthToken != null) {
@@ -101,11 +101,11 @@ public class KWS {
         if (metadata != null) {
             Log.d("SuperAwesome", metadata.writeToJson().toString());
         } else {
-            Log.d("SuperAwesome", "Warning, could not setup KWS. Probably invalid OAuth Token.");
+            Log.d("SuperAwesome", "Warning, could not startSession KWS. Probably invalid OAuth Token.");
         }
     }
 
-    public void desetup() {
+    public void stopSession () {
         this.oauthToken = null;
         this.kwsApiUrl = null;
         this.metadata = null;
@@ -115,83 +115,87 @@ public class KWS {
     // Public exposed functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void register (@NonNull final RegisterInterface listener) {
-        notificationProcess.register(listener);
+    public void register (Context context, final RegisterInterface listener) {
+        notificationProcess.register(context, listener);
     }
 
-    public void unregister (@NonNull UnregisterInterface listener) {
-        notificationProcess.unregister(listener);
+    public void unregister (Context context, UnregisterInterface listener) {
+        notificationProcess.unregister(context, listener);
     }
 
-    public void isRegistered (@NonNull IsRegisteredInterface listener) {
-        notificationProcess.isRegistered(listener);
+    public void isRegistered (Context context, IsRegisteredInterface listener) {
+        notificationProcess.isRegistered(context, listener);
     }
 
-    public void submitParentEmail (@NonNull String  email, @NonNull KWSParentEmailInterface listener) {
-        parentEmail.execute(email, listener);
+    public void createUser (Context context, String username, String password, String dateOfBirth, String country, KWSCreateUserInterface listener) {
+        createUser.execute(context, username, password, dateOfBirth, country, listener);
     }
 
-    public void getUser (@NonNull KWSGetUserInterface listener) {
-        getUser.execute(listener);
+    public void submitParentEmail (Context context, String  email, KWSParentEmailInterface listener) {
+        parentEmail.execute(context, email, listener);
     }
 
-    public void getLeaderBoard (@NonNull KWSGetLeaderboardInterface listener) {
-        getLeaderboard.execute(listener);
+    public void getUser (Context context, KWSGetUserInterface listener) {
+        getUser.execute(context, listener);
     }
 
-    public void requestPermission (KWSPermissionType[] requestedPermissions, @NonNull KWSRequestPermissionInterface listener) {
-        requestPermission.execute(requestedPermissions, listener);
+    public void getLeaderBoard (Context context, KWSGetLeaderboardInterface listener) {
+        getLeaderboard.execute(context, listener);
     }
 
-    public void triggerEvent(String token, int points, String description, @NonNull KWSTriggerEventInterface listener) {
-        triggerEvent.execute(token, points, description, listener);
+    public void requestPermission (Context context, KWSPermissionType[] requestedPermissions, KWSRequestPermissionInterface listener) {
+        requestPermission.execute(context, requestedPermissions, listener);
     }
 
-    public void getScore(@NonNull KWSGetScoreInterface listener) {
-        getScore.execute(listener);
+    public void triggerEvent(Context context, String token, int points, String description, KWSTriggerEventInterface listener) {
+        triggerEvent.execute(context, token, points, description, listener);
     }
 
-    public void inviteUser (@NonNull String emailAddress, @NonNull KWSInviteUserInterface listener) {
-        inviteUser.execute(emailAddress, listener);
+    public void getScore(Context context, KWSGetScoreInterface listener) {
+        getScore.execute(context, listener);
     }
 
-    public void hasTriggeredEvent (int eventId, @NonNull KWSHasTriggeredEventInterface listener) {
-        hasTriggeredEvent.execute(eventId, listener);
+    public void inviteUser (Context context, String emailAddress, KWSInviteUserInterface listener) {
+        inviteUser.execute(context, emailAddress, listener);
     }
 
-    public void getAppData (@NonNull KWSGetAppDataInterface listener) {
-        getAppData.execute(listener);
+    public void hasTriggeredEvent (Context context, int eventId, KWSHasTriggeredEventInterface listener) {
+        hasTriggeredEvent.execute(context, eventId, listener);
     }
 
-    public void setAppData(@NonNull String name, int value, KWSSetAppDataInterface listener) {
-        setAppData.execute(name, value, listener);
+    public void getAppData (Context context, KWSGetAppDataInterface listener) {
+        getAppData.execute(context, listener);
     }
 
-    public void updateUser(@NonNull KWSUser updatedUser, KWSUpdateUserInterface listener) {
-        updateUser.execute(updatedUser, listener);
+    public void setAppData(Context context, String name, int value, KWSSetAppDataInterface listener) {
+        setAppData.execute(context, name, value, listener);
+    }
+
+    public void updateUser(Context context, KWSUser updatedUser, KWSUpdateUserInterface listener) {
+        updateUser.execute(context, updatedUser, listener);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Aux helper functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void registerWithPopup (@NonNull final RegisterInterface listener) {
+    public void registerWithPopup (final Context context, final RegisterInterface listener) {
         SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
             @Override
             public void pressed(int button, String s) {
                 if (button == SAAlert.OK_BUTTON) {
-                    register(listener);
+                    register(context, listener);
                 }
             }
         });
     }
 
-    public void submitParentEmailWithPopup (@NonNull final KWSParentEmailInterface listener) {
+    public void submitParentEmailWithPopup (final Context context, final KWSParentEmailInterface listener) {
         SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
             @Override
             public void pressed(int button, String email) {
                 if (button == SAAlert.OK_BUTTON) {
-                    submitParentEmail(email, listener);
+                    submitParentEmail(context, email, listener);
                 }
             }
         });
@@ -202,7 +206,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.0.1";
+        return "android-2.0.6";
     }
 
     public String getOauthToken () {
@@ -215,10 +219,6 @@ public class KWS {
 
     public KWSMetadata getMetadata () {
         return metadata;
-    }
-
-    public void setApplicationContext(Context _appContext) {
-        SAApplication.setSAApplicationContext(_appContext);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

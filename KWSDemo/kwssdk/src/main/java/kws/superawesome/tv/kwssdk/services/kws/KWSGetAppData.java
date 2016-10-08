@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -45,8 +47,8 @@ public class KWSGetAppData extends KWSService {
     }
 
     @Override
-    public void execute(KWSServiceResponseInterface listener) {
+    public void execute(Context context, KWSServiceResponseInterface listener) {
         this.listener = listener != null ? (KWSGetAppDataInterface)listener : new KWSGetAppDataInterface() {@Override public void gotAppData(List<KWSAppData> appData) {}};
-        super.execute(listener);
+        super.execute(context, listener);
     }
 }

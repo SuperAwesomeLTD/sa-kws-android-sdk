@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -49,9 +50,9 @@ public class KWSGetLeaderboard extends KWSService {
     }
 
     @Override
-    public void execute(KWSServiceResponseInterface listener) {
+    public void execute(Context context, KWSServiceResponseInterface listener) {
         KWSGetLeaderboardInterface local = new KWSGetLeaderboardInterface() {public void gotLeaderboard(List<KWSLeader> leaderboard) {}};
         this.listener = listener != null ? (KWSGetLeaderboardInterface) listener : local;
-        super.execute(this.listener);
+        super.execute(context, this.listener);
     }
 }

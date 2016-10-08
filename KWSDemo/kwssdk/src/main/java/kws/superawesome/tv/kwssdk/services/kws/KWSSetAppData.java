@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
+
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
@@ -39,10 +41,10 @@ public class KWSSetAppData extends KWSService {
         listener.setAppData(success && (status == 200 || status == 204));
     }
 
-    public void execute(String name, int value, KWSServiceResponseInterface listener) {
+    public void execute(Context context, String name, int value, KWSServiceResponseInterface listener) {
         this.name = name;
         this.value = value;
         this.listener = listener != null? (KWSSetAppDataInterface) listener : new KWSSetAppDataInterface() { @Override public void setAppData(boolean success) {}};
-        super.execute(listener);
+        super.execute(context, listener);
     }
 }

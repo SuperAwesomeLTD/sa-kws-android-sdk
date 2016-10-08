@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -71,7 +72,7 @@ public class KWSRequestPermission extends KWSService {
     }
 
     @Override
-    public void execute(Object param, KWSServiceResponseInterface listener) {
+    public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
         KWSRequestPermissionInterface local = new KWSRequestPermissionInterface() {public void requested(boolean success, boolean requested) {}};
         this.listener = listener != null ? (KWSRequestPermissionInterface) listener : local;
         requestedPermissions = new KWSPermissionType[]{};
@@ -84,6 +85,6 @@ public class KWSRequestPermission extends KWSService {
         }
 
         Log.d("SuperAwesome", "Requesting KWS permission: " + Arrays.toString(requestedPermissions));
-        super.execute(requestedPermissions, this.listener);
+        super.execute(context, requestedPermissions, this.listener);
     }
 }

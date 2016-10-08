@@ -8,8 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.common.ConnectionResult;
 
 import java.util.List;
 
@@ -20,6 +19,7 @@ import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.IsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.RegisterInterface;
 import kws.superawesome.tv.kwssdk.process.UnregisterInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboardInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetScoreInterface;
@@ -31,10 +31,7 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUserInterface;
-import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAUtils;
-import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.process.KWSErrorType;
 
@@ -56,9 +53,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // setup KWS SDK
-        KWS.sdk.setApplicationContext(getApplicationContext());
-
         // get text view
         logView = (TextView) findViewById(R.id.TextLogs);
         logView.setMovementMethod(new ScrollingMovementMethod());
@@ -70,47 +64,21 @@ public class MainActivity extends AppCompatActivity {
     public void createNewUser (View v) {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
 
-        JSONObject body = SAJsonParser.newObject(new Object[]{
-                "username", username,
-                "password", "testtest",
-                "dateOfBirth", "2011-03-02",
-                "country", "US"
-        });
-
-        JSONObject header = SAJsonParser.newObject(new Object[] {
-                "Content-Type", "application/json"
-        });
-
-        SANetwork network = new SANetwork();
-        network.sendPOST(this, "https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new SANetworkInterface() {
+        KWS.sdk.createUser(this, username, "testtest", "2011-03-02", "US", new KWSCreateUserInterface() {
             @Override
-            public void response(int status, String payload, boolean success) {
-
-                // handle failure
-                if (!success) {
-                    log += "Failed to register " + username + "\n";
+            public void created(boolean success, String token) {
+                if (success) {
+                    log += "Created user " + username + "\n";
                     logView.setText(log);
-                    return;
-                }
-
-                Log.d("SuperAwesome", status + "\n" + payload);
-
-                // get json
-                JSONObject json = SAJsonParser.newObject(payload);
-                KWSModel model = new KWSModel(json);
-
-                if (model.status == 1) {
-                    createUser.setText("I am " + username);
-                    TOKEN = model.token;
-                    KWS.sdk.setup(MainActivity.this, TOKEN, API);
+                    KWS.sdk.startSession(token, API);
+                    TOKEN = token;
                 } else {
-                    log += "Failed to register " + username + "\n";
+                    log += "Failed to create user " + username + "\n";
                     logView.setText(log);
                 }
             }
         });
     }
-
 
     public void registerAction(View v) {
         if (TOKEN != null) {
@@ -118,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             logView.setText(log);
 
 
-            KWS.sdk.registerWithPopup(new RegisterInterface() {
+            KWS.sdk.registerWithPopup(this, new RegisterInterface() {
                 @Override
                 public void register(boolean registered, KWSErrorType type) {
                     if (!registered) {
@@ -137,11 +105,11 @@ public class MainActivity extends AppCompatActivity {
                                 log += "User has  no parent email (KWS)\n";
                                 logView.setText(log);
                                 final RegisterInterface local = this;
-                                KWS.sdk.submitParentEmailWithPopup(new KWSParentEmailInterface() {
+                                KWS.sdk.submitParentEmailWithPopup(MainActivity.this, new KWSParentEmailInterface() {
                                     @Override
                                     public void submitted(boolean success) {
                                         if (success) {
-                                            KWS.sdk.register(local);
+                                            KWS.sdk.register(MainActivity.this, local);
                                         } else {
                                             log += "Parent email invalid\n";
                                             logView.setText(log);
@@ -170,11 +138,6 @@ public class MainActivity extends AppCompatActivity {
                                 logView.setText(log);
                                 break;
                             }
-                            case FailedToSubmitParentEmail: {
-                                log += "Network error submitting parent email to KWS\n";
-                                logView.setText(log);
-                                break;
-                            }
                             case FailedToSubscribeTokenToKWS: {
                                 log += "Network error subscribing Firebase token to KWS\n";
                                 logView.setText(log);
@@ -196,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     public void unregisterAction(View v) {
         log += "Trying to unregister user\n";
         logView.setText(log);
-        KWS.sdk.unregister(new UnregisterInterface() {
+        KWS.sdk.unregister(this, new UnregisterInterface() {
             @Override
             public void unregister(boolean unregistered) {
                 log += unregistered ? "User is un-registered\n" : "Network error ubsubscribing Firebase token to KWS\n";
@@ -208,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     public void checkRegisteredAction(View v) {
         log += "Checking if user is registered or not\n";
         logView.setText(log);
-        KWS.sdk.isRegistered(new IsRegisteredInterface() {
+        KWS.sdk.isRegistered(this, new IsRegisteredInterface() {
             @Override
             public void isRegistered(boolean registered) {
                 log += registered ? "User is already registered\n" : "User is not registered\n";
@@ -220,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     public void getUserDetails (View v) {
         log += "Getting user details\n";
         logView.setText(log);
-        KWS.sdk.getUser(new KWSGetUserInterface() {
+        KWS.sdk.getUser(this, new KWSGetUserInterface() {
             @Override
             public void gotUser(KWSUser user) {
                 if (user != null) {
@@ -236,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void  getLeaderboard (View v) {
-        KWS.sdk.getLeaderBoard(new KWSGetLeaderboardInterface() {
+        KWS.sdk.getLeaderBoard(this, new KWSGetLeaderboardInterface() {
             @Override
             public void gotLeaderboard(List<KWSLeader> leaderboard) {
                 log += "Got " + leaderboard.size() + " leaders!\n";
@@ -246,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void requestPermissions (View v) {
-        KWS.sdk.requestPermission(new KWSPermissionType[]{
+        KWS.sdk.requestPermission(this, new KWSPermissionType[]{
                 KWSPermissionType.accessAddress,
                 KWSPermissionType.accessFirstName
         }, new KWSRequestPermissionInterface() {
@@ -261,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void triggerEvent (View v) {
-        KWS.sdk.triggerEvent("a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, "Sent points!", new KWSTriggerEventInterface() {
+        KWS.sdk.triggerEvent(this, "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, "Sent points!", new KWSTriggerEventInterface() {
             @Override
             public void triggered(boolean success) {
                 log += "Triggered evt: " + success + "\n";
@@ -271,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getScore (View v) {
-        KWS.sdk.getScore(new KWSGetScoreInterface() {
+        KWS.sdk.getScore(this, new KWSGetScoreInterface() {
             @Override
             public void gotScore(KWSScore score) {
                 log += "Rank: " + score.rank + " Score: " + score.score + "\n";
@@ -281,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inviteUser (View v) {
-        KWS.sdk.inviteUser("gabriel.coman@superawesome.tv", new KWSInviteUserInterface() {
+        KWS.sdk.inviteUser(this, "gabriel.coman@superawesome.tv", new KWSInviteUserInterface() {
             @Override
             public void invited(boolean success) {
                 log += "Invited gabriel.coman@superawesome.tv " + success + "\n";
@@ -292,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkEvent (View v) {
-        KWS.sdk.hasTriggeredEvent(762, new KWSHasTriggeredEventInterface() {
+        KWS.sdk.hasTriggeredEvent(this, 762, new KWSHasTriggeredEventInterface() {
             @Override
             public void hasTriggered(Boolean triggered) {
                 log += "Event 762 is : " + triggered + "\n";
@@ -303,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setAppData (View v) {
-        KWS.sdk.setAppData("new_val", 33, new KWSSetAppDataInterface() {
+        KWS.sdk.setAppData(this, "new_val", 33, new KWSSetAppDataInterface() {
             @Override
             public void setAppData(boolean success) {
                 log += "Set new_val=33 with " + success + "\n";
@@ -313,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getAppData (View v) {
-        KWS.sdk.getAppData(new KWSGetAppDataInterface() {
+        KWS.sdk.getAppData(this, new KWSGetAppDataInterface() {
             @Override
             public void gotAppData(List<KWSAppData> appData) {
                 for (KWSAppData data : appData) {

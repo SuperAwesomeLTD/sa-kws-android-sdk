@@ -10,7 +10,6 @@ import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.request.SANetwork;
 import tv.superawesome.lib.sanetwork.request.SANetworkInterface;
-import tv.superawesome.lib.sautils.SAApplication;
 
 /**
  * Created by gabriel.coman on 29/07/16.
@@ -24,7 +23,7 @@ public class KWSService implements KWSServiceInterface {
     protected KWSMetadata metadata;
 
     // private data
-    private Context context;
+    private Context context = null;
     private SANetwork network;
 
     public KWSService() {
@@ -65,12 +64,12 @@ public class KWSService implements KWSServiceInterface {
         // do nothing
     }
 
-    public void execute (KWSServiceResponseInterface listener) {
+    public void execute (Context context, KWSServiceResponseInterface listener) {
         kwsApiUrl = KWS.sdk.getKwsApiUrl();
         oauthToken = KWS.sdk.getOauthToken();
         metadata = KWS.sdk.getMetadata();
         version = KWS.sdk.getVersion();
-        context = SAApplication.getSAApplicationContext();
+        this.context = context;
 
         final KWSService instance = this;
 
@@ -112,7 +111,7 @@ public class KWSService implements KWSServiceInterface {
         }
     }
 
-    public void execute(Object param, KWSServiceResponseInterface listener) {
-        execute(listener);
+    public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
+        execute(context, listener);
     }
 }

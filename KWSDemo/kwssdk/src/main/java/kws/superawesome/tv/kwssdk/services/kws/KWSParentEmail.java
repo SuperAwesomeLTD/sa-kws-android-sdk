@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
+
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
@@ -42,7 +44,7 @@ public class KWSParentEmail extends KWSService {
     }
 
     @Override
-    public void execute(Object param, KWSServiceResponseInterface listener) {
+    public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
         KWSParentEmailInterface local = new KWSParentEmailInterface() {public void submitted(boolean success) {}};
         this.listener = listener != null ? (KWSParentEmailInterface) listener : local;
 
@@ -60,6 +62,6 @@ public class KWSParentEmail extends KWSService {
             return;
         }
 
-        super.execute(emailToSubmit, this.listener);
+        super.execute(context, emailToSubmit, this.listener);
     }
 }

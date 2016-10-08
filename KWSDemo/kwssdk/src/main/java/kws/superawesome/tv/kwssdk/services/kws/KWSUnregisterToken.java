@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -40,7 +41,7 @@ public class KWSUnregisterToken extends KWSService {
     }
 
     @Override
-    public void execute(Object param, KWSServiceResponseInterface listener) {
+    public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
         KWSUnregisterTokenInterface local = new KWSUnregisterTokenInterface() {public void unregistered(boolean success) {}};
         this.listener = listener != null ? (KWSUnregisterTokenInterface) listener : local;
 
@@ -53,6 +54,6 @@ public class KWSUnregisterToken extends KWSService {
         }
 
         // execute
-        super.execute(param, this.listener);
+        super.execute(context, param, this.listener);
     }
 }

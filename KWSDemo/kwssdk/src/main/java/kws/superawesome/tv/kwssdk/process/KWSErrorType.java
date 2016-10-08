@@ -46,12 +46,6 @@ public enum KWSErrorType {
             return "FailedToRequestNotificationsPermissionInKWS";
         }
     },
-    FailedToSubmitParentEmail {
-        @Override
-        public String toString() {
-            return "FailedToSubmitParentEmail";
-        }
-    },
     FailedToSubscribeTokenToKWS {
         @Override
         public String toString() {
