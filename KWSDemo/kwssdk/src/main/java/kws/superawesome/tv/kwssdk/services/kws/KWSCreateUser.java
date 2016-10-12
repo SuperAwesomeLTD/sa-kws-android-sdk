@@ -20,6 +20,7 @@ public class KWSCreateUser extends KWSService {
 
     private KWSCreateUserInterface listener = null;
     private KWSLoggedUser loggedUser;
+    private String password;
 
     public KWSCreateUser () {
         listener = new KWSCreateUserInterface() { @Override public void created(int status, KWSLoggedUser loggedUser) {}};
@@ -46,7 +47,7 @@ public class KWSCreateUser extends KWSService {
     public JSONObject getBody() {
         return SAJsonParser.newObject(new Object[] {
                 "username", loggedUser.username,
-                "password", loggedUser.password,
+                "password", password,
                 "dateOfBirth", loggedUser.dateOfBirth,
                 "country", loggedUser.country,
                 "parentEmail", loggedUser.parentEmail,
@@ -70,9 +71,10 @@ public class KWSCreateUser extends KWSService {
         }
     }
 
-    public void execute (Context context, KWSLoggedUser loggedUser, KWSCreateUserInterface listener) {
+    public void execute (Context context, KWSLoggedUser loggedUser, String password, KWSCreateUserInterface listener) {
         this.listener = listener != null ? listener : this.listener;
         this.loggedUser = loggedUser;
+        this.password = password;
         super.execute(context, this.listener);
     }
 }

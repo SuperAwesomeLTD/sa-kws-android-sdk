@@ -81,7 +81,6 @@ public class KWSCreateUserProcess {
 
                     KWSLoggedUser loggedUser = new KWSLoggedUser();
                     loggedUser.username = username;
-                    loggedUser.password = password;
                     loggedUser.parentEmail = parentEmail;
                     loggedUser.country = country;
                     loggedUser.dateOfBirth = dateOfBirth;
@@ -89,7 +88,7 @@ public class KWSCreateUserProcess {
                     loggedUser.expiresIn = accessToken.expires_in;
                     loggedUser.metadata = KWSAux.processMetadata(accessToken.access_token);
 
-                    createUser.execute(context, loggedUser, new KWSCreateUserInterface() {
+                    createUser.execute(context, loggedUser, password, new KWSCreateUserInterface() {
                         @Override
                         public void created(int status, KWSLoggedUser tmpUser) {
 

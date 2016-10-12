@@ -54,7 +54,6 @@ public class KWSAuthUserProcess {
                     // create a user
                     KWSLoggedUser loggedUser = new KWSLoggedUser();
                     loggedUser.username = username;
-                    loggedUser.password = password;
                     loggedUser.accessToken = accessToken.access_token;
                     loggedUser.expiresIn = accessToken.expires_in;
                     loggedUser.metadata = KWSAux.processMetadata(accessToken.access_token);
@@ -70,7 +69,6 @@ public class KWSAuthUserProcess {
                                 finalUser.id = tmpUser.id;
                                 finalUser.token = tmpUser.token;
                                 finalUser.username = username;
-                                finalUser.password = password;
                                 finalUser.accessToken = accessToken.access_token;
                                 finalUser.expiresIn = accessToken.expires_in;
                                 finalUser.loginDate = System.currentTimeMillis() / 1000L;

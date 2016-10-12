@@ -17,7 +17,6 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
 
     public int id;
     public String username;
-    public String password;
     public String dateOfBirth;
     public String country;
     public String parentEmail;
@@ -38,7 +37,6 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
     protected KWSLoggedUser(Parcel in) {
         id = in.readInt();
         username = in.readString();
-        password = in.readString();
         dateOfBirth = in.readString();
         country = in.readString();
         parentEmail = in.readString();
@@ -70,7 +68,6 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(username);
-        dest.writeString(password);
         dest.writeString(dateOfBirth);
         dest.writeString(country);
         dest.writeString(parentEmail);
@@ -85,7 +82,6 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
     public void readFromJson(JSONObject jsonObject) {
         id = SAJsonParser.getInt(jsonObject, "id");
         username = SAJsonParser.getString(jsonObject, "username");
-        password = SAJsonParser.getString(jsonObject, "password");
         parentEmail = SAJsonParser.getString(jsonObject, "parentEmail");
         country = SAJsonParser.getString(jsonObject, "country");
         accessToken = SAJsonParser.getString(jsonObject, "access_token");
@@ -103,7 +99,6 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         return SAJsonParser.newObject(new Object[] {
                 "id", id,
                 "username", username,
-                "password", password,
                 "parentEmail", parentEmail,
                 "country", country,
                 "access_token", accessToken,
