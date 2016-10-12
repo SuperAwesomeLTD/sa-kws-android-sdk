@@ -21,9 +21,6 @@ import kws.superawesome.tv.kwssdk.process.KWSCreateUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSIsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.process.KWSUnregisterInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUserInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSGetAccessTokenCreate;
-import kws.superawesome.tv.kwssdk.services.kws.KWSGetAccessTokenCreateInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboardInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetScoreInterface;
@@ -37,6 +34,7 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
+import tv.superawesome.lib.sanetwork.file.SAFileDownloader;
 import tv.superawesome.lib.sautils.SAUtils;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.process.KWSNotificationStatus;
@@ -65,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
 
-        KWS.sdk.startSession(CLIENT, SECRET, API);
+        KWS.sdk.startSession(this, CLIENT, SECRET, API);
+
+//        SAFileDownloader
 
     }
 
@@ -114,12 +114,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void authUser (View v) {
 
-        KWS.sdk.authUser(this, "testusr455", "testtest", new KWSAuthUserProcessInterface() {
+        KWS.sdk.authenticateUser(this, "testusr455", "testtest", new KWSAuthUserProcessInterface() {
             @Override
             public void userAuthenticated(KWSAuthUserStatus status) {
                 switch (status) {
                     case Success:
                         log += "Auth as testusr455\n";
+                        Log.d("SuperAwesome", KWS.sdk.getLoggedUser().writeToJson() + "");
                         break;
                     case NetworkError:
                         log += "Network error authing\n";
@@ -142,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
 
         KWS.sdk.registerWithPopup(this, new KWSRegisterInterface() {
             @Override
-            public void register(KWSNotificationStatus type) {
-                switch (type) {
+            public void register(KWSNotificationStatus status) {
+                switch (status) {
                     case ParentDisabledNotifications: {
                         log += "User has  no permissions (KWS)\n";
                         break;
@@ -218,6 +219,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkRegisteredAction(View v) {
+
+        Log.d("SuperAwesome", "User is " + KWS.sdk.getLoggedUser().isValid());
+
         log += "Checking if user is registered or not\n";
         logView.setText(log);
         KWS.sdk.isRegistered(this, new KWSIsRegisteredInterface() {

@@ -36,7 +36,7 @@ public class KWSGetAccessTokenAuth extends KWSService {
     private KWSGetAccessTokenAuthInterface listener;
 
     public KWSGetAccessTokenAuth () {
-        listener = new KWSGetAccessTokenAuthInterface() { @Override public void gotToken(String token) {} };
+        listener = new KWSGetAccessTokenAuthInterface() { @Override public void gotToken(KWSAccessToken accessToken) {} };
     }
 
     @Override
@@ -74,7 +74,13 @@ public class KWSGetAccessTokenAuth extends KWSService {
             if (status == 200 && payload != null) {
                 JSONObject jsonObject = SAJsonParser.newObject(payload);
                 KWSAccessToken accessToken = new KWSAccessToken(jsonObject);
-                listener.gotToken(accessToken.access_token);
+
+                if (accessToken.access_token != null) {
+                    listener.gotToken(accessToken);
+                } else {
+                    listener.gotToken(null);
+                }
+
             } else {
                 listener.gotToken(null);
             }

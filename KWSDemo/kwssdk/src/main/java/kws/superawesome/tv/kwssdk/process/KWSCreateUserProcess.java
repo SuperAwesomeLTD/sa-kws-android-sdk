@@ -6,6 +6,7 @@ import android.util.Patterns;
 
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.aux.KWSAux;
+import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUser;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUserInterface;
@@ -74,7 +75,7 @@ public class KWSCreateUserProcess {
         // get access token
         getAccessTokenCreate.execute(context, new KWSGetAccessTokenCreateInterface() {
             @Override
-            public void gotToken(final String accessToken) {
+            public void gotToken(final KWSAccessToken accessToken) {
 
                 if (accessToken != null) {
 
@@ -84,8 +85,9 @@ public class KWSCreateUserProcess {
                     loggedUser.parentEmail = parentEmail;
                     loggedUser.country = country;
                     loggedUser.dateOfBirth = dateOfBirth;
-                    loggedUser.accessToken = accessToken;
-                    loggedUser.metadata = KWSAux.processMetadata(accessToken);
+                    loggedUser.accessToken = accessToken.access_token;
+                    loggedUser.expiresIn = accessToken.expires_in;
+                    loggedUser.metadata = KWSAux.processMetadata(accessToken.access_token);
 
                     createUser.execute(context, loggedUser, new KWSCreateUserInterface() {
                         @Override
@@ -101,7 +103,8 @@ public class KWSCreateUserProcess {
                                 finalUser.parentEmail = parentEmail;
                                 finalUser.country = country;
                                 finalUser.dateOfBirth = dateOfBirth;
-                                finalUser.accessToken = accessToken;
+                                finalUser.accessToken = accessToken.access_token;
+                                finalUser.expiresIn = accessToken.expires_in;
                                 finalUser.metadata = KWSAux.processMetadata(tmpUser.token);
 
                                 // set a proper logged user

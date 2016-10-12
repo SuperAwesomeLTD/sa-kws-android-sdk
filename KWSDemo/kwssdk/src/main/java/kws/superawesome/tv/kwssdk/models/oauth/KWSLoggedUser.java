@@ -23,6 +23,8 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
     public String parentEmail;
     public String accessToken;
     public String token;
+    public int expiresIn;
+    public long loginDate;
     public KWSMetadata metadata;
 
     public KWSLoggedUser () {
@@ -42,6 +44,8 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         parentEmail = in.readString();
         accessToken = in.readString();
         token = in.readString();
+        expiresIn = in.readInt();
+        loginDate = in.readLong();
         metadata = in.readParcelable(KWSMetadata.class.getClassLoader());
     }
 
@@ -72,6 +76,8 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         dest.writeString(parentEmail);
         dest.writeString(accessToken);
         dest.writeString(token);
+        dest.writeInt(expiresIn);
+        dest.writeLong(loginDate);
         dest.writeParcelable(metadata, flags);
     }
 
@@ -85,6 +91,8 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         accessToken = SAJsonParser.getString(jsonObject, "access_token");
         token = SAJsonParser.getString(jsonObject, "token");
         dateOfBirth = SAJsonParser.getString(jsonObject, "dateOfBirth");
+        expiresIn = SAJsonParser.getInt(jsonObject, "expires_in");
+        loginDate = SAJsonParser.getLong(jsonObject, "loginDate");
         if (accessToken != null) {
             metadata = KWSAux.processMetadata(accessToken);
         }
@@ -101,12 +109,16 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
                 "access_token", accessToken,
                 "token", token,
                 "dateOfBirth", dateOfBirth,
+                "expires_in", expiresIn,
+                "loginDate", loginDate,
                 "metadata", metadata.writeToJson()
         });
     }
 
     @Override
     public boolean isValid() {
-        return true;
+        long now = System.currentTimeMillis() / 1000L;
+        long nowMinusExp = now - expiresIn;
+        return nowMinusExp <= loginDate;
     }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.aux.KWSAux;
+import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.services.kws.*;
 
@@ -46,7 +47,7 @@ public class KWSAuthUserProcess {
         // get access token
         getAccessTokenAuth.execute(context, username, password, new KWSGetAccessTokenAuthInterface() {
             @Override
-            public void gotToken(final String accessToken) {
+            public void gotToken(final KWSAccessToken accessToken) {
 
                 if (accessToken != null) {
 
@@ -54,8 +55,9 @@ public class KWSAuthUserProcess {
                     KWSLoggedUser loggedUser = new KWSLoggedUser();
                     loggedUser.username = username;
                     loggedUser.password = password;
-                    loggedUser.accessToken = accessToken;
-                    loggedUser.metadata = KWSAux.processMetadata(accessToken);
+                    loggedUser.accessToken = accessToken.access_token;
+                    loggedUser.expiresIn = accessToken.expires_in;
+                    loggedUser.metadata = KWSAux.processMetadata(accessToken.access_token);
 
                     authUser.execute(context, loggedUser, new KWSAuthUserInterface() {
                         @Override
@@ -69,7 +71,9 @@ public class KWSAuthUserProcess {
                                 finalUser.token = tmpUser.token;
                                 finalUser.username = username;
                                 finalUser.password = password;
-                                finalUser.accessToken = accessToken;
+                                finalUser.accessToken = accessToken.access_token;
+                                finalUser.expiresIn = accessToken.expires_in;
+                                finalUser.loginDate = System.currentTimeMillis() / 1000L;
                                 finalUser.metadata = KWSAux.processMetadata(tmpUser.token);
 
                                 // set final user

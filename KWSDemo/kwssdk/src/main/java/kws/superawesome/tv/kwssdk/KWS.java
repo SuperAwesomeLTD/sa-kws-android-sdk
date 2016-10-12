@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwssdk;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
@@ -46,6 +47,8 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEvent;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUser;
 import kws.superawesome.tv.kwssdk.services.kws.KWSUpdateUserInterface;
+import tv.superawesome.lib.sajsonparser.SAJsonParser;
+import tv.superawesome.lib.sanetwork.request.SANetwork;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
 
@@ -79,6 +82,11 @@ public class KWS {
     private KWSSetAppData setAppData;
     private KWSUpdateUser updateUser;
 
+    // prefferences
+    private static final String LOGGED_USER_KEY = "KWS_SA_LOGGED_USER";
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+
     // private constructor
 
     private KWS() {
@@ -100,10 +108,31 @@ public class KWS {
 
     // <Setup> and <Desetup> functions
 
-    public void startSession (String clientId, String clientSecret, String apiUrl) {
+    public void startSession (Context context, String clientId, String clientSecret, String apiUrl) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.kwsApiUrl = apiUrl;
+
+        // get prefferences
+        preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
+        editor = preferences.edit();
+
+        if (preferences.contains(LOGGED_USER_KEY)) {
+            String loggedUserString = preferences.getString(LOGGED_USER_KEY, "{}");
+            JSONObject loggedUserJson = SAJsonParser.newObject(loggedUserString);
+            KWSLoggedUser tmpUser = new KWSLoggedUser(loggedUserJson);
+
+            if (tmpUser.isValid()) {
+                loggedUser = tmpUser;
+                Log.d("KWS", "KWS started with logged usser " + loggedUser.metadata.userId);
+            } else {
+                Log.d("KWS", "KWS started with a logged user that had an expired OAuth token. Clearning cache!");
+                editor.remove(LOGGED_USER_KEY);
+                editor.apply();
+            }
+        } else {
+            Log.d("KWS", "KWS started without a logged user since none was found");
+        }
     }
 
     public void stopSession () {
@@ -122,7 +151,7 @@ public class KWS {
         createUserProcess.create(context, username, password, dateOfBirth, country, parentEmail, listener);
     }
 
-    public void authUser (Context context, String username, String password, KWSAuthUserProcessInterface listener) {
+    public void authenticateUser (Context context, String username, String password, KWSAuthUserProcessInterface listener) {
         authUserProcess.auth(context, username, password, listener);
     }
 
@@ -241,6 +270,13 @@ public class KWS {
     }
 
     public void setLoggedUser (KWSLoggedUser loggedUser) {
+        // assign the logged user
         this.loggedUser = loggedUser;
+
+        // save in prefferences
+        if (editor != null) {
+            editor.putString(LOGGED_USER_KEY, loggedUser.writeToJson().toString());
+            editor.apply();
+        }
     }
 }
