@@ -18,9 +18,13 @@ public class KWSGetUser extends KWSService {
 
     private KWSGetUserInterface listener = null;
 
+    public KWSGetUser () {
+        listener = new KWSGetUserInterface() { @Override public void gotUser(KWSUser user) {} };
+    }
+
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId;
+        return "v1/users/" + super.loggedUser.metadata.userId;
     }
 
     @Override
@@ -45,8 +49,7 @@ public class KWSGetUser extends KWSService {
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        KWSGetUserInterface local = new KWSGetUserInterface() {public void gotUser(KWSUser user) {}};
-        this.listener = listener != null ? (KWSGetUserInterface) listener : local;
+        this.listener = listener != null ? (KWSGetUserInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

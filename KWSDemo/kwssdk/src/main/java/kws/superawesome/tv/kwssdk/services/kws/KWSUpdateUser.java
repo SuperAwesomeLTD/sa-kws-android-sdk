@@ -22,7 +22,7 @@ public class KWSUpdateUser extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.clientId;
+        return "v1/users/" + super.loggedUser.metadata.clientId;
     }
 
     @Override
@@ -60,24 +60,24 @@ public class KWSUpdateUser extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.updated(false, false);
+            listener.updated(false);
         } else {
             if (status == 200 || status == 204) {
-                listener.updated(true, false);
+                listener.updated(true);
             } else {
                 JSONObject jsonObject = SAJsonParser.newObject(payload);
                 KWSError error = new KWSError(jsonObject);
 
                 // forbidden code
                 if (error.code == 1 || error.code == 5) {
-                    listener.updated(true, false);
+                    listener.updated(false);
                 }
             }
         }
     }
 
     public void execute(Context context, KWSUser user, KWSServiceResponseInterface listener) {
-        this.listener = listener != null ? (KWSUpdateUserInterface) listener : new KWSUpdateUserInterface() {@Override public void updated(boolean success, boolean updated) {}};
+        this.listener = listener != null ? (KWSUpdateUserInterface) listener : new KWSUpdateUserInterface() {@Override public void updated(boolean updated) {}};
         updatedUser = user;
         super.execute(context, listener);
     }

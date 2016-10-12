@@ -3,23 +3,23 @@ package kws.superawesome.tv.kwssdk.process;
 /**
  * Created by gabriel.coman on 04/07/16.
  */
-public enum KWSErrorType {
-    ParentHasDisabledRemoteNotifications {
+public enum KWSNotificationStatus {
+    ParentDisabledNotifications {
         @Override
         public String toString() {
-            return "ParentHasDisabledRemoteNotifications";
+            return "ParentDisabledNotifications";
         }
     },
-    UserHasDisabledRemoteNotifications {
+    UserDisabledNotifications {
         @Override
         public String toString() {
-            return "UserHasDisabledRemoteNotifications";
+            return "UserDisabledNotifications";
         }
     },
-    UserHasNoParentEmail {
+    NoParentEmail {
         @Override
         public String toString() {
-            return "UserHasNoParentEmail";
+            return "NoParentEmail";
         }
     },
     FirebaseNotSetup {
@@ -34,22 +34,16 @@ public enum KWSErrorType {
             return "FirebaseCouldNotGetToken";
         }
     },
-    FailedToCheckIfUserHasNotificationsEnabledInKWS {
+    NetworkError {
         @Override
         public String toString() {
-            return "FailedToCheckIfUserHasNotificationsEnabledInKWS";
+            return "NetworkError";
         }
     },
-    FailedToRequestNotificationsPermissionInKWS {
+    Success {
         @Override
         public String toString() {
-            return "FailedToRequestNotificationsPermissionInKWS";
-        }
-    },
-    FailedToSubscribeTokenToKWS {
-        @Override
-        public String toString() {
-            return "FailedToSubscribeTokenToKWS";
+            return "Success";
         }
     }
 }

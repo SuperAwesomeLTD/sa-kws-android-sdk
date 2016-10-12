@@ -20,7 +20,7 @@ public class KWSSetAppData extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/app-data/set";
+        return "v1/apps/" + super.loggedUser.metadata.appId + "/users/" + super.loggedUser.metadata.userId + "/app-data/set";
     }
 
     @Override

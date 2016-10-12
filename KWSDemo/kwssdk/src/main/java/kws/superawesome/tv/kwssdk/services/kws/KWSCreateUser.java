@@ -1,9 +1,11 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
+import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.user.KWSUserCreateDetail;
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
 import kws.superawesome.tv.kwssdk.services.KWSService;
@@ -17,20 +19,15 @@ import tv.superawesome.lib.sanetwork.request.SANetworkInterface;
 public class KWSCreateUser extends KWSService {
 
     private KWSCreateUserInterface listener = null;
-    private String username = null;
-    private String password = null;
-    private String dateOfBirth = null;
-    private String country = null;
-    private SANetwork network = null;
+    private KWSLoggedUser loggedUser;
 
     public KWSCreateUser () {
-        listener = new KWSCreateUserInterface() { @Override public void created(boolean success, String token) {}};
-        network = new SANetwork();
+        listener = new KWSCreateUserInterface() { @Override public void created(int status, KWSLoggedUser loggedUser) {}};
     }
 
     @Override
     public String getEndpoint() {
-        return "https://kwsdemobackend.herokuapp.com/create";
+        return "v1/apps/" + loggedUser.metadata.appId + "/users?access_token=" + loggedUser.accessToken;
     }
 
     @Override
@@ -48,48 +45,34 @@ public class KWSCreateUser extends KWSService {
     @Override
     public JSONObject getBody() {
         return SAJsonParser.newObject(new Object[] {
-                "username", username,
-                "password", password,
-                "dateOfBirth", dateOfBirth,
-                "country", country
+                "username", loggedUser.username,
+                "password", loggedUser.password,
+                "dateOfBirth", loggedUser.dateOfBirth,
+                "country", loggedUser.country,
+                "parentEmail", loggedUser.parentEmail,
+                "authenticate", true
         });
     }
 
     @Override
     public void success(int status, String payload, boolean success) {
+
         if (!success) {
-            listener.created(false, null);
+            listener.created(status, null);
         } else {
-            if (status == 200 && payload != null) {
+            if (status == 201 && payload != null) {
                 JSONObject jsonObject = SAJsonParser.newObject(payload);
-                KWSUserCreateDetail user = new KWSUserCreateDetail(jsonObject);
-                if (user.token != null) {
-                    listener.created(true, user.token);
-                } else {
-                    listener.created(false, null);
-                }
+                KWSLoggedUser loggedUser = new KWSLoggedUser(jsonObject);
+                listener.created(status, loggedUser.token != null ? loggedUser : null);
             } else {
-                listener.created(false, null);
+                listener.created(status, null);
             }
         }
     }
 
-    public void execute (Context context, String username, String password, String dateOfBirth, String country, KWSCreateUserInterface listener) {
+    public void execute (Context context, KWSLoggedUser loggedUser, KWSCreateUserInterface listener) {
         this.listener = listener != null ? listener : this.listener;
-        this.username = username;
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.country = country;
-
-        final KWSCreateUser instance = this;
-
-        // super.execute ();
-        network.sendPOST(context, getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
-            @Override
-            public void response(int status, String payload, boolean success) {
-                instance.success(status, payload, success);
-            }
-        });
-
+        this.loggedUser = loggedUser;
+        super.execute(context, this.listener);
     }
 }

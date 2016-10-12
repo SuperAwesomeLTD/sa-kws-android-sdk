@@ -20,7 +20,7 @@ public class KWSUnregisterToken extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/unsubscribe-push-notifications";
+        return "v1/apps/" + super.loggedUser.metadata.appId + "/users/" + super.loggedUser.metadata.userId + "/unsubscribe-push-notifications";
     }
 
     @Override

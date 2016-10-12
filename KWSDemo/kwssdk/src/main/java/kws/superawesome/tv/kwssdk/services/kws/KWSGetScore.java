@@ -18,9 +18,13 @@ public class KWSGetScore extends KWSService {
 
     private KWSGetScoreInterface listener = null;
 
+    public KWSGetScore () {
+        listener = new KWSGetScoreInterface() { @Override public void gotScore(KWSScore score) {} };
+    }
+
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/score";
+        return "v1/apps/" + super.loggedUser.metadata.appId + "/score";
     }
 
     @Override
@@ -46,8 +50,7 @@ public class KWSGetScore extends KWSService {
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        KWSGetScoreInterface local = new KWSGetScoreInterface() {@Override public void gotScore(KWSScore score) {}};
-        this.listener = listener != null ? (KWSGetScoreInterface) listener : local;
+        this.listener = listener != null ? (KWSGetScoreInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

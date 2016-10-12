@@ -13,9 +13,13 @@ public class KWSCheckRegistered extends KWSService {
 
     private KWSCheckRegisteredInterface listener = null;
 
+    public KWSCheckRegistered () {
+        listener = new KWSCheckRegisteredInterface() { @Override public void allowed(boolean registered) {} };
+    }
+
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/has-device-token";
+        return "v1/apps/" + super.loggedUser.metadata.appId + "/users/" + super.loggedUser.metadata.userId + "/has-device-token";
     }
 
     @Override
@@ -26,22 +30,21 @@ public class KWSCheckRegistered extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.allowed(false, false);
+            listener.allowed(false);
         } else {
             if (payload.contentEquals("true")) {
-                listener.allowed(true, true);
+                listener.allowed(true);
             } else if (payload.contentEquals("false")) {
-                listener.allowed(true, false);
+                listener.allowed(false);
             } else {
-                listener.allowed(false, false);
+                listener.allowed(false);
             }
         }
     }
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        KWSCheckRegisteredInterface local = new KWSCheckRegisteredInterface() {public void allowed(boolean success, boolean registered) {}};
-        this.listener = listener != null ? (KWSCheckRegisteredInterface) listener : local;
+        this.listener = listener != null ? (KWSCheckRegisteredInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

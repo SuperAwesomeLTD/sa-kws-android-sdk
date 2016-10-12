@@ -20,11 +20,10 @@ public class KWSTriggerEvent extends KWSService{
     private KWSTriggerEventInterface listener = null;
     private String evtToken = null;
     private int evtPoints = 0;
-    private String evtDescription = null;
 
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId + "/trigger-event";
+        return "v1/users/" + super.loggedUser.metadata.userId + "/trigger-event";
     }
 
     @Override
@@ -43,11 +42,6 @@ public class KWSTriggerEvent extends KWSService{
                 body.put("token", evtToken);
             } catch (JSONException ignored) {}
         }
-        if (evtDescription != null && !evtDescription.equals("")) {
-            try {
-                body.put("description", evtDescription);
-            } catch (JSONException ignored) {}
-        }
         return body;
     }
 
@@ -56,11 +50,10 @@ public class KWSTriggerEvent extends KWSService{
         listener.triggered(success && (status == 200 || status == 204));
     }
 
-    public void execute(Context context, String token, int points, String description, KWSServiceResponseInterface listener) {
+    public void execute(Context context, String token, int points, KWSServiceResponseInterface listener) {
         // get vars
         this.evtToken = token;
         this.evtPoints = points;
-        this.evtDescription = description;
 
         // get listener
         this.listener = listener != null ? (KWSTriggerEventInterface) listener : new KWSTriggerEventInterface() { public void triggered(boolean success) {}};

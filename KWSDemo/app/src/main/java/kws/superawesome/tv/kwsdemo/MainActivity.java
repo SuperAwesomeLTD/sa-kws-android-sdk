@@ -8,18 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-
 import java.util.List;
 
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
-import kws.superawesome.tv.kwssdk.process.IsRegisteredInterface;
-import kws.superawesome.tv.kwssdk.process.RegisterInterface;
-import kws.superawesome.tv.kwssdk.process.UnregisterInterface;
+import kws.superawesome.tv.kwssdk.process.KWSAuthUserProcessInterface;
+import kws.superawesome.tv.kwssdk.process.KWSAuthUserStatus;
+import kws.superawesome.tv.kwssdk.process.KWSCreateUserProcessInterface;
+import kws.superawesome.tv.kwssdk.process.KWSCreateUserStatus;
+import kws.superawesome.tv.kwssdk.process.KWSIsRegisteredInterface;
+import kws.superawesome.tv.kwssdk.process.KWSRegisterInterface;
+import kws.superawesome.tv.kwssdk.process.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetAccessTokenCreate;
+import kws.superawesome.tv.kwssdk.services.kws.KWSGetAccessTokenCreateInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetLeaderboardInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSGetScoreInterface;
@@ -27,13 +31,15 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSGetUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSHasTriggeredEventInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSInviteUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailStatus;
+import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionStatus;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
 import tv.superawesome.lib.sautils.SAUtils;
 import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.process.KWSErrorType;
+import kws.superawesome.tv.kwssdk.process.KWSNotificationStatus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
     // log text
     private String log = "";
 
-    private String TOKEN = null;
-    private static final String API = "https://kwsapi.demo.superawesome.tv/v1/";
+    private static final String CLIENT = "sa-mobile-app-sdk-client-0";
+    private static final String SECRET = "_apikey_5cofe4ppp9xav2t9";
+    private static final String API = "https://kwsapi.demo.superawesome.tv/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         logView = (TextView) findViewById(R.id.TextLogs);
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
+
+        KWS.sdk.startSession(CLIENT, SECRET, API);
+
     }
 
     // MARK: Actions
@@ -64,102 +74,141 @@ public class MainActivity extends AppCompatActivity {
     public void createNewUser (View v) {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
 
-        KWS.sdk.createUser(this, username, "testtest", "2011-03-02", "US", new KWSCreateUserInterface() {
+        KWS.sdk.createUser(this, username, "testtest", "2011-03-02", "US", "dev.gabriel.coman@gmail.com", new KWSCreateUserProcessInterface() {
             @Override
-            public void created(boolean success, String token) {
-                if (success) {
-                    log += "Created user " + username + "\n";
-                    logView.setText(log);
-                    KWS.sdk.startSession(token, API);
-                    TOKEN = token;
-                } else {
-                    log += "Failed to create user " + username + "\n";
-                    logView.setText(log);
+            public void userCreated(KWSCreateUserStatus status) {
+                switch (status) {
+                    case Success:
+                        log += "User " + username + " created OK\n";
+                        break;
+                    case InvalidUsername:
+                        log += "Invalid username\n";
+                        break;
+                    case InvalidPassword:
+                        log += "Invalid password\n";
+                        break;
+                    case InvalidDateOfBirth:
+                        log += "Invalid date of birth\n";
+                        break;
+                    case InvalidCountry:
+                        log += "Invalid country\n";
+                        break;
+                    case InvalidParentEmail:
+                        log += "Invalid parent email\n";
+                        break;
+                    case DuplicateUsername:
+                        log += "Duplicate username\n";
+                        break;
+                    case NetworkError:
+                        log += "Network error\n";
+                        break;
+                    case InvalidOperation:
+                        log += "Invalid operation\n";
+                        break;
                 }
+
+                logView.setText(log);
             }
         });
     }
 
+    public void authUser (View v) {
+
+        KWS.sdk.authUser(this, "testusr455", "testtest", new KWSAuthUserProcessInterface() {
+            @Override
+            public void userAuthenticated(KWSAuthUserStatus status) {
+                switch (status) {
+                    case Success:
+                        log += "Auth as testusr455\n";
+                        break;
+                    case NetworkError:
+                        log += "Network error authing\n";
+                        break;
+                    case InvalidCredentials:
+                        log += "Invalid credentials\n";
+                        break;
+                }
+
+                logView.setText(log);
+            }
+        });
+
+    }
+
     public void registerAction(View v) {
-        if (TOKEN != null) {
-            log += "Trying to register user\n";
-            logView.setText(log);
+        log += "Trying to register user\n";
+        logView.setText(log);
 
 
-            KWS.sdk.registerWithPopup(this, new RegisterInterface() {
-                @Override
-                public void register(boolean registered, KWSErrorType type) {
-                    if (!registered) {
-                        switch (type) {
-                            case ParentHasDisabledRemoteNotifications: {
-                                log += "User has  no permissions (KWS)\n";
-                                logView.setText(log);
-                                break;
-                            }
-                            case UserHasDisabledRemoteNotifications: {
-                                log += "User has  no permissions (System)\n";
-                                logView.setText(log);
-                                break;
-                            }
-                            case UserHasNoParentEmail: {
-                                log += "User has  no parent email (KWS)\n";
-                                logView.setText(log);
-                                final RegisterInterface local = this;
-                                KWS.sdk.submitParentEmailWithPopup(MainActivity.this, new KWSParentEmailInterface() {
-                                    @Override
-                                    public void submitted(boolean success) {
-                                        if (success) {
-                                            KWS.sdk.register(MainActivity.this, local);
-                                        } else {
-                                            log += "Parent email invalid\n";
-                                            logView.setText(log);
-                                        }
+        KWS.sdk.registerWithPopup(this, new KWSRegisterInterface() {
+            @Override
+            public void register(KWSNotificationStatus type) {
+                switch (type) {
+                    case ParentDisabledNotifications: {
+                        log += "User has  no permissions (KWS)\n";
+                        break;
+                    }
+                    case UserDisabledNotifications: {
+                        log += "User has  no permissions (System)\n";
+                        break;
+                    }
+                    case NoParentEmail: {
+                        log += "User has  no parent email (KWS)\n";
+
+                        final KWSRegisterInterface local = this;
+
+                        KWS.sdk.submitParentEmailWithPopup(MainActivity.this, new KWSParentEmailInterface() {
+                            @Override
+                            public void submitted(KWSParentEmailStatus status) {
+
+                                switch (status) {
+                                    case Success: {
+                                        KWS.sdk.register(MainActivity.this, local);
+                                        break;
                                     }
-                                });
-                                break;
+                                    case Invalid: {
+                                        log += "Parent email invalid\n";
+                                        logView.setText(log);
+                                        break;
+                                    }
+                                    case NetworkError: {
+                                        log += "Network error\n";
+                                        logView.setText(log);
+                                        break;
+                                    }
+                                }
                             }
-                            case FirebaseNotSetup: {
-                                log += "No Google Play Services found\n";
-                                logView.setText(log);
-                                break;
-                            }
-                            case FirebaseCouldNotGetToken: {
-                                log += "Firebase could not get token\n";
-                                logView.setText(log);
-                                break;
-                            }
-                            case FailedToCheckIfUserHasNotificationsEnabledInKWS: {
-                                log += "Network error checking for KWS notification permission\n";
-                                logView.setText(log);
-                                break;
-                            }
-                            case FailedToRequestNotificationsPermissionInKWS: {
-                                log += "Network error requesting notification permission in KWS\n";
-                                logView.setText(log);
-                                break;
-                            }
-                            case FailedToSubscribeTokenToKWS: {
-                                log += "Network error subscribing Firebase token to KWS\n";
-                                logView.setText(log);
-                                break;
-                            }
-                        }
-                    } else {
-                        log += "User is registered\n";
-                        logView.setText(log);
+                        });
+                        break;
+                    }
+                    case FirebaseNotSetup: {
+                        log += "No Google Play Services found\n";
+                        break;
+                    }
+                    case FirebaseCouldNotGetToken: {
+                        log += "Firebase could not get token\n";
+                        break;
+                    }
+                    case NetworkError: {
+                        log += "Network error checking for KWS notification permission\n";
+                        break;
+                    }
+                    case Success:{
+                        log += "Registered for Notifications\n";
+                        break;
                     }
                 }
-            });
-        } else {
-            log += "No user registered\n";
-            logView.setText(log);
-        }
+
+                logView.setText(log);
+
+            }
+        });
     }
 
     public void unregisterAction(View v) {
         log += "Trying to unregister user\n";
         logView.setText(log);
-        KWS.sdk.unregister(this, new UnregisterInterface() {
+        KWS.sdk.unregister(this, new KWSUnregisterInterface() {
             @Override
             public void unregister(boolean unregistered) {
                 log += unregistered ? "User is un-registered\n" : "Network error ubsubscribing Firebase token to KWS\n";
@@ -171,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
     public void checkRegisteredAction(View v) {
         log += "Checking if user is registered or not\n";
         logView.setText(log);
-        KWS.sdk.isRegistered(this, new IsRegisteredInterface() {
+        KWS.sdk.isRegistered(this, new KWSIsRegisteredInterface() {
             @Override
             public void isRegistered(boolean registered) {
                 log += registered ? "User is already registered\n" : "User is not registered\n";
@@ -214,8 +263,22 @@ public class MainActivity extends AppCompatActivity {
                 KWSPermissionType.accessFirstName
         }, new KWSRequestPermissionInterface() {
             @Override
-            public void requested(boolean success, boolean requested) {
-                log += "Requested perm: " + success + " | " + requested + "\n";
+            public void requested(KWSPermissionStatus status) {
+
+                switch (status) {
+                    case Success: {
+                        log += "Requested permission OK\n";
+                        break;
+                    }
+                    case NoParentEmail: {
+                        log += "No parent email found\n";
+                        break;
+                    }
+                    case NeworkError: {
+                        log += "Network error\n";
+                        break;
+                    }
+                }
                 logView.setText(log);
             }
         });
@@ -224,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void triggerEvent (View v) {
-        KWS.sdk.triggerEvent(this, "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, "Sent points!", new KWSTriggerEventInterface() {
+        KWS.sdk.triggerEvent(this, "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, new KWSTriggerEventInterface() {
             @Override
             public void triggered(boolean success) {
                 log += "Triggered evt: " + success + "\n";

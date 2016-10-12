@@ -23,9 +23,13 @@ public class KWSGetLeaderboard extends KWSService {
 
     private KWSGetLeaderboardInterface listener = null;
 
+    public KWSGetLeaderboard () {
+        listener = new KWSGetLeaderboardInterface() { @Override public void gotLeaderboard(List<KWSLeader> leaderboard) {} };
+    }
+
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/leaders";
+        return "v1/apps/" + super.loggedUser.metadata.appId + "/leaders";
     }
 
     @Override
@@ -39,7 +43,6 @@ public class KWSGetLeaderboard extends KWSService {
             listener.gotLeaderboard(new ArrayList<KWSLeader>());
         } else {
             if ((status == 200 || status == 204) && payload != null) {
-                Log.d("SuperAwesome", "Payload ==> " + payload);
                 JSONObject json = SAJsonParser.newObject(payload);
                 KWSLeaderboard leaderboard = new KWSLeaderboard(json);
                 listener.gotLeaderboard(leaderboard.results);
@@ -51,8 +54,7 @@ public class KWSGetLeaderboard extends KWSService {
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        KWSGetLeaderboardInterface local = new KWSGetLeaderboardInterface() {public void gotLeaderboard(List<KWSLeader> leaderboard) {}};
-        this.listener = listener != null ? (KWSGetLeaderboardInterface) listener : local;
+        this.listener = listener != null ? (KWSGetLeaderboardInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

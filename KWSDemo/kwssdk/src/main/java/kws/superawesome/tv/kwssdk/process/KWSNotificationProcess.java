@@ -1,7 +1,6 @@
 package kws.superawesome.tv.kwssdk.process;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,6 +10,7 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSCheckAllowed;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCheckAllowedInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCheckRegistered;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCheckRegisteredInterface;
+import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionStatus;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRegisterToken;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRegisterTokenInterface;
@@ -23,7 +23,7 @@ import tv.superawesome.lib.sautils.SAUtils;
 /**
  * Created by gabriel.coman on 03/08/16.
  */
-public class NotificationProcess {
+public class KWSNotificationProcess {
 
     // private services
     private KWSCheckAllowed checkAllowed = null;
@@ -36,7 +36,7 @@ public class NotificationProcess {
     /**
      * Public class constructor
      */
-    public NotificationProcess () {
+    public KWSNotificationProcess() {
         checkAllowed = new KWSCheckAllowed();
         requestPermission = new KWSRequestPermission();
         checkRegistered = new KWSCheckRegistered();
@@ -49,79 +49,76 @@ public class NotificationProcess {
      * method that handles all the registration needs for the SDK
      * @param lis object to handle callbacks
      */
-    public void register (final Context context, final RegisterInterface lis) {
+    public void register (final Context context, final KWSRegisterInterface lis) {
         // make sure it's not null
-        RegisterInterface local = new RegisterInterface() { public void register(boolean registered, KWSErrorType type) {}};
-        final RegisterInterface listener = lis != null ? lis : local;
+        KWSRegisterInterface local = new KWSRegisterInterface() { public void register(KWSNotificationStatus type) {}};
+        final KWSRegisterInterface listener = lis != null ? lis : local;
 
         // 1 - check if the user is allowed Remote Notifications in KWS
         checkAllowed.execute(context, new KWSCheckAllowedInterface() {
             @Override
-            public void allowed(boolean success, boolean allowed) {
-                // 1.1 - a network error occurred
-                if (!success) {
-                    listener.register(false, KWSErrorType.FailedToCheckIfUserHasNotificationsEnabledInKWS);
-                    return;
-                }
-
-                // 1.2 - user is not allowed by parent in KWS to have Remote Notifications
+            public void allowed(boolean allowed) {
+                // 1.1 - user is not allowed by parent in KWS to have Remote Notifications
                 if(!allowed) {
-                    listener.register(false, KWSErrorType.ParentHasDisabledRemoteNotifications);
+                    listener.register(KWSNotificationStatus.ParentDisabledNotifications);
                     return;
                 }
 
-                // 1.3 - if user is allowed, request a new permission
+                // 1.2 - if user is allowed, request a new permission
                 requestPermission.execute(context, new KWSPermissionType[]{KWSPermissionType.sendPushNotification}, new KWSRequestPermissionInterface() {
                     @Override
-                    public void requested(boolean success, boolean requested) {
+                    public void requested(KWSPermissionStatus status) {
 
-                        // 2.1 - network error trying to request permission
-                        if (!success) {
-                            listener.register(false, KWSErrorType.FailedToRequestNotificationsPermissionInKWS);
-                            return;
-                        }
+                        switch (status) {
 
-                        // 2.2 - requested ok, but user has no parent email
-                        if (!requested) {
-                            listener.register(false, KWSErrorType.UserHasNoParentEmail);
-                            return;
-                        }
+                            case Success: {
 
-                        // 2.3 - check if user has Google Play Services
-                        if (!checkPlayServices(context)) {
-                            listener.register(false, KWSErrorType.FirebaseNotSetup);
-                            return;
-                        }
-
-                        // 2.4 - if all is OK so far, ask Firebase for a token
-                        getToken.execute(new FirebaseGetTokenInterface() {
-                            @Override
-                            public void gotToken(boolean success, final String token) {
-
-                                // 3.1 - in this case, Firebase could not get a token
-                                if (!success) {
-                                    listener.register(false, KWSErrorType.FirebaseCouldNotGetToken);
+                                // 2.1 - check if user has Google Play Services
+                                if (!checkPlayServices(context)) {
+                                    listener.register(KWSNotificationStatus.FirebaseNotSetup);
                                     return;
                                 }
 
-                                // 3.2 - if finally I can get a token, register it with KWS
-                                registerToken.execute(context, token, new KWSRegisterTokenInterface() {
+                                // 2.2 - if all is OK so far, ask Firebase for a token
+                                getToken.execute(new FirebaseGetTokenInterface() {
                                     @Override
-                                    public void registered(boolean success) {
+                                    public void gotToken(boolean success, final String token) {
 
-                                        // 4.1 - could not register it b/c network issues
+                                        // 3.1 - in this case, Firebase could not get a token
                                         if (!success) {
-                                            listener.register(false, KWSErrorType.FailedToSubscribeTokenToKWS);
+                                            listener.register(KWSNotificationStatus.FirebaseCouldNotGetToken);
+                                            return;
                                         }
-                                        // 4.2 - all is OK, user is finally registered
-                                        else {
-                                            Log.d("SuperAwesome", "Got Token! " + token);
-                                            listener.register(true, null);
-                                        }
+
+                                        // 3.2 - if finally I can get a token, register it with KWS
+                                        registerToken.execute(context, token, new KWSRegisterTokenInterface() {
+                                            @Override
+                                            public void registered(boolean success) {
+
+                                                // 4.1 - could not register it b/c network issues
+                                                if (!success) {
+                                                    listener.register(KWSNotificationStatus.NetworkError);
+                                                }
+                                                // 4.2 - all is OK, user is finally registered
+                                                else {
+                                                    listener.register(KWSNotificationStatus.Success);
+                                                }
+                                            }
+                                        });
                                     }
                                 });
+
+                                break;
                             }
-                        });
+                            case NoParentEmail: {
+                                listener.register(KWSNotificationStatus.NoParentEmail);
+                                break;
+                            }
+                            case NeworkError: {
+                                listener.register(KWSNotificationStatus.NetworkError);
+                                break;
+                            }
+                        }
                     }
                 });
             }
@@ -132,10 +129,10 @@ public class NotificationProcess {
      * Method that handles all un-registration needs
      * @param lis object to send callbacks
      */
-    public void unregister (Context context, final UnregisterInterface lis) {
+    public void unregister (Context context, final KWSUnregisterInterface lis) {
         // check for errors
-        UnregisterInterface local = new UnregisterInterface() {public void unregister(boolean unregistered) {}};
-        final UnregisterInterface listener = lis != null ? lis : local;
+        KWSUnregisterInterface local = new KWSUnregisterInterface() {public void unregister(boolean unregistered) {}};
+        final KWSUnregisterInterface listener = lis != null ? lis : local;
 
         // get current token
         String token = getToken.getSavedToken();
@@ -153,21 +150,15 @@ public class NotificationProcess {
      * Method that handles checking if a user is registered or not
      * @param lis object to send callbacks
      */
-    public void isRegistered (final Context context, final IsRegisteredInterface lis) {
+    public void isRegistered (final Context context, final KWSIsRegisteredInterface lis) {
         // check for error
-        IsRegisteredInterface local = new IsRegisteredInterface() {public void isRegistered(boolean registered) {}};
-        final IsRegisteredInterface listener = lis != null ? lis : local;
+        KWSIsRegisteredInterface local = new KWSIsRegisteredInterface() {public void isRegistered(boolean registered) {}};
+        final KWSIsRegisteredInterface listener = lis != null ? lis : local;
 
         // 1. check if user is still allowed to have Remote Notifications
         checkAllowed.execute(context, new KWSCheckAllowedInterface() {
             @Override
-            public void allowed(boolean success, boolean allowed) {
-
-                // 1.1 - network error trying to figure out if the user is allowed
-                if (!success) {
-                    listener.isRegistered(false);
-                    return;
-                }
+            public void allowed(boolean allowed) {
 
                 // 1.2 - user is actually not allowed to have remote notifications
                 if (!allowed) {
@@ -178,15 +169,8 @@ public class NotificationProcess {
                 // 1.3 - if all is ok, check if the user is already registered
                 checkRegistered.execute(context, new KWSCheckRegisteredInterface() {
                     @Override
-                    public void allowed(boolean success, boolean registered) {
-                        // 2.1 - there was an error trying to figure out if the user is registered
-                        if (!success) {
-                            listener.isRegistered(false);
-                        }
-                        // 2.2 - just send whatever the server says it's ok
-                        else {
-                            listener.isRegistered(registered);
-                        }
+                    public void allowed(boolean registered) {
+                        listener.isRegistered(registered);
                     }
                 });
             }

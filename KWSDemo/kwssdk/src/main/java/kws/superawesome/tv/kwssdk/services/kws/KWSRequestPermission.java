@@ -29,7 +29,7 @@ public class KWSRequestPermission extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId + "/request-permissions";
+        return "v1/users/" + super.loggedUser.metadata.userId + "/request-permissions";
     }
 
     @Override
@@ -52,10 +52,10 @@ public class KWSRequestPermission extends KWSService {
     public void success(int status, String payload, boolean success) {
         Log.d("SuperAwesome", "Payload ==> " + payload);
         if (!success) {
-            listener.requested(false, false);
+            listener.requested(KWSPermissionStatus.NeworkError);
         } else {
             if (status == 200 || status == 204) {
-                listener.requested(true, true);
+                listener.requested(KWSPermissionStatus.Success);
             } else {
 
                 /** form the error - if exists */
@@ -63,9 +63,9 @@ public class KWSRequestPermission extends KWSService {
                 KWSError error = new KWSError(json);
 
                 if (error.code == 10 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
-                    listener.requested(true, false);
+                    listener.requested(KWSPermissionStatus.NoParentEmail);
                 } else {
-                    listener.requested(false, false);
+                    listener.requested(KWSPermissionStatus.NeworkError);
                 }
             }
         }
@@ -73,14 +73,14 @@ public class KWSRequestPermission extends KWSService {
 
     @Override
     public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
-        KWSRequestPermissionInterface local = new KWSRequestPermissionInterface() {public void requested(boolean success, boolean requested) {}};
+        KWSRequestPermissionInterface local = new KWSRequestPermissionInterface() {public void requested(KWSPermissionStatus status) {}};
         this.listener = listener != null ? (KWSRequestPermissionInterface) listener : local;
         requestedPermissions = new KWSPermissionType[]{};
 
         if (param instanceof KWSPermissionType[]) {
             requestedPermissions = (KWSPermissionType[]) param;
         } else {
-            this.listener.requested(false, false);
+            this.listener.requested(KWSPermissionStatus.NeworkError);
             return;
         }
 

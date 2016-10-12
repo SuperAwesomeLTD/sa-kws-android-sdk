@@ -20,7 +20,7 @@ public class KWSParentEmail extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId + "/request-permissions";
+        return "v1/users/" + super.loggedUser.metadata.userId + "/request-permissions";
     }
 
     @Override
@@ -40,25 +40,33 @@ public class KWSParentEmail extends KWSService {
 
     @Override
     public void success(int status, String payload, boolean success) {
-        listener.submitted (success && (status == 200 || status == 204));
+        if (!success) {
+            listener.submitted(KWSParentEmailStatus.NetworkError);
+        } else {
+            if (status == 200 || status == 204) {
+                listener.submitted(KWSParentEmailStatus.Success);
+            } else {
+                listener.submitted(KWSParentEmailStatus.NetworkError);
+            }
+        }
     }
 
     @Override
     public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
-        KWSParentEmailInterface local = new KWSParentEmailInterface() {public void submitted(boolean success) {}};
+        KWSParentEmailInterface local = new KWSParentEmailInterface() {public void submitted(KWSParentEmailStatus status) {}};
         this.listener = listener != null ? (KWSParentEmailInterface) listener : local;
 
         // get param and correct type
         if (param instanceof String) {
             emailToSubmit = (String)param;
         }  else {
-            this.listener.submitted(false);
+            this.listener.submitted(KWSParentEmailStatus.Invalid);
             return;
         }
 
         // check params
         if (emailToSubmit.length() == 0 || !SAUtils.isValidEmail(emailToSubmit)) {
-            this.listener.submitted(false);
+            this.listener.submitted(KWSParentEmailStatus.Invalid);
             return;
         }
 

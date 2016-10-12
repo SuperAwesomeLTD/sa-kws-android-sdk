@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
+import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.request.SANetwork;
 import tv.superawesome.lib.sanetwork.request.SANetworkInterface;
@@ -18,9 +19,8 @@ public class KWSService implements KWSServiceInterface {
 
     // protected request vars
     protected String kwsApiUrl;
-    protected String oauthToken;
+    protected KWSLoggedUser loggedUser;
     protected String version;
-    protected KWSMetadata metadata;
 
     // private data
     private Context context = null;
@@ -48,7 +48,7 @@ public class KWSService implements KWSServiceInterface {
     @Override
     public JSONObject getHeader() {
         return SAJsonParser.newObject(new Object[]{
-                "Authorization", "Bearer " + oauthToken,
+                "Authorization", "Bearer " + loggedUser.token,
                 "Content-Type", "application/json",
                 "kws-sdk-version", version
         });
@@ -66,48 +66,40 @@ public class KWSService implements KWSServiceInterface {
 
     public void execute (Context context, KWSServiceResponseInterface listener) {
         kwsApiUrl = KWS.sdk.getKwsApiUrl();
-        oauthToken = KWS.sdk.getOauthToken();
-        metadata = KWS.sdk.getMetadata();
+        loggedUser = KWS.sdk.getLoggedUser();
         version = KWS.sdk.getVersion();
         this.context = context;
 
         final KWSService instance = this;
 
-        // check data
-        if (kwsApiUrl != null && oauthToken != null && metadata != null) {
-
-            switch (getMethod()) {
-                case GET: {
-                    network.sendGET(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
-                        @Override
-                        public void response(int status, String payload, boolean success) {
-                            instance.success(status, payload, success);
-                        }
-                    });
-                    break;
-                }
-                case POST: {
-                    network.sendPOST(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
-                        @Override
-                        public void response(int status, String payload, boolean success) {
-                            instance.success(status, payload, success);
-                        }
-                    });
-                    break;
-                }
-                case PUT: {
-                    network.sendPUT(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
-                        @Override
-                        public void response(int status, String payload, boolean success) {
-                            instance.success(status, payload, success);
-                        }
-                    });
-                    break;
-                }
+        switch (getMethod()) {
+            case GET: {
+                network.sendGET(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
+                    @Override
+                    public void response(int status, String payload, boolean success) {
+                        instance.success(status, payload, success);
+                    }
+                });
+                break;
             }
-        }
-        else {
-            instance.success(0, null, false);
+            case POST: {
+                network.sendPOST(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+                    @Override
+                    public void response(int status, String payload, boolean success) {
+                        instance.success(status, payload, success);
+                    }
+                });
+                break;
+            }
+            case PUT: {
+                network.sendPUT(context, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+                    @Override
+                    public void response(int status, String payload, boolean success) {
+                        instance.success(status, payload, success);
+                    }
+                });
+                break;
+            }
         }
     }
 

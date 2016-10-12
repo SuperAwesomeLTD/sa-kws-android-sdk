@@ -19,9 +19,13 @@ public class KWSHasTriggeredEvent extends KWSService {
     private int eventId = 0;
     private KWSHasTriggeredEventInterface listener = null;
 
+    public KWSHasTriggeredEvent () {
+        listener = new KWSHasTriggeredEventInterface() { @Override public void hasTriggered(Boolean triggered) {} };
+    }
+
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId + "/has-triggered-event";
+        return "v1/users/" + super.loggedUser.metadata.userId + "/has-triggered-event";
     }
 
     @Override
@@ -53,13 +57,8 @@ public class KWSHasTriggeredEvent extends KWSService {
     }
 
     public void execute(Context context, int eventId, KWSServiceResponseInterface listener) {
-        // get vars
         this.eventId = eventId;
-
-        // get listener
-        this.listener = listener != null ? (KWSHasTriggeredEventInterface) listener : new KWSHasTriggeredEventInterface() {@Override public void hasTriggered(Boolean triggered) {}};
-
-        // execute
+        this.listener = listener != null ? (KWSHasTriggeredEventInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

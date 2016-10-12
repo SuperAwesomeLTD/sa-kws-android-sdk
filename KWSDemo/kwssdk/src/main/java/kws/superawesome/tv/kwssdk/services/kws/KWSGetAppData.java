@@ -21,9 +21,13 @@ public class KWSGetAppData extends KWSService {
 
     private KWSGetAppDataInterface listener = null;
 
+    public KWSGetAppData () {
+        listener = new KWSGetAppDataInterface() { @Override public void gotAppData(List<KWSAppData> appData) {} };
+    }
+
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/app-data";
+        return "v1/apps/" + super.loggedUser.metadata.appId + "/users/" + super.loggedUser.metadata.userId + "/app-data";
     }
 
     @Override
@@ -48,7 +52,7 @@ public class KWSGetAppData extends KWSService {
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        this.listener = listener != null ? (KWSGetAppDataInterface)listener : new KWSGetAppDataInterface() {@Override public void gotAppData(List<KWSAppData> appData) {}};
+        this.listener = listener != null ? (KWSGetAppDataInterface)listener : this.listener;
         super.execute(context, listener);
     }
 }

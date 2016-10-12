@@ -20,7 +20,7 @@ public class KWSInviteUser extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId + "/invite-user";
+        return "v1/users/" + super.loggedUser.metadata.userId + "/invite-user";
     }
 
     @Override

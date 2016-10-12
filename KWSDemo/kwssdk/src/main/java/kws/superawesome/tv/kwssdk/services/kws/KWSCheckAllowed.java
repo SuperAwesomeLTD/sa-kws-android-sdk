@@ -19,9 +19,13 @@ public class KWSCheckAllowed extends KWSService {
     // listener interface
     private KWSCheckAllowedInterface listener = null;
 
+    public KWSCheckAllowed () {
+        listener = new KWSCheckAllowedInterface() { @Override public void allowed(boolean allowed) {} };
+    }
+
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId;
+        return "v1/users/" + super.loggedUser.metadata.userId;
     }
 
     @Override
@@ -32,7 +36,7 @@ public class KWSCheckAllowed extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.allowed(false, false);
+            listener.allowed(false);
         } else {
             if (status == 200 || status == 204) {
                 JSONObject json = SAJsonParser.newObject(payload);
@@ -40,21 +44,20 @@ public class KWSCheckAllowed extends KWSService {
                 Object perm = user.applicationPermissions.sendPushNotification;
 
                 if (perm == null || (boolean) perm) {
-                    listener.allowed(true, true);
+                    listener.allowed(true);
                 } else {
-                    listener.allowed(true, false);
+                    listener.allowed(false);
                 }
 
             } else {
-                listener.allowed(false, false);
+                listener.allowed(false);
             }
         }
     }
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        KWSCheckAllowedInterface local = new KWSCheckAllowedInterface() { public void allowed(boolean success, boolean allowed) {}};
-        this.listener =  (listener != null ? (KWSCheckAllowedInterface) listener : local);
+        this.listener =  listener != null ? (KWSCheckAllowedInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }
