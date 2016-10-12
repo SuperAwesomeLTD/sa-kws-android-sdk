@@ -250,7 +250,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.0.6";
+        return "android-2.1.0";
     }
 
     public String getKwsApiUrl () {
