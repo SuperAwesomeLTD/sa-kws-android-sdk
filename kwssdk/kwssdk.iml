@@ -99,7 +99,7 @@
     <orderEntry type="library" exported="" name="sanetwork-0.2.6" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="sautils-0.2.8" level="project" />
-    <orderEntry type="library" exported="" name="sajsonparser-0.2.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="sajsonparser-0.2.3" level="project" />
   </component>
 </module>
