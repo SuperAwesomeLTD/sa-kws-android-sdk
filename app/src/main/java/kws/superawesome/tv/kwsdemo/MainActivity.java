@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         KWS.sdk.startSession(this, CLIENT, SECRET, API);
 
-//        SAFileDownloader
-
     }
 
     // MARK: Actions
