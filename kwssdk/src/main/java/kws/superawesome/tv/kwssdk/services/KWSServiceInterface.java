@@ -13,5 +13,6 @@ public interface KWSServiceInterface {
     JSONObject getQuery ();
     JSONObject getHeader ();
     JSONObject getBody ();
+    boolean needsLoggedUser ();
     void success(int status, String payload, boolean success);
 }

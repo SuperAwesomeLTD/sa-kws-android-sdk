@@ -113,7 +113,7 @@ public class KWS {
         this.clientSecret = clientSecret;
         this.kwsApiUrl = apiUrl;
 
-        // get prefferences
+        // get preferences
         preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
         editor = preferences.edit();
 
@@ -146,13 +146,24 @@ public class KWS {
     // Public exposed functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // user creation & auth
+    // user creation, auth & logout
     public void createUser (Context context, String username, String password, String dateOfBirth, String country, String parentEmail, KWSCreateUserProcessInterface listener) {
         createUserProcess.create(context, username, password, dateOfBirth, country, parentEmail, listener);
     }
 
-    public void authenticateUser (Context context, String username, String password, KWSAuthUserProcessInterface listener) {
+    public void loginUser(Context context, String username, String password, KWSAuthUserProcessInterface listener) {
         authUserProcess.auth(context, username, password, listener);
+    }
+
+    public void logoutUser (Context context) {
+        // get preferences
+        preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
+        editor = preferences.edit();
+        this.loggedUser = null;
+        if (preferences.contains(LOGGED_USER_KEY)) {
+            editor.remove(LOGGED_USER_KEY);
+            editor.apply();
+        }
     }
 
     // user details
@@ -250,7 +261,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.1.1";
+        return "android-2.1.2";
     }
 
     public String getKwsApiUrl () {
@@ -273,7 +284,7 @@ public class KWS {
         // assign the logged user
         this.loggedUser = loggedUser;
 
-        // save in prefferences
+        // save in preferences
         if (editor != null) {
             editor.putString(LOGGED_USER_KEY, loggedUser.writeToJson().toString());
             editor.apply();

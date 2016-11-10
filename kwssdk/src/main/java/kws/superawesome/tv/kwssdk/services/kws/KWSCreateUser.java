@@ -37,6 +37,11 @@ public class KWSCreateUser extends KWSService {
     }
 
     @Override
+    public boolean needsLoggedUser() {
+        return false;
+    }
+
+    @Override
     public JSONObject getHeader() {
         return SAJsonParser.newObject(new Object[] {
                 "Content-Type", "application/json"

@@ -34,7 +34,6 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
-import tv.superawesome.lib.sanetwork.file.SAFileDownloader;
 import tv.superawesome.lib.sautils.SAUtils;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.process.KWSNotificationStatus;
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void authUser (View v) {
 
-        KWS.sdk.authenticateUser(this, "testusr455", "testtest", new KWSAuthUserProcessInterface() {
+        KWS.sdk.loginUser(this, "testusr455", "testtest", new KWSAuthUserProcessInterface() {
             @Override
             public void userAuthenticated(KWSAuthUserStatus status) {
                 switch (status) {
@@ -132,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void logoutUser (View v) {
+        KWS.sdk.logoutUser(this);
     }
 
     public void registerAction(View v) {
@@ -218,8 +221,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkRegisteredAction(View v) {
 
-        Log.d("SuperAwesome", "User is " + KWS.sdk.getLoggedUser().isValid());
-
         log += "Checking if user is registered or not\n";
         logView.setText(log);
         KWS.sdk.isRegistered(this, new KWSIsRegisteredInterface() {
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
         KWS.sdk.getScore(this, new KWSGetScoreInterface() {
             @Override
             public void gotScore(KWSScore score) {
-                log += "Rank: " + score.rank + " Score: " + score.score + "\n";
+                log += score != null ? "Rank: " + score.rank + " Score: " + score.score + "\n" : "Could not get score\n";
                 logView.setText(log);
             }
         });

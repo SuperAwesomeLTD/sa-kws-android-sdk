@@ -50,6 +50,11 @@ public class KWSGetAccessTokenAuth extends KWSService {
     }
 
     @Override
+    public boolean needsLoggedUser() {
+        return false;
+    }
+
+    @Override
     public JSONObject getBody() {
         return SAJsonParser.newObject(new Object[] {
                 "grant_type", "password",
