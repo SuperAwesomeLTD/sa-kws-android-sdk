@@ -2,8 +2,11 @@ package kws.superawesome.tv.kwssdk.models.oauth;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.test.ServiceTestCase;
 
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 import kws.superawesome.tv.kwssdk.aux.KWSAux;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
@@ -25,6 +28,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
     public int expiresIn;
     public long loginDate;
     public KWSMetadata metadata;
+    private boolean registeredForRM = false;
 
     public KWSLoggedUser () {
         // do nothing
@@ -42,6 +46,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         parentEmail = in.readString();
         accessToken = in.readString();
         token = in.readString();
+        registeredForRM = in.readByte() != 0;
         expiresIn = in.readInt();
         loginDate = in.readLong();
         metadata = in.readParcelable(KWSMetadata.class.getClassLoader());
@@ -73,6 +78,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         dest.writeString(parentEmail);
         dest.writeString(accessToken);
         dest.writeString(token);
+        dest.writeByte((byte) (registeredForRM ? 1 : 0));
         dest.writeInt(expiresIn);
         dest.writeLong(loginDate);
         dest.writeParcelable(metadata, flags);
@@ -86,6 +92,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         country = SAJsonParser.getString(jsonObject, "country");
         accessToken = SAJsonParser.getString(jsonObject, "access_token");
         token = SAJsonParser.getString(jsonObject, "token");
+        registeredForRM = SAJsonParser.getBoolean(jsonObject, "registeredForRM");
         dateOfBirth = SAJsonParser.getString(jsonObject, "dateOfBirth");
         expiresIn = SAJsonParser.getInt(jsonObject, "expires_in");
         loginDate = SAJsonParser.getLong(jsonObject, "loginDate");
@@ -103,6 +110,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
                 "country", country,
                 "access_token", accessToken,
                 "token", token,
+                "registeredForRM", registeredForRM,
                 "dateOfBirth", dateOfBirth,
                 "expires_in", expiresIn,
                 "loginDate", loginDate,
@@ -115,5 +123,15 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         long now = System.currentTimeMillis() / 1000L;
         long nowMinusExp = now - expiresIn;
         return nowMinusExp <= loginDate;
+    }
+
+    // some more direct setters & getters
+
+    public boolean isRegisteredForNotifications () {
+        return registeredForRM;
+    }
+
+    public void setIsRegisteredForNotifications (boolean value) {
+        registeredForRM = value;
     }
 }

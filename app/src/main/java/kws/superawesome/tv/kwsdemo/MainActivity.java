@@ -201,6 +201,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                if (KWS.sdk.getLoggedUser() != null) {
+                    log += "Local user is " + KWS.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                }
                 logView.setText(log);
 
             }
@@ -213,7 +216,10 @@ public class MainActivity extends AppCompatActivity {
         KWS.sdk.unregister(this, new KWSUnregisterInterface() {
             @Override
             public void unregister(boolean unregistered) {
-                log += unregistered ? "User is un-registered\n" : "Network error ubsubscribing Firebase token to KWS\n";
+                log += unregistered ? "User is un-registered\n" : "Network error unsubscribing Firebase token to KWS\n";
+                if (KWS.sdk.getLoggedUser() != null) {
+                    log += "Local user is " + KWS.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                }
                 logView.setText(log);
             }
         });
@@ -227,6 +233,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void isRegistered(boolean registered) {
                 log += registered ? "User is already registered\n" : "User is not registered\n";
+                if (KWS.sdk.getLoggedUser() != null) {
+                    log += "Local user is " + KWS.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                }
                 logView.setText(log);
             }
         });

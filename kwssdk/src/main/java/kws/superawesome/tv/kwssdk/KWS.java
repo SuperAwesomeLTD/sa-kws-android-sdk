@@ -20,6 +20,7 @@ import kws.superawesome.tv.kwssdk.process.KWSCreateUserProcess;
 import kws.superawesome.tv.kwssdk.process.KWSCreateUserProcessInterface;
 import kws.superawesome.tv.kwssdk.process.KWSIsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.KWSNotificationProcess;
+import kws.superawesome.tv.kwssdk.process.KWSNotificationStatus;
 import kws.superawesome.tv.kwssdk.process.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.process.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUser;
@@ -218,16 +219,47 @@ public class KWS {
     }
 
     // handle remote notifications
+
     public void register (Context context, final KWSRegisterInterface listener) {
-        notificationProcess.register(context, listener);
+        notificationProcess.register(context, new KWSRegisterInterface() {
+            @Override
+            public void register(KWSNotificationStatus status) {
+                if (status == KWSNotificationStatus.Success && loggedUser != null) {
+                    loggedUser.setIsRegisteredForNotifications(true);
+                }
+                if (listener != null) {
+                    listener.register(status);
+                }
+            }
+        });
     }
 
-    public void unregister (Context context, KWSUnregisterInterface listener) {
-        notificationProcess.unregister(context, listener);
+    public void unregister (Context context, final KWSUnregisterInterface listener) {
+        notificationProcess.unregister(context, new KWSUnregisterInterface() {
+            @Override
+            public void unregister(boolean unregistered) {
+                if (unregistered && loggedUser != null && loggedUser.isRegisteredForNotifications()) {
+                    loggedUser.setIsRegisteredForNotifications(false);
+                }
+                if (listener != null) {
+                    listener.unregister(unregistered);
+                }
+            }
+        });
     }
 
-    public void isRegistered (Context context, KWSIsRegisteredInterface listener) {
-        notificationProcess.isRegistered(context, listener);
+    public void isRegistered (Context context, final KWSIsRegisteredInterface listener) {
+        notificationProcess.isRegistered(context, new KWSIsRegisteredInterface() {
+            @Override
+            public void isRegistered(boolean registered) {
+                if (loggedUser != null) {
+                    loggedUser.setIsRegisteredForNotifications(registered);
+                }
+                if (listener != null) {
+                    listener.isRegistered(registered);
+                }
+            }
+        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,7 +293,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.1.2";
+        return "android-2.1.3";
     }
 
     public String getKwsApiUrl () {
