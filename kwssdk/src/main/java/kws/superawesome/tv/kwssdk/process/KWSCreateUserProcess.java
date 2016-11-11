@@ -103,6 +103,7 @@ public class KWSCreateUserProcess {
                                 finalUser.country = country;
                                 finalUser.dateOfBirth = dateOfBirth;
                                 finalUser.accessToken = accessToken.access_token;
+                                finalUser.loginDate = System.currentTimeMillis() / 1000L;
                                 finalUser.expiresIn = accessToken.expires_in;
                                 finalUser.metadata = KWSAux.processMetadata(tmpUser.token);
 

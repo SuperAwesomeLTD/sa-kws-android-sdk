@@ -127,7 +127,7 @@ public class KWS {
                 loggedUser = tmpUser;
                 Log.d("KWS", "KWS started with logged usser " + loggedUser.metadata.userId);
             } else {
-                Log.d("KWS", "KWS started with a logged user that had an expired OAuth token. Clearning cache!");
+                Log.d("KWS", "KWS started with a logged user that had an expired OAuth token. Clearing cache!");
                 editor.remove(LOGGED_USER_KEY);
                 editor.apply();
             }
@@ -293,7 +293,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.1.3";
+        return "android-2.1.4";
     }
 
     public String getKwsApiUrl () {

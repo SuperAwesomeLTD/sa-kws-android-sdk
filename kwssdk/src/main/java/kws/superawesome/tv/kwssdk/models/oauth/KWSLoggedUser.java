@@ -3,6 +3,7 @@ package kws.superawesome.tv.kwssdk.models.oauth;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.test.ServiceTestCase;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -25,7 +26,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
     public String parentEmail;
     public String accessToken;
     public String token;
-    public int expiresIn;
+    public long expiresIn;
     public long loginDate;
     public KWSMetadata metadata;
     private boolean registeredForRM = false;
@@ -47,7 +48,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         accessToken = in.readString();
         token = in.readString();
         registeredForRM = in.readByte() != 0;
-        expiresIn = in.readInt();
+        expiresIn = in.readLong();
         loginDate = in.readLong();
         metadata = in.readParcelable(KWSMetadata.class.getClassLoader());
     }
@@ -79,7 +80,7 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         dest.writeString(accessToken);
         dest.writeString(token);
         dest.writeByte((byte) (registeredForRM ? 1 : 0));
-        dest.writeInt(expiresIn);
+        dest.writeLong(expiresIn);
         dest.writeLong(loginDate);
         dest.writeParcelable(metadata, flags);
     }
@@ -94,10 +95,13 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         token = SAJsonParser.getString(jsonObject, "token");
         registeredForRM = SAJsonParser.getBoolean(jsonObject, "registeredForRM");
         dateOfBirth = SAJsonParser.getString(jsonObject, "dateOfBirth");
-        expiresIn = SAJsonParser.getInt(jsonObject, "expires_in");
+        expiresIn = SAJsonParser.getLong(jsonObject, "expires_in");
         loginDate = SAJsonParser.getLong(jsonObject, "loginDate");
         if (accessToken != null) {
             metadata = KWSAux.processMetadata(accessToken);
+        }
+        if (metadata != null && metadata.userId == 0) {
+            metadata.userId = id;
         }
     }
 
