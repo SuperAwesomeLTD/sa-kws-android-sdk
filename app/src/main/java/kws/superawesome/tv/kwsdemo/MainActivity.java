@@ -111,12 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void authUser (View v) {
 
-        KWS.sdk.loginUser(this, "testusr455", "testtest", new KWSAuthUserProcessInterface() {
+        KWS.sdk.loginUser(this, "tutu2", "12345678", new KWSAuthUserProcessInterface() {
             @Override
             public void userAuthenticated(KWSAuthUserStatus status) {
                 switch (status) {
                     case Success:
-                        log += "Auth as testusr455\n";
+                        log += "Auth as tutu2 w/ 12345678\n";
                         Log.d("SuperAwesome", KWS.sdk.getLoggedUser().writeToJson() + "");
                         break;
                     case NetworkError:

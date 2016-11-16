@@ -97,8 +97,8 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
         dateOfBirth = SAJsonParser.getString(jsonObject, "dateOfBirth");
         expiresIn = SAJsonParser.getLong(jsonObject, "expires_in");
         loginDate = SAJsonParser.getLong(jsonObject, "loginDate");
-        if (accessToken != null) {
-            metadata = KWSAux.processMetadata(accessToken);
+        if (token != null) {
+            metadata = KWSAux.processMetadata(token);
         }
         if (metadata != null && metadata.userId == 0) {
             metadata.userId = id;
