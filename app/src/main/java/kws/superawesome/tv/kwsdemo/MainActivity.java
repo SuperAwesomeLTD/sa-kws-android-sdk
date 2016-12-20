@@ -31,6 +31,7 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailStatus;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionStatus;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
+import kws.superawesome.tv.kwssdk.services.kws.KWSRandomNameInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSTriggerEventInterface;
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     // log text
     private String log = "";
 
-    private static final String CLIENT = "sa-mobile-app-sdk-client-0";
+    private static final String CLIENT_ID = "sa-mobile-app-sdk-client-0";
+    private static final int APP_ID = 313;
     private static final String SECRET = "_apikey_5cofe4ppp9xav2t9";
     private static final String API = "https://kwsapi.demo.superawesome.tv/";
 
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
 
-        KWS.sdk.startSession(this, CLIENT, SECRET, API);
+        KWS.sdk.startSession(this, CLIENT_ID, APP_ID, SECRET, API);
 
     }
 
@@ -135,6 +137,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void logoutUser (View v) {
         KWS.sdk.logoutUser(this);
+    }
+
+    public void generateRandomName (View v) {
+        KWS.sdk.generateRandomName(this, new KWSRandomNameInterface() {
+            @Override
+            public void gotRandomName(String name) {
+                log += "Random name " + name + "\n";
+                logView.setText(log);
+            }
+        });
     }
 
     public void registerAction(View v) {

@@ -1,9 +1,7 @@
 package kws.superawesome.tv.kwssdk.services.kws;
 
 import android.content.Context;
-import android.renderscript.ScriptGroup;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -11,7 +9,6 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;

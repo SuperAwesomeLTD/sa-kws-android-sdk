@@ -19,6 +19,7 @@ public class KWSService implements KWSServiceInterface {
 
     // protected request vars
     protected String kwsApiUrl;
+    protected int appId;
     protected KWSLoggedUser loggedUser;
     protected String version;
 
@@ -71,6 +72,7 @@ public class KWSService implements KWSServiceInterface {
 
     public void execute (Context context, KWSServiceResponseInterface listener) {
         kwsApiUrl = KWS.sdk.getKwsApiUrl();
+        appId = KWS.sdk.getAppId();
         loggedUser = KWS.sdk.getLoggedUser();
         version = KWS.sdk.getVersion();
         this.context = context;

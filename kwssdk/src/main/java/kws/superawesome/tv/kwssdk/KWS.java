@@ -40,6 +40,8 @@ import kws.superawesome.tv.kwssdk.services.kws.KWSInviteUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmail;
 import kws.superawesome.tv.kwssdk.services.kws.KWSParentEmailInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
+import kws.superawesome.tv.kwssdk.services.kws.KWSRandomName;
+import kws.superawesome.tv.kwssdk.services.kws.KWSRandomNameInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermission;
 import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
 import kws.superawesome.tv.kwssdk.services.kws.KWSSetAppData;
@@ -64,6 +66,7 @@ public class KWS {
     // startSession variables
     private String kwsApiUrl;
     private String clientId;
+    private int appId;
     private String clientSecret;
     private KWSLoggedUser loggedUser;
 
@@ -82,6 +85,7 @@ public class KWS {
     private KWSGetAppData getAppData;
     private KWSSetAppData setAppData;
     private KWSUpdateUser updateUser;
+    private KWSRandomName randomName;
 
     // prefferences
     private static final String LOGGED_USER_KEY = "KWS_SA_LOGGED_USER";
@@ -105,12 +109,14 @@ public class KWS {
         getAppData = new KWSGetAppData();
         setAppData = new KWSSetAppData();
         updateUser = new KWSUpdateUser();
+        randomName = new KWSRandomName();
     }
 
     // <Setup> and <Desetup> functions
 
-    public void startSession (Context context, String clientId, String clientSecret, String apiUrl) {
+    public void startSession (Context context, String clientId, int appId, String clientSecret, String apiUrl) {
         this.clientId = clientId;
+        this.appId = appId;
         this.clientSecret = clientSecret;
         this.kwsApiUrl = apiUrl;
 
@@ -165,6 +171,11 @@ public class KWS {
             editor.remove(LOGGED_USER_KEY);
             editor.apply();
         }
+    }
+
+    // user random name
+    public void generateRandomName (Context context, KWSRandomNameInterface listener) {
+        randomName.execute(context, listener);
     }
 
     // user details
@@ -293,17 +304,18 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.1.5";
+        return "android-2.1.6";
     }
 
     public String getKwsApiUrl () {
         return kwsApiUrl;
     }
-
     public String getClientId () {
         return clientId;
     }
-
+    public int getAppId () {
+        return appId;
+    }
     public String getClientSecret () {
         return clientSecret;
     }
