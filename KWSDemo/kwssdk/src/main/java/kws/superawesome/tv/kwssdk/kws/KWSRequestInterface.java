@@ -11,6 +11,7 @@ public interface KWSRequestInterface {
     JSONObject getQuery ();
     JSONObject getHeader ();
     JSONObject getBody ();
+    boolean needsLoggedUser ();
     void success(int status, String payload);
     void failure();
 }

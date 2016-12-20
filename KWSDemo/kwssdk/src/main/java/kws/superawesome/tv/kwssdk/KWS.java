@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import kws.superawesome.tv.kwssdk.kws.KWSRandomName;
+import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
 import kws.superawesome.tv.kwssdk.managers.CheckManager;
 import kws.superawesome.tv.kwssdk.managers.CheckManagerInterface;
 import kws.superawesome.tv.kwssdk.managers.KWSManager;
@@ -32,13 +34,14 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     public static KWS sdk = new KWS();
     private KWS() {}
 
-    // setup variables
+    // registerToken variables
     private String oauthToken;
     private String kwsApiUrl;
     private boolean stringPermissionPopup;
     private Context context;
     private KWSMetadata metadata;
     private KWSParentEmail parentEmail;
+    private KWSRandomName randomName;
 
     // listeners
     private KWSRegisterInterface registerListener;
@@ -46,15 +49,18 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     private KWSCheckInterface checkListener;
 
     public String getVersion () {
-        return "android-1.2.3";
+        return "android-1.2.3.1";
     }
 
     // <Setup> functions
 
-    public void setup(Context context, String oauthToken, String kwsApiUrl, boolean stringPermissionPopup) {
+    public void init (String kwsApiUrl) {
+        this.kwsApiUrl = kwsApiUrl;
+    }
+
+    public void registerToken(Context context, String oauthToken, boolean stringPermissionPopup) {
         this.context = context;
         this.oauthToken = oauthToken;
-        this.kwsApiUrl = kwsApiUrl;
         this.stringPermissionPopup = stringPermissionPopup;
         this.metadata = getMetadata(oauthToken);
         if (metadata != null) {
@@ -73,6 +79,11 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Public exposed functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void getRandomName (int appId, KWSRandomNameInterface listener) {
+        randomName = new KWSRandomName();
+        randomName.execute(appId, listener);
+    }
 
     // Main public functions
 

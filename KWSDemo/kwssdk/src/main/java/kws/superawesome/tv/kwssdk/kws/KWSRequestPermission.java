@@ -23,7 +23,7 @@ public class KWSRequestPermission extends KWSRequest {
 
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId + "/request-permissions";
+        return "v1/users/" + super.metadata.userId + "/request-permissions";
     }
 
     @Override

@@ -60,6 +60,11 @@ public class KWSRequest implements KWSRequestInterface {
     }
 
     @Override
+    public boolean needsLoggedUser() {
+        return true;
+    }
+
+    @Override
     public void success(int status, String payload) {
         // do nothing
     }
@@ -78,34 +83,35 @@ public class KWSRequest implements KWSRequestInterface {
 
         final KWSRequest instance = this;
 
-        // check data
-        if (kwsApiUrl != null && oauthToken != null && metadata != null) {
-            if (getMethod() == KWSRequestMethod.POST) {
-                network.sendPOST(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
-                    @Override
-                    public void response(int status, String payload, boolean success) {
-                        if (success) {
-                            instance.success(status, payload);
-                        } else {
-                            instance.failure();
-                        }
-                    }
-                });
-            } else {
-                network.sendGET(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
-                    @Override
-                    public void response(int status, String payload, boolean success) {
-                        if (success) {
-                            instance.success(status, payload);
-                        } else {
-                            instance.failure();
-                        }
-                    }
-                });
-            }
-        }
-        else {
+        // check to see if all is OK
+        if ((kwsApiUrl == null || oauthToken == null || metadata == null) && needsLoggedUser()) {
             failure();
+            return;
+        }
+
+        // continue!
+        if (getMethod() == KWSRequestMethod.POST) {
+            network.sendPOST(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+                @Override
+                public void response(int status, String payload, boolean success) {
+                    if (success) {
+                        instance.success(status, payload);
+                    } else {
+                        instance.failure();
+                    }
+                }
+            });
+        } else {
+            network.sendGET(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
+                @Override
+                public void response(int status, String payload, boolean success) {
+                    if (success) {
+                        instance.success(status, payload);
+                    } else {
+                        instance.failure();
+                    }
+                }
+            });
         }
     }
 

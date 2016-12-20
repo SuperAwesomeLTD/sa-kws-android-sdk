@@ -25,7 +25,7 @@ public class KWSSubscribeToken extends KWSRequest {
 
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/subscribe-push-notifications";
+        return "v1/apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/subscribe-push-notifications";
     }
 
     @Override

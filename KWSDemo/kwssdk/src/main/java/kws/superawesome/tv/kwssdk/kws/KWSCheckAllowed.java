@@ -21,7 +21,7 @@ public class KWSCheckAllowed extends KWSRequest {
 
     @Override
     public String getEndpoint() {
-        return "users/" + super.metadata.userId;
+        return "v1/users/" + super.metadata.userId;
     }
 
     @Override

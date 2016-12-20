@@ -9,7 +9,7 @@ public class KWSGetLeaderboard extends KWSRequest {
 
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/leaders";
+        return "v1/apps/" + super.metadata.appId + "/leaders";
     }
 
     @Override

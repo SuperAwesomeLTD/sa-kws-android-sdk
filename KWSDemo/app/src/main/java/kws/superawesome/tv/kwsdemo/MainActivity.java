@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import kws.superawesome.tv.kwssdk.KWSCheckInterface;
 import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
+import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private String log = "";
 
     private String TOKEN = null;
-    private static final String API = "https://kwsapi.demo.superawesome.tv/v1/";
+    private static final String API = "https://kwsapi.demo.superawesome.tv/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
         logView = (TextView) findViewById(R.id.TextLogs);
         registerUser = (Button) findViewById(R.id.RegisterUser);
 
-        // setup KWS SDK
+        // registerToken KWS SDK
         KWS.sdk.setApplicationContext(getApplicationContext());
+        KWS.sdk.init(API);
     }
 
     // MARK: Actions
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     if (model.status == 1) {
                         registerUser.setText("I am " + username);
                         TOKEN = model.token;
-                        KWS.sdk.setup(MainActivity.this, TOKEN, API, true);
+                        KWS.sdk.registerToken(MainActivity.this, TOKEN, true);
                     } else {
                         log += "Failed to register " + username + "\n";
                         logView.setText(log);
@@ -192,26 +194,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkRegisteredAction(View v) {
-        log += "Checking if user is registered or not\n";
-        logView.setText(log);
-        KWS.sdk.userIsRegistered(new KWSCheckInterface() {
-            @Override
-            public void kwsSDKUserIsRegistered() {
-                log += "User is already registered for Remote Notifications in KWS\n";
-                logView.setText(log);
-            }
 
+        KWS.sdk.getRandomName(313, new KWSRandomNameInterface() {
             @Override
-            public void kwsSDKUserIsNotRegistered() {
-                log += "User is not registered yet for Remote Notifications in KWS\n";
-                logView.setText(log);
-            }
-
-            @Override
-            public void kwsSDKDidFailToCheckIfUserIsRegistered() {
-                log += "Failed to check if user is registered for Remote Notifications in KWS\n";
+            public void didGetRandomName(String name) {
+                log += "Random name " + name + "\n";
                 logView.setText(log);
             }
         });
+
+//        log += "Checking if user is registered or not\n";
+//        logView.setText(log);
+//        KWS.sdk.userIsRegistered(new KWSCheckInterface() {
+//            @Override
+//            public void kwsSDKUserIsRegistered() {
+//                log += "User is already registered for Remote Notifications in KWS\n";
+//                logView.setText(log);
+//            }
+//
+//            @Override
+//            public void kwsSDKUserIsNotRegistered() {
+//                log += "User is not registered yet for Remote Notifications in KWS\n";
+//                logView.setText(log);
+//            }
+//
+//            @Override
+//            public void kwsSDKDidFailToCheckIfUserIsRegistered() {
+//                log += "Failed to check if user is registered for Remote Notifications in KWS\n";
+//                logView.setText(log);
+//            }
+//        });
     }
 }

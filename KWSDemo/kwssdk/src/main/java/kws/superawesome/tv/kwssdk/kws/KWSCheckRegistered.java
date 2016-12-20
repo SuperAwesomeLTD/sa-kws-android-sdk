@@ -21,7 +21,7 @@ public class KWSCheckRegistered extends KWSRequest {
 
     @Override
     public String getEndpoint() {
-        return "apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/has-device-token";
+        return "v1/apps/" + super.metadata.appId + "/users/" + super.metadata.userId + "/has-device-token";
     }
 
     @Override
