@@ -1,9 +1,8 @@
-package kws.superawesome.tv.kwssdk.models;
+package kws.superawesome.tv.kwssdk.models.oauth;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.JSONSerializable;

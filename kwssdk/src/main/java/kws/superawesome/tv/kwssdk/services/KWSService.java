@@ -1,12 +1,10 @@
 package kws.superawesome.tv.kwssdk.services;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.request.SANetwork;

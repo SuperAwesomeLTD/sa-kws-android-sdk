@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
 
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
+import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 
 /**
  * Created by gabriel.coman on 11/10/16.

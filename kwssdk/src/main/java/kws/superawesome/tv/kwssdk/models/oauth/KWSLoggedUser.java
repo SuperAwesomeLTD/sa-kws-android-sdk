@@ -2,15 +2,10 @@ package kws.superawesome.tv.kwssdk.models.oauth;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.test.ServiceTestCase;
-import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
-
 import kws.superawesome.tv.kwssdk.aux.KWSAux;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import tv.superawesome.lib.sajsonparser.JSONSerializable;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
