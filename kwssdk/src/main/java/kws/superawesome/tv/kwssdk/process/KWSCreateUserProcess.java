@@ -1,17 +1,16 @@
 package kws.superawesome.tv.kwssdk.process;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Patterns;
 
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.aux.KWSAux;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
-import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUser;
-import kws.superawesome.tv.kwssdk.services.kws.KWSCreateUserInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSGetAccessTokenCreate;
-import kws.superawesome.tv.kwssdk.services.kws.KWSGetAccessTokenCreateInterface;
+import kws.superawesome.tv.kwssdk.services.kws.create.KWSCreateUser;
+import kws.superawesome.tv.kwssdk.services.kws.create.KWSCreateUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.create.KWSGetAccessTokenCreate;
+import kws.superawesome.tv.kwssdk.services.kws.create.KWSGetAccessTokenCreateInterface;
 
 /**
  * Created by gabriel.coman on 12/10/16.

@@ -6,18 +6,18 @@ import java.lang.reflect.InvocationTargetException;
 
 import kws.superawesome.tv.kwssdk.services.firebase.FirebaseGetToken;
 import kws.superawesome.tv.kwssdk.services.firebase.FirebaseGetTokenInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSCheckAllowed;
-import kws.superawesome.tv.kwssdk.services.kws.KWSCheckAllowedInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSCheckRegistered;
-import kws.superawesome.tv.kwssdk.services.kws.KWSCheckRegisteredInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionStatus;
-import kws.superawesome.tv.kwssdk.services.kws.KWSPermissionType;
-import kws.superawesome.tv.kwssdk.services.kws.KWSRegisterToken;
-import kws.superawesome.tv.kwssdk.services.kws.KWSRegisterTokenInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermission;
-import kws.superawesome.tv.kwssdk.services.kws.KWSRequestPermissionInterface;
-import kws.superawesome.tv.kwssdk.services.kws.KWSUnregisterToken;
-import kws.superawesome.tv.kwssdk.services.kws.KWSUnregisterTokenInterface;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSCheckAllowed;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSCheckAllowedInterface;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSCheckRegistered;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSCheckRegisteredInterface;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSPermissionStatus;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSPermissionType;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSRegisterToken;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSRegisterTokenInterface;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermission;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSUnregisterToken;
+import kws.superawesome.tv.kwssdk.services.kws.notifications.KWSUnregisterTokenInterface;
 import tv.superawesome.lib.sautils.SAUtils;
 
 /**
