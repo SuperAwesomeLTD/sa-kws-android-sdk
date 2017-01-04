@@ -15,6 +15,7 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 public class KWSRandomName extends KWSService {
 
+    private int appId = 0;
     private KWSRandomNameInterface listener = null;
 
     public KWSRandomName () {
@@ -23,7 +24,7 @@ public class KWSRandomName extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "v2/apps/" + super.appId + "/random-display-name";
+        return "v2/apps/" + appId + "/random-display-name";
     }
 
     @Override
@@ -56,8 +57,8 @@ public class KWSRandomName extends KWSService {
 
     }
 
-    @Override
-    public void execute(Context context, KWSServiceResponseInterface listener) {
+    public void execute(Context context, int appId, KWSServiceResponseInterface listener) {
+        this.appId = appId;
         this.listener = listener != null ? (KWSRandomNameInterface) listener : this.listener;
         super.execute(context, this.listener);
     }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import kws.superawesome.tv.kwssdk.models.appconfig.KWSAppConfig;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -22,6 +23,8 @@ import kws.superawesome.tv.kwssdk.process.KWSIsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.process.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSGetAppDataInterface;
+import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSGetAppConfig;
+import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSGetAppConfigInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetLeaderboardInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetScoreInterface;
 import kws.superawesome.tv.kwssdk.services.kws.user.KWSGetUserInterface;
@@ -49,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private String log = "";
 
     private static final String CLIENT_ID = "sa-mobile-app-sdk-client-0";
-    private static final int APP_ID = 313;
     private static final String SECRET = "_apikey_5cofe4ppp9xav2t9";
     private static final String API = "https://kwsapi.demo.superawesome.tv/";
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
 
-        KWS.sdk.startSession(this, CLIENT_ID, APP_ID, SECRET, API);
+        KWS.sdk.startSession(this, CLIENT_ID, SECRET, API);
 
     }
 

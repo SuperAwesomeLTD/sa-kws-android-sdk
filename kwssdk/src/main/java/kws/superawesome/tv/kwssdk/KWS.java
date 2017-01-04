@@ -16,6 +16,7 @@ import kws.superawesome.tv.kwssdk.process.KWSCreateUserProcessInterface;
 import kws.superawesome.tv.kwssdk.process.KWSIsRegisteredInterface;
 import kws.superawesome.tv.kwssdk.process.KWSNotificationProcess;
 import kws.superawesome.tv.kwssdk.process.KWSNotificationStatus;
+import kws.superawesome.tv.kwssdk.process.KWSRandomNameProcess;
 import kws.superawesome.tv.kwssdk.process.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.process.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSGetAppData;
@@ -58,7 +59,6 @@ public class KWS {
     // startSession variables
     private String kwsApiUrl;
     private String clientId;
-    private int appId;
     private String clientSecret;
     private KWSLoggedUser loggedUser;
 
@@ -77,7 +77,7 @@ public class KWS {
     private KWSGetAppData getAppData;
     private KWSSetAppData setAppData;
     private KWSUpdateUser updateUser;
-    private KWSRandomName randomName;
+    private KWSRandomNameProcess randomNameProcess;
 
     // prefferences
     private static final String LOGGED_USER_KEY = "KWS_SA_LOGGED_USER";
@@ -101,14 +101,13 @@ public class KWS {
         getAppData = new KWSGetAppData();
         setAppData = new KWSSetAppData();
         updateUser = new KWSUpdateUser();
-        randomName = new KWSRandomName();
+        randomNameProcess = new KWSRandomNameProcess();
     }
 
     // <Setup> and <Desetup> functions
 
-    public void startSession (Context context, String clientId, int appId, String clientSecret, String apiUrl) {
+    public void startSession (Context context, String clientId, String clientSecret, String apiUrl) {
         this.clientId = clientId;
-        this.appId = appId;
         this.clientSecret = clientSecret;
         this.kwsApiUrl = apiUrl;
 
@@ -167,7 +166,7 @@ public class KWS {
 
     // user random name
     public void generateRandomName (Context context, KWSRandomNameInterface listener) {
-        randomName.execute(context, listener);
+        randomNameProcess.getRandomName(context, listener);
     }
 
     // user details
@@ -304,9 +303,6 @@ public class KWS {
     }
     public String getClientId () {
         return clientId;
-    }
-    public int getAppId () {
-        return appId;
     }
     public String getClientSecret () {
         return clientSecret;
