@@ -16,6 +16,7 @@ import kws.superawesome.tv.kwssdk.managers.CheckManager;
 import kws.superawesome.tv.kwssdk.managers.CheckManagerInterface;
 import kws.superawesome.tv.kwssdk.managers.KWSManager;
 import kws.superawesome.tv.kwssdk.managers.KWSManagerInterface;
+import kws.superawesome.tv.kwssdk.managers.KWSRandomNameManager;
 import kws.superawesome.tv.kwssdk.managers.PushManager;
 import kws.superawesome.tv.kwssdk.managers.PushManagerInterface;
 import tv.superawesome.lib.sautils.SAAlert;
@@ -37,11 +38,12 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     // registerToken variables
     private String oauthToken;
     private String kwsApiUrl;
+    private String clientId;
     private boolean stringPermissionPopup;
     private Context context;
     private KWSMetadata metadata;
     private KWSParentEmail parentEmail;
-    private KWSRandomName randomName;
+    private KWSRandomNameManager randomNameManager;
 
     // listeners
     private KWSRegisterInterface registerListener;
@@ -49,13 +51,14 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     private KWSCheckInterface checkListener;
 
     public String getVersion () {
-        return "android-1.2.3.1";
+        return "android-1.2.3.2";
     }
 
     // <Setup> functions
 
-    public void init (String kwsApiUrl) {
+    public void setup (String kwsApiUrl, String clientId) {
         this.kwsApiUrl = kwsApiUrl;
+        this.clientId = clientId;
     }
 
     public void registerToken(Context context, String oauthToken, boolean stringPermissionPopup) {
@@ -80,9 +83,9 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     // Public exposed functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void getRandomName (int appId, KWSRandomNameInterface listener) {
-        randomName = new KWSRandomName();
-        randomName.execute(appId, listener);
+    public void getRandomName (KWSRandomNameInterface listener) {
+        randomNameManager = new KWSRandomNameManager();
+        randomNameManager.getRandomName(listener);
     }
 
     // Main public functions
@@ -240,6 +243,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
 
     public String getKwsApiUrl () {
         return kwsApiUrl;
+    }
+
+    public String getClientId () {
+        return clientId;
     }
 
     public KWSMetadata getMetadata () {

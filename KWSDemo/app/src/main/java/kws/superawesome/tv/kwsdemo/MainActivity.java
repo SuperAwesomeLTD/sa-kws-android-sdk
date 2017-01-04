@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String TOKEN = null;
     private static final String API = "https://kwsapi.demo.superawesome.tv/";
+    private static final String CLIENTID = "sa-mobile-app-sdk-client-0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         // registerToken KWS SDK
         KWS.sdk.setApplicationContext(getApplicationContext());
-        KWS.sdk.init(API);
+        KWS.sdk.setup(API, CLIENTID);
     }
 
     // MARK: Actions
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkRegisteredAction(View v) {
 
-        KWS.sdk.getRandomName(313, new KWSRandomNameInterface() {
+        KWS.sdk.getRandomName(new KWSRandomNameInterface() {
             @Override
             public void didGetRandomName(String name) {
                 log += "Random name " + name + "\n";
