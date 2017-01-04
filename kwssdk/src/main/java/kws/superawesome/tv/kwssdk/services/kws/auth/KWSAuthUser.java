@@ -16,8 +16,8 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSAuthUser extends KWSService {
 
-    private KWSLoggedUser loggedUser;
     private KWSAuthUserInterface listener;
+    private String token;
     private Context context;
 
     public KWSAuthUser () {
@@ -26,7 +26,7 @@ public class KWSAuthUser extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "oauth/authorise?access_token=" + loggedUser.accessToken;
+        return "oauth/authorise?access_token=" + token;
     }
 
     @Override
@@ -70,10 +70,10 @@ public class KWSAuthUser extends KWSService {
         }
     }
 
-    public void execute (Context context, KWSLoggedUser loggedUser, KWSAuthUserInterface listener) {
+    public void execute (Context context, String token, KWSAuthUserInterface listener) {
         this.context = context;
-        this.loggedUser = loggedUser;
+        this.token = token;
         this.listener = listener != null ? listener : this.listener;
-        super.execute(context, (KWSServiceResponseInterface) listener);
+        super.execute(context, listener);
     }
 }

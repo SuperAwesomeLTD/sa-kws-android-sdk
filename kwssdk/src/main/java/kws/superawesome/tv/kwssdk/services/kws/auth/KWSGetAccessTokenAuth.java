@@ -25,9 +25,6 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.asynctask.SAAsyncTask;
 import tv.superawesome.lib.sanetwork.asynctask.SAAsyncTaskInterface;
 
-/**
- * Created by gabriel.coman on 12/10/16.
- */
 public class KWSGetAccessTokenAuth extends KWSService {
 
     private String username;

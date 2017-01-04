@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.aux.KWSAux;
 import tv.superawesome.lib.sajsonparser.JSONSerializable;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
@@ -14,15 +13,7 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSLoggedUser implements Parcelable, JSONSerializable {
 
-    public int id;
-    public String username;
-    public String dateOfBirth;
-    public String country;
-    public String parentEmail;
-    public String accessToken;
     public String token;
-    public long expiresIn;
-    public long loginDate;
     public KWSMetadata metadata;
     private boolean registeredForRM = false;
 
@@ -35,16 +26,8 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
     }
 
     protected KWSLoggedUser(Parcel in) {
-        id = in.readInt();
-        username = in.readString();
-        dateOfBirth = in.readString();
-        country = in.readString();
-        parentEmail = in.readString();
-        accessToken = in.readString();
         token = in.readString();
         registeredForRM = in.readByte() != 0;
-        expiresIn = in.readLong();
-        loginDate = in.readLong();
         metadata = in.readParcelable(KWSMetadata.class.getClassLoader());
     }
 
@@ -67,61 +50,30 @@ public class KWSLoggedUser implements Parcelable, JSONSerializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(username);
-        dest.writeString(dateOfBirth);
-        dest.writeString(country);
-        dest.writeString(parentEmail);
-        dest.writeString(accessToken);
         dest.writeString(token);
         dest.writeByte((byte) (registeredForRM ? 1 : 0));
-        dest.writeLong(expiresIn);
-        dest.writeLong(loginDate);
         dest.writeParcelable(metadata, flags);
     }
 
     @Override
     public void readFromJson(JSONObject jsonObject) {
-        id = SAJsonParser.getInt(jsonObject, "id");
-        username = SAJsonParser.getString(jsonObject, "username");
-        parentEmail = SAJsonParser.getString(jsonObject, "parentEmail");
-        country = SAJsonParser.getString(jsonObject, "country");
-        accessToken = SAJsonParser.getString(jsonObject, "access_token");
         token = SAJsonParser.getString(jsonObject, "token");
         registeredForRM = SAJsonParser.getBoolean(jsonObject, "registeredForRM");
-        dateOfBirth = SAJsonParser.getString(jsonObject, "dateOfBirth");
-        expiresIn = SAJsonParser.getLong(jsonObject, "expires_in");
-        loginDate = SAJsonParser.getLong(jsonObject, "loginDate");
-        if (token != null) {
-            metadata = KWSAux.processMetadata(token);
-        }
-        if (metadata != null && metadata.userId == 0) {
-            metadata.userId = id;
-        }
+        metadata = KWSMetadata.processMetadata(token);
     }
 
     @Override
     public JSONObject writeToJson() {
         return SAJsonParser.newObject(new Object[] {
-                "id", id,
-                "username", username,
-                "parentEmail", parentEmail,
-                "country", country,
-                "access_token", accessToken,
                 "token", token,
                 "registeredForRM", registeredForRM,
-                "dateOfBirth", dateOfBirth,
-                "expires_in", expiresIn,
-                "loginDate", loginDate,
                 "metadata", metadata.writeToJson()
         });
     }
 
     @Override
     public boolean isValid() {
-        long now = System.currentTimeMillis() / 1000L;
-        long nowMinusExp = now - expiresIn;
-        return nowMinusExp <= loginDate;
+        return token != null && metadata != null && metadata.isValid();
     }
 
     // some more direct setters & getters

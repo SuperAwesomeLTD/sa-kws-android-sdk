@@ -2,8 +2,12 @@ package kws.superawesome.tv.kwssdk.models.oauth;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 import tv.superawesome.lib.sajsonparser.JSONSerializable;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
@@ -13,12 +17,14 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSMetadata implements Parcelable, JSONSerializable {
 
-    public int userId = 0;
-    public int appId = 0;
+    private static final int DEFAULT_VAL = -1;
+
+    public int userId = DEFAULT_VAL;
+    public int appId = DEFAULT_VAL;
     public  String clientId;
     public String scope;
-    public int iat = 0;
-    public int exp = 0;
+    public int iat = DEFAULT_VAL;
+    public int exp = DEFAULT_VAL;
     public  String iss;
 
     // normal
@@ -96,6 +102,50 @@ public class KWSMetadata implements Parcelable, JSONSerializable {
 
     @Override
     public boolean isValid () {
-        return true;
+        if (appId == DEFAULT_VAL || userId == DEFAULT_VAL || iat == DEFAULT_VAL || exp == DEFAULT_VAL) {
+            return false;
+        } else {
+            long now = System.currentTimeMillis() / 1000L;
+            long time = now - exp;
+            return time < 0;
+        }
+    }
+
+    public static KWSMetadata processMetadata(String  oauthToken) {
+
+        // get token
+        if (oauthToken == null) return null;
+        String[] components = oauthToken.split("\\.");
+        String tokenO = null;
+        if (components.length >= 2) tokenO = components[1];
+        if (tokenO == null) return null;
+
+        // get JSON from base64 data
+        byte[] data;
+        try {
+            data = Base64.decode(tokenO, Base64.DEFAULT);
+        } catch (IllegalArgumentException e1) {
+            try {
+                tokenO += "=";
+                data = Base64.decode(tokenO, Base64.DEFAULT);
+            } catch (IllegalArgumentException e2) {
+                try {
+                    tokenO += "=";
+                    data = Base64.decode(tokenO, Base64.DEFAULT);
+                } catch (IllegalArgumentException e3){
+                    return null;
+                }
+            }
+        }
+
+        try {
+            String jsonData = new String(data, "UTF-8");
+            JSONObject jsonObject = new JSONObject(jsonData);
+            return new KWSMetadata(jsonObject);
+        } catch (UnsupportedEncodingException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

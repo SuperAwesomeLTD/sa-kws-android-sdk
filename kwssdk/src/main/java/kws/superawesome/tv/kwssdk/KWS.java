@@ -122,14 +122,14 @@ public class KWS {
 
             if (tmpUser.isValid()) {
                 loggedUser = tmpUser;
-                Log.d("KWS", "KWS started with logged usser " + loggedUser.metadata.userId);
+                Log.d("KWS-USER", "KWS started with logged usser " + loggedUser.metadata.userId);
             } else {
-                Log.d("KWS", "KWS started with a logged user that had an expired OAuth token. Clearing cache!");
+                Log.d("KWS-USER", "KWS started with a logged user that had an expired OAuth token. Clearing cache!");
                 editor.remove(LOGGED_USER_KEY);
                 editor.apply();
             }
         } else {
-            Log.d("KWS", "KWS started without a logged user since none was found");
+            Log.d("KWS-USER", "KWS started without a logged user since none was found");
         }
     }
 

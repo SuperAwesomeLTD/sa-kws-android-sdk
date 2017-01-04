@@ -6,18 +6,28 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="KWS-USER" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
     <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="140ce04a-dd0a-40a9-9aae-58f37f0506ee" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/KWSMetadata.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/aux/KWSAux.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/aux/KWSAux.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/aux/KWSAux.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUser.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUser.java" />
     </list>
     <ignored path="sa-kws-android-sdk.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -145,21 +155,19 @@
       <file leaf-file-name="KWS.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1845">
-              <caret line="169" column="5" selection-start-line="169" selection-start-column="5" selection-end-line="169" selection-end-column="5" />
+            <state relative-caret-position="369">
+              <caret line="131" column="27" selection-start-line="131" selection-start-column="27" selection-end-line="131" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KWSRandomNameProcess.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSRandomNameProcess.java">
+      <file leaf-file-name="KWSAuthUser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="643">
+              <caret line="76" column="31" selection-start-line="76" selection-start-column="31" selection-end-line="76" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -167,54 +175,21 @@
       <file leaf-file-name="KWSService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
+            <state relative-caret-position="73">
+              <caret line="69" column="16" selection-start-line="69" selection-start-column="16" selection-end-line="69" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KWSAppConfig.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appconfig/KWSAppConfig.java">
+      <file leaf-file-name="KWSCreateUser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="47" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
+            <state relative-caret-position="388">
+              <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#585#586#0" expanded="true" />
-                <element signature="e#625#626#0" expanded="true" />
-                <element signature="e#666#667#0" expanded="true" />
-                <element signature="e#699#700#0" expanded="true" />
-                <element signature="e#862#863#0" expanded="true" />
-                <element signature="e#913#914#0" expanded="true" />
-                <element signature="e#983#984#0" expanded="true" />
-                <element signature="e#1036#1037#0" expanded="true" />
-                <element signature="e#1094#1095#0" expanded="true" />
-                <element signature="e#1118#1119#0" expanded="true" />
-                <element signature="e#1189#1190#0" expanded="true" />
-                <element signature="e#1222#1223#0" expanded="true" />
-                <element signature="e#1696#1697#0" expanded="true" />
-                <element signature="e#1723#1724#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KWSGetAppConfig.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSGetAppConfig.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="42" column="32" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#822#823#0" expanded="true" />
-                <element signature="e#861#862#0" expanded="true" />
-                <element signature="e#915#916#0" expanded="true" />
-                <element signature="e#955#956#0" expanded="true" />
-                <element signature="e#1009#1010#0" expanded="true" />
-                <element signature="e#1037#1038#0" expanded="true" />
-                <element signature="e#1088#1089#0" expanded="true" />
-                <element signature="e#1127#1128#0" expanded="true" />
+                <element signature="e#906#907#0" expanded="true" />
+                <element signature="e#980#981#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -223,50 +198,58 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/kws/superawesome/tv/kwsdemo/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="53" column="73" selection-start-line="53" selection-start-column="73" selection-end-line="53" selection-end-column="73" />
+            <state relative-caret-position="203">
+              <caret line="224" column="5" selection-start-line="224" selection-start-column="5" selection-end-line="224" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KWSGetAppConfigInterface.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSGetAppConfigInterface.java">
+      <file leaf-file-name="KWSAuthUserProcess.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KWSRandomNameInterface.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomNameInterface.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="57" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+            <state relative-caret-position="613">
+              <caret line="83" column="85" selection-start-line="83" selection-start-column="85" selection-end-line="83" selection-end-column="85" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KWSRandomName.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomName.java">
+      <file leaf-file-name="KWSCreateUserProcess.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+            <state relative-caret-position="1455">
+              <caret line="149" column="30" selection-start-line="149" selection-start-column="30" selection-end-line="149" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SAJsonParser.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/tv.superawesome.lib.sajsonparser/sajsonparser/0.2.4/jars/classes.jar!/tv/superawesome/lib/sajsonparser/SAJsonParser.class">
+      <file leaf-file-name="KWSParentEmail.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmail.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="65" column="29" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
+            <state relative-caret-position="555">
+              <caret line="66" column="23" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KWSGetAccessTokenAuth.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KWSMetadata.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="116" column="44" selection-start-line="116" selection-start-column="44" selection-end-line="116" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -2837,10 +2820,7 @@
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/KWSAuthUser.java" />
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/KWSCreateUser.java" />
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/KWSGetAccessTokenAuth.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java" />
         <option value="$PROJECT_DIR$/kwssdk/build.gradle" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java" />
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/KWSGetAccessTokenCreate.java" />
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/KWSRandomNameInterface.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
@@ -2855,8 +2835,16 @@
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java" />
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomName.java" />
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSRandomNameProcess.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/kws/superawesome/tv/kwsdemo/MainActivity.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUser.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/aux/KWSAux.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" />
       </list>
     </option>
   </component>
@@ -3005,6 +2993,96 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="randomname" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parentemail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="create" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auth" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3677,31 +3755,32 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1600" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5077022" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4528536" sideWeight="0.49229783" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46401986" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5077022" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6004963" sideWeight="0.49229783" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.4948652" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31771502" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31771502" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36328626" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46401986" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3710,7 +3789,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904148" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -3720,14 +3798,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java</url>
-          <line>84</line>
-          <properties />
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java</url>
-          <line>74</line>
+          <line>80</line>
           <properties />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
@@ -3737,20 +3809,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/google-services.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSRequestPermission.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -3807,13 +3865,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="73" column="34" selection-start-line="73" selection-start-column="34" selection-end-line="73" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSUserCreateDetail.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -3828,13 +3879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1485">
-          <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUserInterface.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -3846,13 +3890,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSAccessToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -3942,25 +3979,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="22" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/notifications/KWSCheckAllowed.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -3979,35 +4001,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="69" column="11" selection-start-line="69" selection-start-column="11" selection-end-line="69" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1590">
-          <caret line="126" column="54" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/aux/KWSAux.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="52" column="5" selection-start-line="17" selection-start-column="4" selection-end-line="52" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -4108,14 +4101,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomName.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -4134,18 +4119,120 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSAccessToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="568">
+          <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
+          <folding>
+            <element signature="e#2027#2028#0" expanded="true" />
+            <element signature="e#2105#2106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="73">
+          <caret line="69" column="16" selection-start-line="69" selection-start-column="16" selection-end-line="69" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="116" column="44" selection-start-line="116" selection-start-column="44" selection-end-line="116" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
+          <folding>
+            <element signature="e#906#907#0" expanded="true" />
+            <element signature="e#980#981#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/aux/KWSAux.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="643">
+          <caret line="76" column="31" selection-start-line="76" selection-start-column="31" selection-end-line="76" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="613">
+          <caret line="83" column="85" selection-start-line="83" selection-start-column="85" selection-end-line="83" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1455">
+          <caret line="149" column="30" selection-start-line="149" selection-start-column="30" selection-end-line="149" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="66" column="23" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1845">
-          <caret line="169" column="5" selection-start-line="169" selection-start-column="5" selection-end-line="169" selection-end-column="5" />
+        <state relative-caret-position="369">
+          <caret line="131" column="27" selection-start-line="131" selection-start-column="27" selection-end-line="131" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/kws/superawesome/tv/kwsdemo/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="53" column="73" selection-start-line="53" selection-start-column="73" selection-end-line="53" selection-end-column="73" />
+        <state relative-caret-position="203">
+          <caret line="224" column="5" selection-start-line="224" selection-start-column="5" selection-end-line="224" selection-end-column="5" />
           <folding />
         </state>
       </provider>

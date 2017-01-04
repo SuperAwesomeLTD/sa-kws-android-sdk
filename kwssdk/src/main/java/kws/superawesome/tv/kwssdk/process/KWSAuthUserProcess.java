@@ -2,8 +2,9 @@ package kws.superawesome.tv.kwssdk.process;
 
 import android.content.Context;
 
+import java.util.regex.Pattern;
+
 import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.aux.KWSAux;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.services.kws.auth.KWSAuthUser;
@@ -11,9 +12,6 @@ import kws.superawesome.tv.kwssdk.services.kws.auth.KWSAuthUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.auth.KWSGetAccessTokenAuth;
 import kws.superawesome.tv.kwssdk.services.kws.auth.KWSGetAccessTokenAuthInterface;
 
-/**
- * Created by gabriel.coman on 12/10/16.
- */
 public class KWSAuthUserProcess {
 
     private KWSAuthUserProcessInterface listener;
@@ -33,7 +31,7 @@ public class KWSAuthUserProcess {
     {
         // get vars
         this.listener = listener != null ? listener : this.listener;
-        boolean usernameValid = validateUsername(username);
+        final boolean usernameValid = validateUsername(username);
         boolean passwordValid = validatePassword(password);
 
         if (!usernameValid) {
@@ -53,38 +51,24 @@ public class KWSAuthUserProcess {
 
                 if (accessToken != null) {
 
-                    // create a user
-                    KWSLoggedUser loggedUser = new KWSLoggedUser();
-                    loggedUser.username = username;
-                    loggedUser.accessToken = accessToken.access_token;
-                    loggedUser.expiresIn = accessToken.expires_in;
-                    loggedUser.metadata = KWSAux.processMetadata(accessToken.access_token);
 
-                    authUser.execute(context, loggedUser, new KWSAuthUserInterface() {
+                    authUser.execute(context, accessToken.access_token, new KWSAuthUserInterface() {
                         @Override
-                        public void authUser(int status, KWSLoggedUser tmpUser) {
+                        public void authUser(int status, KWSLoggedUser loggedUser) {
 
-                            if (tmpUser != null) {
-
-                                // process final user
-                                KWSLoggedUser finalUser = new KWSLoggedUser();
-                                finalUser.id = tmpUser.id;
-                                finalUser.token = tmpUser.token;
-                                finalUser.username = username;
-                                finalUser.accessToken = accessToken.access_token;
-                                finalUser.expiresIn = accessToken.expires_in;
-                                finalUser.loginDate = System.currentTimeMillis() / 1000L;
-                                finalUser.metadata = KWSAux.processMetadata(tmpUser.token);
+                            if (loggedUser != null && loggedUser.isValid()) {
 
                                 // set final user
-                                KWS.sdk.setLoggedUser(finalUser);
+                                KWS.sdk.setLoggedUser(loggedUser);
 
                                 // send response
                                 KWSAuthUserProcess.this.listener.userAuthenticated(KWSAuthUserStatus.Success);
 
-                            } else {
+                            }
+                            else {
                                 KWSAuthUserProcess.this.listener.userAuthenticated(KWSAuthUserStatus.InvalidCredentials);
                             }
+
                         }
                     });
 
@@ -97,7 +81,7 @@ public class KWSAuthUserProcess {
     }
 
     private boolean validateUsername (String username) {
-        return KWSAux.checkRegex("^[a-zA-Z0-9]*$", username) && username.length() >= 3;
+        return Pattern.matches("^[a-zA-Z0-9]*$", username) && username.length() >= 3;
     }
 
     private boolean validatePassword (String password) {

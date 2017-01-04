@@ -15,8 +15,14 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
 public class KWSCreateUser extends KWSService {
 
     private KWSCreateUserInterface listener = null;
-    private KWSLoggedUser loggedUser;
+
+    private int appId;
+    private String token;
+    private String username;
     private String password;
+    private String parentEmail;
+    private String country;
+    private String dateOfBirth;
 
     public KWSCreateUser () {
         listener = new KWSCreateUserInterface() { @Override public void created(int status, KWSLoggedUser loggedUser) {}};
@@ -24,7 +30,7 @@ public class KWSCreateUser extends KWSService {
 
     @Override
     public String getEndpoint() {
-        return "v1/apps/" + loggedUser.metadata.appId + "/users?access_token=" + loggedUser.accessToken;
+        return "v1/apps/" + appId + "/users?access_token=" + token;
     }
 
     @Override
@@ -47,11 +53,11 @@ public class KWSCreateUser extends KWSService {
     @Override
     public JSONObject getBody() {
         return SAJsonParser.newObject(new Object[] {
-                "username", loggedUser.username,
+                "username", username,
                 "password", password,
-                "dateOfBirth", loggedUser.dateOfBirth,
-                "country", loggedUser.country,
-                "parentEmail", loggedUser.parentEmail,
+                "dateOfBirth", dateOfBirth,
+                "country", country,
+                "parentEmail", parentEmail,
                 "authenticate", true
         });
     }
@@ -72,10 +78,23 @@ public class KWSCreateUser extends KWSService {
         }
     }
 
-    public void execute (Context context, KWSLoggedUser loggedUser, String password, KWSCreateUserInterface listener) {
-        this.listener = listener != null ? listener : this.listener;
-        this.loggedUser = loggedUser;
+    public void execute (Context context,
+                         String token,
+                         int appId,
+                         String username,
+                         String password,
+                         String dateOfBirth,
+                         String country,
+                         String parentEmail,
+                         KWSCreateUserInterface listener) {
+        this.appId = appId;
+        this.token = token;
+        this.username = username;
         this.password = password;
+        this.parentEmail = parentEmail;
+        this.dateOfBirth = dateOfBirth;
+        this.country = country;
+        this.listener = listener != null ? listener : this.listener;
         super.execute(context, this.listener);
     }
 }

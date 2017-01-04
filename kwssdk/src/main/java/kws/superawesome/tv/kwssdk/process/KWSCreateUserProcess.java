@@ -3,10 +3,12 @@ package kws.superawesome.tv.kwssdk.process;
 import android.content.Context;
 import android.util.Patterns;
 
+import java.util.regex.Pattern;
+
 import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.aux.KWSAux;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
+import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.services.kws.create.KWSCreateUser;
 import kws.superawesome.tv.kwssdk.services.kws.create.KWSCreateUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.create.KWSGetAccessTokenCreate;
@@ -78,49 +80,48 @@ public class KWSCreateUserProcess {
 
                 if (accessToken != null) {
 
-                    KWSLoggedUser loggedUser = new KWSLoggedUser();
-                    loggedUser.username = username;
-                    loggedUser.parentEmail = parentEmail;
-                    loggedUser.country = country;
-                    loggedUser.dateOfBirth = dateOfBirth;
-                    loggedUser.accessToken = accessToken.access_token;
-                    loggedUser.expiresIn = accessToken.expires_in;
-                    loggedUser.metadata = KWSAux.processMetadata(accessToken.access_token);
+                    // get app id info mainly from the previous temporary access token
+                    KWSMetadata metadata = KWSMetadata.processMetadata(accessToken.access_token);
 
-                    createUser.execute(context, loggedUser, password, new KWSCreateUserInterface() {
-                        @Override
-                        public void created(int status, KWSLoggedUser tmpUser) {
+                    // handle error
+                    if (metadata == null) {
+                        KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.NetworkError);
+                        return;
+                    }
 
-                            if (tmpUser != null) {
+                    // continue w/ success
+                    createUser.execute(
+                            context,
+                            accessToken.access_token,
+                            metadata.appId,
+                            username,
+                            password,
+                            dateOfBirth,
+                            country,
+                            parentEmail,
+                            new KWSCreateUserInterface() {
+                                @Override
+                                public void created(int status, KWSLoggedUser loggedUser) {
 
-                                KWSLoggedUser finalUser = new KWSLoggedUser();
-                                finalUser.id = tmpUser.id;
-                                finalUser.token = tmpUser.token;
-                                finalUser.username = username;
-                                finalUser.parentEmail = password;
-                                finalUser.parentEmail = parentEmail;
-                                finalUser.country = country;
-                                finalUser.dateOfBirth = dateOfBirth;
-                                finalUser.accessToken = accessToken.access_token;
-                                finalUser.loginDate = System.currentTimeMillis() / 1000L;
-                                finalUser.expiresIn = accessToken.expires_in;
-                                finalUser.metadata = KWSAux.processMetadata(tmpUser.token);
+                                    if (loggedUser != null && loggedUser.isValid()) {
 
-                                // set a proper logged user
-                                KWS.sdk.setLoggedUser(finalUser);
+                                        // set a proper logged user
+                                        KWS.sdk.setLoggedUser(loggedUser);
 
-                                // send callback
-                                KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.Success);
+                                        // send callback
+                                        KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.Success);
 
-                            } else {
-                                if (status == 409) {
-                                    KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.DuplicateUsername);
-                                } else {
-                                    KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.InvalidOperation);
+                                    }
+                                    else {
+                                        if (status == 409) {
+                                            KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.DuplicateUsername);
+                                        } else {
+                                            KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.InvalidOperation);
+                                        }
+                                    }
+
                                 }
-                            }
-                        }
-                    });
+                            });
 
                 } else {
                     KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.NetworkError);
@@ -130,7 +131,7 @@ public class KWSCreateUserProcess {
     }
 
     private boolean validateUsername (String username) {
-        return KWSAux.checkRegex("^[a-zA-Z0-9]*$", username) && username.length() >= 3;
+        return Pattern.matches("^[a-zA-Z0-9]*$", username) && username.length() >= 3;
     }
 
     private boolean validatePassword (String password) {
@@ -142,10 +143,10 @@ public class KWSCreateUserProcess {
     }
 
     private boolean validateDate (String date) {
-        return KWSAux.checkRegex("[0-9]{4}-[0-9]{2}-[0-9]{2}", date);
+        return Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", date);
     }
 
     private boolean validateCountry (String country) {
-        return KWSAux.checkRegex("[A-Z]{2}", country);
+        return Pattern.matches("[A-Z]{2}", country);
     }
 }
