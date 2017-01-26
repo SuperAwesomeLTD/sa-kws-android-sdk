@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -99,9 +98,9 @@ public class KWSGetAccessTokenCreate extends KWSService {
         final String endpoint = KWS.sdk.getKwsApiUrl() + getEndpoint();
 
         // create a new async task
-        SAAsyncTask task = new SAAsyncTask(context, new SAAsyncTaskInterface() {
+        new SAAsyncTask<>(context, new SAAsyncTaskInterface<SANetworkResult>() {
             @Override
-            public Object taskToExecute() throws Exception {
+            public SANetworkResult taskToExecute() throws Exception {
                 int statusCode;
                 String response;
                 InputStreamReader in;
@@ -167,37 +166,16 @@ public class KWSGetAccessTokenCreate extends KWSService {
                 // disconnect
                 conn.disconnect();
 
-                // create the final response
-                HashMap<String, Object> networkResponse = new HashMap<>();
-                networkResponse.put("statusCode", statusCode);
-                networkResponse.put("payload", response);
-
-                // return
-                return networkResponse;
+                // The final saDidGetResponse of the SAAsyncTask will be an object of type
+                // SANetworkResult that will contain the status code and the string saDidGetResponse
+                return new SANetworkResult(statusCode, response);
             }
 
             @Override
-            public void onFinish(Object result) {
-                if (result != null && result instanceof HashMap) {
+            public void onFinish(SANetworkResult result) {
 
-                    // get the hash map
-                    HashMap<String, Object> response = (HashMap<String, Object>)result;
-                    int status = -1;
-                    String payload = null;
-                    if (response.containsKey("statusCode")) {
-                        status = (int) response.get("statusCode");
-                    }
-                    if (response.containsKey("payload")) {
-                        payload = (String) response.get("payload");
-                    }
-
-                    // call the result
-                    if (status > -1 && payload != null) {
-                        success(status, payload, true);
-
-                    } else {
-                        success(status, null, false);
-                    }
+                if (result.isValid()) {
+                    success(result.getStatus(), result.getPayload(), true);
                 } else {
                     success(0, null, false);
                 }
@@ -208,5 +186,58 @@ public class KWSGetAccessTokenCreate extends KWSService {
                 success(0, null, false);
             }
         });
+    }
+}
+
+/**
+ * This private class hold the important details needed when receiving a network saDidGetResponse from
+ * a remote server: the HTTP request status (200, 201, 400, 404, etc) and a string saDidGetResponse
+ * that will get parsed subsequently.
+ */
+class SANetworkResult {
+
+    // constants
+    private static final int DEFAULT_STATUS = -1;
+
+    // private variables - status & payload
+    private int status = DEFAULT_STATUS;
+    private String payload;
+
+    /**
+     * Custom constructor taking into account all the class members variables
+     *
+     * @param status    the current request status (200, 201, 400, 404, etc)
+     * @param payload   the current request payload. Can be null
+     */
+    SANetworkResult(int status, String payload) {
+        this.status = status;
+        this.payload = payload;
+    }
+
+    /**
+     * Public getter for the "status" member variable
+     *
+     * @return  the value of the "status" member variable
+     */
+    int getStatus() {
+        return status;
+    }
+
+    /**
+     * Public getter for the "payload" member variable
+     *
+     * @return  the value of the "payload" member variable
+     */
+    String getPayload() {
+        return payload;
+    }
+
+    /**
+     * Method that internally determines if the returned network result has validity
+     *
+     * @return  true or false depending on the condition
+     */
+    boolean isValid () {
+        return status > DEFAULT_STATUS && payload != null;
     }
 }

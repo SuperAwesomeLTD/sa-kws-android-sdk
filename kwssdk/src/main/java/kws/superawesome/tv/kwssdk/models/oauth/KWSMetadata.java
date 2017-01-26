@@ -9,13 +9,13 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSMetadata implements Parcelable, JSONSerializable {
+public class KWSMetadata extends SABaseObject implements Parcelable {
 
     private static final int DEFAULT_VAL = -1;
 

@@ -3,13 +3,11 @@ package kws.superawesome.tv.kwssdk.models.leaderboard;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sajsonparser.SAJsonToList;
 import tv.superawesome.lib.sajsonparser.SAListToJson;
@@ -17,7 +15,7 @@ import tv.superawesome.lib.sajsonparser.SAListToJson;
 /**
  * Created by gabriel.coman on 03/08/16.
  */
-public class KWSLeaderboard implements Parcelable, JSONSerializable{
+public class KWSLeaderboard extends SABaseObject implements Parcelable {
     public int count;
     public int offset;
     public int limit;

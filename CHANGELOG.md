@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.2.0
+ - Updated Networking, JSON & Utils dependencies to work with the latest versions (and benefit from all subsequent tests & improvements done)
+ - Changed all models to expand on SABaseObject (and not implement SAJsonSerializable)
+ - Changed the auth & create user token classes (KWSGetAccessTokenAuth and KWSGetAccessTokenCreate) to use the new features of the SAAsync - returning a precise templated response of type SANetworkResponse.
+
 2.1.7
  - Removed the need to explicitly specify the App ID as an integer parameter when setting up the SDK
  - Right now the setup will be done by specifying just the KWS Url, the Client Id and the Client secret, all obtainable from the KWS Dashboard.

@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 25/08/16.
  */
-public class KWSAppData implements Parcelable, JSONSerializable {
+public class KWSAppData extends SABaseObject implements Parcelable {
     public String name;
     public int value;
 

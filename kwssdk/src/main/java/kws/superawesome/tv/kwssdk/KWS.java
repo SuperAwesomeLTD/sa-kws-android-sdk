@@ -21,27 +21,26 @@ import kws.superawesome.tv.kwssdk.process.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.process.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSGetAppData;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSGetAppDataInterface;
+import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSSetAppData;
+import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSSetAppDataInterface;
+import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmail;
+import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmailInterface;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSPermissionType;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermission;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSRandomNameInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetLeaderboard;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetLeaderboardInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetScore;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetScoreInterface;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSGetUser;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSGetUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSHasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSHasTriggeredEventInterface;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSInviteUser;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSInviteUserInterface;
-import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmail;
-import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmailInterface;
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSPermissionType;
-import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSRandomName;
-import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSRandomNameInterface;
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermission;
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermissionInterface;
-import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSSetAppData;
-import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSTriggerEvent;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSTriggerEventInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSGetUser;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSGetUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSInviteUser;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSInviteUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.user.KWSUpdateUser;
 import kws.superawesome.tv.kwssdk.services.kws.user.KWSUpdateUserInterface;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
@@ -82,7 +81,6 @@ public class KWS {
     // prefferences
     private static final String LOGGED_USER_KEY = "KWS_SA_LOGGED_USER";
     private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
 
     // private constructor
 
@@ -113,7 +111,7 @@ public class KWS {
 
         // get preferences
         preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
-        editor = preferences.edit();
+        // editor = preferences.edit();
 
         if (preferences.contains(LOGGED_USER_KEY)) {
             String loggedUserString = preferences.getString(LOGGED_USER_KEY, "{}");
@@ -122,11 +120,10 @@ public class KWS {
 
             if (tmpUser.isValid()) {
                 loggedUser = tmpUser;
-                Log.d("KWS-USER", "KWS started with logged usser " + loggedUser.metadata.userId);
+                Log.d("KWS-USER", "KWS started with logged user " + loggedUser.metadata.userId);
             } else {
                 Log.d("KWS-USER", "KWS started with a logged user that had an expired OAuth token. Clearing cache!");
-                editor.remove(LOGGED_USER_KEY);
-                editor.apply();
+                preferences.edit().remove(LOGGED_USER_KEY).apply();
             }
         } else {
             Log.d("KWS-USER", "KWS started without a logged user since none was found");
@@ -156,11 +153,9 @@ public class KWS {
     public void logoutUser (Context context) {
         // get preferences
         preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
-        editor = preferences.edit();
         this.loggedUser = null;
         if (preferences.contains(LOGGED_USER_KEY)) {
-            editor.remove(LOGGED_USER_KEY);
-            editor.apply();
+            preferences.edit().remove(LOGGED_USER_KEY).apply();
         }
     }
 
@@ -271,7 +266,7 @@ public class KWS {
     public void registerWithPopup (final Context context, final KWSRegisterInterface listener) {
         SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
             @Override
-            public void pressed(int button, String s) {
+            public void saDidClickOnAlertButton (int button, String s) {
                 if (button == SAAlert.OK_BUTTON) {
                     register(context, listener);
                 }
@@ -282,7 +277,7 @@ public class KWS {
     public void submitParentEmailWithPopup (final Context context, final KWSParentEmailInterface listener) {
         SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
             @Override
-            public void pressed(int button, String email) {
+            public void saDidClickOnAlertButton (int button, String email) {
                 if (button == SAAlert.OK_BUTTON) {
                     submitParentEmail(context, email, listener);
                 }
@@ -295,7 +290,7 @@ public class KWS {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.1.7";
+        return "android-2.2.0";
     }
 
     public String getKwsApiUrl () {
@@ -317,9 +312,8 @@ public class KWS {
         this.loggedUser = loggedUser;
 
         // save in preferences
-        if (editor != null) {
-            editor.putString(LOGGED_USER_KEY, loggedUser.writeToJson().toString());
-            editor.apply();
+        if (preferences != null) {
+            preferences.edit().putString(LOGGED_USER_KEY, loggedUser.writeToJson().toString()).apply();
         }
     }
 }

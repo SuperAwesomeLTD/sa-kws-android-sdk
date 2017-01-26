@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sajsonparser.SAJsonToList;
 import tv.superawesome.lib.sajsonparser.SAListToJson;
@@ -15,7 +15,7 @@ import tv.superawesome.lib.sajsonparser.SAListToJson;
 /**
  * Created by gabriel.coman on 25/08/16.
  */
-public class KWSAppDataResponse implements Parcelable, JSONSerializable {
+public class KWSAppDataResponse extends SABaseObject implements Parcelable {
     public int count;
     public int limit;
     public int offset;
