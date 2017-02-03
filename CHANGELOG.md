@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+2.2.1
+ - Minor update to bring the SAUtils dependency to 0.3.4
+
 2.2.0
  - Updated Networking, JSON & Utils dependencies to work with the latest versions (and benefit from all subsequent tests & improvements done)
  - Changed all models to expand on SABaseObject (and not implement SAJsonSerializable)
