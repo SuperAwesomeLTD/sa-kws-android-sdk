@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+2.2.2
+ - Updated SAJsonParser reference to 0.2.6
+
 2.2.1
  - Minor update to bring the SAUtils dependency to 0.3.4
 
