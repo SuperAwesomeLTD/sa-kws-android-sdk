@@ -15,7 +15,7 @@ import tv.superawesome.lib.sautils.SAUtils;
  */
 public class KWSParentEmail extends KWSService {
 
-    private KWSParentEmailInterface listener = null;
+    private KWSChildrenUpdateParentEmailInterface listener = null;
     private String emailToSubmit = null;
 
     @Override
@@ -33,7 +33,7 @@ public class KWSParentEmail extends KWSService {
         return SAJsonParser.newObject(new Object[]{
                 "parentEmail", emailToSubmit,
                 "permissions", SAJsonParser.newArray(new Object[]{
-                    "sendPushNotification"
+                    "SendPushNotification"
             })
         });
     }
@@ -41,32 +41,32 @@ public class KWSParentEmail extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.submitted(KWSParentEmailStatus.NetworkError);
+            listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.NetworkError);
         } else {
             if (status == 200 || status == 204) {
-                listener.submitted(KWSParentEmailStatus.Success);
+                listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.Success);
             } else {
-                listener.submitted(KWSParentEmailStatus.NetworkError);
+                listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.NetworkError);
             }
         }
     }
 
     @Override
     public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
-        KWSParentEmailInterface local = new KWSParentEmailInterface() {public void submitted(KWSParentEmailStatus status) {}};
-        this.listener = listener != null ? (KWSParentEmailInterface) listener : local;
+        KWSChildrenUpdateParentEmailInterface local = new KWSChildrenUpdateParentEmailInterface() {public void didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus status) {}};
+        this.listener = listener != null ? (KWSChildrenUpdateParentEmailInterface) listener : local;
 
         // get param and correct type
         if (param instanceof String) {
             emailToSubmit = (String)param;
         }  else {
-            this.listener.submitted(KWSParentEmailStatus.Invalid);
+            this.listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.InvalidEmail);
             return;
         }
 
         // check params
         if (emailToSubmit.length() == 0 || !SAUtils.isValidEmail(emailToSubmit)) {
-            this.listener.submitted(KWSParentEmailStatus.Invalid);
+            this.listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.InvalidEmail);
             return;
         }
 

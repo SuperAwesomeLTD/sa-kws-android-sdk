@@ -5,7 +5,7 @@ import android.util.Patterns;
 
 import java.util.regex.Pattern;
 
-import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
@@ -19,12 +19,12 @@ import kws.superawesome.tv.kwssdk.services.kws.create.KWSGetAccessTokenCreateInt
  */
 public class KWSCreateUserProcess {
 
-    private KWSCreateUserProcessInterface listener;
+    private KWSChildrenCreateUserInterface listener;
     private KWSCreateUser createUser;
     private KWSGetAccessTokenCreate getAccessTokenCreate;
 
     public KWSCreateUserProcess () {
-        listener = new KWSCreateUserProcessInterface() { @Override public void userCreated(KWSCreateUserStatus status) {} };
+        listener = new KWSChildrenCreateUserInterface() { @Override public void didCreateUser(KWSChildrenCreateUserStatus status) {} };
         createUser = new KWSCreateUser();
         getAccessTokenCreate = new KWSGetAccessTokenCreate();
     }
@@ -35,7 +35,7 @@ public class KWSCreateUserProcess {
                         final String dateOfBirth,
                         final String country,
                         final String parentEmail,
-                        final KWSCreateUserProcessInterface listener)
+                        final KWSChildrenCreateUserInterface listener)
     {
 
         // get a proper callback
@@ -49,27 +49,27 @@ public class KWSCreateUserProcess {
         boolean validCountry = validateCountry(country);
 
         if (!validUsername) {
-            this.listener.userCreated(KWSCreateUserStatus.InvalidUsername);
+            this.listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidUsername);
             return;
         }
 
         if (!validPassword) {
-            this.listener.userCreated(KWSCreateUserStatus.InvalidPassword);
+            this.listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidPassword);
             return;
         }
 
         if (!validParentEmail) {
-            this.listener.userCreated(KWSCreateUserStatus.InvalidParentEmail);
+            this.listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidParentEmail);
             return;
         }
 
         if (!validBirthDate) {
-            this.listener.userCreated(KWSCreateUserStatus.InvalidDateOfBirth);
+            this.listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidDateOfBirth);
             return;
         }
 
         if (!validCountry) {
-            this.listener.userCreated(KWSCreateUserStatus.InvalidCountry);
+            this.listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidCountry);
             return;
         }
 
@@ -85,7 +85,7 @@ public class KWSCreateUserProcess {
 
                     // handle error
                     if (metadata == null) {
-                        KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.NetworkError);
+                        KWSCreateUserProcess.this.listener.didCreateUser(KWSChildrenCreateUserStatus.NetworkError);
                         return;
                     }
 
@@ -106,17 +106,17 @@ public class KWSCreateUserProcess {
                                     if (loggedUser != null && loggedUser.isValid()) {
 
                                         // set a proper logged user
-                                        KWS.sdk.setLoggedUser(loggedUser);
+                                        KWSChildren.sdk.setLoggedUser(loggedUser);
 
                                         // send callback
-                                        KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.Success);
+                                        KWSCreateUserProcess.this.listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
 
                                     }
                                     else {
                                         if (status == 409) {
-                                            KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.DuplicateUsername);
+                                            KWSCreateUserProcess.this.listener.didCreateUser(KWSChildrenCreateUserStatus.DuplicateUsername);
                                         } else {
-                                            KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.InvalidOperation);
+                                            KWSCreateUserProcess.this.listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
                                         }
                                     }
 
@@ -124,7 +124,7 @@ public class KWSCreateUserProcess {
                             });
 
                 } else {
-                    KWSCreateUserProcess.this.listener.userCreated(KWSCreateUserStatus.NetworkError);
+                    KWSCreateUserProcess.this.listener.didCreateUser(KWSChildrenCreateUserStatus.NetworkError);
                 }
             }
         });

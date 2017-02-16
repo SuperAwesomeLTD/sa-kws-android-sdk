@@ -19,8 +19,8 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSRequestPermission extends KWSService {
 
-    private KWSRequestPermissionInterface listener = null;
-    private KWSPermissionType[] requestedPermissions = null;
+    private KWSChildrenRequestPermissionInterface listener = null;
+    private KWSChildrenPermissionType[] requestedPermissions = null;
 
     @Override
     public String getEndpoint() {
@@ -35,7 +35,7 @@ public class KWSRequestPermission extends KWSService {
     @Override
     public JSONObject getBody() {
         JSONArray array = new JSONArray();
-        for (KWSPermissionType requestedPermission : requestedPermissions) {
+        for (KWSChildrenPermissionType requestedPermission : requestedPermissions) {
             array.put(requestedPermission.toString());
         }
         return SAJsonParser.newObject(new Object[]{
@@ -47,10 +47,10 @@ public class KWSRequestPermission extends KWSService {
     public void success(int status, String payload, boolean success) {
         Log.d("SuperAwesome", "Payload ==> " + payload);
         if (!success) {
-            listener.requested(KWSPermissionStatus.NeworkError);
+            listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NetworkError);
         } else {
             if (status == 200 || status == 204) {
-                listener.requested(KWSPermissionStatus.Success);
+                listener.didRequestPermission(KWSChildrenRequestPermissionStatus.Success);
             } else {
 
                 /** form the error - if exists */
@@ -58,9 +58,9 @@ public class KWSRequestPermission extends KWSService {
                 KWSError error = new KWSError(json);
 
                 if (error.code == 10 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
-                    listener.requested(KWSPermissionStatus.NoParentEmail);
+                    listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NoParentEmail);
                 } else {
-                    listener.requested(KWSPermissionStatus.NeworkError);
+                    listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NetworkError);
                 }
             }
         }
@@ -68,18 +68,18 @@ public class KWSRequestPermission extends KWSService {
 
     @Override
     public void execute(Context context, Object param, KWSServiceResponseInterface listener) {
-        KWSRequestPermissionInterface local = new KWSRequestPermissionInterface() {public void requested(KWSPermissionStatus status) {}};
-        this.listener = listener != null ? (KWSRequestPermissionInterface) listener : local;
-        requestedPermissions = new KWSPermissionType[]{};
+        KWSChildrenRequestPermissionInterface local = new KWSChildrenRequestPermissionInterface() {public void didRequestPermission(KWSChildrenRequestPermissionStatus status) {}};
+        this.listener = listener != null ? (KWSChildrenRequestPermissionInterface) listener : local;
+        requestedPermissions = new KWSChildrenPermissionType[]{};
 
-        if (param instanceof KWSPermissionType[]) {
-            requestedPermissions = (KWSPermissionType[]) param;
+        if (param instanceof KWSChildrenPermissionType[]) {
+            requestedPermissions = (KWSChildrenPermissionType[]) param;
         } else {
-            this.listener.requested(KWSPermissionStatus.NeworkError);
+            this.listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NetworkError);
             return;
         }
 
-        Log.d("SuperAwesome", "Requesting KWS permission: " + Arrays.toString(requestedPermissions));
+        Log.d("SuperAwesome", "Requesting KWSChildren permission: " + Arrays.toString(requestedPermissions));
         super.execute(context, requestedPermissions, this.listener);
     }
 }

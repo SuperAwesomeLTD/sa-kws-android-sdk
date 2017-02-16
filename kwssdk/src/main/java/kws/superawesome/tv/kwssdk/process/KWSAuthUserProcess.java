@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.regex.Pattern;
 
-import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.services.kws.auth.KWSAuthUser;
@@ -14,12 +14,12 @@ import kws.superawesome.tv.kwssdk.services.kws.auth.KWSGetAccessTokenAuthInterfa
 
 public class KWSAuthUserProcess {
 
-    private KWSAuthUserProcessInterface listener;
+    private KWSChildrenLoginUserInterface listener;
     private KWSAuthUser authUser;
     private KWSGetAccessTokenAuth getAccessTokenAuth;
 
     public KWSAuthUserProcess () {
-        listener = new KWSAuthUserProcessInterface() { @Override public void userAuthenticated(KWSAuthUserStatus status) {} };
+        listener = new KWSChildrenLoginUserInterface() { @Override public void didLoginUser(KWSChildrenLoginUserStatus status) {} };
         authUser = new KWSAuthUser();
         getAccessTokenAuth = new KWSGetAccessTokenAuth();
     }
@@ -27,7 +27,7 @@ public class KWSAuthUserProcess {
     public void auth(final Context context,
                      final String username,
                      final String password,
-                     KWSAuthUserProcessInterface listener)
+                     KWSChildrenLoginUserInterface listener)
     {
         // get vars
         this.listener = listener != null ? listener : this.listener;
@@ -35,12 +35,12 @@ public class KWSAuthUserProcess {
         boolean passwordValid = validatePassword(password);
 
         if (!usernameValid) {
-            this.listener.userAuthenticated(KWSAuthUserStatus.InvalidCredentials);
+            this.listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
             return;
         }
 
         if (!passwordValid) {
-            this.listener.userAuthenticated(KWSAuthUserStatus.InvalidCredentials);
+            this.listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
             return;
         }
 
@@ -59,21 +59,21 @@ public class KWSAuthUserProcess {
                             if (loggedUser != null && loggedUser.isValid()) {
 
                                 // set final user
-                                KWS.sdk.setLoggedUser(loggedUser);
+                                KWSChildren.sdk.setLoggedUser(loggedUser);
 
                                 // send response
-                                KWSAuthUserProcess.this.listener.userAuthenticated(KWSAuthUserStatus.Success);
+                                KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
 
                             }
                             else {
-                                KWSAuthUserProcess.this.listener.userAuthenticated(KWSAuthUserStatus.InvalidCredentials);
+                                KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
                             }
 
                         }
                     });
 
                 } else {
-                    KWSAuthUserProcess.this.listener.userAuthenticated(KWSAuthUserStatus.NetworkError);
+                    KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.NetworkError);
                 }
 
             }

@@ -16,10 +16,10 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
 public class KWSRandomName extends KWSService {
 
     private int appId = 0;
-    private KWSRandomNameInterface listener = null;
+    private KWSChildrenGetRandomUsernameInterface listener = null;
 
     public KWSRandomName () {
-        listener = new KWSRandomNameInterface() {@Override public void gotRandomName(String name) {}};
+        listener = new KWSChildrenGetRandomUsernameInterface() {@Override public void didGetRandomUsername(String name) {}};
     }
 
     @Override
@@ -46,12 +46,12 @@ public class KWSRandomName extends KWSService {
     public void success(int status, String payload, boolean success) {
 
         if (!success) {
-            listener.gotRandomName(null);
+            listener.didGetRandomUsername(null);
         } else {
             if (status == 200 && payload!= null) {
-                listener.gotRandomName(payload.replace("\"", ""));
+                listener.didGetRandomUsername(payload.replace("\"", ""));
             } else {
-                listener.gotRandomName(null);
+                listener.didGetRandomUsername(null);
             }
         }
 
@@ -59,7 +59,7 @@ public class KWSRandomName extends KWSService {
 
     public void execute(Context context, int appId, KWSServiceResponseInterface listener) {
         this.appId = appId;
-        this.listener = listener != null ? (KWSRandomNameInterface) listener : this.listener;
+        this.listener = listener != null ? (KWSChildrenGetRandomUsernameInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 

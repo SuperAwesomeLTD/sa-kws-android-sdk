@@ -10,13 +10,60 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d509a11c-8779-4568-8fe2-a903dde10afc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/sajsonparser_0_2_6.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/sajsonparser_0_2_5.xml" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenCreateUserInterface.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenLoginUserInterface.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenUnregisterForRemoteNotificationsInterface.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSChildrenGetRandomUsernameInterface.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcessInterface.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcessInterface.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSUnregisterInterface.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomNameInterface.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWSChildren.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserStatus.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenLoginUserStatus.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserStatus.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenCreateUserStatus.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSIsRegisteredInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenIsRegisteredForRemoteNotificationsInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSNotificationStatus.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenRegisterForRemoteNotificationsStatus.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSRegisterInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenRegisterForRemoteNotificationsInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSGetAppDataInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenGetAppDataInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSSetAppDataInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenSetAppDataInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmailInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSChildrenUpdateParentEmailInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmailStatus.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSChildrenUpdateParentEmailStatus.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSPermissionStatus.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenRequestPermissionStatus.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSPermissionType.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenPermissionType.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSRequestPermissionInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenRequestPermissionInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetLeaderboardInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetLeaderboardInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetScoreInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetScoreInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSHasTriggeredEventInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenHasTriggeredEventInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSTriggerEventInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenTriggerEventInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSGetUserInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenGetUserInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSInviteUserInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenInviteUserInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSUpdateUserInterface.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenUpdateUserInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" afterPath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/build.gradle" afterPath="$PROJECT_DIR$/kwssdk/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/kwssdk.iml" afterPath="$PROJECT_DIR$/kwssdk/kwssdk.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/kws/superawesome/tv/kwsdemo/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/kws/superawesome/tv/kwsdemo/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSNotificationProcess.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSNotificationProcess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSRandomNameProcess.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSRandomNameProcess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSGetAppData.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSGetAppData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSSetAppData.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSSetAppData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSGetAccessTokenCreate.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSGetAccessTokenCreate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmail.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmail.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSRequestPermission.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSRequestPermission.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSGetAppConfig.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSGetAppConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomName.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomName.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetLeaderboard.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetLeaderboard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetScore.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetScore.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSHasTriggeredEvent.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSHasTriggeredEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSTriggerEvent.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSTriggerEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSGetUser.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSGetUser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSInviteUser.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSInviteUser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSUpdateUser.java" afterPath="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSUpdateUser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
     </list>
     <ignored path="sa-kws-android-sdk.iws" />
@@ -45,94 +92,7 @@
           <activation />
         </task>
         <projects_view>
-          <tree_state>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="publishing" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="sa-kws-android-sdk" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="other" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
-              </PATH_ELEMENT>
-            </PATH>
-          </tree_state>
+          <tree_state />
         </projects_view>
       </state>
     </system>
@@ -142,84 +102,84 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="KWSTriggerEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSTriggerEvent.java">
+      <file leaf-file-name="KWSChildren.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWSChildren.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KWSGetUser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSGetUser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KWSInviteUser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSInviteUser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KWSUpdateUser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSUpdateUser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KWSService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KWS.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="292" column="29" selection-start-line="292" selection-start-column="29" selection-end-line="292" selection-end-column="29" />
+            <state relative-caret-position="403">
+              <caret line="291" column="29" selection-start-line="291" selection-start-column="29" selection-end-line="291" selection-end-column="29" />
               <folding>
-                <element signature="e#12650#12651#0" expanded="true" />
-                <element signature="e#12688#12689#0" expanded="true" />
+                <element signature="e#13567#13568#0" expanded="true" />
+                <element signature="e#13605#13606#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KWSGetAccessTokenAuth.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java">
+      <file leaf-file-name="KWSChildrenIsRegisteredForRemoteNotificationsInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenIsRegisteredForRemoteNotificationsInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2685">
-              <caret line="209" column="26" selection-start-line="209" selection-start-column="26" selection-end-line="209" selection-end-column="26" />
+            <state relative-caret-position="90">
+              <caret line="6" column="43" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kwssdk/build.gradle">
+      <file leaf-file-name="KWSChildrenUnregisterForRemoteNotificationsInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenUnregisterForRemoteNotificationsInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="628">
-              <caret line="86" column="64" selection-start-line="86" selection-start-column="64" selection-end-line="86" selection-end-column="64" />
+            <state relative-caret-position="90">
+              <caret line="6" column="44" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KWSChildrenRegisterForRemoteNotificationsInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenRegisterForRemoteNotificationsInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="91" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="91" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KWSChildrenGetAppDataInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenGetAppDataInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="11" column="22" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KWSChildrenSetAppDataInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenSetAppDataInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="22" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KWSChildrenGetLeaderboardInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetLeaderboardInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="11" column="26" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KWSChildrenGetScoreInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetScoreInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="9" column="20" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -235,14 +195,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
+      <file leaf-file-name="KWSChildrenUpdateParentEmailInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSChildrenUpdateParentEmailInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="120">
+              <caret line="8" column="65" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -517,11 +474,6 @@
                 <option name="name" value="installDebugAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare kws.superawesome.tv.kwssdk:kwssdk:2.2.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareKwsSuperawesomeTvKwssdkKwssdk221Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Runs all device checks on currently connected devices." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="connectedCheck" />
@@ -646,6 +598,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="jarDebugClasses" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare kws.superawesome.tv.kwssdk:kwssdk:2.2.2" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareKwsSuperawesomeTvKwssdkKwssdk222Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Installs the Debug build." />
@@ -1476,11 +1433,6 @@
                 <option name="name" value="mergeDebugAssets" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare kws.superawesome.tv.kwssdk:kwssdk:2.2.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareKwsSuperawesomeTvKwssdkKwssdk221Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Prepare com.android.support:animated-vector-drawable:23.4.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="prepareComAndroidSupportAnimatedVectorDrawable2340Library" />
@@ -1688,6 +1640,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="transformClassesWithDexForRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare kws.superawesome.tv.kwssdk:kwssdk:2.2.2" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="prepareKwsSuperawesomeTvKwssdkKwssdk222Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Installs the Debug build." />
@@ -3039,32 +2996,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appconfig/KWSAppConfig.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appdata/KWSAppData.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appdata/KWSAppDataResponse.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/error/KWSError.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/error/KWSInnerError.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/error/KWSInvalid.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/event/KWSEventStatus.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/leaderboard/KWSLeader.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/leaderboard/KWSLeaderboard.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSAccessToken.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSAddress.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSApplicationProfile.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenCreateUserStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcessInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenCreateUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenLoginUserStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSAuthUserProcessInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenLoginUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSRandomNameInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSChildrenGetRandomNameInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSChildrenGetRandomUsernameInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSGetUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenGetUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSUpdateUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenUpdateUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmailInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSChildrenUpdateParentEmailInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmailStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSChildrenUpdateParentEmailStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSRequestPermissionInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenRequestPermissionInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSPermissionStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenRequestPermissionStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenPermissionType.java" />
         <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSPermissions.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSPoints.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSScore.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSUser.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSUserCreateDetail.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSGetAccessTokenAuth.java" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSGetAccessTokenCreate.java" />
-        <option value="$PROJECT_DIR$/kwssdk/build.gradle" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSInviteUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenInviteUserInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSTriggerEventInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenTriggerEventInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSHasTriggeredEventInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenHasTriggeredEventInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetScoreInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetScoreInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSGetLeaderboardInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetLeaderboardInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSGetAppDataInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenGetAppDataInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSSetAppDataInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenSetAppDataInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSRegisterInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenRegisterForRemoteNotificationsInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSNotificationStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenRegisterForRemoteNotificationsStatus.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSUnregisterInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenUnregisterFromRemoteNotificationsInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenUnregisterForRemoteNotificationsInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSIsRegisteredInterface.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenIsRegisteredForRemoteNotificationsInterface.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/local.properties" />
-        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java" />
+        <option value="$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWSChildren.java" />
       </list>
     </option>
   </component>
@@ -3097,10 +3079,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -3147,12 +3127,260 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="permissions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="create" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="process" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwssdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kwsdemo" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sa-kws-android-sdk" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3541,7 +3769,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3565,8 +3793,9 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27682403" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904148" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31759655" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32862645" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -3575,7 +3804,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -3586,180 +3814,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/KWSService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#12650#12651#0" expanded="true" />
-            <element signature="e#12688#12689#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="70" selection-start-line="9" selection-start-column="70" selection-end-line="9" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appconfig/KWSAppConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="69" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appdata/KWSAppData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appdata/KWSAppDataResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/error/KWSError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/error/KWSInnerError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/error/KWSInvalid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/event/KWSEventStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/leaderboard/KWSLeader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/leaderboard/KWSLeaderboard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSAccessToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSLoggedUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/oauth/KWSMetadata.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="53" selection-start-line="12" selection-start-column="53" selection-end-line="12" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSAddress.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSApplicationProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSPermissions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSPoints.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSScore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSUserCreateDetail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-167">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/auth/KWSAuthUserInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSGetAccessTokenCreate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -3802,45 +3856,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmailStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSParentEmailInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSPermissionStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSPermissionType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSRequestPermission.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSRequestPermissionInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -3924,6 +3943,94 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2685">
           <caret line="209" column="26" selection-start-line="209" selection-start-column="26" selection-end-line="209" selection-end-column="26" />
+          <folding>
+            <element signature="e#1211#1212#0" expanded="false" />
+            <element signature="e#1247#1248#0" expanded="false" />
+            <element signature="e#1301#1302#0" expanded="false" />
+            <element signature="e#1342#1343#0" expanded="false" />
+            <element signature="e#1396#1397#0" expanded="false" />
+            <element signature="e#1424#1425#0" expanded="false" />
+            <element signature="e#6217#6218#0" expanded="false" />
+            <element signature="e#6272#6273#0" expanded="false" />
+            <element signature="e#7268#7269#0" expanded="false" />
+            <element signature="e#7297#7298#0" expanded="false" />
+            <element signature="e#7461#7462#0" expanded="false" />
+            <element signature="e#7491#7492#0" expanded="false" />
+            <element signature="e#7682#7683#0" expanded="false" />
+            <element signature="e#7747#7748#0" expanded="false" />
+            <marker date="1487246411000" expanded="false" signature="62:826" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1290">
+          <caret line="86" column="64" selection-start-line="86" selection-start-column="64" selection-end-line="86" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/create/KWSCreateUserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSCreateUserProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenPermissionType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/appconfig/KWSAppConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/models/user/KWSPermissions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1065">
+          <caret line="85" column="22" selection-start-line="85" selection-start-column="22" selection-end-line="85" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenHasTriggeredEventInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="54" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenRegisterForRemoteNotificationsStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="59" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="59" />
           <folding />
         </state>
       </provider>
@@ -3933,16 +4040,181 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="330">
+          <caret line="146" column="31" selection-start-line="146" selection-start-column="31" selection-end-line="146" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/build.gradle">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/kws/superawesome/tv/kwsdemo/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="628">
-          <caret line="86" column="64" selection-start-line="86" selection-start-column="64" selection-end-line="86" selection-end-column="64" />
+        <state relative-caret-position="361">
+          <caret line="353" column="24" selection-start-line="353" selection-start-column="24" selection-end-line="353" selection-end-column="24" />
+          <folding>
+            <element signature="e#3699#5135#0" expanded="true" />
+            <element signature="e#5134#5135#0" expanded="true" />
+            <element signature="e#14789#15032#0" expanded="true" />
+            <element signature="e#15031#15032#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenCreateUserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="39" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenCreateUserStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenLoginUserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="39" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenLoginUserStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/randomname/KWSChildrenGetRandomUsernameInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenGetUserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="9" column="19" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenUpdateUserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenRequestPermissionInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="51" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/permissions/KWSChildrenRequestPermissionStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSChildrenUpdateParentEmailStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/user/KWSChildrenInviteUserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenTriggerEventInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetScoreInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/score/KWSChildrenGetLeaderboardInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="11" column="26" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenSetAppDataInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/appdata/KWSChildrenGetAppDataInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="11" column="22" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenRegisterForRemoteNotificationsInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="91" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/services/kws/parentemail/KWSChildrenUpdateParentEmailInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="65" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenUnregisterForRemoteNotificationsInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="44" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/process/KWSChildrenIsRegisteredForRemoteNotificationsInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="43" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="43" />
           <folding />
         </state>
       </provider>
@@ -3955,13 +4227,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWS.java">
+    <entry file="file://$PROJECT_DIR$/kwssdk/src/main/java/kws/superawesome/tv/kwssdk/KWSChildren.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="292" column="29" selection-start-line="292" selection-start-column="29" selection-end-line="292" selection-end-column="29" />
+        <state relative-caret-position="403">
+          <caret line="291" column="29" selection-start-line="291" selection-start-column="29" selection-end-line="291" selection-end-column="29" />
           <folding>
-            <element signature="e#12650#12651#0" expanded="true" />
-            <element signature="e#12688#12689#0" expanded="true" />
+            <element signature="e#13567#13568#0" expanded="true" />
+            <element signature="e#13605#13606#0" expanded="true" />
           </folding>
         </state>
       </provider>

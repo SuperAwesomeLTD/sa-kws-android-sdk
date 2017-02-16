@@ -14,7 +14,7 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSSetAppData extends KWSService {
 
-    private KWSSetAppDataInterface listener = null;
+    private KWSChildrenSetAppDataInterface listener = null;
     private String name = null;
     private int value = 0;
 
@@ -38,13 +38,13 @@ public class KWSSetAppData extends KWSService {
 
     @Override
     public void success(int status, String payload, boolean success) {
-        listener.setAppData(success && (status == 200 || status == 204));
+        listener.didSetAppData(success && (status == 200 || status == 204));
     }
 
     public void execute(Context context, String name, int value, KWSServiceResponseInterface listener) {
         this.name = name;
         this.value = value;
-        this.listener = listener != null? (KWSSetAppDataInterface) listener : new KWSSetAppDataInterface() { @Override public void setAppData(boolean success) {}};
+        this.listener = listener != null? (KWSChildrenSetAppDataInterface) listener : new KWSChildrenSetAppDataInterface() { @Override public void didSetAppData(boolean success) {}};
         super.execute(context, listener);
     }
 }

@@ -17,7 +17,7 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
 public class KWSUpdateUser extends KWSService {
 
     private KWSUser updatedUser = null;
-    private KWSUpdateUserInterface listener = null;
+    private KWSChildrenUpdateUserInterface listener = null;
 
     @Override
     public String getEndpoint() {
@@ -59,24 +59,24 @@ public class KWSUpdateUser extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.updated(false);
+            listener.didUpdateUser(false);
         } else {
             if (status == 200 || status == 204) {
-                listener.updated(true);
+                listener.didUpdateUser(true);
             } else {
                 JSONObject jsonObject = SAJsonParser.newObject(payload);
                 KWSError error = new KWSError(jsonObject);
 
                 // forbidden code
                 if (error.code == 1 || error.code == 5) {
-                    listener.updated(false);
+                    listener.didUpdateUser(false);
                 }
             }
         }
     }
 
     public void execute(Context context, KWSUser user, KWSServiceResponseInterface listener) {
-        this.listener = listener != null ? (KWSUpdateUserInterface) listener : new KWSUpdateUserInterface() {@Override public void updated(boolean updated) {}};
+        this.listener = listener != null ? (KWSChildrenUpdateUserInterface) listener : new KWSChildrenUpdateUserInterface() {@Override public void didUpdateUser(boolean updated) {}};
         updatedUser = user;
         super.execute(context, listener);
     }

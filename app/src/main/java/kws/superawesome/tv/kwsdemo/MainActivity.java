@@ -10,37 +10,34 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import kws.superawesome.tv.kwssdk.models.appconfig.KWSAppConfig;
+import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
-import kws.superawesome.tv.kwssdk.process.KWSAuthUserProcessInterface;
-import kws.superawesome.tv.kwssdk.process.KWSAuthUserStatus;
-import kws.superawesome.tv.kwssdk.process.KWSCreateUserProcessInterface;
-import kws.superawesome.tv.kwssdk.process.KWSCreateUserStatus;
-import kws.superawesome.tv.kwssdk.process.KWSIsRegisteredInterface;
-import kws.superawesome.tv.kwssdk.process.KWSRegisterInterface;
-import kws.superawesome.tv.kwssdk.process.KWSUnregisterInterface;
-import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSGetAppDataInterface;
-import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSGetAppConfig;
-import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSGetAppConfigInterface;
-import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetLeaderboardInterface;
-import kws.superawesome.tv.kwssdk.services.kws.score.KWSGetScoreInterface;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSGetUserInterface;
-import kws.superawesome.tv.kwssdk.services.kws.score.KWSHasTriggeredEventInterface;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSInviteUserInterface;
-import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmailInterface;
-import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmailStatus;
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSPermissionStatus;
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSPermissionType;
-import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSRandomNameInterface;
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermissionInterface;
-import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSSetAppDataInterface;
-import kws.superawesome.tv.kwssdk.services.kws.score.KWSTriggerEventInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserStatus;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserStatus;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenIsRegisteredForRemoteNotificationsInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenUnregisterForRemoteNotificationsInterface;
+import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenGetAppDataInterface;
+import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenGetLeaderboardInterface;
+import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenGetScoreInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenGetUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenHasTriggeredEventInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenInviteUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailInterface;
+import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailStatus;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionStatus;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenPermissionType;
+import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSChildrenGetRandomUsernameInterface;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenSetAppDataInterface;
+import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenTriggerEventInterface;
 import tv.superawesome.lib.sautils.SAUtils;
-import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.process.KWSNotificationStatus;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsStatus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
 
-        KWS.sdk.startSession(this, CLIENT_ID, SECRET, API);
+        KWSChildren.sdk.setup(this, CLIENT_ID, SECRET, API);
 
     }
 
@@ -75,27 +72,27 @@ public class MainActivity extends AppCompatActivity {
     public void createNewUser (View v) {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
 
-        KWS.sdk.createUser(this, username, "testtest", "2011-03-02", "US", "dev.gabriel.coman@gmail.com", new KWSCreateUserProcessInterface() {
+        KWSChildren.sdk.createUser(this, username, "testtest", "2011-03-02", "US", "dev.gabriel.coman@gmail.com", new KWSChildrenCreateUserInterface() {
             @Override
-            public void userCreated(KWSCreateUserStatus status) {
+            public void didCreateUser(KWSChildrenCreateUserStatus status) {
                 switch (status) {
                     case Success:
                         log += "User " + username + " created OK\n";
                         break;
                     case InvalidUsername:
-                        log += "Invalid username\n";
+                        log += "InvalidEmail username\n";
                         break;
                     case InvalidPassword:
-                        log += "Invalid password\n";
+                        log += "InvalidEmail password\n";
                         break;
                     case InvalidDateOfBirth:
-                        log += "Invalid date of birth\n";
+                        log += "InvalidEmail date of birth\n";
                         break;
                     case InvalidCountry:
-                        log += "Invalid country\n";
+                        log += "InvalidEmail country\n";
                         break;
                     case InvalidParentEmail:
-                        log += "Invalid parent email\n";
+                        log += "InvalidEmail parent email\n";
                         break;
                     case DuplicateUsername:
                         log += "Duplicate username\n";
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         log += "Network error\n";
                         break;
                     case InvalidOperation:
-                        log += "Invalid operation\n";
+                        log += "InvalidEmail operation\n";
                         break;
                 }
 
@@ -115,19 +112,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void authUser (View v) {
 
-        KWS.sdk.loginUser(this, "tutu2", "12345678", new KWSAuthUserProcessInterface() {
+        KWSChildren.sdk.loginUser(this, "tutu2", "12345678", new KWSChildrenLoginUserInterface() {
             @Override
-            public void userAuthenticated(KWSAuthUserStatus status) {
+            public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 switch (status) {
                     case Success:
                         log += "Auth as tutu2 w/ 12345678\n";
-                        Log.d("SuperAwesome", KWS.sdk.getLoggedUser().writeToJson() + "");
+                        Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
                         break;
                     case NetworkError:
                         log += "Network error authing\n";
                         break;
                     case InvalidCredentials:
-                        log += "Invalid credentials\n";
+                        log += "InvalidEmail credentials\n";
                         break;
                 }
 
@@ -138,13 +135,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logoutUser (View v) {
-        KWS.sdk.logoutUser(this);
+        KWSChildren.sdk.logoutUser(this);
     }
 
     public void generateRandomName (View v) {
-        KWS.sdk.generateRandomName(this, new KWSRandomNameInterface() {
+        KWSChildren.sdk.getRandomUsername(this, new KWSChildrenGetRandomUsernameInterface() {
             @Override
-            public void gotRandomName(String name) {
+            public void didGetRandomUsername(String name) {
                 log += "Random name " + name + "\n";
                 logView.setText(log);
             }
@@ -152,16 +149,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registerAction(View v) {
-        log += "Trying to register user\n";
+        log += "Trying to registerForRemoteNotifications user\n";
         logView.setText(log);
 
 
-        KWS.sdk.registerWithPopup(this, new KWSRegisterInterface() {
+        KWSChildren.sdk.registerForRemoteNotificationsWithPopup(this, new KWSChildrenRegisterForRemoteNotificationsInterface() {
             @Override
-            public void register(KWSNotificationStatus status) {
+            public void didRegisterForRemoteNotifications(KWSChildrenRegisterForRemoteNotificationsStatus status) {
                 switch (status) {
                     case ParentDisabledNotifications: {
-                        log += "User has  no permissions (KWS)\n";
+                        log += "User has  no permissions (KWSChildren)\n";
                         break;
                     }
                     case UserDisabledNotifications: {
@@ -169,20 +166,20 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case NoParentEmail: {
-                        log += "User has  no parent email (KWS)\n";
+                        log += "User has  no parent email (KWSChildren)\n";
 
-                        final KWSRegisterInterface local = this;
+                        final KWSChildrenRegisterForRemoteNotificationsInterface local = this;
 
-                        KWS.sdk.submitParentEmailWithPopup(MainActivity.this, new KWSParentEmailInterface() {
+                        KWSChildren.sdk.updateParentEmailWithPopup(MainActivity.this, new KWSChildrenUpdateParentEmailInterface() {
                             @Override
-                            public void submitted(KWSParentEmailStatus status) {
+                            public void didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus status) {
 
                                 switch (status) {
                                     case Success: {
-                                        KWS.sdk.register(MainActivity.this, local);
+                                        KWSChildren.sdk.registerForRemoteNotifications(MainActivity.this, local);
                                         break;
                                     }
-                                    case Invalid: {
+                                    case InvalidEmail: {
                                         log += "Parent email invalid\n";
                                         logView.setText(log);
                                         break;
@@ -206,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case NetworkError: {
-                        log += "Network error checking for KWS notification permission\n";
+                        log += "Network error checking for KWSChildren notification permission\n";
                         break;
                     }
                     case Success:{
@@ -215,8 +212,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (KWS.sdk.getLoggedUser() != null) {
-                    log += "Local user is " + KWS.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                if (KWSChildren.sdk.getLoggedUser() != null) {
+                    log += "Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
 
@@ -225,14 +222,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void unregisterAction(View v) {
-        log += "Trying to unregister user\n";
+        log += "Trying to unregisterForRemoteNotifications user\n";
         logView.setText(log);
-        KWS.sdk.unregister(this, new KWSUnregisterInterface() {
+        KWSChildren.sdk.unregisterForRemoteNotifications(this, new KWSChildrenUnregisterForRemoteNotificationsInterface() {
             @Override
-            public void unregister(boolean unregistered) {
-                log += unregistered ? "User is un-registered\n" : "Network error unsubscribing Firebase token to KWS\n";
-                if (KWS.sdk.getLoggedUser() != null) {
-                    log += "Local user is " + KWS.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+            public void didUnregisterForRemoteNotifications(boolean unregistered) {
+                log += unregistered ? "User is un-registered\n" : "Network error unsubscribing Firebase token to KWSChildren\n";
+                if (KWSChildren.sdk.getLoggedUser() != null) {
+                    log += "Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
             }
@@ -243,12 +240,12 @@ public class MainActivity extends AppCompatActivity {
 
         log += "Checking if user is registered or not\n";
         logView.setText(log);
-        KWS.sdk.isRegistered(this, new KWSIsRegisteredInterface() {
+        KWSChildren.sdk.isRegisteredForRemoteNotifications(this, new KWSChildrenIsRegisteredForRemoteNotificationsInterface() {
             @Override
-            public void isRegistered(boolean registered) {
+            public void isRegisteredForRemoteNotifications(boolean registered) {
                 log += registered ? "User is already registered\n" : "User is not registered\n";
-                if (KWS.sdk.getLoggedUser() != null) {
-                    log += "Local user is " + KWS.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                if (KWSChildren.sdk.getLoggedUser() != null) {
+                    log += "Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
             }
@@ -258,9 +255,9 @@ public class MainActivity extends AppCompatActivity {
     public void getUserDetails (View v) {
         log += "Getting user details\n";
         logView.setText(log);
-        KWS.sdk.getUser(this, new KWSGetUserInterface() {
+        KWSChildren.sdk.getUser(this, new KWSChildrenGetUserInterface() {
             @Override
-            public void gotUser(KWSUser user) {
+            public void didGetUser(KWSUser user) {
                 if (user != null) {
                     Log.d("SuperAwesome", user.writeToJson().toString() + "");
                     log += "Got user details for " + user.username + "\n";
@@ -274,9 +271,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void  getLeaderboard (View v) {
-        KWS.sdk.getLeaderBoard(this, new KWSGetLeaderboardInterface() {
+        KWSChildren.sdk.getLeaderboard(this, new KWSChildrenGetLeaderboardInterface() {
             @Override
-            public void gotLeaderboard(List<KWSLeader> leaderboard) {
+            public void didGetLeaderboard(List<KWSLeader> leaderboard) {
                 log += "Got " + leaderboard.size() + " leaders!\n";
                 logView.setText(log);
             }
@@ -284,12 +281,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void requestPermissions (View v) {
-        KWS.sdk.requestPermission(this, new KWSPermissionType[]{
-                KWSPermissionType.accessAddress,
-                KWSPermissionType.accessFirstName
-        }, new KWSRequestPermissionInterface() {
+        KWSChildren.sdk.requestPermission(this, new KWSChildrenPermissionType[]{
+                KWSChildrenPermissionType.AccessAddress,
+                KWSChildrenPermissionType.AccessFirstName
+        }, new KWSChildrenRequestPermissionInterface() {
             @Override
-            public void requested(KWSPermissionStatus status) {
+            public void didRequestPermission(KWSChildrenRequestPermissionStatus status) {
 
                 switch (status) {
                     case Success: {
@@ -300,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                         log += "No parent email found\n";
                         break;
                     }
-                    case NeworkError: {
+                    case NetworkError: {
                         log += "Network error\n";
                         break;
                     }
@@ -313,9 +310,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void triggerEvent (View v) {
-        KWS.sdk.triggerEvent(this, "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, new KWSTriggerEventInterface() {
+        KWSChildren.sdk.triggerEvent(this, "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, new KWSChildrenTriggerEventInterface() {
             @Override
-            public void triggered(boolean success) {
+            public void didTriggerEvent(boolean success) {
                 log += "Triggered evt: " + success + "\n";
                 logView.setText(log);
             }
@@ -323,9 +320,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getScore (View v) {
-        KWS.sdk.getScore(this, new KWSGetScoreInterface() {
+        KWSChildren.sdk.getScore(this, new KWSChildrenGetScoreInterface() {
             @Override
-            public void gotScore(KWSScore score) {
+            public void didGetScore(KWSScore score) {
                 log += score != null ? "Rank: " + score.rank + " Score: " + score.score + "\n" : "Could not get score\n";
                 logView.setText(log);
             }
@@ -333,9 +330,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inviteUser (View v) {
-        KWS.sdk.inviteUser(this, "gabriel.coman@superawesome.tv", new KWSInviteUserInterface() {
+        KWSChildren.sdk.inviteUser(this, "gabriel.coman@superawesome.tv", new KWSChildrenInviteUserInterface() {
             @Override
-            public void invited(boolean success) {
+            public void didInviteUser(boolean success) {
                 log += "Invited gabriel.coman@superawesome.tv " + success + "\n";
                 logView.setText(log);
             }
@@ -344,9 +341,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkEvent (View v) {
-        KWS.sdk.hasTriggeredEvent(this, 762, new KWSHasTriggeredEventInterface() {
+        KWSChildren.sdk.hasTriggeredEvent(this, 762, new KWSChildrenHasTriggeredEventInterface() {
             @Override
-            public void hasTriggered(Boolean triggered) {
+            public void didTriggerEvent(Boolean triggered) {
                 log += "Event 762 is : " + triggered + "\n";
                 logView.setText(log);
             }
@@ -355,9 +352,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setAppData (View v) {
-        KWS.sdk.setAppData(this, "new_val", 33, new KWSSetAppDataInterface() {
+        KWSChildren.sdk.setAppData(this, 33, "new_val", new KWSChildrenSetAppDataInterface() {
             @Override
-            public void setAppData(boolean success) {
+            public void didSetAppData(boolean success) {
                 log += "Set new_val=33 with " + success + "\n";
                 logView.setText(log);
             }
@@ -365,9 +362,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getAppData (View v) {
-        KWS.sdk.getAppData(this, new KWSGetAppDataInterface() {
+        KWSChildren.sdk.getAppData(this, new KWSChildrenGetAppDataInterface() {
             @Override
-            public void gotAppData(List<KWSAppData> appData) {
+            public void didGetAppData(List<KWSAppData> appData) {
                 for (KWSAppData data : appData) {
                     log += "[" + data.name + "]=" + data.value + "\n";
                 }

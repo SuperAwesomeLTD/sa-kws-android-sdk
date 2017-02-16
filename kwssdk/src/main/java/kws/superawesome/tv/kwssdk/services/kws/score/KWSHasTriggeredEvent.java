@@ -17,15 +17,15 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
 public class KWSHasTriggeredEvent extends KWSService {
 
     private int eventId = 0;
-    private KWSHasTriggeredEventInterface listener = null;
+    private KWSChildrenHasTriggeredEventInterface listener = null;
 
     public KWSHasTriggeredEvent () {
-        listener = new KWSHasTriggeredEventInterface() { @Override public void hasTriggered(Boolean triggered) {} };
+        listener = new KWSChildrenHasTriggeredEventInterface() { @Override public void didTriggerEvent(Boolean triggered) {} };
     }
 
     @Override
     public String getEndpoint() {
-        return "v1/users/" + super.loggedUser.metadata.userId + "/has-triggered-event";
+        return "v1/users/" + super.loggedUser.metadata.userId + "/has-didTriggerEvent-event";
     }
 
     @Override
@@ -43,22 +43,22 @@ public class KWSHasTriggeredEvent extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.hasTriggered(false);
+            listener.didTriggerEvent(false);
         } else {
             if (status == 200 && payload != null) {
                 Log.d("SuperAwesome", "Payload ==> " + payload);
                 JSONObject json = SAJsonParser.newObject(payload);
                 KWSEventStatus eventStatus = new KWSEventStatus(json);
-                listener.hasTriggered(eventStatus.hasTriggeredEvent);
+                listener.didTriggerEvent(eventStatus.hasTriggeredEvent);
             } else {
-                listener.hasTriggered(false);
+                listener.didTriggerEvent(false);
             }
         }
     }
 
     public void execute(Context context, int eventId, KWSServiceResponseInterface listener) {
         this.eventId = eventId;
-        this.listener = listener != null ? (KWSHasTriggeredEventInterface) listener : this.listener;
+        this.listener = listener != null ? (KWSChildrenHasTriggeredEventInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

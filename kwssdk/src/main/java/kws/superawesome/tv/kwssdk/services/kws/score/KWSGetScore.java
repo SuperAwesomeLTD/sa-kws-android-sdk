@@ -16,10 +16,10 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSGetScore extends KWSService {
 
-    private KWSGetScoreInterface listener = null;
+    private KWSChildrenGetScoreInterface listener = null;
 
     public KWSGetScore () {
-        listener = new KWSGetScoreInterface() { @Override public void gotScore(KWSScore score) {} };
+        listener = new KWSChildrenGetScoreInterface() { @Override public void didGetScore(KWSScore score) {} };
     }
 
     @Override
@@ -35,22 +35,22 @@ public class KWSGetScore extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.gotScore(null);
+            listener.didGetScore(null);
         } else {
             if (status == 200 && payload != null) {
                 Log.d("SuperAwesome", "Payload ==> " + payload);
                 JSONObject json = SAJsonParser.newObject(payload);
                 KWSScore score = new KWSScore(json);
-                listener.gotScore(score);
+                listener.didGetScore(score);
             } else {
-                listener.gotScore(null);
+                listener.didGetScore(null);
             }
         }
     }
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        this.listener = listener != null ? (KWSGetScoreInterface) listener : this.listener;
+        this.listener = listener != null ? (KWSChildrenGetScoreInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

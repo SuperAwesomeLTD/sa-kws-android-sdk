@@ -16,7 +16,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
 import kws.superawesome.tv.kwssdk.services.KWSService;
@@ -62,8 +62,8 @@ public class KWSGetAccessTokenCreate extends KWSService {
     public JSONObject getBody() {
         return SAJsonParser.newObject(new Object[] {
                 "grant_type", "client_credentials",
-                "client_id", KWS.sdk.getClientId(),
-                "client_secret", KWS.sdk.getClientSecret()
+                "client_id", KWSChildren.sdk.getClientId(),
+                "client_secret", KWSChildren.sdk.getClientSecret()
         });
     }
 
@@ -95,7 +95,7 @@ public class KWSGetAccessTokenCreate extends KWSService {
         this.listener = listener != null ? (KWSGetAccessTokenCreateInterface) listener : this.listener;
 
         // create endpoint
-        final String endpoint = KWS.sdk.getKwsApiUrl() + getEndpoint();
+        final String endpoint = KWSChildren.sdk.getKwsApiUrl() + getEndpoint();
 
         // create a new async task
         new SAAsyncTask<>(context, new SAAsyncTaskInterface<SANetworkResult>() {

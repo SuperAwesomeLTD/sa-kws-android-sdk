@@ -15,7 +15,7 @@ import kws.superawesome.tv.kwssdk.services.KWSServiceResponseInterface;
 public class KWSTriggerEvent extends KWSService{
 
     // private vars
-    private KWSTriggerEventInterface listener = null;
+    private KWSChildrenTriggerEventInterface listener = null;
     private String evtToken = null;
     private int evtPoints = 0;
 
@@ -45,7 +45,7 @@ public class KWSTriggerEvent extends KWSService{
 
     @Override
     public void success(int status, String payload, boolean success) {
-        listener.triggered(success && (status == 200 || status == 204));
+        listener.didTriggerEvent(success && (status == 200 || status == 204));
     }
 
     public void execute(Context context, String token, int points, KWSServiceResponseInterface listener) {
@@ -54,7 +54,7 @@ public class KWSTriggerEvent extends KWSService{
         this.evtPoints = points;
 
         // get listener
-        this.listener = listener != null ? (KWSTriggerEventInterface) listener : new KWSTriggerEventInterface() { public void triggered(boolean success) {}};
+        this.listener = listener != null ? (KWSChildrenTriggerEventInterface) listener : new KWSChildrenTriggerEventInterface() { public void didTriggerEvent(boolean success) {}};
 
         // execute
         super.execute(context, this.listener);

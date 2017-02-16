@@ -6,7 +6,7 @@ import kws.superawesome.tv.kwssdk.models.appconfig.KWSAppConfig;
 import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSGetAppConfig;
 import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSGetAppConfigInterface;
 import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSRandomName;
-import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSRandomNameInterface;
+import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSChildrenGetRandomUsernameInterface;
 
 public class KWSRandomNameProcess {
 
@@ -18,7 +18,7 @@ public class KWSRandomNameProcess {
         randomName = new KWSRandomName();
     }
 
-    public void getRandomName(final Context context, final KWSRandomNameInterface listener) {
+    public void getRandomName(final Context context, final KWSChildrenGetRandomUsernameInterface listener) {
 
         appConfig.execute(context, new KWSGetAppConfigInterface() {
             @Override
@@ -34,7 +34,7 @@ public class KWSRandomNameProcess {
                 // if the config isn't valid, then return a nil random name
                 else {
                     if (listener != null) {
-                        listener.gotRandomName(null);
+                        listener.didGetRandomUsername(null);
                     }
                 }
 

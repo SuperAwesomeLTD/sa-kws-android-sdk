@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.models.appconfig.KWSAppConfig;
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
 import kws.superawesome.tv.kwssdk.services.KWSService;
@@ -46,7 +46,7 @@ public class KWSGetAppConfig extends KWSService {
     @Override
     public JSONObject getQuery() {
         return SAJsonParser.newObject(new Object[] {
-                "oauthClientId", KWS.sdk.getClientId()
+                "oauthClientId", KWSChildren.sdk.getClientId()
         });
     }
 

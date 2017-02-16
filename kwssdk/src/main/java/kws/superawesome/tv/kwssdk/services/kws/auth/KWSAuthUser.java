@@ -4,11 +4,10 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.services.KWSHTTPMethod;
 import kws.superawesome.tv.kwssdk.services.KWSService;
-import kws.superawesome.tv.kwssdk.services.KWSServiceResponseInterface;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
@@ -50,7 +49,7 @@ public class KWSAuthUser extends KWSService {
     public JSONObject getBody() {
         return SAJsonParser.newObject(new Object[] {
                 "response_type", "token",
-                "client_id", KWS.sdk.getClientId(),
+                "client_id", KWSChildren.sdk.getClientId(),
                 "redirect_uri", (context != null ? context.getPackageName() : "com.test.app") + ":/"
         });
     }

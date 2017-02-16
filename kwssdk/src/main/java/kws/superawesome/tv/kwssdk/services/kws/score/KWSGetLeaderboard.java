@@ -19,10 +19,10 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSGetLeaderboard extends KWSService {
 
-    private KWSGetLeaderboardInterface listener = null;
+    private KWSChildrenGetLeaderboardInterface listener = null;
 
     public KWSGetLeaderboard () {
-        listener = new KWSGetLeaderboardInterface() { @Override public void gotLeaderboard(List<KWSLeader> leaderboard) {} };
+        listener = new KWSChildrenGetLeaderboardInterface() { @Override public void didGetLeaderboard(List<KWSLeader> leaderboard) {} };
     }
 
     @Override
@@ -38,21 +38,21 @@ public class KWSGetLeaderboard extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.gotLeaderboard(new ArrayList<KWSLeader>());
+            listener.didGetLeaderboard(new ArrayList<KWSLeader>());
         } else {
             if ((status == 200 || status == 204) && payload != null) {
                 JSONObject json = SAJsonParser.newObject(payload);
                 KWSLeaderboard leaderboard = new KWSLeaderboard(json);
-                listener.gotLeaderboard(leaderboard.results);
+                listener.didGetLeaderboard(leaderboard.results);
             } else {
-                listener.gotLeaderboard(new ArrayList<KWSLeader>());
+                listener.didGetLeaderboard(new ArrayList<KWSLeader>());
             }
         }
     }
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        this.listener = listener != null ? (KWSGetLeaderboardInterface) listener : this.listener;
+        this.listener = listener != null ? (KWSChildrenGetLeaderboardInterface) listener : this.listener;
         super.execute(context, this.listener);
     }
 }

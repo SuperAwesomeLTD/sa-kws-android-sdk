@@ -19,10 +19,10 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
  */
 public class KWSGetAppData extends KWSService {
 
-    private KWSGetAppDataInterface listener = null;
+    private KWSChildrenGetAppDataInterface listener = null;
 
     public KWSGetAppData () {
-        listener = new KWSGetAppDataInterface() { @Override public void gotAppData(List<KWSAppData> appData) {} };
+        listener = new KWSChildrenGetAppDataInterface() { @Override public void didGetAppData(List<KWSAppData> appData) {} };
     }
 
     @Override
@@ -38,21 +38,21 @@ public class KWSGetAppData extends KWSService {
     @Override
     public void success(int status, String payload, boolean success) {
         if (!success) {
-            listener.gotAppData(new ArrayList<KWSAppData>());
+            listener.didGetAppData(new ArrayList<KWSAppData>());
         } else {
             if (status == 200) {
                 JSONObject jsonObject = SAJsonParser.newObject(payload);
                 KWSAppDataResponse response = new KWSAppDataResponse(jsonObject);
-                listener.gotAppData(response.results);
+                listener.didGetAppData(response.results);
             } else {
-                listener.gotAppData(new ArrayList<KWSAppData>());
+                listener.didGetAppData(new ArrayList<KWSAppData>());
             }
         }
     }
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        this.listener = listener != null ? (KWSGetAppDataInterface)listener : this.listener;
+        this.listener = listener != null ? (KWSChildrenGetAppDataInterface)listener : this.listener;
         super.execute(context, listener);
     }
 }

@@ -16,7 +16,7 @@ import tv.superawesome.lib.sautils.SAUtils;
 public class KWSInviteUser extends KWSService {
 
     private String emailAddress = null;
-    private KWSInviteUserInterface listener = null;
+    private KWSChildrenInviteUserInterface listener = null;
 
     @Override
     public String getEndpoint() {
@@ -37,7 +37,7 @@ public class KWSInviteUser extends KWSService {
 
     @Override
     public void success(int status, String payload, boolean success) {
-        listener.invited(success && (status == 200 || status == 204));
+        listener.didInviteUser(success && (status == 200 || status == 204));
     }
 
     public void execute(Context context, String emailAddress, KWSServiceResponseInterface listener) {
@@ -45,11 +45,11 @@ public class KWSInviteUser extends KWSService {
         this.emailAddress = emailAddress;
 
         // get listener
-        this.listener = listener != null ? (KWSInviteUserInterface) listener : new KWSInviteUserInterface() { @Override public void invited(boolean success) {}};
+        this.listener = listener != null ? (KWSChildrenInviteUserInterface) listener : new KWSChildrenInviteUserInterface() { @Override public void didInviteUser(boolean success) {}};
 
         // check params
         if (emailAddress.length() == 0 || !SAUtils.isValidEmail(emailAddress)) {
-            this.listener.invited(false);
+            this.listener.didInviteUser(false);
             return;
         }
 

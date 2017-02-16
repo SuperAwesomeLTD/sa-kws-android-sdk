@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.request.SANetwork;
@@ -68,9 +68,9 @@ public class KWSService implements KWSServiceInterface {
     }
 
     public void execute (Context context, KWSServiceResponseInterface listener) {
-        kwsApiUrl = KWS.sdk.getKwsApiUrl();
-        loggedUser = KWS.sdk.getLoggedUser();
-        version = KWS.sdk.getVersion();
+        kwsApiUrl = KWSChildren.sdk.getKwsApiUrl();
+        loggedUser = KWSChildren.sdk.getLoggedUser();
+        version = KWSChildren.sdk.getVersion();
         this.context = context;
 
         // case when the Network request actually needs the SDK to have a logged user,
