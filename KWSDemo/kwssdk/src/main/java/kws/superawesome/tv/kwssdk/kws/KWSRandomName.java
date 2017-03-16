@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.kws;
 
+import android.content.Context;
+
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
@@ -47,10 +49,10 @@ public class KWSRandomName extends KWSRequest {
         lisDidGetRandomName(null);
     }
 
-    public void execute (int appId, KWSRandomNameInterface listener) {
+    public void execute (Context context, int appId, KWSRandomNameInterface listener) {
         this.listener = listener;
         this.appId = appId;
-        super.execute();
+        super.execute(context);
     }
 
     private void lisDidGetRandomName (String name) {

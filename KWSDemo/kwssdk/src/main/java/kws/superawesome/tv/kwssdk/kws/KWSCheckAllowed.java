@@ -9,7 +9,6 @@ import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
-import tv.superawesome.lib.sautils.SAApplication;
 
 /**
  * Created by gabriel.coman on 23/05/16.

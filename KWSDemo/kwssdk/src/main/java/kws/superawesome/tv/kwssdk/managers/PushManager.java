@@ -7,8 +7,6 @@ import android.util.Log;
 //import com.google.android.gms.common.GoogleApiAvailability;
 //import com.google.firebase.iid.FirebaseInstanceId;
 
-import tv.superawesome.lib.sautils.SAApplication;
-
 import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
 import kws.superawesome.tv.kwssdk.kws.KWSSubscribeTokenInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSUnsubscribeToken;
@@ -41,7 +39,7 @@ public class PushManager {
 
     // public function
 
-    public void registerForPushNotifications () {
+    public void registerForPushNotifications (final Context context) {
 
         if (!checkPlayServices()) {
             lisDidFailBecauseNoGoogleServicesFound();
@@ -63,7 +61,7 @@ public class PushManager {
                             lisNetworkErrorTryingToSubscribeToken();
                         }
                     };
-                    subscribeToken.execute(token);
+                    subscribeToken.execute(context, token);
                 }
 
                 @Override
@@ -75,7 +73,7 @@ public class PushManager {
         }
     }
 
-    public void unregisterForRemoteNotifications () {
+    public void unregisterForRemoteNotifications (Context context) {
         unsubscribeToken.listener = new KWSUnsubscribeTokenInterface() {
             @Override
             public void tokenWasUnsubscribed() {
@@ -88,7 +86,7 @@ public class PushManager {
             }
         };
         String token = firebaseGetToken.getSavedToken();
-        unsubscribeToken.execute(token);
+        unsubscribeToken.execute(context, token);
     }
 
     // <Private> functions

@@ -5,14 +5,15 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
+import tv.superawesome.lib.sajsonparser.SAJsonSerializable;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 04/01/2017.
  */
 
-public class KWSAppConfig implements Parcelable, JSONSerializable {
+public class KWSAppConfig extends SABaseObject implements Parcelable {
 
     public int id;
 

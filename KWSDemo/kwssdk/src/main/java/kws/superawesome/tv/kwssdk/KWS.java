@@ -10,7 +10,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-import kws.superawesome.tv.kwssdk.kws.KWSRandomName;
+import kws.superawesome.tv.kwssdk.kws.KWSParentEmail;
+import kws.superawesome.tv.kwssdk.kws.KWSParentEmailInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
 import kws.superawesome.tv.kwssdk.managers.CheckManager;
 import kws.superawesome.tv.kwssdk.managers.CheckManagerInterface;
@@ -19,12 +20,9 @@ import kws.superawesome.tv.kwssdk.managers.KWSManagerInterface;
 import kws.superawesome.tv.kwssdk.managers.KWSRandomNameManager;
 import kws.superawesome.tv.kwssdk.managers.PushManager;
 import kws.superawesome.tv.kwssdk.managers.PushManagerInterface;
+import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
-import tv.superawesome.lib.sautils.SAApplication;
-import kws.superawesome.tv.kwssdk.kws.KWSParentEmail;
-import kws.superawesome.tv.kwssdk.kws.KWSParentEmailInterface;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 
 /**
  * Created by gabriel.coman on 23/05/16.
@@ -83,9 +81,9 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     // Public exposed functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void getRandomName (KWSRandomNameInterface listener) {
+    public void getRandomName (Context context, KWSRandomNameInterface listener) {
         randomNameManager = new KWSRandomNameManager();
-        randomNameManager.getRandomName(listener);
+        randomNameManager.getRandomName(context, listener);
     }
 
     // Main public functions
@@ -96,27 +94,28 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
 
         // add registerListener
         if (stringPermissionPopup) {
+
             SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
                 @Override
-                public void pressed(int button, String s) {
+                public void saDidClickOnAlertButton(int button, String s) {
                     if (button == SAAlert.OK_BUTTON) {
-                        KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
+                        KWSManager.sharedInstance.checkIfNotficationsAreAllowed(context);
                     }
                 }
             });
         } else {
-            KWSManager.sharedInstance.checkIfNotficationsAreAllowed();
+            KWSManager.sharedInstance.checkIfNotficationsAreAllowed(context);
         }
     }
 
     public void unregisterForRemoteNotifications (KWSUnregisterInterface unregisterInterface) {
         this.unregisterListener = unregisterInterface;
-        PushManager.sharedInstance.unregisterForRemoteNotifications();
+        PushManager.sharedInstance.unregisterForRemoteNotifications(context);
     }
 
     public void userIsRegistered (KWSCheckInterface listener) {
         checkListener = listener;
-        CheckManager.sharedInstance.areNotificationsEnabled();
+        CheckManager.sharedInstance.areNotificationsEnabled(context);
     }
 
     // Aux main functions
@@ -124,7 +123,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     public void showParentEmailPopup () {
         SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
             @Override
-            public void pressed(int button, String s) {
+            public void saDidClickOnAlertButton(int button, String s) {
                 if (button == SAAlert.OK_BUTTON) {
                     submitParentEmail(s);
                 }
@@ -133,7 +132,7 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     }
 
     public void submitParentEmail (String  email) {
-        parentEmail.execute(email);
+        parentEmail.execute(context, email);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,14 +163,14 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
 
     @Override
     public void isAllowedToRegister() {
-        PushManager.sharedInstance.registerForPushNotifications();
+        PushManager.sharedInstance.registerForPushNotifications(context);
     }
 
     // <KWSParentEmailInterface>
 
     @Override
     public void emailSubmittedInKWS() {
-        PushManager.sharedInstance.registerForPushNotifications();
+        PushManager.sharedInstance.registerForPushNotifications(context);
     }
 
     @Override
@@ -292,12 +291,6 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
         }
 
         return null;
-    }
-
-    // <Aux> functions
-
-    public void setApplicationContext(Context _appContext) {
-        SAApplication.setSAApplicationContext(_appContext);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,13 +7,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSUser implements Parcelable, JSONSerializable {
+public class KWSUser extends SABaseObject implements Parcelable {
 
     public int id;
     public String username;

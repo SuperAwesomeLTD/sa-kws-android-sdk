@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.managers;
 
+import android.content.Context;
+
 import kws.superawesome.tv.kwssdk.kws.KWSGetAppConfig;
 import kws.superawesome.tv.kwssdk.kws.KWSGetAppConfigInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRandomName;
@@ -20,14 +22,14 @@ public class KWSRandomNameManager {
         randomName = new KWSRandomName();
     }
 
-    public void getRandomName (final KWSRandomNameInterface listener) {
+    public void getRandomName (final Context context, final KWSRandomNameInterface listener) {
 
-        getAppConfig.execute(new KWSGetAppConfigInterface() {
+        getAppConfig.execute(context, new KWSGetAppConfigInterface() {
             @Override
             public void gotAppConfig(KWSAppConfig config) {
 
                 if (config != null) {
-                    randomName.execute(config.id, listener);
+                    randomName.execute(context, config.id, listener);
                 }
                 else {
                     if (listener != null) {

@@ -1,11 +1,12 @@
 package kws.superawesome.tv.kwssdk.kws;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
-import tv.superawesome.lib.sautils.SAApplication;
 import tv.superawesome.lib.sautils.SAUtils;
 import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
@@ -58,7 +59,7 @@ public class KWSParentEmail extends KWSRequest {
     }
 
     @Override
-    public void execute(Object param) {
+    public void execute(Context context, Object param) {
 
         // get param and correct type
         if (param instanceof String) {
@@ -74,7 +75,7 @@ public class KWSParentEmail extends KWSRequest {
             return;
         }
 
-        super.execute(param);
+        super.execute(context, param);
     }
 
     // <Private> functions

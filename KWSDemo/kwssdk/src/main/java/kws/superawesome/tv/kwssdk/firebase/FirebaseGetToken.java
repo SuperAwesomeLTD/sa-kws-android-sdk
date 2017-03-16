@@ -1,13 +1,9 @@
 package kws.superawesome.tv.kwssdk.firebase;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import tv.superawesome.lib.sautils.SAApplication;
 
 /**
  * Created by gabriel.coman on 04/07/16.
@@ -27,7 +23,7 @@ public class FirebaseGetToken extends FirebaseInstanceIdService {
     private int tries = 0;
 
     public FirebaseGetToken () {
-        Context context = SAApplication.getSAApplicationContext();
+        // do nothing
     }
 
     public void register() {

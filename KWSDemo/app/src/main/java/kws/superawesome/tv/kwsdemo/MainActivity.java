@@ -10,14 +10,23 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.KWSCheckInterface;
+import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.KWSErrorType;
 import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
+import tv.superawesome.lib.sanetwork.request.SANetwork;
+import tv.superawesome.lib.sanetwork.request.SANetworkInterface;
 import tv.superawesome.lib.sautils.SAUtils;
-import tv.superawesome.lib.sanetwork.request.*;
-import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.KWSErrorType;
+
+//import kws.superawesome.tv.kwssdk.KWSCheckInterface;
+//import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
+//import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
+//import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
+//import tv.superawesome.lib.sautils.SAUtils;
+//import tv.superawesome.lib.sanetwork.request.*;
+//import kws.superawesome.tv.kwssdk.KWS;
+//import kws.superawesome.tv.kwssdk.KWSErrorType;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
         logView = (TextView) findViewById(R.id.TextLogs);
         registerUser = (Button) findViewById(R.id.RegisterUser);
 
-        // registerToken KWS SDK
-        KWS.sdk.setApplicationContext(getApplicationContext());
+//        // registerToken KWS SDK
         KWS.sdk.setup(API, CLIENTID);
     }
 
@@ -70,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         SANetwork network = new SANetwork();
         network.sendPOST(this, "https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new SANetworkInterface() {
             @Override
-            public void response(int status, String payload, boolean success) {
+            public void saDidGetResponse(int status, String payload, boolean success) {
 
                 if (!success) {
                     log += "Failed to register " + username + "\n";
@@ -196,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkRegisteredAction(View v) {
 
-        KWS.sdk.getRandomName(new KWSRandomNameInterface() {
+        KWS.sdk.getRandomName(this, new KWSRandomNameInterface() {
             @Override
             public void didGetRandomName(String name) {
                 log += "Random name " + name + "\n";

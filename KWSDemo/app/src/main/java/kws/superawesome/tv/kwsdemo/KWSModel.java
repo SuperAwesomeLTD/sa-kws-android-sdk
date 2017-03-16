@@ -6,13 +6,13 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 04/07/16.
  */
-public class KWSModel implements JSONSerializable, Parcelable {
+public class KWSModel extends SABaseObject implements Parcelable {
 
     public int status = 0;
     public int userId = 0;

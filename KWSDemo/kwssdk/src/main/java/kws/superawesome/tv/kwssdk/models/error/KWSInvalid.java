@@ -6,13 +6,13 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSInvalid implements Parcelable, JSONSerializable {
+public class KWSInvalid extends SABaseObject implements Parcelable {
 
     public KWSInnerError parentEmail;
 

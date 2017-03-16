@@ -11,7 +11,6 @@ import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.request.*;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.models.*;
-import tv.superawesome.lib.sautils.SAApplication;
 
 /**
  * Created by gabriel.coman on 23/05/16.

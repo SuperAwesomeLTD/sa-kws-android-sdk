@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.managers;
 
+import android.content.Context;
+
 import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowed;
 import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowedInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRequestPermission;
@@ -9,6 +11,8 @@ import kws.superawesome.tv.kwssdk.kws.KWSRequestPermissionInterface;
  * Created by gabriel.coman on 24/05/16.
  */
 public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissionInterface {
+
+    private Context context = null;
 
     // singleton instance
     public static KWSManager sharedInstance = new KWSManager();
@@ -27,9 +31,10 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     }
 
     // main func
-    public void checkIfNotficationsAreAllowed () {
+    public void checkIfNotficationsAreAllowed (Context context) {
         kwsCheck.listener = this;
-        kwsCheck.execute();
+        this.context = context;
+        kwsCheck.execute(context);
     }
 
     // <KWSCheckPermissionProtocol>
@@ -37,7 +42,7 @@ public class KWSManager implements KWSCheckAllowedInterface, KWSRequestPermissio
     @Override
     public void pushAllowedInKWS() {
         kwsRequest.listener = this;
-        kwsRequest.execute();
+        kwsRequest.execute(context);
     }
 
     @Override

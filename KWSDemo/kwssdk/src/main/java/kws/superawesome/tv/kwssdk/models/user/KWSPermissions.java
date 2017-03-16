@@ -3,18 +3,15 @@ package kws.superawesome.tv.kwssdk.models.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.kws.KWSSubscribeToken;
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
-import tv.superawesome.lib.sanetwork.request.SANetworkResponse;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSPermissions implements Parcelable, JSONSerializable {
+public class KWSPermissions extends SABaseObject implements Parcelable {
 
     // push notificaiton permission
     public Object accessAddress = null;

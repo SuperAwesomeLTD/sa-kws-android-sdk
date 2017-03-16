@@ -3,16 +3,15 @@ package kws.superawesome.tv.kwssdk.models.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.JSONSerializable;
+import tv.superawesome.lib.sajsonparser.SABaseObject;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 28/07/16.
  */
-public class KWSAddress implements Parcelable, JSONSerializable {
+public class KWSAddress extends SABaseObject implements Parcelable {
 
     public String street;
     public String city;

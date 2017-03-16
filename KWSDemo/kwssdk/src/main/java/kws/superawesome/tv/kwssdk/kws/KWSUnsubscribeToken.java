@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.kws;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -10,7 +11,6 @@ import tv.superawesome.lib.sanetwork.request.*;
 
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import tv.superawesome.lib.sautils.SAApplication;
 
 /**
  * Created by gabriel.coman on 13/06/16.
@@ -52,7 +52,7 @@ public class KWSUnsubscribeToken extends KWSRequest {
     }
 
     @Override
-    public void execute(Object param) {
+    public void execute(Context context, Object param) {
 
         // check param
         if (param instanceof String) {
@@ -63,7 +63,7 @@ public class KWSUnsubscribeToken extends KWSRequest {
         }
 
         // execute
-        super.execute(param);
+        super.execute(context, param);
     }
 
     // <Private> functions

@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.kws;
 
+import android.content.Context;
+
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.KWS;
@@ -55,9 +57,9 @@ public class KWSGetAppConfig extends KWSRequest {
         }
     }
 
-    public void execute (KWSGetAppConfigInterface listener) {
+    public void execute (Context context, KWSGetAppConfigInterface listener) {
         this.listener = listener;
-        super.execute();
+        super.execute(context);
     }
 
     private void lisDidGetAppConfig (KWSAppConfig config) {

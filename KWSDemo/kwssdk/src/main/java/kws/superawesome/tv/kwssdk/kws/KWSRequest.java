@@ -9,11 +9,7 @@ import kws.superawesome.tv.kwssdk.models.KWSMetadata;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sanetwork.request.SANetwork;
 import tv.superawesome.lib.sanetwork.request.SANetworkInterface;
-import tv.superawesome.lib.sautils.SAApplication;
 
-/**
- * Created by gabriel.coman on 29/07/16.
- */
 public class KWSRequest implements KWSRequestInterface {
 
     // protected request vars
@@ -23,7 +19,6 @@ public class KWSRequest implements KWSRequestInterface {
     protected KWSMetadata metadata;
 
     // private data
-    private Context c;
     private SANetwork network;
 
     public KWSRequest () {
@@ -74,12 +69,11 @@ public class KWSRequest implements KWSRequestInterface {
         // do nothing
     }
 
-    public void execute () {
+    public void execute (Context c) {
         kwsApiUrl = KWS.sdk.getKwsApiUrl();
         oauthToken = KWS.sdk.getOauthToken();
         metadata = KWS.sdk.getMetadata();
         version = KWS.sdk.getVersion();
-        c = SAApplication.getSAApplicationContext();
 
         final KWSRequest instance = this;
 
@@ -93,7 +87,7 @@ public class KWSRequest implements KWSRequestInterface {
         if (getMethod() == KWSRequestMethod.POST) {
             network.sendPOST(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
                 @Override
-                public void response(int status, String payload, boolean success) {
+                public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {
                         instance.success(status, payload);
                     } else {
@@ -104,7 +98,7 @@ public class KWSRequest implements KWSRequestInterface {
         } else {
             network.sendGET(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
                 @Override
-                public void response(int status, String payload, boolean success) {
+                public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {
                         instance.success(status, payload);
                     } else {
@@ -115,7 +109,7 @@ public class KWSRequest implements KWSRequestInterface {
         }
     }
 
-    public void execute(Object param) {
-        execute();
+    public void execute(Context context, Object param) {
+        execute(context);
     }
 }

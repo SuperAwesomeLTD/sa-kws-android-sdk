@@ -1,5 +1,7 @@
 package kws.superawesome.tv.kwssdk.managers;
 
+import android.content.Context;
+
 import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowed;
 import kws.superawesome.tv.kwssdk.kws.KWSCheckAllowedInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSCheckRegistered;
@@ -9,6 +11,8 @@ import kws.superawesome.tv.kwssdk.kws.KWSCheckRegisteredInterface;
  * Created by gabriel.coman on 14/07/16.
  */
 public class CheckManager implements KWSCheckAllowedInterface, KWSCheckRegisteredInterface {
+
+    private Context context = null;
 
     // singleton instance
     public static CheckManager sharedInstance = new CheckManager();
@@ -29,15 +33,16 @@ public class CheckManager implements KWSCheckAllowedInterface, KWSCheckRegistere
     }
 
     // main func
-    public void areNotificationsEnabled () {
-        kwsCheckAllowed.execute();
+    public void areNotificationsEnabled (Context context) {
+        this.context = context;
+        kwsCheckAllowed.execute(context);
     }
 
     // KWSCheckAllowedInterface
 
     @Override
     public void pushAllowedInKWS() {
-        kwsCheckRegistered.execute();
+        kwsCheckRegistered.execute(context);
     }
 
     @Override
