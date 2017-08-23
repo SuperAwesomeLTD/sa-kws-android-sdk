@@ -58,7 +58,7 @@ public class KWSRequestPermission extends KWSRequest {
         }
         else if (error != null) {
 
-            if (error.code == 5 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
+            if (error.code == 10 && error.invalid != null && error.invalid.parentEmail != null && error.invalid.parentEmail.code == 6) {
                 lisParentEmailIsMissingInKWS();
             }
             else {
