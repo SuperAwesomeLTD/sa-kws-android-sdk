@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void authUser (View v) {
 
-        KWSChildren.sdk.loginUser(this, "testusr293", "testtest", new KWSChildrenLoginUserInterface() {
+        KWSChildren.sdk.loginUser(this, "testuser9112", "testtest", new KWSChildrenLoginUserInterface() {
             @Override
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 switch (status) {
