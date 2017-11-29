@@ -48,9 +48,14 @@ public class MainActivity extends AppCompatActivity {
     // log text
     private String log = "";
 
-    private static final String CLIENT_ID = "sa-mobile-app-sdk-client-0";
-    private static final String SECRET = "_apikey_5cofe4ppp9xav2t9";
-    private static final String API = "https://kwsapi.demo.superawesome.tv/";
+//    private static final String CLIENT_ID = "sa-mobile-app-sdk-client-0";
+//    private static final String SECRET = "_apikey_5cofe4ppp9xav2t9";
+//    private static final String API = "https://kwsapi.demo.superawesome.tv/";
+
+    private static final String CLIENT_ID = "stan-test"; // "superawesomeclub";
+    private static final String SECRET = "7Hpx255pMfdJD2IgmqMbM9Sz9O1AcrOd"; // "superawesomeclub";
+    private static final String MOBILE_SECRET = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4";
+    private static final String API = "https://stan-test-cluster.api.kws.superawesome.tv/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
 
-        KWSChildren.sdk.setup(this, CLIENT_ID, SECRET, API);
+        KWSChildren.sdk.setup(this, CLIENT_ID, MOBILE_SECRET, API);
 
     }
 
@@ -112,12 +117,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void authUser (View v) {
 
-        KWSChildren.sdk.loginUser(this, "tutu2", "12345678", new KWSChildrenLoginUserInterface() {
+        KWSChildren.sdk.loginUser(this, "testusr293", "testtest", new KWSChildrenLoginUserInterface() {
             @Override
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 switch (status) {
                     case Success:
-                        log += "Auth as tutu2 w/ 12345678\n";
+                        log += "Auth as stanajdkfa w/ testtest\n";
                         Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
                         break;
                     case NetworkError:

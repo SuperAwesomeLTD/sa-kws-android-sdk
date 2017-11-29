@@ -5,23 +5,18 @@ import android.content.Context;
 import java.util.regex.Pattern;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
-import kws.superawesome.tv.kwssdk.models.oauth.KWSAccessToken;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
-import kws.superawesome.tv.kwssdk.services.kws.auth.KWSAuthUser;
 import kws.superawesome.tv.kwssdk.services.kws.auth.KWSAuthUserInterface;
-import kws.superawesome.tv.kwssdk.services.kws.auth.KWSGetAccessTokenAuth;
-import kws.superawesome.tv.kwssdk.services.kws.auth.KWSGetAccessTokenAuthInterface;
+import kws.superawesome.tv.kwssdk.services.kws.auth.KWSAuthUser;
 
 public class KWSAuthUserProcess {
 
     private KWSChildrenLoginUserInterface listener;
     private KWSAuthUser authUser;
-    private KWSGetAccessTokenAuth getAccessTokenAuth;
 
     public KWSAuthUserProcess () {
         listener = new KWSChildrenLoginUserInterface() { @Override public void didLoginUser(KWSChildrenLoginUserStatus status) {} };
         authUser = new KWSAuthUser();
-        getAccessTokenAuth = new KWSGetAccessTokenAuth();
     }
 
     public void auth(final Context context,
@@ -45,35 +40,21 @@ public class KWSAuthUserProcess {
         }
 
         // get access token
-        getAccessTokenAuth.execute(context, username, password, new KWSGetAccessTokenAuthInterface() {
+        authUser.execute(context, username, password, new KWSAuthUserInterface() {
             @Override
-            public void gotToken(final KWSAccessToken accessToken) {
+            public void authUser(int status, KWSLoggedUser loggedUser) {
 
-                if (accessToken != null) {
+                if (loggedUser != null && loggedUser.isValid()) {
 
+                    // set final user
+                    KWSChildren.sdk.setLoggedUser(loggedUser);
 
-                    authUser.execute(context, accessToken.access_token, new KWSAuthUserInterface() {
-                        @Override
-                        public void authUser(int status, KWSLoggedUser loggedUser) {
+                    // send response
+                    KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
 
-                            if (loggedUser != null && loggedUser.isValid()) {
-
-                                // set final user
-                                KWSChildren.sdk.setLoggedUser(loggedUser);
-
-                                // send response
-                                KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
-
-                            }
-                            else {
-                                KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
-                            }
-
-                        }
-                    });
-
-                } else {
-                    KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.NetworkError);
+                }
+                else {
+                    KWSAuthUserProcess.this.listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
                 }
 
             }
