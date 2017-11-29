@@ -289,7 +289,7 @@ public class KWSChildren {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getVersion () {
-        return "android-2.3.0";
+        return "android-2.3.2";
     }
 
     public String getKwsApiUrl () {

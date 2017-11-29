@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+2.3.2
+ - Simplified auth flow
+ - Updated dependencies
+
 2.2.2
  - Updated SAJsonParser reference to 0.2.6
 
