@@ -3,9 +3,12 @@
 *.ap_
 *.hprof
 demo/*.hprof
-
 # Files for the Dalvik VM
 *.dex
+.idea
+.idea/*
+app
+app/*
 
 # Java class files
 *.class
