@@ -7,8 +7,6 @@ demo/*.hprof
 *.dex
 .idea
 .idea/*
-app
-app/*
 
 # Java class files
 *.class
@@ -36,7 +34,6 @@ proguard/
 *.iml
 
 build/*
-app/*
 wrapper/*
 .gradle/*
 local.properties
