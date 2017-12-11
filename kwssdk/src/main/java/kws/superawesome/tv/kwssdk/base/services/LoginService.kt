@@ -9,6 +9,8 @@ interface LoginService : BaseService {
 
     fun loginUser(username: String,
                   password: String,
+                  client_id: String,
+                  client_secret: String,
                   callback: (user: LoggedUser?, error: Throwable?) -> Unit)
 
 }
