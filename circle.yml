@@ -5,6 +5,7 @@ dependencies:
 checkout:
   post:
     - cp local.properties.ci local.properties
+    - cp - r licenses/. $ANDROID_HOME/licenses
 
 test:
   override:
@@ -15,7 +16,3 @@ test:
 machine:
   java:
     version: 'oraclejdk8'
-
-checkout:
-  post:
-    - cp - r licenses/. $ANDROID_HOME/licenses
