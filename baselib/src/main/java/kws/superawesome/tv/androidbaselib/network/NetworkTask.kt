@@ -92,7 +92,7 @@ class NetworkTask: AsyncTask<NetworkRequest, String?> {
     }
 
     private fun logNetwork (success: Boolean, method: NetworkMethod, url: String, error: Throwable? = null) = when (success) {
-        true -> Log.d("PopJam-SDK", "$method -> $url")
-        false -> Log.e("PopJam-SDK", "$method -> $url\nError: $error")
+        true -> Log.d("Base-SDK", "$method -> $url")
+        false -> Log.e("Base-SDK", "$method -> $url\nError: $error")
     }
 }

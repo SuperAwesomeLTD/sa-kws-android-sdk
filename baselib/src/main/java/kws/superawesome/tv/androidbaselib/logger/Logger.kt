@@ -8,17 +8,17 @@ class Logger {
 
         @JvmStatic
         fun log (method: String?, message: String?) {
-            Log.d("PopJam-SDK", "Info:\nMethod: $method\nMsg: $message")
+            Log.d("Base-SDK", "Info:\nMethod: $method\nMsg: $message")
         }
 
         @JvmStatic
         fun error (method: String?, message: String?) {
-            Log.e("PopJam-SDK", "Error\nMethod: $method\nMsg: $message")
+            Log.e("Base-SDK", "Error\nMethod: $method\nMsg: $message")
         }
 
         @JvmStatic
         fun warning (method: String?, message: String?) {
-            Log.w("PopJam-SDK", "Warning\nMethod: $method\nMsg: $message")
+            Log.w("Base-SDK", "Warning\nMethod: $method\nMsg: $message")
         }
     }
 }
