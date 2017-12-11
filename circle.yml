@@ -11,3 +11,7 @@ test:
     - ./gradlew clean
     - ./gradlew build
     - ./gradlew connectedAndroidTest
+
+machine:
+  java:
+    version: 'oraclejdk8'
