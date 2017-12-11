@@ -5,7 +5,7 @@ dependencies:
 checkout:
   post:
     - cp local.properties.ci local.properties
-    - cp - r licenses/. $ANDROID_HOME/licenses
+    - cp - r /licenses/. $ANDROID_HOME/licenses
 
 test:
   override:
