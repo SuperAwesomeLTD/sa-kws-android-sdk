@@ -6,7 +6,7 @@ import kws.superawesome.tv.androidbaselib.parsejson.ParseJsonTask
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
-import kws.superawesome.tv.kwssdk.base.responses.BaseAuthResponse
+import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import kws.superawesome.tv.kwssdk.base.services.LoginService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 
@@ -36,21 +36,23 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<BaseAuthResponse>(input = parseRequest) ?: BaseAuthResponse()
-                var token = authResponse.sessionToken
+                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest) ?: LoginResponse()
+                var token = authResponse.token
 
-                token?.let {
+                if (token != null) {
                     //if we have a valid token
-                    val metadata = KWSMetadata.processMetadata(it)
+                    val metadata = KWSMetadata.processMetadata(token)
 
                     if (metadata != null && metadata.isValid()) {
-                        val loggedUser = LoggedUser(token = it, kwsMetaData = metadata)
+                        val loggedUser = LoggedUser(token = token, kwsMetaData = metadata)
                         callback(loggedUser, null)
                     } else {
                         callback(null, Throwable("Invalid token"))
                     }
+                } else {
+                    callback(null, Throwable(rawString))
                 }
-                        ?: callback(null, Throwable(rawString))
+
 
             }
             // network error case

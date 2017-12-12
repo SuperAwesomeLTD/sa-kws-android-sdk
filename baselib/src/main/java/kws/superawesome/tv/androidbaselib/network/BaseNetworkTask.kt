@@ -23,12 +23,11 @@ abstract class BaseNetworkTask : AsyncTask<NetworkRequest, String?> {
         val queryString = formQueryString(query = input.parameters)
         val domain = input.environment.domain
         val endpoint = input.endpoint
-        val url = "$domain$endpoint"
+        val url = "$domain$endpoint$queryString"
         val header = input.headers
         val body = input.body
-        val mediaType = input.mediaType
 
-        val request = setRequest(url, header, method, body, mediaType)!!
+        val request = setRequest(url, header, method, body)!!
 
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call?, response: Response) {
@@ -61,7 +60,7 @@ abstract class BaseNetworkTask : AsyncTask<NetworkRequest, String?> {
     }
 
     abstract fun setRequest(url: String, header: Map<String, String>, method: NetworkMethod,
-                            body: Map<String, Any>?, mediaType: String): Request?
+                            body: Map<String, Any>?): Request?
 
 
     private fun formQueryString(query: Map<String, Any>?): String =
