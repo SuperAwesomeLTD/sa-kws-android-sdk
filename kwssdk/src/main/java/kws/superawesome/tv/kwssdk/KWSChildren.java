@@ -14,11 +14,13 @@ import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.KWSAuthUserProcess;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenIsRegisteredForRemoteNotificationsInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserStatus;
@@ -170,8 +172,31 @@ public class KWSChildren {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     // user creation, auth & logout
-    public void createUser(Context context, String username, String password, String dateOfBirth, String country, String parentEmail, KWSChildrenCreateUserInterface listener) {
-        createUserProcess.create(context, username, password, dateOfBirth, country, parentEmail, listener);
+    public void createUser(Context context, String username, String password, String dateOfBirth, String country, String parentEmail, final KWSChildrenCreateUserInterface listener) {
+        /**old way*/
+//        createUserProcess.create(context, username, password, dateOfBirth, country, parentEmail, listener);
+
+        /***new way***/
+
+        CreateUserService createUserService = KWSSDK.get(kwsEnvironment, CreateUserService.class);
+
+        if (createUserService != null) {
+            createUserService.createuser(username, password, dateOfBirth, country, parentEmail, new Function2<LoggedUser, Throwable, Unit>() {
+                @Override
+                public Unit invoke(LoggedUser loggedUser, Throwable throwable) {
+
+                    if (loggedUser != null && throwable == null) {
+                        setLoggedUser(loggedUser);
+                        listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
+                    } else {
+                        listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
+                    }
+
+                    return null;
+                }
+            });
+        }
+
     }
 
     public void loginUser(Context context, String username, String password, final KWSChildrenLoginUserInterface listener) {
@@ -187,11 +212,10 @@ public class KWSChildren {
                 @Override
                 public Unit invoke(LoggedUser loggedUser, Throwable throwable) {
 
-                    if(loggedUser != null && throwable == null){
+                    if (loggedUser != null && throwable == null) {
                         setLoggedUser(loggedUser);
                         listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
-                    }
-                    else {
+                    } else {
                         listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
                     }
 
