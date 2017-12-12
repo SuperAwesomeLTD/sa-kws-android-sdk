@@ -8,8 +8,8 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.GetTempAccessTokenRequest
-import kws.superawesome.tv.kwssdk.base.responses.BaseAuthResponse
 import kws.superawesome.tv.kwssdk.base.responses.CreateUserResponse
+import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 
@@ -63,15 +63,16 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<BaseAuthResponse>(input = parseRequest) ?: BaseAuthResponse()
-                val token = authResponse.sessionToken
+                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest) ?: LoginResponse()
+                val token = authResponse.token
 
                 //
                 // send callback
-                token?.let {
+                if (token != null) {
                     callback(token, null)
+                } else {
+                    callback(null, Throwable("Error parsing JWT token"))
                 }
-                        ?: callback(null, Throwable("Error parsing JWT token"))
 
             }
             //
@@ -113,20 +114,21 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
                 val authResponse = parseTask.execute<CreateUserResponse>(input = parseRequest) ?: CreateUserResponse()
-                var token = authResponse.sessionToken
+                var token = authResponse.token
 
-                token?.let {
+                if (token != null) {
                     //if we have a valid token
-                    val metadata = KWSMetadata.processMetadata(it)
+                    val metadata = KWSMetadata.processMetadata(token)
 
                     if (metadata != null && metadata.isValid()) {
-                        val loggedUser = LoggedUser(token = it, kwsMetaData = metadata)
+                        val loggedUser = LoggedUser(token = token, kwsMetaData = metadata)
                         callback(loggedUser, null)
                     } else {
                         callback(null, Throwable("Invalid token"))
                     }
+                } else {
+                    callback(null, Throwable(rawString))
                 }
-                        ?: callback(null, Throwable(rawString))
 
             } else {
                 //

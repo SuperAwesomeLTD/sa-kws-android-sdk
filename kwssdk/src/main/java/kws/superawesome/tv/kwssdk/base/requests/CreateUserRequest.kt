@@ -16,11 +16,6 @@ internal class CreateUserRequest(environment: KWSNetworkEnvironment,
                                  token: String)
     : BaseRequest(environment = environment) {
 
-    override val mediaType: String
-        get() = "application/json; charset=utf-8"
-    override val isURLEncoded: Boolean
-        get() = true
-
     override val headers: Map<String, String>
         get() {
             val map = mutableMapOf<String, String>()
