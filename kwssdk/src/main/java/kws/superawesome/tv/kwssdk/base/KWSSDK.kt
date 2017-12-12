@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwssdk.base
 
 import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.providers.LoginProvider
 import kws.superawesome.tv.kwssdk.base.services.BaseService
 import kws.superawesome.tv.kwssdk.base.services.LoginService
@@ -11,7 +12,7 @@ import kws.superawesome.tv.kwssdk.base.services.LoginService
 object KWSSDK {
 
     @JvmStatic
-    inline fun <reified T : BaseService> getService(environment: NetworkEnvironment): T? =
+    inline fun <reified T : BaseService> getService(environment: KWSNetworkEnvironment): T? =
             when (T::class) {
                 LoginService::class -> LoginProvider(environment = environment) as T?
                 else -> null
@@ -19,7 +20,7 @@ object KWSSDK {
 
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
-    fun <T : BaseService> get(environment: NetworkEnvironment, clazz: Class<T>): T? {
+    fun <T : BaseService> get(environment: KWSNetworkEnvironment, clazz: Class<T>): T? {
 
         return if (clazz == LoginService::class.java)
             LoginProvider(environment = environment) as T?

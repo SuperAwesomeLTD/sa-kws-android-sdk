@@ -7,11 +7,12 @@ import android.util.Log
 import kws.superawesome.tv.androidbaselib.AsyncTask
 import kws.superawesome.tv.androidbaselib.logger.Logger
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 
-class NetworkTask : AsyncTask<NetworkRequest, String?> {
-
+/**
+ * Created by guilherme.mota on 12/12/2017.
+ */
+abstract class BaseNetworkTask : AsyncTask<NetworkRequest, String?> {
 
     override fun execute(input: NetworkRequest, callback: (String?, Throwable?) -> Unit) {
 
@@ -19,25 +20,15 @@ class NetworkTask : AsyncTask<NetworkRequest, String?> {
 
         val method = input.method
 
-        //TODO is this needed?
-//        val queryString = formQueryString(query = input.parameters)
-        
+        val queryString = formQueryString(query = input.parameters)
         val domain = input.environment.domain
         val endpoint = input.endpoint
         val url = "$domain$endpoint"
         val header = input.headers
         val body = input.body
+        val mediaType = input.mediaType
 
-        //TODO do we need a different url encoded request?
-//        var request: Request?
-//        if (input.isURLEncoded) {
-//            request = setURLEncodedRequest(url, header, method, body)!!
-//        } else {
-//            request = setDefaultRequest(url, header, method, body)!!
-//        }
-
-        var request: Request?
-        request = setDefaultRequest(url, header, method, body)!!
+        val request = setRequest(url, header, method, body, mediaType)!!
 
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call?, response: Response) {
@@ -69,21 +60,9 @@ class NetworkTask : AsyncTask<NetworkRequest, String?> {
         })
     }
 
-    private fun setURLEncodedRequest(url: String, header: Map<String, String>, method: NetworkMethod, body: Map<String, Any>?): Nothing? {
-        //TODO
-        return null
+    abstract fun setRequest(url: String, header: Map<String, String>, method: NetworkMethod,
+                            body: Map<String, Any>?, mediaType: String): Request?
 
-    }
-
-    private fun setDefaultRequest(url: String, header: Map<String, String>, method: NetworkMethod, body: Map<String, Any>?): Request? {
-        val request = Request
-                .Builder()
-                .url(url)
-                .headers(getHeaders(header))
-                .method(method.methodString, getBody(body))
-                .build()
-        return request
-    }
 
     private fun formQueryString(query: Map<String, Any>?): String =
             query?.let {
@@ -96,14 +75,8 @@ class NetworkTask : AsyncTask<NetworkRequest, String?> {
                 }
             } ?: ""
 
-    private fun getBody(body: Map<String, Any>?): RequestBody? = body?.let {
-        val json = JSONObject(it)
-        val mediaType = MediaType.parse("application/json; charset=utf-8");
-        val requestBody = RequestBody.create(mediaType, json.toString(2))
-        return requestBody
-    }
 
-    private fun getHeaders(headers: Map<String, String>): Headers {
+    fun getHeaders(headers: Map<String, String>): Headers {
 
         val builder = Headers.Builder()
 
@@ -118,7 +91,8 @@ class NetworkTask : AsyncTask<NetworkRequest, String?> {
     }
 
     private fun logNetwork(success: Boolean, method: NetworkMethod, url: String, error: Throwable? = null) = when (success) {
-        true -> Log.d("PopJam-SDK", "$method -> $url")
-        false -> Log.e("PopJam-SDK", "$method -> $url\nError: $error")
+        true -> Log.d("Base-SDK", "$method -> $url")
+        false -> Log.e("Base-SDK", "$method -> $url\nError: $error")
     }
+
 }

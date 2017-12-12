@@ -8,16 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
-import kws.superawesome.tv.kwssdk.base.services.LoginService;
-import kws.superawesome.tv.kwssdk.interfaces.LoggedUserInterface;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -119,14 +113,14 @@ public class MainActivity extends AppCompatActivity {
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 switch (status) {
                     case Success:
-                        log += "Auth as stanajdkfa w/ testtest\n";
+                        log += "Auth as testuser9112 w/ testtest\n";
                         Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
                         break;
                     case NetworkError:
                         log += "Network error authing\n";
                         break;
                     case InvalidCredentials:
-                        log += "InvalidEmail credentials\n";
+                        log += "Invalid Email credentials\n";
                         break;
                 }
 
@@ -135,21 +129,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void newAuthUser(View v) {
-
-
-        KWSChildren.sdk.loginUser("testuser9112", "testtest", new LoggedUserInterface() {
-            @Override
-            public void didLoginUser( LoggedUser loggedUser, Throwable error) {
-                if(loggedUser != null){
-                    log += "Auth as stanajdkfa w/ testtest\n";
-                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
-                }else if(error != null){
-                    log += "Network error authing\n";
-                }
-            }
-        });
-    }
+//    public void newAuthUser(View v) {
+//
+//
+//        KWSChildren.sdk.loginUser("testuser9112", "testtest", new K() {
+//            @Override
+//            public void didLoginUser( LoggedUser loggedUser, Throwable error) {
+//                if(loggedUser != null){
+//                    log += "Auth as stanajdkfa w/ testtest\n";
+//                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
+//                }else if(error != null){
+//                    log += "Network error authing\n";
+//                }
+//
+//                logView.setText(log);
+//            }
+//        });
+//    }
 
     public void logoutUser(View v) {
         KWSChildren.sdk.logoutUser(this);

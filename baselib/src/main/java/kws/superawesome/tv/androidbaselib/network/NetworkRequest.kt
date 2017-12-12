@@ -11,4 +11,5 @@ interface NetworkRequest {
     val body: Map<String, Any>?
     val headers: Map<String, String>
     val isURLEncoded: Boolean
+    val mediaType: String
 }

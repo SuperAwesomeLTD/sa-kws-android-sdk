@@ -5,21 +5,23 @@ import android.content.SharedPreferences;
 import android.text.InputType;
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
+import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.environments.EUProductionEnvironment;
+import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
-import kws.superawesome.tv.kwssdk.interfaces.LoggedUserInterface;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.KWSAuthUserProcess;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenIsRegisteredForRemoteNotificationsInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenUnregisterForRemoteNotificationsInterface;
@@ -67,6 +69,7 @@ public class KWSChildren {
     private String clientId;
     private String clientSecret;
     private KWSLoggedUser loggedUser;
+    private KWSNetworkEnvironment kwsEnvironment;
 
     // internal services & processes
     private KWSNotificationProcess notificationProcess;
@@ -111,10 +114,29 @@ public class KWSChildren {
 
     // <Setup> and <Desetup> functions
 
-    public void setup(Context context, String clientId, String clientSecret, String apiUrl) {
+    public void setup(Context context, final String clientId, final String clientSecret, final String apiUrl) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.kwsApiUrl = apiUrl;
+        this.kwsEnvironment = new KWSNetworkEnvironment() {
+            @NotNull
+            @Override
+            public String getAppID() {
+                return clientId;
+            }
+
+            @NotNull
+            @Override
+            public String getMobileKey() {
+                return clientSecret;
+            }
+
+            @NotNull
+            @Override
+            public String getDomain() {
+                return apiUrl;
+            }
+        };
 
         // get preferences
         preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
@@ -152,27 +174,27 @@ public class KWSChildren {
         createUserProcess.create(context, username, password, dateOfBirth, country, parentEmail, listener);
     }
 
-    public void loginUser(Context context, String username, String password, KWSChildrenLoginUserInterface listener) {
+    public void loginUser(Context context, String username, String password, final KWSChildrenLoginUserInterface listener) {
 
         /***old way***/
-        authUserProcess.auth(context, username, password, listener);
-    }
-
-    public void loginUser(String username, String password, final LoggedUserInterface aListener) {
+//        authUserProcess.auth(context, username, password, listener);
 
         /**new way*/
-        EUProductionEnvironment euProductionEnvironment = new EUProductionEnvironment();
-        LoginService loginService = KWSSDK.get(euProductionEnvironment, LoginService.class);
-
-
-        String clientId = getClientId();
-        String clientSecret = getClientSecret();
+        LoginService loginService = KWSSDK.get(kwsEnvironment, LoginService.class);
 
         if (loginService != null) {
-            loginService.loginUser(username, password, clientId, clientSecret, new Function2<LoggedUser, Throwable, Unit>() {
+            loginService.loginUser(username, password, new Function2<LoggedUser, Throwable, Unit>() {
                 @Override
                 public Unit invoke(LoggedUser loggedUser, Throwable throwable) {
-                    aListener.didLoginUser(loggedUser, throwable);
+
+                    if(loggedUser != null && throwable == null){
+                        setLoggedUser(loggedUser);
+                        listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
+                    }
+                    else {
+                        listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
+                    }
+
                     return null;
                 }
             });
@@ -347,6 +369,19 @@ public class KWSChildren {
         // save in preferences
         if (preferences != null) {
             preferences.edit().putString(LOGGED_USER_KEY, loggedUser.writeToJson().toString()).apply();
+        }
+    }
+
+    public void setLoggedUser(LoggedUser loggedUser) {
+        // assign the logged user
+        this.loggedUser = new KWSLoggedUser();
+        this.loggedUser.token = loggedUser.getToken();
+        this.loggedUser.metadata = loggedUser.getKwsMetaData();
+
+        // save in preferences
+        if (preferences != null) {
+
+            preferences.edit().putString(LOGGED_USER_KEY, this.loggedUser.writeToJson().toString()).apply();
         }
     }
 }
