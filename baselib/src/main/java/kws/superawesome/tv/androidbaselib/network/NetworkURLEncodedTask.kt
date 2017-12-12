@@ -10,7 +10,7 @@ class NetworkURLEncodedTask : BaseNetworkTask() {
 
 
     //URL encoded request implementation
-    override fun setRequest(url: String, header: Map<String, String>, method: NetworkMethod, body: Map<String, Any>?, mediaType: String): Request? {
+    override fun setRequest(url: String, header: Map<String, String>, method: NetworkMethod, body: Map<String, Any>?): Request? {
 
         // Initialize Builder
         val builder = FormBody.Builder()
