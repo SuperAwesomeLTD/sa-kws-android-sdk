@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
@@ -12,12 +13,12 @@ def siteUrl = 'https://github.com/SuperAwesomeLTD/sa-kws-android-sdk'
 def gitUrl = 'https://github.com/SuperAwesomeLTD/sa-kws-android-sdk.git'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 27
         versionCode 1
         versionName version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -78,14 +79,15 @@ install {
 }
 
 repositories {
-    maven {
-        url  "http://dl.bintray.com/gabrielcoman/maven"
-    }
+    maven { url  "http://dl.bintray.com/gabrielcoman/maven" }
+    mavenCentral()
 }
 
 dependencies {
     compile 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.7'
     compile 'tv.superawesome.lib.sanetwork:sanetwork:0.3.8'
     compile 'tv.superawesome.lib.sautils:sautils:0.3.5'
+    compile 'tv.superawesome.samobilebase:samobilebase:1.0.1'
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

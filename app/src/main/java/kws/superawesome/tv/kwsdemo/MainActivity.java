@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
+import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -58,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
         logView = (TextView) findViewById(R.id.TextLogs);
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
+
+
     }
 
     // MARK: Actions
 
-    public void createNewUser (View v) {
+    public void createNewUser(View v) {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
 
         KWSChildren.sdk.createUser(this, username, "testtest", "2011-03-02", "US", "dev.gabriel.coman@gmail.com", new KWSChildrenCreateUserInterface() {
@@ -103,35 +106,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void authUser (View v) {
+    public void authUser(View v) {
 
         KWSChildren.sdk.loginUser(this, "testuser9112", "testtest", new KWSChildrenLoginUserInterface() {
             @Override
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 switch (status) {
                     case Success:
-                        log += "Auth as stanajdkfa w/ testtest\n";
+                        log += "Auth as testuser9112 w/ testtest\n";
                         Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
                         break;
                     case NetworkError:
                         log += "Network error authing\n";
                         break;
                     case InvalidCredentials:
-                        log += "InvalidEmail credentials\n";
+                        log += "Invalid Email credentials\n";
                         break;
                 }
 
                 logView.setText(log);
             }
         });
-
     }
 
-    public void logoutUser (View v) {
+//    public void newAuthUser(View v) {
+//
+//
+//        KWSChildren.sdk.loginUser("testuser9112", "testtest", new K() {
+//            @Override
+//            public void didLoginUser( LoggedUser loggedUser, Throwable error) {
+//                if(loggedUser != null){
+//                    log += "Auth as stanajdkfa w/ testtest\n";
+//                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
+//                }else if(error != null){
+//                    log += "Network error authing\n";
+//                }
+//
+//                logView.setText(log);
+//            }
+//        });
+//    }
+
+    public void logoutUser(View v) {
         KWSChildren.sdk.logoutUser(this);
     }
 
-    public void generateRandomName (View v) {
+    public void generateRandomName(View v) {
         KWSChildren.sdk.getRandomUsername(this, new KWSChildrenGetRandomUsernameInterface() {
             @Override
             public void didGetRandomUsername(String name) {
@@ -199,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                         log += "Network error checking for KWSChildren notification permission\n";
                         break;
                     }
-                    case Success:{
+                    case Success: {
                         log += "Registered for Notifications\n";
                         break;
                     }
@@ -245,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getUserDetails (View v) {
+    public void getUserDetails(View v) {
         log += "Getting user details\n";
         logView.setText(log);
         KWSChildren.sdk.getUser(this, new KWSChildrenGetUserInterface() {
@@ -263,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void  getLeaderboard (View v) {
+    public void getLeaderboard(View v) {
         KWSChildren.sdk.getLeaderboard(this, new KWSChildrenGetLeaderboardInterface() {
             @Override
             public void didGetLeaderboard(List<KWSLeader> leaderboard) {
@@ -273,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void requestPermissions (View v) {
+    public void requestPermissions(View v) {
         KWSChildren.sdk.requestPermission(this, new KWSChildrenPermissionType[]{
                 KWSChildrenPermissionType.AccessAddress,
                 KWSChildrenPermissionType.AccessFirstName
@@ -302,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void triggerEvent (View v) {
+    public void triggerEvent(View v) {
         KWSChildren.sdk.triggerEvent(this, "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, new KWSChildrenTriggerEventInterface() {
             @Override
             public void didTriggerEvent(boolean success) {
@@ -312,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getScore (View v) {
+    public void getScore(View v) {
         KWSChildren.sdk.getScore(this, new KWSChildrenGetScoreInterface() {
             @Override
             public void didGetScore(KWSScore score) {
@@ -322,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void inviteUser (View v) {
+    public void inviteUser(View v) {
         KWSChildren.sdk.inviteUser(this, "gabriel.coman@superawesome.tv", new KWSChildrenInviteUserInterface() {
             @Override
             public void didInviteUser(boolean success) {
@@ -333,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void checkEvent (View v) {
+    public void checkEvent(View v) {
         KWSChildren.sdk.hasTriggeredEvent(this, 762, new KWSChildrenHasTriggeredEventInterface() {
             @Override
             public void didTriggerEvent(Boolean triggered) {
@@ -344,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setAppData (View v) {
+    public void setAppData(View v) {
         KWSChildren.sdk.setAppData(this, 33, "new_val", new KWSChildrenSetAppDataInterface() {
             @Override
             public void didSetAppData(boolean success) {
@@ -354,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getAppData (View v) {
+    public void getAppData(View v) {
         KWSChildren.sdk.getAppData(this, new KWSChildrenGetAppDataInterface() {
             @Override
             public void didGetAppData(List<KWSAppData> appData) {
