@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.environments
 
-import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment
+import tv.superawesome.samobilebase.network.NetworkEnvironment
 
 /**
  * Created by guilherme.mota on 12/12/2017.
