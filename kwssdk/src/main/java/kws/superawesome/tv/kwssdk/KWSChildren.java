@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
@@ -18,7 +17,6 @@ import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
-import kws.superawesome.tv.kwssdk.process.KWSAuthUserProcess;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenIsRegisteredForRemoteNotificationsInterface;
@@ -27,7 +25,6 @@ import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenUnregisterForRemoteNotificationsInterface;
-import kws.superawesome.tv.kwssdk.process.KWSCreateUserProcess;
 import kws.superawesome.tv.kwssdk.process.KWSNotificationProcess;
 import kws.superawesome.tv.kwssdk.process.KWSRandomNameProcess;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenGetAppDataInterface;
@@ -75,8 +72,6 @@ public class KWSChildren {
 
     // internal services & processes
     private KWSNotificationProcess notificationProcess;
-    private KWSCreateUserProcess createUserProcess;
-    private KWSAuthUserProcess authUserProcess;
     private KWSParentEmail parentEmail;
     private KWSGetUser getUser;
     private KWSGetLeaderboard getLeaderboard;
@@ -98,8 +93,6 @@ public class KWSChildren {
 
     private KWSChildren() {
         notificationProcess = new KWSNotificationProcess();
-        createUserProcess = new KWSCreateUserProcess();
-        authUserProcess = new KWSAuthUserProcess();
         parentEmail = new KWSParentEmail();
         getUser = new KWSGetUser();
         getLeaderboard = new KWSGetLeaderboard();
@@ -173,10 +166,6 @@ public class KWSChildren {
 
     // user creation, auth & logout
     public void createUser(Context context, String username, String password, String dateOfBirth, String country, String parentEmail, final KWSChildrenCreateUserInterface listener) {
-        /**old way*/
-//        createUserProcess.create(context, username, password, dateOfBirth, country, parentEmail, listener);
-
-        /***new way***/
 
         CreateUserService createUserService = KWSSDK.get(kwsEnvironment, CreateUserService.class);
 
@@ -201,10 +190,6 @@ public class KWSChildren {
 
     public void loginUser(Context context, String username, String password, final KWSChildrenLoginUserInterface listener) {
 
-        /***old way***/
-//        authUserProcess.auth(context, username, password, listener);
-
-        /**new way*/
         LoginService loginService = KWSSDK.get(kwsEnvironment, LoginService.class);
 
         if (loginService != null) {

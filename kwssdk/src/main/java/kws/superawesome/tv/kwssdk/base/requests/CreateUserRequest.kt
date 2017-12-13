@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.requests
 
-import kws.superawesome.tv.androidbaselib.network.NetworkMethod
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
+import tv.superawesome.samobilebase.network.NetworkMethod
 
 /**
  * Created by guilherme.mota on 12/12/2017.

@@ -1,6 +1,5 @@
 package kws.superawesome.tv.kwssdk.base
 
-import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.providers.CreateUserProvider
 import kws.superawesome.tv.kwssdk.base.providers.LoginProvider

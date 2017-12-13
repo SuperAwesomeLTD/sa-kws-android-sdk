@@ -1,9 +1,5 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
-import kws.superawesome.tv.androidbaselib.network.NetworkJSONTask
-import kws.superawesome.tv.androidbaselib.network.NetworkURLEncodedTask
-import kws.superawesome.tv.androidbaselib.parsejson.ParseJsonRequest
-import kws.superawesome.tv.androidbaselib.parsejson.ParseJsonTask
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
@@ -12,6 +8,10 @@ import kws.superawesome.tv.kwssdk.base.responses.CreateUserResponse
 import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
+import tv.superawesome.samobilebase.network.NetworkJSONTask
+import tv.superawesome.samobilebase.network.NetworkUrlEncodedTask
+import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
+import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 12/12/2017.
@@ -54,7 +54,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
 
-        val networkGetTemAccessTokenTask = NetworkURLEncodedTask()
+        val networkGetTemAccessTokenTask = NetworkUrlEncodedTask()
 
         networkGetTemAccessTokenTask.execute(input = networkGetTempAccessTokenRequest) { rawString, networkError ->
 
@@ -114,14 +114,14 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
                 val authResponse = parseTask.execute<CreateUserResponse>(input = parseRequest) ?: CreateUserResponse()
-                var token = authResponse.token
+                val tmpToken = authResponse.token
 
-                if (token != null) {
+                if (tmpToken != null) {
                     //if we have a valid token
-                    val metadata = KWSMetadata.processMetadata(token)
+                    val metadata = KWSMetadata.processMetadata(tmpToken)
 
                     if (metadata != null && metadata.isValid()) {
-                        val loggedUser = LoggedUser(token = token, kwsMetaData = metadata)
+                        val loggedUser = LoggedUser(token = tmpToken, kwsMetaData = metadata)
                         callback(loggedUser, null)
                     } else {
                         callback(null, Throwable("Invalid token"))
