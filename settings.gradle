@@ -1,1 +1,1 @@
-include ':app', ':kwssdk'
+include ':app', ':kwssdk', ':baselib'

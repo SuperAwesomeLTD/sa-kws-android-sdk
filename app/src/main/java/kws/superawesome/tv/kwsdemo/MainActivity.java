@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         logView = (TextView) findViewById(R.id.TextLogs);
         logView.setMovementMethod(new ScrollingMovementMethod());
         createUser = (Button) findViewById(R.id.CreateUser);
+
+
+
     }
 
     // MARK: Actions
