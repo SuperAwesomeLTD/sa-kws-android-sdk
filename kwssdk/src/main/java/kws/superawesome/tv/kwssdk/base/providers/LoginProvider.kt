@@ -1,19 +1,20 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
-import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment
-import kws.superawesome.tv.androidbaselib.network.NetworkTask
+import kws.superawesome.tv.androidbaselib.network.NetworkURLEncodedTask
 import kws.superawesome.tv.androidbaselib.parsejson.ParseJsonRequest
 import kws.superawesome.tv.androidbaselib.parsejson.ParseJsonTask
+import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
-import kws.superawesome.tv.kwssdk.base.responses.BaseAuthResponse
+import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import kws.superawesome.tv.kwssdk.base.services.LoginService
+import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
 @PublishedApi
-internal class LoginProvider(val environment: NetworkEnvironment) : LoginService {
+internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginService {
 
 
     override fun loginUser(username: String,
@@ -21,33 +22,39 @@ internal class LoginProvider(val environment: NetworkEnvironment) : LoginService
                            callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
 
 
-        val networkRequest = LoginUserRequest(environment = environment, username = username, password = password)
-        val networkTask = NetworkTask()
+        val networkRequest = LoginUserRequest(
+                environment = environment,
+                username = username,
+                password = password,
+                clientID = environment.appID,
+                clientSecret = environment.mobileKey)
+        val networkTask = NetworkURLEncodedTask()
         networkTask.execute(input = networkRequest) { rawString, networkError ->
 
-            //
             // network success case
             if (rawString != null && networkError == null) {
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<BaseAuthResponse>(input = parseRequest) ?: BaseAuthResponse()
-                val token = authResponse.sessionToken
+                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest) ?: LoginResponse()
+                var token = authResponse.token
 
-                val errorMessage: String? = with(authResponse) {
-                    if (userBanned) "User banned"
-                    else if (usernameForbidden) "Username forbidden"
-                    else if (badCredentials) "Bad credentials"
-                    else if (sessionToken == null) "Bad or invalid token"
-                    else null
+                if (token != null) {
+                    //if we have a valid token
+                    val metadata = KWSMetadata.processMetadata(token)
+
+                    if (metadata != null && metadata.isValid()) {
+                        val loggedUser = LoggedUser(token = token, kwsMetaData = metadata)
+                        callback(loggedUser, null)
+                    } else {
+                        callback(null, Throwable("Invalid token"))
+                    }
+                } else {
+                    callback(null, Throwable(rawString))
                 }
 
-                val loginError = errorMessage?.let { Throwable(errorMessage) }
-                val loggedUser = token?.let { LoggedUser(userId = "", token = token) }
 
-                callback(loggedUser, loginError)
             }
-            //
             // network error case
             else {
                 callback(null, networkError)

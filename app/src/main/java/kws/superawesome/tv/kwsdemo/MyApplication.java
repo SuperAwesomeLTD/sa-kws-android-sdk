@@ -5,7 +5,7 @@ import android.support.multidex.MultiDexApplication;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
 
-public class MyAplication extends MultiDexApplication {
+public class MyApplication extends MultiDexApplication {
 
     private static final String APPID = "stan-test"; // "superawesomeclub";
     private static final String KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4";
