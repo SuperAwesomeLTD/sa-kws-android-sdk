@@ -1,17 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.requests
 
-import kws.superawesome.tv.androidbaselib.network.NetworkEnvironment
 import kws.superawesome.tv.androidbaselib.network.NetworkMethod
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 
 /**
- * Created by guilherme.mota on 08/12/2017.
+ * Created by guilherme.mota on 12/12/2017.
  */
-internal class LoginUserRequest(environment: KWSNetworkEnvironment,
-                                username: String,
-                                password: String,
-                                clientID: String,
-                                clientSecret: String
+internal class GetTempAccessTokenRequest(environment: KWSNetworkEnvironment,
+                                         clientID: String,
+                                         clientSecret: String
 ) :
         BaseRequest(environment = environment) {
 
@@ -27,11 +24,8 @@ internal class LoginUserRequest(environment: KWSNetworkEnvironment,
     override val method: NetworkMethod = NetworkMethod.POST
 
     override val body: Map<String, Any>? = mapOf(
-            "grant_type" to "password",
-            "username" to username,
-            "password" to password,
+            "grant_type" to "client_credentials",
             "client_id" to clientID,
             "client_secret" to clientSecret
     )
-
 }
