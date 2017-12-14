@@ -56,14 +56,15 @@ class LoginProviderTest {
 
 
     @Test
-    fun validUserName() {
+    fun userNameValidator_CorrectUsernameSimple_ReturnsTrue() {
         val correctUserName = "testuser9112"
-        assertNotNull(correctUserName)
+
+        val assertNotNull = assertNotNull(correctUserName)
         assertNotEquals("", correctUserName)
     }
 
     @Test
-    fun invalidUserName() {
+    fun userNameValidator_CorrectUsernameSimple_ReturnsFalse() {
         val incorrectUserName = ""
         assertNotNull(incorrectUserName)
         assertEquals("", incorrectUserName)
