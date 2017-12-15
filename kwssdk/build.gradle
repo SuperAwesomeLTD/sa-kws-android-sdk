@@ -113,5 +113,8 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:2.0.0-beta.5'
     testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.0-beta.5'
 
+    // Set this dependency if you want to use Hamcrest matching
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+
 
 }

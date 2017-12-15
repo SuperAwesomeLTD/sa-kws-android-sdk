@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk
+package kws.superawesome.tv.kwssdk.TestResponses
 
 import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import org.junit.Assert
@@ -21,7 +21,7 @@ class KWS_LoginResponse_Test {
                 "NTEzMzM1ODUxLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.nvY6HhRvxMv5fgVRTm1CJeRMTtso5Ex_nuDns4pMRas"
 
         //when
-        val loginResponse = LoginResponse(token)
+        val loginResponse = LoginResponse(token = token)
 
         //then
         assertNotNull(loginResponse)
@@ -41,7 +41,9 @@ class KWS_LoginResponse_Test {
         val loginResponse = LoginResponse(token)
 
         //then
+        assertNotNull(loginResponse)
         assertNull(loginResponse.token)
+
 
     }
 
