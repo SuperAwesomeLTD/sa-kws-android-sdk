@@ -55,7 +55,7 @@ public class KWSWebAuth extends KWSService {
         activity.startActivity(intent);
 
         //
-        // listen for resunts here
+        // listen for results here
         KWSWebAuthResponse.listener = new KWSWebAuthResponse.Interface() {
             @Override
             public void didGetToken(String token) {
