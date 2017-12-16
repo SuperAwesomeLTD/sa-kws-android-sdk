@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
@@ -87,7 +86,4 @@ dependencies {
     compile 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.7'
     compile 'tv.superawesome.lib.sanetwork:sanetwork:0.3.8'
     compile 'tv.superawesome.lib.sautils:sautils:0.3.5'
-    compile 'tv.superawesome.samobilebase:samobilebase:1.0.1'
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

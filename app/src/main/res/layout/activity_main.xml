@@ -19,14 +19,21 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Create new user"
+            android:text="Create"
             android:onClick="createNewUser"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Auth as user"
+            android:text="LOGIN"
+            android:onClick="loginUser"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="AUTH"
             android:onClick="authUser"/>
 
         <Button

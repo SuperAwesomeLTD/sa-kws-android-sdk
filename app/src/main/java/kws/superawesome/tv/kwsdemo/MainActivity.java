@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
-import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void authUser(View v) {
+    public void loginUser(View v) {
 
         KWSChildren.sdk.loginUser(this, "testuser9112", "testtest", new KWSChildrenLoginUserInterface() {
             @Override
@@ -127,6 +126,30 @@ public class MainActivity extends AppCompatActivity {
                 logView.setText(log);
             }
         });
+    }
+
+    public void authUser (View v) {
+
+        KWSChildren.sdk.authUser("https://stan-test-cluster.accounts.kws.superawesome.tv/", this, new KWSChildrenLoginUserInterface() {
+            @Override
+            public void didLoginUser(KWSChildrenLoginUserStatus status) {
+                switch (status) {
+                    case Success:
+                        log += "Auth user!\n";
+                        Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
+                        break;
+                    case NetworkError:
+                        log += "Network error authing\n";
+                        break;
+                    case InvalidCredentials:
+                        log += "Invalid Email credentials\n";
+                        break;
+                }
+
+                logView.setText(log);
+            }
+        });
+
     }
 
 //    public void newAuthUser(View v) {
