@@ -26,7 +26,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Auth as user"
+            android:text="Login"
+            android:onClick="loginUser"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Auth"
             android:onClick="authUser"/>
 
         <Button
