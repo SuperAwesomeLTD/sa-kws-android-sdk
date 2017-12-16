@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.services
 
+import android.app.Activity
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 
 /**
@@ -9,6 +10,10 @@ interface LoginService : BaseService {
 
     fun loginUser(username: String,
                   password: String,
+                  callback: (user: LoggedUser?, error: Throwable?) -> Unit)
+
+    fun authUser (singleSignOnUrl: String,
+                  parent: Activity,
                   callback: (user: LoggedUser?, error: Throwable?) -> Unit)
 
 }

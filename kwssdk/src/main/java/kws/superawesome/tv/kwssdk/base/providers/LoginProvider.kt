@@ -1,10 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
 import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import kws.superawesome.tv.kwssdk.base.services.LoginService
+import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 import tv.superawesome.samobilebase.network.NetworkUrlEncodedTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
@@ -15,7 +19,6 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  */
 @PublishedApi
 internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginService {
-
 
     override fun loginUser(username: String,
                            password: String,
@@ -60,9 +63,37 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
                 callback(null, networkError)
             }
         }
-
-
     }
 
+    override fun authUser(singleSignOnUrl: String,
+                          parent: Activity,
+                          callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
 
+        // TODO("Maybe replace this with a custom Request object")
+        val endpoint = "oauth"
+        val clientId = environment.appID
+        val packageName = parent.packageName
+        val url = "$singleSignOnUrl$endpoint?clientId=$clientId&redirectUri=$packageName://"
+        val uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        parent.startActivity(intent)
+
+        // TODO("Again, somewhat hacky here! But don't have a proper solution yet")
+        KWSWebAuthResponse.callback = { token ->
+
+            if (token != null) {
+                //if we have a valid token
+                val metadata = KWSMetadata.processMetadata(token)
+
+                if (metadata != null && metadata.isValid()) {
+                    val loggedUser = LoggedUser(token = token, kwsMetaData = metadata)
+                    callback(loggedUser, null)
+                } else {
+                    callback(null, Throwable("Invalid token"))
+                }
+            } else {
+                callback(null, Throwable("OAuth token is null"))
+            }
+        }
+    }
 }
