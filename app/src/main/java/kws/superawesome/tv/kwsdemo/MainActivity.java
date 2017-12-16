@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwsdemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -11,34 +11,33 @@ import android.widget.TextView;
 import java.util.List;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
-import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
-import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserInterface;
-import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenIsRegisteredForRemoteNotificationsInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenLoginUserStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsInterface;
+import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsStatus;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenUnregisterForRemoteNotificationsInterface;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenGetAppDataInterface;
-import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenGetLeaderboardInterface;
-import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenGetScoreInterface;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenGetUserInterface;
-import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenHasTriggeredEventInterface;
-import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenInviteUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenSetAppDataInterface;
 import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailInterface;
 import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailStatus;
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionStatus;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenPermissionType;
-import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSChildrenGetRandomUsernameInterface;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionInterface;
-import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenSetAppDataInterface;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionStatus;
+import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSChildrenGetRandomUsernameInterface;
+import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenGetLeaderboardInterface;
+import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenGetScoreInterface;
+import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenHasTriggeredEventInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenTriggerEventInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenGetUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenInviteUserInterface;
 import tv.superawesome.lib.sautils.SAUtils;
-import kws.superawesome.tv.kwssdk.process.KWSChildrenRegisterForRemoteNotificationsStatus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void authUser(View v) {
+    public void loginUser(View v) {
 
         KWSChildren.sdk.loginUser(this, "testuser9112", "testtest", new KWSChildrenLoginUserInterface() {
             @Override
@@ -129,23 +128,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    public void newAuthUser(View v) {
-//
-//
-//        KWSChildren.sdk.loginUser("testuser9112", "testtest", new K() {
-//            @Override
-//            public void didLoginUser( LoggedUser loggedUser, Throwable error) {
-//                if(loggedUser != null){
-//                    log += "Auth as stanajdkfa w/ testtest\n";
-//                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
-//                }else if(error != null){
-//                    log += "Network error authing\n";
-//                }
-//
-//                logView.setText(log);
-//            }
-//        });
-//    }
+    public void authUser (View v) {
+        KWSChildren.sdk.authWithSingleSignOnUrl("https://stan-test-cluster.accounts.kws.superawesome.tv/", this, new KWSChildrenLoginUserInterface() {
+            @Override
+            public void didLoginUser(KWSChildrenLoginUserStatus status) {
+                log += "Web View Authentication status is " + status + "\n";
+                logView.setText(log);
+            }
+        });
+    }
 
     public void logoutUser(View v) {
         KWSChildren.sdk.logoutUser(this);

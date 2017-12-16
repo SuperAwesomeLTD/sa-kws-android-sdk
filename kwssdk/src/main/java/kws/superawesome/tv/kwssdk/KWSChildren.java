@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.InputType;
@@ -208,7 +209,28 @@ public class KWSChildren {
                 }
             });
         }
+    }
 
+    public void authWithSingleSignOnUrl(String singleSignOnUrl, Activity parent, final KWSChildrenLoginUserInterface listener) {
+
+        LoginService loginService = KWSSDK.get(kwsEnvironment, LoginService.class);
+
+        if (loginService != null) {
+            loginService.authUser(singleSignOnUrl, parent, new Function2<LoggedUser, Throwable, Unit>() {
+                @Override
+                public Unit invoke(LoggedUser loggedUser, Throwable throwable) {
+
+                    if (loggedUser != null && throwable == null) {
+                        setLoggedUser(loggedUser);
+                        listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
+                    } else {
+                        listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
+                    }
+
+                    return null;
+                }
+            });
+        }
 
     }
 
