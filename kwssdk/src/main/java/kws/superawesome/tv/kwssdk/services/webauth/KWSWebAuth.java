@@ -60,23 +60,40 @@ public class KWSWebAuth extends KWSService {
             @Override
             public void didGetToken(String token) {
 
+                //
+                // check for token validity
                 if (token != null) {
+
+                    //
+                    // process metadata
                     KWSMetadata metadata = KWSMetadata.processMetadata(token);
 
+                    //
+                    // only go forward is the metadata is valid
                     if (metadata != null && metadata.isValid()) {
+
+                        //
+                        // form new logged user
                         KWSLoggedUser loggedUser = new KWSLoggedUser();
                         loggedUser.token = token;
                         loggedUser.metadata = metadata;
+
+                        //
+                        // and go forward
                         if (listener != null) {
                             listener.didAuthUser(loggedUser);
                         }
                     }
+                    //
+                    // if metadata is invalid, don't return a valid logged user
                     else {
                         if (listener != null) {
                             listener.didAuthUser(null);
                         }
                     }
                 }
+                //
+                // if token is null, don't return a valid logged user
                 else {
                     if (listener != null) {
                         listener.didAuthUser(null);

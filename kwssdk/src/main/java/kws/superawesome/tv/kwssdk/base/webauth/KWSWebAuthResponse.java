@@ -14,6 +14,8 @@ public class KWSWebAuthResponse extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //
+        // get the current intent
         Intent intent = getIntent();
 
         //
@@ -49,6 +51,13 @@ public class KWSWebAuthResponse extends Activity {
         // get the package name
         String packName = this.getPackageName();
 
+        //
+        // verify:
+        //  - data is valid
+        //  - action is valid
+        //  - scheme is valid
+        //  - action is ACTION_VIEW
+        //  - scheme is the package name
         if (data != null && action != null && scheme != null && action.equals(Intent.ACTION_VIEW) && scheme.equals(packName)) {
 
             //

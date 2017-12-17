@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+2.3.3
+ - Added WebView Auth
+
 2.3.2
  - Simplified auth flow
  - Updated dependencies
