@@ -14,18 +14,45 @@ class KWSWebAuthResponse: Activity() {
         super.onCreate(savedInstanceState)
 
         //
-        // get intent & action
+        // get the current intent
         val intent = intent
-        val action = intent.action
 
         //
-        // get all the needed intent data as well as the intent's cheme (to check this activity
-        // was created by us for us)
-        val data = intent.data
-        val scheme = data.scheme
+        // get the action
+        val action = try {
+            intent.action
+        } catch (e: Exception) {
+            null
+        }
+
+        //
+        // get the data
+        val data = try {
+            intent.data
+        } catch (e: Exception) {
+            null
+        }
+
+        //
+        // get the scheme
+        val scheme = try {
+            data?.scheme
+        } catch (e: Exception) {
+            null
+        }
+
+        //
+        // get the package name
         val packName = packageName
 
-        if (action == Intent.ACTION_VIEW && scheme == packName) {
+        //
+        // verify:
+        //  - data is valid
+        //  - action is valid
+        //  - scheme is valid
+        //  - action is ACTION_VIEW
+        //  - scheme is the package name
+        if (data != null && action != null && scheme != null && action == Intent.ACTION_VIEW && scheme == packName) {
 
             //
             // get the fragment (the part after the # of the url)
