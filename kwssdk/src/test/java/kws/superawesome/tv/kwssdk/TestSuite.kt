@@ -6,7 +6,6 @@ import kws.superawesome.tv.kwssdk.TestRequests.KWS_GetTempAccessTokenRequest_Tes
 import kws.superawesome.tv.kwssdk.TestRequests.KWS_LoginUserRequest_Test
 import kws.superawesome.tv.kwssdk.TestResponses.KWS_CreateUserResponse_Test
 import kws.superawesome.tv.kwssdk.TestResponses.KWS_LoginResponse_Test
-import kws.superawesome.tv.kwssdk.kotlin.KWS_LoggedUser_Test
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -22,8 +21,7 @@ import org.junit.runners.Suite
         KWS_LoginUserRequest_Test::class,
         KWS_GetTempAccessTokenRequest_Test::class,
         KWS_CreateUserResponse_Test::class,
-        KWS_LoginResponse_Test::class,
-        KWS_LoggedUser_Test::class
+        KWS_LoginResponse_Test::class
 )
 
 class TestSuite {
