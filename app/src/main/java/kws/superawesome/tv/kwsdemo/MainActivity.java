@@ -67,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
     public void createNewUser(View v) {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
 
-        KWSChildren.sdk.createUser(this, username, "testtest", "2011-03-02", "US", "dev.gabriel.coman@gmail.com", new KWSChildrenCreateUserInterface() {
+        KWSChildren.sdk.createUser(this, username, "testtest",
+                "2011-03-02",
+                "US",
+                "dev.gabriel.coman@gmail.com",
+                new KWSChildrenCreateUserInterface() {
             @Override
             public void didCreateUser(KWSChildrenCreateUserStatus status) {
                 switch (status) {
