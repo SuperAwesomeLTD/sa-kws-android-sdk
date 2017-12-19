@@ -11,8 +11,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
+import kotlin.test.assertNotEquals
 
 
 /**
@@ -38,7 +40,7 @@ class KWS_CreateUserRequest_Test {
     }
 
     @Test
-    fun CreateUserRequest_Valid_Headers() {
+    fun CreateUserRequest_Valid() {
 
         //given
         val username = "testuser" + SAUtils.randomNumberBetween(100, 10000)
@@ -51,6 +53,8 @@ class KWS_CreateUserRequest_Test {
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
                 "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
 
+        val endpoint = "v1/apps/$appID/users?access_token=$token"
+        val method = NetworkMethod.POST
 
         //when
         val createUserRequest = CreateUserRequest(
@@ -67,125 +71,42 @@ class KWS_CreateUserRequest_Test {
 
         //then
         assertNotNull(createUserRequest)
+
+        // token
+        assertNotEquals(token,"")
+        assertNotNull(token)
+
+        //password
+        assertNotNull(password)
+
+        // appid
+        assertNotEquals(appID,0)
+
+        //headers
         MatcherAssert.assertThat<Map<String, String>>(createUserRequest.headers as Map<String, String>?,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
-
-    }
-
-    @Test
-    fun CreateUserRequest_Valid_Endpoint() {
-
-        //given
-        val username = "testuser" + SAUtils.randomNumberBetween(100, 10000)
-        val password = "testtest"
-        val dateOfBirth = "2011-03-02"
-        val country = "US"
-        val parentEmail = "dev.gabriel.coman@gmail.com"
-        val appID = 2
-        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
-                "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
-                "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
-        val endpoint = "v1/apps/$appID/users?access_token=$token"
-
-
-        //when
-        val createUserRequest = CreateUserRequest(
-                environment = kwsNetworkEnvironmnet,
-                username = username,
-                password = password,
-                dateOfBirth = dateOfBirth,
-                country = country,
-                parentEmail = parentEmail,
-                appID = appID,
-                token = token
-        )
-
-
-        //then
-        assertNotNull(createUserRequest)
+        //endpoint
         assertEquals(createUserRequest.endpoint, endpoint)
 
-
-    }
-
-
-    @Test
-    fun CreateUserRequest_NetworkMethod_POST() {
-
-        //given
-        val username = "testuser" + SAUtils.randomNumberBetween(100, 10000)
-        val password = "testtest"
-        val dateOfBirth = "2011-03-02"
-        val country = "US"
-        val parentEmail = "dev.gabriel.coman@gmail.com"
-        val appID = 2
-        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
-                "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
-                "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
-
-        val method = NetworkMethod.POST
-
-        //when
-        val createUserRequest = CreateUserRequest(
-                environment = kwsNetworkEnvironmnet,
-                username = username,
-                password = password,
-                dateOfBirth = dateOfBirth,
-                country = country,
-                parentEmail = parentEmail,
-                appID = appID,
-                token = token
-        )
-
-        //then
-        assertNotNull(createUserRequest)
-        assertEquals(createUserRequest.method, method)
-
-
-    }
-
-
-    @Test
-    fun CreateUserRequest_Valid_Body() {
-
-        //given
-        val username = "testuser" + SAUtils.randomNumberBetween(100, 10000)
-        val password = "testtest"
-        val dateOfBirth = "2011-03-02"
-        val country = "US"
-        val parentEmail = "dev.gabriel.coman@gmail.com"
-        val appID = 2
-        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
-                "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
-                "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
-
-
-        //when
-        val createUserRequest = CreateUserRequest(
-                environment = kwsNetworkEnvironmnet,
-                username = username,
-                password = password,
-                dateOfBirth = dateOfBirth,
-                country = country,
-                parentEmail = parentEmail,
-                appID = appID,
-                token = token
-        )
-
-
-
-        //then
-        assertNotNull(createUserRequest)
+        //body
         assertThat(createUserRequest.body!!.size, `is`(6))
         assertThat<Map<String, Boolean>>(createUserRequest.body as Map<String, Boolean>?, IsMapContaining.hasEntry("authenticate", true))
         assertThat(createUserRequest.body, IsMapContaining.hasKey("username"))
+        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("username", "")))
         assertThat(createUserRequest.body, IsMapContaining.hasKey("password"))
+        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("password", "")))
         assertThat(createUserRequest.body, IsMapContaining.hasKey("dateOfBirth"))
+        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("dateOfBirth", "")))
         assertThat(createUserRequest.body, IsMapContaining.hasKey("country"))
+        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("country", "")))
         assertThat(createUserRequest.body, IsMapContaining.hasKey("parentEmail"))
+        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("parentEmail", "")))
+        //method request type
+        assertEquals(createUserRequest.method, method)
+
+
 
     }
-
 
 }

@@ -34,88 +34,39 @@ class KWS_GetTempAccessTokenRequest_Test {
 
 
     @Test
-    fun GetTempAccessTokenRequest_Valid_Headers() {
-
-        //given
-
-
-        //when
-        val getTempAccessTokenRequest = GetTempAccessTokenRequest(
-                environment = kwsNetworkEnvironmnet,
-                clientID = kwsNetworkEnvironmnet.appID,
-                clientSecret = kwsNetworkEnvironmnet.mobileKey)
-
-
-        //then
-        assertNotNull(getTempAccessTokenRequest)
-        MatcherAssert.assertThat<Map<String, String>>(getTempAccessTokenRequest.headers as Map<String, String>?, IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
-
-
-    }
-
-
-    @Test
-    fun GetTempAccessTokenRequest_Valid_Endpoint() {
+    fun GetTempAccessTokenRequest_Valid() {
 
         //given
         val endpoint = "oauth/token"
-
-
-        //when
-        val getTempAccessTokenRequest = GetTempAccessTokenRequest(
-                environment = kwsNetworkEnvironmnet,
-                clientID = kwsNetworkEnvironmnet.appID,
-                clientSecret = kwsNetworkEnvironmnet.mobileKey)
-
-
-        //then
-        assertNotNull(getTempAccessTokenRequest)
-        assertEquals(getTempAccessTokenRequest.endpoint, endpoint)
-
-
-    }
-
-
-    @Test
-    fun GetTempAccessTokenRequest_NetworkMethod_POST() {
-
-        //given
         val method = NetworkMethod.POST
 
+
         //when
         val getTempAccessTokenRequest = GetTempAccessTokenRequest(
                 environment = kwsNetworkEnvironmnet,
                 clientID = kwsNetworkEnvironmnet.appID,
                 clientSecret = kwsNetworkEnvironmnet.mobileKey)
 
+
         //then
         assertNotNull(getTempAccessTokenRequest)
+
+        //headers
+        MatcherAssert.assertThat<Map<String, String>>(getTempAccessTokenRequest.headers as Map<String, String>?, IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
+
+        //endpoint
+        assertEquals(getTempAccessTokenRequest.endpoint, endpoint)
+
+        //method type request
         assertEquals(getTempAccessTokenRequest.method, method)
 
-
-    }
-
-
-    @Test
-    fun GetTempAccessTokenRequest_Valid_Body() {
-
-        //given
-
-
-        //when
-        val getTempAccessTokenRequest = GetTempAccessTokenRequest(
-                environment = kwsNetworkEnvironmnet,
-                clientID = kwsNetworkEnvironmnet.appID,
-                clientSecret = kwsNetworkEnvironmnet.mobileKey)
-
-
-        //then
-        assertNotNull(getTempAccessTokenRequest)
+        //body
         MatcherAssert.assertThat(getTempAccessTokenRequest.body!!.size, CoreMatchers.`is`(3))
         MatcherAssert.assertThat<Map<String, String>>(getTempAccessTokenRequest.body as Map<String, String>?, IsMapContaining.hasEntry("grant_type", "client_credentials"))
         MatcherAssert.assertThat(getTempAccessTokenRequest.body, IsMapContaining.hasKey("client_id"))
         MatcherAssert.assertThat(getTempAccessTokenRequest.body, IsMapContaining.hasKey("client_secret"))
 
     }
+
 
 }

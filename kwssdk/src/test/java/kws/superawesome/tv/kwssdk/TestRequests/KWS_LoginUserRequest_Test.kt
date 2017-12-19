@@ -2,12 +2,10 @@ package kws.superawesome.tv.kwssdk.TestRequests
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
-
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
-import org.junit.Assert
-
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
 import kotlin.test.assertEquals
@@ -35,62 +33,13 @@ class KWS_LoginUserRequest_Test {
     }
 
     @Test
-    fun LoginUserRequest_Valid_Headers(){
+    fun LoginUserRequest_Valid() {
 
         //given
         val username = "testuser9112"
         val password = "testtest"
 
-
-        //when
-        val loginUserRequest = LoginUserRequest(
-                environment = kwsNetworkEnvironmnet,
-                username = username,
-                password = password,
-                clientID = kwsNetworkEnvironmnet.appID,
-                clientSecret = kwsNetworkEnvironmnet.mobileKey)
-
-
-        //then
-        assertNotNull(loginUserRequest)
-        assertThat<Map<String, String>>(loginUserRequest.headers as Map<String, String>?, IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
-
-
-    }
-
-    @Test
-    fun LoginUserRequest_Valid_Endpoint() {
-
-        //given
-        val username = "testuser9112"
-        val password = "testtest"
         val endpoint = "oauth/token"
-
-
-        //when
-        val loginUserRequest = LoginUserRequest(
-                environment = kwsNetworkEnvironmnet,
-                username = username,
-                password = password,
-                clientID = kwsNetworkEnvironmnet.appID,
-                clientSecret = kwsNetworkEnvironmnet.mobileKey)
-
-
-        //then
-        assertNotNull(loginUserRequest)
-        assertEquals(loginUserRequest.endpoint, endpoint)
-
-
-    }
-
-
-    @Test
-    fun LoginUserRequest_NetworkMethod_POST() {
-
-        //given
-        val username = "testuser9112"
-        val password = "testtest"
-
         val method = NetworkMethod.POST
 
         //when
@@ -101,40 +50,38 @@ class KWS_LoginUserRequest_Test {
                 clientID = kwsNetworkEnvironmnet.appID,
                 clientSecret = kwsNetworkEnvironmnet.mobileKey)
 
+
         //then
         assertNotNull(loginUserRequest)
+
+        // username
+        assertNotNull(username)
+
+        //password
+        assertNotNull(password)
+
+        //headers
+        assertThat<Map<String, String>>(loginUserRequest.headers as Map<String, String>?, IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
+
+        //endpoint
+        assertEquals(loginUserRequest.endpoint, endpoint)
+
+        //method type
         assertEquals(loginUserRequest.method, method)
 
-
-    }
-
-
-    @Test
-    fun LoginUserRequest_Valid_Body() {
-
-        //given
-        val username = "testuser9112"
-        val password = "testtest"
-
-
-        //when
-        val loginUserRequest = LoginUserRequest(
-                environment = kwsNetworkEnvironmnet,
-                username = username,
-                password = password,
-                clientID = kwsNetworkEnvironmnet.appID,
-                clientSecret = kwsNetworkEnvironmnet.mobileKey)
-
-
-        //then
-        assertNotNull(loginUserRequest)
+        //body
         assertThat(loginUserRequest.body!!.size, `is`(5))
         assertThat<Map<String, String>>(loginUserRequest.body as Map<String, String>?, IsMapContaining.hasEntry("grant_type", "password"))
         assertThat(loginUserRequest.body, IsMapContaining.hasKey("username"))
+        assertThat<Map<String, String>>(loginUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("username", "")))
         assertThat(loginUserRequest.body, IsMapContaining.hasKey("password"))
+        assertThat<Map<String, String>>(loginUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("password", "")))
         assertThat(loginUserRequest.body, IsMapContaining.hasKey("client_id"))
+        assertThat<Map<String, String>>(loginUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("client_id", "")))
         assertThat(loginUserRequest.body, IsMapContaining.hasKey("client_secret"))
+        assertThat<Map<String, String>>(loginUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("client_secret", "")))
 
     }
+
 
 }
