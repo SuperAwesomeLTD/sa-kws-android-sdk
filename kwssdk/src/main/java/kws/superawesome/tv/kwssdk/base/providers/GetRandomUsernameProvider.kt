@@ -5,6 +5,7 @@ import kws.superawesome.tv.kwssdk.base.requests.GetAppConfigRequest
 import kws.superawesome.tv.kwssdk.base.requests.GetRandomUsernameRequest
 import kws.superawesome.tv.kwssdk.base.responses.AppConfigAppObjectResponse
 import kws.superawesome.tv.kwssdk.base.responses.AppConfigResponse
+import kws.superawesome.tv.kwssdk.base.responses.GetRandomUsernameResponse
 import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService
 import tv.superawesome.samobilebase.network.NetworkJSONTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
@@ -17,7 +18,7 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment) : GetRandomUsernameService {
 
 
-    override fun getRandomUsername(callback: (randomUser: String?, error: Throwable?) -> Unit) {
+    override fun getRandomUsername(callback: (randomUser: GetRandomUsernameResponse?, error: Throwable?) -> Unit) {
 
 
         getAppConfig(environment = environment) { appConfigAppObjectResponseObj: AppConfigAppObjectResponse?, networkError: Throwable? ->
@@ -82,7 +83,7 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
 
     private fun getActuallyRandomUserName(environment: KWSNetworkEnvironment,
                                           id: Int,
-                                          callback: (randomUser: String?, error: Throwable?) -> Unit) {
+                                          callback: (randomUser: GetRandomUsernameResponse?, error: Throwable?) -> Unit) {
 
         val networkGetRandomUsernameRequest = GetRandomUsernameRequest(
                 environment = environment,
@@ -92,8 +93,12 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
         networkGetRandomUsernameTask.execute(input = networkGetRandomUsernameRequest) { rawString, networkError ->
 
             if (rawString != null && networkError == null) {
-                val parsedString = rawString.replace("\"", "")
-                callback(parsedString, null)
+
+                val randomUserName = rawString.replace("\"", "")
+                val getRandomUsernameResponse = GetRandomUsernameResponse(randomUserName)
+
+                callback(getRandomUsernameResponse, null)
+
             } else {
                 //
                 //network failure

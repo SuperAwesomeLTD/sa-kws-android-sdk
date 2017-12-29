@@ -14,6 +14,7 @@ import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.responses.GetRandomUsernameResponse;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
@@ -246,15 +247,15 @@ public class KWSChildren {
 
     // user random name
     public void getRandomUsername(Context context, final KWSChildrenGetRandomUsernameInterface listener) {
-        
+
         GetRandomUsernameService getRandomUsernameService = KWSSDK.get(kwsEnvironment, GetRandomUsernameService.class);
 
         if (getRandomUsernameService != null) {
-            getRandomUsernameService.getRandomUsername(new Function2<String, Throwable, Unit>() {
+            getRandomUsernameService.getRandomUsername(new Function2<GetRandomUsernameResponse, Throwable, Unit>() {
                 @Override
-                public Unit invoke(String randomUsername, Throwable throwable) {
+                public Unit invoke(GetRandomUsernameResponse randomUsername, Throwable throwable) {
                     if(randomUsername != null && throwable == null){
-                        listener.didGetRandomUsername(randomUsername);
+                        listener.didGetRandomUsername(randomUsername.getRandomUsername());
                     }else{
                         listener.didGetRandomUsername(null);
                     }
