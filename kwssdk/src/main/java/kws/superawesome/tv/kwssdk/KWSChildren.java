@@ -15,6 +15,7 @@ import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
+import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
@@ -244,8 +245,23 @@ public class KWSChildren {
     }
 
     // user random name
-    public void getRandomUsername(Context context, KWSChildrenGetRandomUsernameInterface listener) {
-        randomNameProcess.getRandomName(context, listener);
+    public void getRandomUsername(Context context, final KWSChildrenGetRandomUsernameInterface listener) {
+        
+        GetRandomUsernameService getRandomUsernameService = KWSSDK.get(kwsEnvironment, GetRandomUsernameService.class);
+
+        if (getRandomUsernameService != null) {
+            getRandomUsernameService.getRandomUsername(new Function2<String, Throwable, Unit>() {
+                @Override
+                public Unit invoke(String randomUsername, Throwable throwable) {
+                    if(randomUsername != null && throwable == null){
+                        listener.didGetRandomUsername(randomUsername);
+                    }else{
+                        listener.didGetRandomUsername(null);
+                    }
+                    return null;
+                }
+            });
+        }
     }
 
     // user details
