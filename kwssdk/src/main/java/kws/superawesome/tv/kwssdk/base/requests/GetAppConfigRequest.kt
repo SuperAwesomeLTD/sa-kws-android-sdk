@@ -9,18 +9,17 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 internal class GetAppConfigRequest(environment: KWSNetworkEnvironment, clientID: String)
     : BaseRequest(environment = environment) {
 
-    override val headers: Map<String, String>
-        get() {
-            val map = mutableMapOf<String, String>()
-            map.set("Content-Type", "application/json")
-            return map
-        }
+    override val headers: Map<String, String> = mapOf("Content-Type" to "application/json")
 
-    override val endpoint: String = "v1/apps/config?oauthClientId=$clientID"
+    override val endpoint: String = "v1/apps/config"
+
+    override val parameters: Map<String, Any>? = mapOf("oauthClientId" to clientID)
 
     override val method: NetworkMethod = NetworkMethod.GET
 
     override val body: Map<String, Any>? = null
 
+    override val formEncodeUrls: Boolean
+        get() = false
 
 }

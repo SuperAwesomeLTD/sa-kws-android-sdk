@@ -7,7 +7,7 @@ import kws.superawesome.tv.kwssdk.base.responses.AppConfigAppObjectResponse
 import kws.superawesome.tv.kwssdk.base.responses.AppConfigResponse
 import kws.superawesome.tv.kwssdk.base.responses.GetRandomUsernameResponse
 import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService
-import tv.superawesome.samobilebase.network.NetworkJSONTask
+import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
@@ -50,7 +50,7 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
                 clientID = environment.appID
         )
 
-        val networkAppConfigTask = NetworkJSONTask()
+        val networkAppConfigTask = NetworkTask()
 
         networkAppConfigTask.execute(input = networkAppConfigRequest) { rawString, networkError ->
 
@@ -59,7 +59,8 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<AppConfigResponse>(input = parseRequest) ?: AppConfigResponse()
+                val authResponse = parseTask.execute<AppConfigResponse>(input = parseRequest,
+                        clazz = AppConfigResponse::class.java) ?: AppConfigResponse()
 
                 val appConfigAppResponseObj = authResponse.appConfigAppObject
 
@@ -89,7 +90,7 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
                 environment = environment,
                 appID = id)
 
-        val networkGetRandomUsernameTask = NetworkJSONTask()
+        val networkGetRandomUsernameTask = NetworkTask()
         networkGetRandomUsernameTask.execute(input = networkGetRandomUsernameRequest) { rawString, networkError ->
 
             if (rawString != null && networkError == null) {

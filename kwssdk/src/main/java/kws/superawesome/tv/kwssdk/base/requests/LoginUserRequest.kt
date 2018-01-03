@@ -14,12 +14,7 @@ internal class LoginUserRequest(environment: KWSNetworkEnvironment,
 ) :
         BaseRequest(environment = environment) {
 
-    override val headers: Map<String, String>
-        get() {
-            val map = mutableMapOf<String, String>()
-            map.set("Content-Type", "application/x-www-form-urlencoded")
-            return map
-        }
+    override val headers: Map<String, String> = mapOf("Content-Type" to "application/x-www-form-urlencoded")
 
     override val endpoint: String = "oauth/token"
 
@@ -32,5 +27,8 @@ internal class LoginUserRequest(environment: KWSNetworkEnvironment,
             "client_id" to clientID,
             "client_secret" to clientSecret
     )
+
+    override val formEncodeUrls: Boolean
+        get() = true
 
 }
