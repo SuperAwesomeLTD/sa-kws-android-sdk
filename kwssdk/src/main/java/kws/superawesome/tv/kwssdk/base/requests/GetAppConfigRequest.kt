@@ -13,7 +13,7 @@ internal class GetAppConfigRequest(environment: KWSNetworkEnvironment, clientID:
 
     override val endpoint: String = "v1/apps/config"
 
-    override val parameters: Map<String, Any>? = mapOf("oauthClientId" to clientID)
+    override val query: Map<String, Any>? = mapOf("oauthClientId" to clientID)
 
     override val method: NetworkMethod = NetworkMethod.GET
 

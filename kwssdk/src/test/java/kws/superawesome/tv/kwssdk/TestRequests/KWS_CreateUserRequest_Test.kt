@@ -90,7 +90,7 @@ class KWS_CreateUserRequest_Test {
         assertEquals(createUserRequest.endpoint, endpoint)
 
         //query parameters
-        assertThat<Map<String, String>>(createUserRequest.parameters as Map<String, String>?, IsMapContaining.hasEntry("access_token", token))
+        assertThat<Map<String, String>>(createUserRequest.query as Map<String, String>?, IsMapContaining.hasEntry("access_token", token))
 
         //body
         assertThat(createUserRequest.body!!.size, `is`(6))

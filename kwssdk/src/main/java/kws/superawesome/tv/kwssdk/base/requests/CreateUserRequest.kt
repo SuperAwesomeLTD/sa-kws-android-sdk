@@ -20,7 +20,7 @@ internal class CreateUserRequest(environment: KWSNetworkEnvironment,
 
     override val endpoint: String = "v1/apps/$appID/users"
 
-    override val parameters: Map<String, Any>? = mapOf("access_token" to token)
+    override val query: Map<String, Any>? = mapOf("access_token" to token)
 
     override val method: NetworkMethod = NetworkMethod.POST
 

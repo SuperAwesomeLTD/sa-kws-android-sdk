@@ -65,7 +65,7 @@ class KWS_GetAppConfigRequest_Test {
         assertEquals(getAppConfigRequest.method, method)
 
         //query parameters
-        assertThat<Map<String, String>>(getAppConfigRequest.parameters as Map<String, String>?, IsMapContaining.hasEntry("oauthClientId", clientID))
+        assertThat<Map<String, String>>(getAppConfigRequest.query as Map<String, String>?, IsMapContaining.hasEntry("oauthClientId", clientID))
 
         //body
         assertNull(getAppConfigRequest.body)
