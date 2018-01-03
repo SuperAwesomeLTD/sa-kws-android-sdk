@@ -23,7 +23,7 @@ internal abstract class BaseRequest(override val environment: NetworkEnvironment
 
     override val headers: Map<String, String> = defaultHeader + (authHeader ?: mapOf())
 
-    override val parameters: Map<String, Any>? = null
+    override val query: Map<String, Any>? = null
 
     override val method: NetworkMethod = NetworkMethod.GET
 

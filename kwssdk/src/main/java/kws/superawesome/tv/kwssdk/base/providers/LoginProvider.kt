@@ -10,7 +10,7 @@ import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import kws.superawesome.tv.kwssdk.base.services.LoginService
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
-import tv.superawesome.samobilebase.network.NetworkUrlEncodedTask
+import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
@@ -31,7 +31,7 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
                 password = password,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
-        val networkTask = NetworkUrlEncodedTask()
+        val networkTask = NetworkTask()
         networkTask.execute(input = networkRequest) { rawString, networkError ->
 
             // network success case
@@ -39,7 +39,7 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest) ?: LoginResponse()
+                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest, clazz = LoginResponse::class.java) ?: LoginResponse()
                 val tmpToken = authResponse.token
 
                 if (tmpToken != null) {

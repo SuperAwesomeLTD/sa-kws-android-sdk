@@ -16,14 +16,11 @@ internal class CreateUserRequest(environment: KWSNetworkEnvironment,
                                  token: String)
     : BaseRequest(environment = environment) {
 
-    override val headers: Map<String, String>
-        get() {
-            val map = mutableMapOf<String, String>()
-            map.set("Content-Type", "application/json")
-            return map
-        }
+    override val headers: Map<String, String> = mapOf("Content-Type" to "application/json")
 
-    override val endpoint: String = "v1/apps/$appID/users?access_token=$token"
+    override val endpoint: String = "v1/apps/$appID/users"
+
+    override val query: Map<String, Any>? = mapOf("access_token" to token)
 
     override val method: NetworkMethod = NetworkMethod.POST
 

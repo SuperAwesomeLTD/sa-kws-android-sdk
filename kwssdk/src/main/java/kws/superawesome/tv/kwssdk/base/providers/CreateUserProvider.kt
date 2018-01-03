@@ -8,8 +8,7 @@ import kws.superawesome.tv.kwssdk.base.responses.CreateUserResponse
 import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
-import tv.superawesome.samobilebase.network.NetworkJSONTask
-import tv.superawesome.samobilebase.network.NetworkUrlEncodedTask
+import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
@@ -54,7 +53,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
 
-        val networkGetTemAccessTokenTask = NetworkUrlEncodedTask()
+        val networkGetTemAccessTokenTask = NetworkTask()
 
         networkGetTemAccessTokenTask.execute(input = networkGetTempAccessTokenRequest) { rawString, networkError ->
 
@@ -63,7 +62,8 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest) ?: LoginResponse()
+                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest,
+                        clazz = LoginResponse::class.java) ?: LoginResponse()
                 val token = authResponse.token
 
                 //
@@ -104,7 +104,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 token = token,
                 appID = appId)
 
-        val networkCreateUserTask = NetworkJSONTask()
+        val networkCreateUserTask = NetworkTask()
 
         networkCreateUserTask.execute(input = networkCreateUserRequest) { rawString, networkError ->
 
@@ -113,7 +113,8 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<CreateUserResponse>(input = parseRequest) ?: CreateUserResponse()
+                val authResponse = parseTask.execute<CreateUserResponse>(input = parseRequest,
+                        clazz = CreateUserResponse::class.java) ?: CreateUserResponse()
                 val tmpToken = authResponse.token
 
                 if (tmpToken != null) {
