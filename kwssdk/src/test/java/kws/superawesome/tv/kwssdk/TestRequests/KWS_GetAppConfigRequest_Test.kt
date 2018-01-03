@@ -1,8 +1,10 @@
 package kws.superawesome.tv.kwssdk.TestRequests
 
+
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.GetAppConfigRequest
 import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
@@ -37,7 +39,7 @@ class KWS_GetAppConfigRequest_Test {
 
         //given
         val clientID = "stan-test"
-        val endpoint = "v1/apps/config?oauthClientId=$clientID"
+        val endpoint = "v1/apps/config"
         val method = NetworkMethod.GET
 
         //when
@@ -61,6 +63,9 @@ class KWS_GetAppConfigRequest_Test {
 
         //method type
         assertEquals(getAppConfigRequest.method, method)
+
+        //query parameters
+        assertThat<Map<String, String>>(getAppConfigRequest.parameters as Map<String, String>?, IsMapContaining.hasEntry("oauthClientId", clientID))
 
         //body
         assertNull(getAppConfigRequest.body)

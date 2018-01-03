@@ -53,7 +53,7 @@ class KWS_CreateUserRequest_Test {
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
                 "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
 
-        val endpoint = "v1/apps/$appID/users?access_token=$token"
+        val endpoint = "v1/apps/$appID/users"
         val method = NetworkMethod.POST
 
         //when
@@ -88,6 +88,9 @@ class KWS_CreateUserRequest_Test {
 
         //endpoint
         assertEquals(createUserRequest.endpoint, endpoint)
+
+        //query parameters
+        assertThat<Map<String, String>>(createUserRequest.parameters as Map<String, String>?, IsMapContaining.hasEntry("access_token", token))
 
         //body
         assertThat(createUserRequest.body!!.size, `is`(6))
