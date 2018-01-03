@@ -96,10 +96,11 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
 
                 //
                 // send callback
-                randomUserName.let {
+                if(randomUserName != null){
                     callback(GetRandomUsernameResponse(randomUserName), null)
+                }else{
+                    callback(GetRandomUsernameResponse(rawString), null)
                 }
-                callback(GetRandomUsernameResponse(rawString), null)
 
 
             } else {
