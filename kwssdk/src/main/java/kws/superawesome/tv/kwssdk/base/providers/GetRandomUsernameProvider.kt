@@ -62,15 +62,12 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
                 val authResponse = parseTask.execute<AppConfigResponse>(input = parseRequest,
                         clazz = AppConfigResponse::class.java) ?: AppConfigResponse()
 
-                val appConfigAppResponseObj = authResponse.appConfigAppObject
 
                 //
+                val appConfigAppResponseObj = authResponse.appConfigAppObject
                 // send callback
-                if (appConfigAppResponseObj != null) {
-                    callback(appConfigAppResponseObj, null)
-                } else {
-                    callback(null, Throwable("Error - not found valid app config"))
-                }
+                val error = if (appConfigAppResponseObj != null) null else Throwable("Error - not found valid app config")
+                callback(appConfigAppResponseObj, error)
 
             }
             //
@@ -96,9 +93,14 @@ internal class GetRandomUsernameProvider(val environment: KWSNetworkEnvironment)
             if (rawString != null && networkError == null) {
 
                 val randomUserName = rawString.replace("\"", "")
-                val getRandomUsernameResponse = GetRandomUsernameResponse(randomUserName)
 
-                callback(getRandomUsernameResponse, null)
+                //
+                // send callback
+                randomUserName.let {
+                    callback(GetRandomUsernameResponse(randomUserName), null)
+                }
+                callback(GetRandomUsernameResponse(rawString), null)
+
 
             } else {
                 //

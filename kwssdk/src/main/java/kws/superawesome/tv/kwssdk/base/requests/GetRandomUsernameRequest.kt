@@ -13,9 +13,4 @@ internal class GetRandomUsernameRequest(environment: KWSNetworkEnvironment, appI
 
     override val endpoint: String = "v2/apps/$appID/random-display-name"
 
-    override val method: NetworkMethod = NetworkMethod.GET
-
-    override val body: Map<String, Any>? = null
-
-
 }
