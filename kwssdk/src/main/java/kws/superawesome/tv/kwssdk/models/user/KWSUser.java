@@ -99,10 +99,10 @@ public class KWSUser extends SABaseObject implements Parcelable {
         phoneNumber = SAJsonParser.getString(json, "phoneNumber");
         language = SAJsonParser.getString(json, "language");
         email = SAJsonParser.getString(json, "email");
-        address = new KWSAddress(SAJsonParser.getJsonObject(json, "address"));
+        address = new KWSAddress(SAJsonParser.getJsonObject(json, "addressResponse"));
         points = new KWSPoints(SAJsonParser.getJsonObject(json, "points"));
         applicationPermissions = new KWSPermissions(SAJsonParser.getJsonObject(json, "applicationPermissions"));
-        applicationProfile = new KWSApplicationProfile(SAJsonParser.getJsonObject(json, "applicationProfile"));
+        applicationProfile = new KWSApplicationProfile(SAJsonParser.getJsonObject(json, "applicationProfileResponse"));
     }
 
     @Override
@@ -117,10 +117,10 @@ public class KWSUser extends SABaseObject implements Parcelable {
                 "phoneNumber", phoneNumber,
                 "language", language,
                 "email", email,
-                "address", address != null ? address.writeToJson() : null,
+                "addressResponse", address != null ? address.writeToJson() : null,
                 "points", points != null ? points.writeToJson() : null,
                 "applicationPermissions", applicationPermissions != null ? applicationPermissions.writeToJson() : null,
-                "applicationProfile", applicationProfile != null ? applicationProfile.writeToJson() : null
+                "applicationProfileResponse", applicationProfile != null ? applicationProfile.writeToJson() : null
         });
     }
 

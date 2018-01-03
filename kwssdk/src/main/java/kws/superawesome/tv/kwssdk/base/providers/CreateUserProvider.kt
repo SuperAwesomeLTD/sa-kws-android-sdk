@@ -20,7 +20,7 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : CreateUserService {
 
 
-    override fun createuser(username: String,
+    override fun createUser(username: String,
                             password: String,
                             dateOfBirth: String,
                             country: String,

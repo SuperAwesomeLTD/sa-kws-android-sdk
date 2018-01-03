@@ -27,6 +27,9 @@ public class KWSPoints extends SABaseObject implements Parcelable {
         pending = in.readInt();
     }
 
+    public KWSPoints() {
+
+    }
     public KWSPoints(JSONObject jsonObject) {
         readFromJson(jsonObject);
     }

@@ -14,11 +14,21 @@ import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.responses.ApplicationPermissionsResponse;
 import kws.superawesome.tv.kwssdk.base.responses.GetRandomUsernameResponse;
+import kws.superawesome.tv.kwssdk.base.responses.GetUserDetailsResponse;
+import kws.superawesome.tv.kwssdk.base.responses.PointsResponse;
+import kws.superawesome.tv.kwssdk.base.responses.UserAddressResponse;
+import kws.superawesome.tv.kwssdk.base.responses.UserApplicationProfileResponse;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService;
+import kws.superawesome.tv.kwssdk.base.services.GetUserDetailsService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
+import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
+import kws.superawesome.tv.kwssdk.models.user.KWSApplicationProfile;
+import kws.superawesome.tv.kwssdk.models.user.KWSPermissions;
+import kws.superawesome.tv.kwssdk.models.user.KWSPoints;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserStatus;
@@ -173,7 +183,7 @@ public class KWSChildren {
         CreateUserService createUserService = KWSSDK.get(kwsEnvironment, CreateUserService.class);
 
         if (createUserService != null) {
-            createUserService.createuser(username, password, dateOfBirth, country, parentEmail, new Function2<LoggedUser, Throwable, Unit>() {
+            createUserService.createUser(username, password, dateOfBirth, country, parentEmail, new Function2<LoggedUser, Throwable, Unit>() {
                 @Override
                 public Unit invoke(LoggedUser loggedUser, Throwable throwable) {
 
@@ -254,9 +264,9 @@ public class KWSChildren {
             getRandomUsernameService.getRandomUsername(new Function2<GetRandomUsernameResponse, Throwable, Unit>() {
                 @Override
                 public Unit invoke(GetRandomUsernameResponse randomUsername, Throwable throwable) {
-                    if(randomUsername != null && throwable == null){
+                    if (randomUsername != null && throwable == null) {
                         listener.didGetRandomUsername(randomUsername.getRandomUsername());
-                    }else{
+                    } else {
                         listener.didGetRandomUsername(null);
                     }
                     return null;
@@ -266,8 +276,140 @@ public class KWSChildren {
     }
 
     // user details
-    public void getUser(Context context, KWSChildrenGetUserInterface listener) {
-        getUser.execute(context, listener);
+    public void getUser(Context context, final KWSChildrenGetUserInterface listener) {
+
+        GetUserDetailsService getUserDetailsService = KWSSDK.get(kwsEnvironment, GetUserDetailsService.class);
+
+        if (getUserDetailsService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didGetUser(null);
+                return;
+            }
+
+            getUserDetailsService.getUserDetails(loggedUser.metadata.userId, loggedUser.token, new Function2<GetUserDetailsResponse, Throwable, Unit>() {
+                @Override
+                public Unit invoke(GetUserDetailsResponse getUserDetailsResponse, Throwable throwable) {
+                    if (getUserDetailsResponse != null) {
+                        KWSUser kwsUser = buildKWSUser(getUserDetailsResponse);
+                        if (kwsUser != null) {
+                            listener.didGetUser(kwsUser);
+                        } else {
+                            listener.didGetUser(null);
+                        }
+                    } else {
+                        listener.didGetUser(null);
+                    }
+
+                    return null;
+                }
+
+                private KWSUser buildKWSUser(GetUserDetailsResponse getUserDetailsResponse) {
+                    KWSUser kwsUser = new KWSUser();
+
+                    if (getUserDetailsResponse.getId() != null) {
+                        kwsUser.id = getUserDetailsResponse.getId();
+                    } else {
+                        return null;
+                    }
+
+                    kwsUser.username = getUserDetailsResponse.getUsername();
+                    kwsUser.firstName = getUserDetailsResponse.getFirstName();
+                    kwsUser.lastName = getUserDetailsResponse.getLastName();
+                    kwsUser.dateOfBirth = getUserDetailsResponse.getDateOfBirth();
+                    kwsUser.gender = getUserDetailsResponse.getGender();
+                    kwsUser.language = getUserDetailsResponse.getLanguage();
+                    kwsUser.email = getUserDetailsResponse.getEmail();
+                    kwsUser.address = buildAddress(getUserDetailsResponse.getAddressResponse());
+                    kwsUser.points = buildPoints(getUserDetailsResponse.getPointsResponse());
+                    kwsUser.applicationPermissions = buildPermissions(getUserDetailsResponse.getApplicationPermissionsResponse());
+                    kwsUser.applicationProfile = buildProfile(getUserDetailsResponse.getApplicationProfileResponse());
+
+                    return kwsUser;
+                }
+
+                private KWSApplicationProfile buildProfile(UserApplicationProfileResponse applicationProfileResponse) {
+
+
+                    KWSApplicationProfile kwsApplicationProfile = new KWSApplicationProfile();
+
+                    kwsApplicationProfile.username = applicationProfileResponse.getUsername();
+
+                    if (applicationProfileResponse.getAvatarId() != null) {
+                        kwsApplicationProfile.avatarId = applicationProfileResponse.getAvatarId();
+                    }
+
+                    if (applicationProfileResponse.getCustomField1() != null) {
+                        kwsApplicationProfile.customField1 = applicationProfileResponse.getCustomField1();
+                    }
+
+                    if (applicationProfileResponse.getCustomField2() != null) {
+                        kwsApplicationProfile.customField2 = applicationProfileResponse.getCustomField2();
+                    }
+
+
+                    return kwsApplicationProfile;
+
+
+                }
+
+                private KWSPermissions buildPermissions(ApplicationPermissionsResponse applicationPermissionsResponse) {
+
+                    KWSPermissions kwsPermissions = new KWSPermissions();
+
+                    kwsPermissions.accessAddress = applicationPermissionsResponse.getAccessAddress();
+                    kwsPermissions.accessFirstName = applicationPermissionsResponse.getAccessFirstName();
+                    kwsPermissions.accessLastName = applicationPermissionsResponse.getAccessLastName();
+                    kwsPermissions.accessEmail = applicationPermissionsResponse.getAccessEmail();
+                    kwsPermissions.accessStreetAddress = applicationPermissionsResponse.getAccessStreetAddress();
+                    kwsPermissions.accessCity = applicationPermissionsResponse.getAccessCity();
+                    kwsPermissions.accessPostalCode = applicationPermissionsResponse.getAccessPostalCode();
+                    kwsPermissions.accessCountry = applicationPermissionsResponse.getAccessCountry();
+                    kwsPermissions.sendPushNotification = applicationPermissionsResponse.getSendPushNotification();
+                    kwsPermissions.sendNewsletter = applicationPermissionsResponse.getSendNewsletter();
+
+                    return kwsPermissions;
+
+                }
+
+                private KWSPoints buildPoints(PointsResponse pointsResponse) {
+                    KWSPoints kwsPoints = new KWSPoints();
+                    if (pointsResponse.getTotalReceived() != null) {
+                        kwsPoints.totalReceived = pointsResponse.getTotalReceived();
+                    }
+
+                    if (pointsResponse.getTotal() != null) {
+                        kwsPoints.total = pointsResponse.getTotal();
+                    }
+
+                    if (pointsResponse.getTotalPointsReceivedInCurrentApp() != null) {
+                        kwsPoints.totalPointsReceivedInCurrentApp = pointsResponse.getTotalPointsReceivedInCurrentApp();
+                    }
+
+                    if (pointsResponse.getAvailableBalance() != null) {
+                        kwsPoints.availableBalance = pointsResponse.getAvailableBalance();
+                    }
+
+                    if (pointsResponse.getPending() != null) {
+                        kwsPoints.pending = pointsResponse.getPending();
+                    }
+
+                    return kwsPoints;
+                }
+
+                private KWSAddress buildAddress(UserAddressResponse addressResponse) {
+                    KWSAddress kwsAddress = new KWSAddress();
+                    kwsAddress.street = addressResponse.getStreet();
+                    kwsAddress.city = addressResponse.getCity();
+                    kwsAddress.postCode = addressResponse.getPostCode();
+                    kwsAddress.country = addressResponse.getCountry();
+                    return kwsAddress;
+                }
+            });
+
+        }
+
+
     }
 
     public void updateUser(Context context, KWSUser updatedUser, KWSChildrenUpdateUserInterface listener) {

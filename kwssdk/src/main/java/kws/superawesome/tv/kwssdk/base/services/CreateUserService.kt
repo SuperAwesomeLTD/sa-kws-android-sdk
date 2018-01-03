@@ -7,7 +7,7 @@ import kws.superawesome.tv.kwssdk.base.models.LoggedUser
  */
 interface CreateUserService : BaseService {
 
-    fun createuser(username: String,
+    fun createUser(username: String,
                    password: String,
                    dateOfBirth: String,
                    country: String,

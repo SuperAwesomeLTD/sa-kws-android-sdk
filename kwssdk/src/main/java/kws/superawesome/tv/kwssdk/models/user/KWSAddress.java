@@ -26,6 +26,10 @@ public class KWSAddress extends SABaseObject implements Parcelable {
         country = in.readString();
     }
 
+    public KWSAddress() {
+
+    }
+
     public KWSAddress(JSONObject jsonObject) {
         readFromJson(jsonObject);
     }
@@ -74,7 +78,7 @@ public class KWSAddress extends SABaseObject implements Parcelable {
     }
 
     @Override
-    public boolean isValid () {
+    public boolean isValid() {
         return true;
     }
 }
