@@ -40,41 +40,22 @@ class KWS_BaseRequest_Test {
     }
 
     @Test
-    fun BaseRequest_Default_Header_Valid() {
+    fun BaseRequest_Header_Valid() {
 
         //given all the global vars above
 
 
         //when
-        val defaultHeader = baseRequest.defaultHeader
+        val headers = baseRequest.headers
 
 
         //then
-        assertThat(defaultHeader.size, `is`(3))
-        assertThat(defaultHeader, IsMapContaining.hasKey("Accept-Language"))
-        assertThat(defaultHeader, IsMapContaining.hasKey("X-Client-Version"))
-        assertThat(defaultHeader, IsMapContaining.hasKey("Content-Type"))
+        assertThat(headers?.size, `is`(2))
+        assertThat(headers, IsMapContaining.hasKey("Content-Type"))
 
 
     }
 
 
-    @Test
-    fun BaseRequest_Auth_Header_Valid() {
-
-
-        //given the token
-
-
-        //when
-        val authHeader = baseRequest.authHeader
-
-        //then
-        assertThat(authHeader!!.size, `is`(1))
-        assertThat(authHeader, IsMapContaining.hasKey("Authorization"))
-        assertThat(authHeader, IsMapContaining.hasValue("Bearer $token"))
-
-
-    }
 
 }

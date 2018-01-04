@@ -56,9 +56,8 @@ class KWS_GetUserDetailsRequest_Test {
         assertNotNull(getUserDetailsRequest)
 
         //headers
-        //TODO this cant be here? Check request, it's commented out
-//        assertThat<Map<String, String>>(getUserDetailsRequest.headers as Map<String, String>?,
-//                IsMapContaining.hasEntry("Content-Type", "application/json"))
+        assertThat<Map<String, String>>(getUserDetailsRequest.headers,
+                IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
         assertEquals(getUserDetailsRequest.endpoint, endpoint)

@@ -48,7 +48,7 @@ class KWS_GetRandomUsernameRequest_Test {
         assertNotNull(getRandomUsernameRequest)
 
         //headers
-        assertThat<Map<String, String>>(getRandomUsernameRequest.headers as Map<String, String>?,
+        assertThat<Map<String, String>>(getRandomUsernameRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint

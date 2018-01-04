@@ -81,7 +81,7 @@ class KWS_CreateUserRequest_Test {
         assertNotEquals(appID,0)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(createUserRequest.headers as Map<String, String>?,
+        assertThat<Map<String, String>>(createUserRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint

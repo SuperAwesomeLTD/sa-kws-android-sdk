@@ -56,7 +56,7 @@ class KWS_GetAppConfigRequest_Test {
         assertNotNull(clientID)
 
         //headers
-        assertThat<Map<String, String>>(getAppConfigRequest.headers as Map<String, String>?,
+        assertThat<Map<String, String>>(getAppConfigRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint

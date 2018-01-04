@@ -11,10 +11,6 @@ internal class GetUserDetailsRequest(environment: KWSNetworkEnvironment,
                                      token: String
 ) : BaseRequest(environment = environment, token = token) {
 
-
-    //TODO this can't be here? Is it because of "token" being passed into the headers on "NetworkRequest"?
-    //override val headers: Map<String, String> = mapOf("Content-Type" to "application/json")
-
     override val endpoint: String = "v1/users/$userId"
 
 
