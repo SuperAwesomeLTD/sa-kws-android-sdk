@@ -1,10 +1,7 @@
 package kws.superawesome.tv.kwssdk.base
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.providers.CreateUserProvider
-import kws.superawesome.tv.kwssdk.base.providers.GetRandomUsernameProvider
-import kws.superawesome.tv.kwssdk.base.providers.GetUserDetailsProvider
-import kws.superawesome.tv.kwssdk.base.providers.LoginProvider
+import kws.superawesome.tv.kwssdk.base.providers.*
 import kws.superawesome.tv.kwssdk.base.services.*
 
 /**
@@ -19,6 +16,7 @@ object KWSSDK {
                 CreateUserService::class -> CreateUserProvider(environment = environment) as T?
                 GetRandomUsernameService::class -> GetRandomUsernameProvider(environment = environment) as T?
                 GetUserDetailsService::class -> GetUserDetailsProvider(environment = environment) as T?
+                InviteUserService::class -> InviteUserProvider(environment = environment) as T?
                 else -> null
             }
 
@@ -34,6 +32,8 @@ object KWSSDK {
             GetRandomUsernameProvider(environment = environment) as T?
         else if (clazz == GetUserDetailsService::class.java)
             GetUserDetailsProvider(environment = environment) as T?
+        else if (clazz == InviteUserService::class.java)
+            InviteUserProvider(environment = environment) as T?
         else null
     }
 

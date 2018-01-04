@@ -23,6 +23,7 @@ import kws.superawesome.tv.kwssdk.base.responses.UserApplicationProfileResponse;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.GetUserDetailsService;
+import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
@@ -426,8 +427,32 @@ public class KWSChildren {
     }
 
     // invite another user
-    public void inviteUser(Context context, String emailAddress, KWSChildrenInviteUserInterface listener) {
-        inviteUser.execute(context, emailAddress, listener);
+    public void inviteUser(Context context, String emailAddress, final KWSChildrenInviteUserInterface listener) {
+
+        InviteUserService inviteUserService = KWSSDK.get(kwsEnvironment, InviteUserService.class);
+
+        if (inviteUserService != null) {
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didInviteUser(false);
+                return;
+            }
+
+            inviteUserService.inviteUser(emailAddress, loggedUser.metadata.userId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
+                @Override
+                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+
+                    if (isUserInvited) {
+                        listener.didInviteUser(true);
+                    } else {
+                        listener.didInviteUser(false);
+                    }
+
+
+                    return null;
+                }
+            });
+        }
+
     }
 
     // events, points, leader boards
