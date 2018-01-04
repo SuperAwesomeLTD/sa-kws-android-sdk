@@ -1,9 +1,7 @@
 package kws.superawesome.tv.kwssdk.TestRequests
 
-
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.GetAppConfigRequest
-import org.hamcrest.MatcherAssert
+import kws.superawesome.tv.kwssdk.base.requests.GetUserDetailsRequest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
@@ -14,9 +12,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 /**
- * Created by guilherme.mota on 29/12/2017.
+ * Created by guilherme.mota on 04/01/2018.
  */
-class KWS_GetAppConfigRequest_Test {
+class KWS_GetUserDetails_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
@@ -34,47 +32,50 @@ class KWS_GetAppConfigRequest_Test {
             get() = URL
     }
 
-
     @Test
-    fun GetAppConfigRequest_Valid() {
+    fun GetUserDetailsRequest_Valid() {
 
-        //given
-        val clientID = "stan-test"
-        val endpoint = "v1/apps/config"
+
+        val userId = 25
+        val endpoint = "v1/users/$userId"
         val method = NetworkMethod.GET
+        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
+                "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
+                "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
+
 
         //when
-        val getAppConfigRequest = GetAppConfigRequest(
+        val getUserDetailsRequest = GetUserDetailsRequest(
                 environment = kwsNetworkEnvironmnet,
-                clientID = kwsNetworkEnvironmnet.appID)
+                userId = userId,
+                token = token
+        )
 
 
         //then
-        assertNotNull(getAppConfigRequest)
-
-        // clientID
-        assertNotNull(clientID)
+        assertNotNull(getUserDetailsRequest)
 
         //headers
-        assertThat<Map<String, String>>(getAppConfigRequest.headers as Map<String, String>?,
+        assertThat<Map<String, String>>(getUserDetailsRequest.headers as Map<String, String>?,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
-        assertEquals(getAppConfigRequest.endpoint, endpoint)
+        assertEquals(getUserDetailsRequest.endpoint, endpoint)
 
-        //method type
-        assertEquals(getAppConfigRequest.method, method)
+        //method type request
+        assertEquals(getUserDetailsRequest.method, method)
 
-        //query parameters
-        assertThat<Map<String, String>>(getAppConfigRequest.query as Map<String, String>?,
-                IsMapContaining.hasEntry("oauthClientId", clientID))
+        //query
+        assertNull(getUserDetailsRequest.query)
 
         //body
-        assertNull(getAppConfigRequest.body)
+        assertNull(getUserDetailsRequest.body)
 
         //form encoded urls
-        assertFalse(getAppConfigRequest.formEncodeUrls)
+        assertFalse(getUserDetailsRequest.formEncodeUrls)
+
 
     }
+
 
 }

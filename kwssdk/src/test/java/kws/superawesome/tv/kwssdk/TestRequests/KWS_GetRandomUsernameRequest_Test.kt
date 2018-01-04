@@ -3,12 +3,11 @@ package kws.superawesome.tv.kwssdk.TestRequests
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.GetRandomUsernameRequest
 import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
+import kotlin.test.*
 
 /**
  * Created by guilherme.mota on 29/12/2017.
@@ -49,7 +48,7 @@ class KWS_GetRandomUsernameRequest_Test {
         assertNotNull(getRandomUsernameRequest)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(getRandomUsernameRequest.headers as Map<String, String>?,
+        assertThat<Map<String, String>>(getRandomUsernameRequest.headers as Map<String, String>?,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
@@ -58,7 +57,13 @@ class KWS_GetRandomUsernameRequest_Test {
         //method type
         assertEquals(getRandomUsernameRequest.method, method)
 
+        //query
+        assertNull(getRandomUsernameRequest.query)
+
         //body
         assertNull(getRandomUsernameRequest.body)
+
+        //form encoded urls
+        assertFalse(getRandomUsernameRequest.formEncodeUrls)
     }
 }

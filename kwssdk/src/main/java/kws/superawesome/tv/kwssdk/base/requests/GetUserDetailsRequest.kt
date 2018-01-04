@@ -11,6 +11,7 @@ internal class GetUserDetailsRequest(environment: KWSNetworkEnvironment,
                                      token: String
 ) : BaseRequest(environment = environment, token = token) {
 
+    override val headers: Map<String, String> = mapOf("Content-Type" to "application/json")
 
     override val endpoint: String = "v1/users/$userId"
 
