@@ -17,6 +17,7 @@ object KWSSDK {
                 GetRandomUsernameService::class -> GetRandomUsernameProvider(environment = environment) as T?
                 GetUserDetailsService::class -> GetUserDetailsProvider(environment = environment) as T?
                 InviteUserService::class -> InviteUserProvider(environment = environment) as T?
+                TriggerEventService::class -> TriggerEventProvider(environment = environment) as T?
                 else -> null
             }
 
@@ -34,6 +35,8 @@ object KWSSDK {
             GetUserDetailsProvider(environment = environment) as T?
         else if (clazz == InviteUserService::class.java)
             InviteUserProvider(environment = environment) as T?
+        else if (clazz == TriggerEventService::class.java)
+            TriggerEventProvider(environment = environment) as T?
         else null
     }
 

@@ -25,6 +25,7 @@ import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.GetUserDetailsService;
 import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
+import kws.superawesome.tv.kwssdk.base.services.TriggerEventService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
 import kws.superawesome.tv.kwssdk.models.user.KWSApplicationProfile;
@@ -457,8 +458,33 @@ public class KWSChildren {
 
     // events, points, leader boards
 
-    public void triggerEvent(Context context, String token, int points, KWSChildrenTriggerEventInterface listener) {
-        triggerEvent.execute(context, token, points, listener);
+    public void triggerEvent(Context context, String token, int points, final KWSChildrenTriggerEventInterface listener) {
+
+        TriggerEventService triggerEventService = KWSSDK.get(kwsEnvironment, TriggerEventService.class);
+
+        if (triggerEventService != null) {
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didTriggerEvent(false);
+                return;
+            }
+
+            triggerEventService.triggerEvent(points, loggedUser.metadata.userId, loggedUser.token, token, new Function2<Boolean, Throwable, Unit>() {
+                @Override
+                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+
+                    if (isUserInvited) {
+                        listener.didTriggerEvent(true);
+                    } else {
+                        listener.didTriggerEvent(false);
+                    }
+
+
+                    return null;
+                }
+            });
+        }
+
+
     }
 
     public void hasTriggeredEvent(Context context, int eventId, KWSChildrenHasTriggeredEventInterface listener) {

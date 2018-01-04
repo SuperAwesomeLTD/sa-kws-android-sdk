@@ -21,6 +21,7 @@ import org.junit.runners.Suite
         KWS_GetRandomUsernameRequest_Test::class,
         KWS_GetUserDetailsRequest_Test::class,
         KWS_InviteUserRequest_Test::class,
+        KWS_TriggerEventRequest_Test::class,
 
         //Responses
         KWS_CreateUserResponse_Test::class,

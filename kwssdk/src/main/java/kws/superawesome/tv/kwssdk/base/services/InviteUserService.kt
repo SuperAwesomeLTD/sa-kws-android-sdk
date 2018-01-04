@@ -5,6 +5,7 @@ package kws.superawesome.tv.kwssdk.base.services
  */
 interface InviteUserService : BaseService {
 
-    fun inviteUser(email: String, userId: Int, token: String, callback: (success: Boolean?, error: Throwable?) -> Unit)
+    fun inviteUser(email: String, userId: Int, token: String,
+                   callback: (success: Boolean?, error: Throwable?) -> Unit)
 
 }
