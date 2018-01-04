@@ -8,7 +8,8 @@ import tv.superawesome.samobilebase.network.NetworkTask
 /**
  * Created by guilherme.mota on 04/01/2018.
  */
-class InviteUserProvider(val environment: KWSNetworkEnvironment) : InviteUserService {
+@PublishedApi
+internal class InviteUserProvider(val environment: KWSNetworkEnvironment) : InviteUserService {
 
 
     override fun inviteUser(email: String, userId: Int, token: String, callback: (success: Boolean?, error: Throwable?) -> Unit) {
