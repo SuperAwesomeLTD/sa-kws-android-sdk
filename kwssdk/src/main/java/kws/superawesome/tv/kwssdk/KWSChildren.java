@@ -24,6 +24,7 @@ import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 
+import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.UserDetailsService;
 import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
@@ -501,7 +502,6 @@ public class KWSChildren {
     }
 
     public void hasTriggeredEvent(Context context, int eventId, final KWSChildrenHasTriggeredEventInterface listener) {
-//        hasTriggeredEvent.execute(context, eventId, listener);
 
         HasTriggeredEventService hasTriggeredEventService = KWSSDK.get(kwsEnvironment, HasTriggeredEventService.class);
 
