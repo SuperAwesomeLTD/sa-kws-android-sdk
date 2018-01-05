@@ -39,7 +39,7 @@ class KWS_HasTriggeredEventRequest_Test {
 
 
         val userId = 25
-        val endpoint = "v1/users/$userId/has-didTriggerEvent-event"
+        val endpoint = "v1/users/$userId/has-triggered-event"
         val method = NetworkMethod.POST
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +

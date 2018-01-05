@@ -17,19 +17,19 @@ import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationPermissions;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationProfile;
 import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
+import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.base.responses.Login;
 import kws.superawesome.tv.kwssdk.base.responses.Points;
 import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
-
 import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService;
-import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
-import kws.superawesome.tv.kwssdk.base.services.UserDetailsService;
 import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
+import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.TriggerEventService;
+import kws.superawesome.tv.kwssdk.base.services.UserDetailsService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
@@ -512,11 +512,11 @@ public class KWSChildren {
                 return;
             }
 
-            hasTriggeredEventService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
+            hasTriggeredEventService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<HasTriggeredEvent, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Boolean isHasEventBeenTriggered, Throwable throwable) {
+                public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
 
-                    if (isHasEventBeenTriggered) {
+                    if (hasTriggeredEvent != null && hasTriggeredEvent.getHasTriggeredEvent()) {
                         listener.didTriggerEvent(true);
                     } else {
                         listener.didTriggerEvent(false);

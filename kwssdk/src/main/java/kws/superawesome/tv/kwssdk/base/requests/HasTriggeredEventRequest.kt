@@ -14,7 +14,7 @@ internal class HasTriggeredEventRequest (environment: KWSNetworkEnvironment,
 ): BaseRequest(environment = environment, token = token) {
 
 
-    override val endpoint: String = "v1/users/$userId/has-didTriggerEvent-event"
+    override val endpoint: String = "v1/users/$userId/has-triggered-event"
 
     override val method: NetworkMethod = NetworkMethod.POST
 

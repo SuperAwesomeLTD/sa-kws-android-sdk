@@ -2,8 +2,12 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.HasTriggeredEventRequest
+import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent
+import kws.superawesome.tv.kwssdk.base.responses.Login
 import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService
 import tv.superawesome.samobilebase.network.NetworkTask
+import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
+import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 05/01/2018.
@@ -13,7 +17,7 @@ internal class HasTriggeredEventProvider(val environment: KWSNetworkEnvironment)
 
 
     override fun hasTriggeredEvent(userId: Int, eventId: Int, token: String,
-                                   callback: (success: Boolean, error: Throwable?) -> Unit) {
+                                   callback: (hasTriggeredEvent: HasTriggeredEvent?, error: Throwable?) -> Unit) {
 
         val hasTriggeredEventRequest = HasTriggeredEventRequest(
                 environment = environment,
@@ -25,12 +29,20 @@ internal class HasTriggeredEventProvider(val environment: KWSNetworkEnvironment)
         val hasTriggeredEventNetworkTask = NetworkTask()
         hasTriggeredEventNetworkTask.execute(input = hasTriggeredEventRequest) { rawString, networkError ->
 
-            if (rawString.isNullOrEmpty() && networkError == null) {
+            if (rawString != null && networkError == null) {
+
+
+                val parseRequest = ParseJsonRequest(rawString = rawString)
+                val parseTask = ParseJsonTask()
+                val hasTriggeredEvent = parseTask.execute<HasTriggeredEvent>(input = parseRequest, clazz = HasTriggeredEvent::class.java)
+
                 //
-                // send callback
-                callback(true, null)
+                //send callback
+                val error = if (hasTriggeredEvent != null) null else Throwable("Error - not valid login")
+                callback(hasTriggeredEvent,error)
+
             } else {
-                callback(false, networkError)
+                callback(null, networkError)
             }
 
         }
