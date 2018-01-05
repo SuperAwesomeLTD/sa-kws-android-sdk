@@ -3,7 +3,7 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails
-import kws.superawesome.tv.kwssdk.base.services.UserDetailsService
+import kws.superawesome.tv.kwssdk.base.services.UserService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
@@ -12,7 +12,7 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  * Created by guilherme.mota on 03/01/2018.
  */
 @PublishedApi
-internal class UserDetailsProvider(val environment: KWSNetworkEnvironment) : UserDetailsService {
+internal class UserProvider(val environment: KWSNetworkEnvironment) : UserService {
 
     override fun getUserDetails(userId: Int, token: String, callback: (userDetailsDetails: UserDetails?, error: Throwable?) -> Unit) {
 
