@@ -23,6 +23,10 @@ public class KWSLeader extends SABaseObject implements Parcelable {
         user = in.readString();
     }
 
+    public KWSLeader() {
+
+    }
+
     public KWSLeader(JSONObject jsonObject) {
         readFromJson(jsonObject);
     }

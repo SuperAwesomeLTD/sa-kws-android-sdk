@@ -10,7 +10,7 @@ import kotlin.test.assertNull
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-class KWS_AppConfig_Test {
+class KWS_AppConfigResponse_Test {
 
     @Test
     fun Check_Response_Valid_Id_Name() {

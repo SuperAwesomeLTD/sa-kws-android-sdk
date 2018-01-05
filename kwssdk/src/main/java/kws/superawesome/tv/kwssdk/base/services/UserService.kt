@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.services
 
+import kws.superawesome.tv.kwssdk.base.responses.Leaders
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails
 
 /**
@@ -11,7 +12,10 @@ interface UserService : BaseService {
                        token: String,
                        callback: (userDetailsDetails: UserDetails?, error: Throwable?) -> Unit)
 
-    fun inviteUser(email: String, userId: Int, token: String,
+    fun inviteUser(email: String,
+                   userId: Int,
+                   token: String,
                    callback: (success: Boolean?, error: Throwable?) -> Unit)
+
 
 }

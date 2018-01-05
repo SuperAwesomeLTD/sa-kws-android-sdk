@@ -23,13 +23,15 @@ import org.junit.runners.Suite
         KWS_InviteUserRequest_Test::class,
         KWS_TriggerEventRequest_Test::class,
         KWS_HasTriggeredEventRequest_Test::class,
+        KWS_LeadersRequest_Test::class,
 
         //Responses
         KWS_CreateUserResponse_Test::class,
         KWS_LoginResponse_Test::class,
         KWS_RandomUsernameResponse_Test::class,
-        KWS_AppConfig_Test::class,
-        KWS_UserDetailsResponse_Test::class
+        KWS_AppConfigResponse_Test::class,
+        KWS_UserDetailsResponse_Test::class,
+        KWS_LeadersResponse_Test::class
 )
 
 class TestSuite {

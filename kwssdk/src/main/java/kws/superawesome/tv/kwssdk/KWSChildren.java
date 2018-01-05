@@ -9,6 +9,8 @@ import android.util.Log;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
@@ -18,16 +20,20 @@ import kws.superawesome.tv.kwssdk.base.responses.ApplicationPermissions;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationProfile;
 import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
 import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent;
+import kws.superawesome.tv.kwssdk.base.responses.Leaders;
+import kws.superawesome.tv.kwssdk.base.responses.LeadersDetail;
 import kws.superawesome.tv.kwssdk.base.responses.Login;
 import kws.superawesome.tv.kwssdk.base.responses.Points;
 import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
+import kws.superawesome.tv.kwssdk.base.services.AppService;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
+import kws.superawesome.tv.kwssdk.base.services.EventsService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.UserService;
-import kws.superawesome.tv.kwssdk.base.services.EventsService;
+import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
@@ -533,8 +539,55 @@ public class KWSChildren {
         getScore.execute(context, listener);
     }
 
-    public void getLeaderboard(Context context, KWSChildrenGetLeaderboardInterface listener) {
-        getLeaderboard.execute(context, listener);
+    public void getLeaderboard(Context context, final KWSChildrenGetLeaderboardInterface listener) {
+
+        AppService appService = KWSSDK.get(kwsEnvironment, AppService.class);
+
+        if (appService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didGetLeaderboard(new ArrayList<KWSLeader>());
+                return;
+            }
+
+            appService.getLeaders(loggedUser.metadata.appId, loggedUser.token, new Function2<Leaders, Throwable, Unit>() {
+                @Override
+                public Unit invoke(Leaders leaders, Throwable throwable) {
+
+                    if (leaders != null) {
+                        ArrayList<KWSLeader> listOfKWSLeader = getListOfKWSLeaders(leaders.getResults());
+                        listener.didGetLeaderboard(listOfKWSLeader);
+
+                    } else {
+                        listener.didGetLeaderboard(new ArrayList<KWSLeader>());
+                    }
+
+                    return null;
+                }
+
+                private ArrayList<KWSLeader> getListOfKWSLeaders(ArrayList<LeadersDetail> results) {
+
+                    ArrayList<KWSLeader> listOfKWSLeader = new ArrayList<>();
+
+                    for (LeadersDetail leadersDetail : results) {
+                        KWSLeader buildKWSLeaderObject = buildKWSLeaderObject(leadersDetail);
+                        listOfKWSLeader.add(buildKWSLeaderObject);
+                    }
+                    return listOfKWSLeader;
+                }
+
+                private KWSLeader buildKWSLeaderObject(LeadersDetail leadersDetail) {
+                    KWSLeader kwsLeader = new KWSLeader();
+                    kwsLeader.rank = leadersDetail.getRank();
+                    kwsLeader.score = leadersDetail.getScore();
+                    kwsLeader.user = leadersDetail.getUser();
+                    return kwsLeader;
+                }
+            });
+
+        }
+
+
     }
 
     // app data
