@@ -1,10 +1,7 @@
 package kws.superawesome.tv.kwssdk.base
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.providers.CreateUserProvider
-import kws.superawesome.tv.kwssdk.base.providers.RandomUsernameProvider
-import kws.superawesome.tv.kwssdk.base.providers.UserProvider
-import kws.superawesome.tv.kwssdk.base.providers.LoginProvider
+import kws.superawesome.tv.kwssdk.base.providers.*
 import kws.superawesome.tv.kwssdk.base.services.*
 
 /**
