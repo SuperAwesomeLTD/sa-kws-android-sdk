@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.TestRequests
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.GetUserDetailsRequest
+import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
@@ -14,7 +14,7 @@ import kotlin.test.assertNull
 /**
  * Created by guilherme.mota on 04/01/2018.
  */
-class KWS_GetUserDetailsRequest_Test {
+class KWS_UserDetailsRequest_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
@@ -45,7 +45,7 @@ class KWS_GetUserDetailsRequest_Test {
 
 
         //when
-        val getUserDetailsRequest = GetUserDetailsRequest(
+        val getUserDetailsRequest = UserDetailsRequest(
                 environment = kwsNetworkEnvironmnet,
                 userId = userId,
                 token = token

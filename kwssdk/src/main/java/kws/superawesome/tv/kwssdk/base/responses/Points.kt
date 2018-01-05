@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by guilherme.mota on 03/01/2018.
  */
-data class PointsResponse(
+data class Points(
 
         @SerializedName("totalReceived") val totalReceived: Int? = 0,
         @SerializedName("total") val total: Int? = 0,
