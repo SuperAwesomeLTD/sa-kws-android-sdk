@@ -24,12 +24,12 @@ import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
-import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService;
 import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
+import kws.superawesome.tv.kwssdk.base.services.UserService;
+import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.TriggerEventService;
-import kws.superawesome.tv.kwssdk.base.services.UserDetailsService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
@@ -294,16 +294,16 @@ public class KWSChildren {
     // user details
     public void getUser(Context context, final KWSChildrenGetUserInterface listener) {
 
-        UserDetailsService userDetailsService = KWSSDK.get(kwsEnvironment, UserDetailsService.class);
+        UserService userService = KWSSDK.get(kwsEnvironment, UserService.class);
 
-        if (userDetailsService != null) {
+        if (userService != null) {
 
             if (loggedUser == null || loggedUser.metadata == null) {
                 listener.didGetUser(null);
                 return;
             }
 
-            userDetailsService.getUserDetails(loggedUser.metadata.userId, loggedUser.token, new Function2<UserDetails, Throwable, Unit>() {
+            userService.getUserDetails(loggedUser.metadata.userId, loggedUser.token, new Function2<UserDetails, Throwable, Unit>() {
                 @Override
                 public Unit invoke(UserDetails userDetailsResponse, Throwable throwable) {
                     if (userDetailsResponse != null) {
