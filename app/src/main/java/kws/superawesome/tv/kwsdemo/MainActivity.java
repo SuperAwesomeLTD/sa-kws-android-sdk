@@ -72,41 +72,41 @@ public class MainActivity extends AppCompatActivity {
                 "US",
                 "dev.gabriel.coman@gmail.com",
                 new KWSChildrenCreateUserInterface() {
-            @Override
-            public void didCreateUser(KWSChildrenCreateUserStatus status) {
-                switch (status) {
-                    case Success:
-                        log += "User " + username + " created OK\n";
-                        break;
-                    case InvalidUsername:
-                        log += "InvalidEmail username\n";
-                        break;
-                    case InvalidPassword:
-                        log += "InvalidEmail password\n";
-                        break;
-                    case InvalidDateOfBirth:
-                        log += "InvalidEmail date of birth\n";
-                        break;
-                    case InvalidCountry:
-                        log += "InvalidEmail country\n";
-                        break;
-                    case InvalidParentEmail:
-                        log += "InvalidEmail parent email\n";
-                        break;
-                    case DuplicateUsername:
-                        log += "Duplicate username\n";
-                        break;
-                    case NetworkError:
-                        log += "Network error\n";
-                        break;
-                    case InvalidOperation:
-                        log += "InvalidEmail operation\n";
-                        break;
-                }
+                    @Override
+                    public void didCreateUser(KWSChildrenCreateUserStatus status) {
+                        switch (status) {
+                            case Success:
+                                log += "User " + username + " created OK\n";
+                                break;
+                            case InvalidUsername:
+                                log += "InvalidEmail username\n";
+                                break;
+                            case InvalidPassword:
+                                log += "InvalidEmail password\n";
+                                break;
+                            case InvalidDateOfBirth:
+                                log += "InvalidEmail date of birth\n";
+                                break;
+                            case InvalidCountry:
+                                log += "InvalidEmail country\n";
+                                break;
+                            case InvalidParentEmail:
+                                log += "InvalidEmail parent email\n";
+                                break;
+                            case DuplicateUsername:
+                                log += "Duplicate username\n";
+                                break;
+                            case NetworkError:
+                                log += "Network error\n";
+                                break;
+                            case InvalidOperation:
+                                log += "InvalidEmail operation\n";
+                                break;
+                        }
 
-                logView.setText(log);
-            }
-        });
+                        logView.setText(log);
+                    }
+                });
     }
 
     public void loginUser(View v) {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void authUser (View v) {
+    public void authUser(View v) {
         KWSChildren.sdk.authWithSingleSignOnUrl("https://stan-test-cluster.accounts.kws.superawesome.tv/", this, new KWSChildrenLoginUserInterface() {
             @Override
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
@@ -338,10 +338,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inviteUser(View v) {
-        KWSChildren.sdk.inviteUser(this, "gabriel.coman@superawesome.tv", new KWSChildrenInviteUserInterface() {
+        final String email = "guilherme.mota+9@superawesome.tv";
+        KWSChildren.sdk.inviteUser(this, email, new KWSChildrenInviteUserInterface() {
             @Override
             public void didInviteUser(boolean success) {
-                log += "Invited gabriel.coman@superawesome.tv " + success + "\n";
+                log += "Invited " + email + " " + success + "\n";
                 logView.setText(log);
             }
         });
@@ -349,10 +350,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkEvent(View v) {
-        KWSChildren.sdk.hasTriggeredEvent(this, 762, new KWSChildrenHasTriggeredEventInterface() {
+        final int eventId = 10;
+        KWSChildren.sdk.hasTriggeredEvent(this, eventId, new KWSChildrenHasTriggeredEventInterface() {
             @Override
             public void didTriggerEvent(Boolean triggered) {
-                log += "Event 762 is : " + triggered + "\n";
+                log += "Event " + String.valueOf(eventId) + " is : " + triggered + "\n";
                 logView.setText(log);
             }
         });

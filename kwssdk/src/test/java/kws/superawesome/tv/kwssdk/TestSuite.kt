@@ -20,6 +20,9 @@ import org.junit.runners.Suite
         KWS_AppConfigRequest_Test::class,
         KWS_RandomUsernameRequest_Test::class,
         KWS_UserDetailsRequest_Test::class,
+        KWS_InviteUserRequest_Test::class,
+        KWS_TriggerEventRequest_Test::class,
+        KWS_HasTriggeredEventRequest_Test::class,
 
         //Responses
         KWS_CreateUserResponse_Test::class,

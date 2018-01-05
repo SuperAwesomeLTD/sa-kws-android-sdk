@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails
 import kws.superawesome.tv.kwssdk.base.services.UserService
@@ -33,14 +34,33 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
                         clazz = UserDetails::class.java)
 
                 val error = if (getUserDetailsResponse == null) Throwable("Error getting user details") else null;
-                callback (getUserDetailsResponse, error)
+                callback(getUserDetailsResponse, error)
 
             }
-            // network error case
+            //
+            // network failure
             else {
-
                 callback(null, networkError)
             }
+
+        }
+    }
+
+    override fun inviteUser(email: String, userId: Int, token: String, callback: (success: Boolean?, error: Throwable?) -> Unit) {
+
+        val inviteUserRequest = InviteUserRequest(
+                environment = environment,
+                userId = userId,
+                token = token,
+                emailAddress = email
+        )
+
+        val inviteUserRequestNetworkTask = NetworkTask()
+        inviteUserRequestNetworkTask.execute(input = inviteUserRequest) { rawString, networkError ->
+
+            //
+            //send callback
+            callback(rawString.isNullOrEmpty() && networkError == null, networkError)
 
         }
     }

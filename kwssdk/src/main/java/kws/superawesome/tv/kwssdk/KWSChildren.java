@@ -15,17 +15,19 @@ import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationPermissions;
-import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
-import kws.superawesome.tv.kwssdk.base.responses.Login;
-import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
-import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
-import kws.superawesome.tv.kwssdk.base.responses.Points;
-import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationProfile;
+import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
+import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent;
+import kws.superawesome.tv.kwssdk.base.responses.Login;
+import kws.superawesome.tv.kwssdk.base.responses.Points;
+import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
+import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
+import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
+import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.UserService;
-import kws.superawesome.tv.kwssdk.base.services.LoginService;
+import kws.superawesome.tv.kwssdk.base.services.EventsService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
@@ -188,23 +190,23 @@ public class KWSChildren {
         if (createUserService != null) {
             createUserService.createUser(username, password, dateOfBirth, country, parentEmail,
                     new Function2<CreateUser, Throwable, Unit>() {
-                @Override
-                public Unit invoke(CreateUser createdUser, Throwable throwable) {
+                        @Override
+                        public Unit invoke(CreateUser createdUser, Throwable throwable) {
 
-                    String token = createdUser.getToken();
-                    KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
+                            String token = createdUser.getToken();
+                            KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
 
-                    if (kwsMetadata != null && kwsMetadata.isValid()) {
-                        LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
-                        setLoggedUser(loggedUser);
-                        listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
-                    } else {
-                        listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
-                    }
+                            if (kwsMetadata != null && kwsMetadata.isValid()) {
+                                LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
+                                setLoggedUser(loggedUser);
+                                listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
+                            } else {
+                                listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
+                            }
 
-                    return null;
-                }
-            });
+                            return null;
+                        }
+                    });
         }
 
     }
@@ -438,18 +440,93 @@ public class KWSChildren {
     }
 
     // invite another user
-    public void inviteUser(Context context, String emailAddress, KWSChildrenInviteUserInterface listener) {
-        inviteUser.execute(context, emailAddress, listener);
+    public void inviteUser(Context context, String emailAddress, final KWSChildrenInviteUserInterface listener) {
+
+        UserService userService = KWSSDK.get(kwsEnvironment, UserService.class);
+
+        if (userService != null) {
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didInviteUser(false);
+                return;
+            }
+
+            userService.inviteUser(emailAddress, loggedUser.metadata.userId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
+                @Override
+                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+
+                    if (isUserInvited) {
+                        listener.didInviteUser(true);
+                    } else {
+                        listener.didInviteUser(false);
+                    }
+
+
+                    return null;
+                }
+            });
+        }
+
     }
 
     // events, points, leader boards
 
-    public void triggerEvent(Context context, String token, int points, KWSChildrenTriggerEventInterface listener) {
-        triggerEvent.execute(context, token, points, listener);
+    public void triggerEvent(Context context, String token, int points, final KWSChildrenTriggerEventInterface listener) {
+
+        EventsService eventsService = KWSSDK.get(kwsEnvironment, EventsService.class);
+
+        if (eventsService != null) {
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didTriggerEvent(false);
+                return;
+            }
+
+            eventsService.triggerEvent(points, loggedUser.metadata.userId, loggedUser.token, token, new Function2<Boolean, Throwable, Unit>() {
+                @Override
+                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+
+                    if (isUserInvited) {
+                        listener.didTriggerEvent(true);
+                    } else {
+                        listener.didTriggerEvent(false);
+                    }
+
+
+                    return null;
+                }
+            });
+        }
+
+
     }
 
-    public void hasTriggeredEvent(Context context, int eventId, KWSChildrenHasTriggeredEventInterface listener) {
-        hasTriggeredEvent.execute(context, eventId, listener);
+    public void hasTriggeredEvent(Context context, int eventId, final KWSChildrenHasTriggeredEventInterface listener) {
+
+        EventsService eventsService = KWSSDK.get(kwsEnvironment, EventsService.class);
+
+        if (eventsService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didTriggerEvent(false);
+                return;
+            }
+
+            eventsService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+                @Override
+                public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+
+                    if (hasTriggeredEvent != null && hasTriggeredEvent.getHasTriggeredEvent()) {
+                        listener.didTriggerEvent(true);
+                    } else {
+                        listener.didTriggerEvent(false);
+                    }
+
+                    return null;
+                }
+            });
+
+
+        }
+
     }
 
     public void getScore(Context context, KWSChildrenGetScoreInterface listener) {

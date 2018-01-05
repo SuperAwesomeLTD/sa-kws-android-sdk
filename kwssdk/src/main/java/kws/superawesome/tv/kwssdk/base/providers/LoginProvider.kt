@@ -34,6 +34,7 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
         val networkTask = NetworkTask()
         networkTask.execute(input = networkRequest) { rawString, networkError ->
 
+            //
             // network success case
             if (rawString != null && networkError == null) {
 
@@ -44,10 +45,11 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
                 //
                 //send callback
                 val error = if (authResponse != null) null else Throwable("Error - not valid login")
-                callback(authResponse,error)
+                callback(authResponse, error)
 
             }
-            // network error case
+            //
+            // network failure
             else {
                 callback(null, networkError)
             }
