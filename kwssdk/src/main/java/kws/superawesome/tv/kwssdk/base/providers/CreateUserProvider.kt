@@ -3,9 +3,9 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
-import kws.superawesome.tv.kwssdk.base.requests.GetTempAccessTokenRequest
-import kws.superawesome.tv.kwssdk.base.responses.CreateUserResponse
-import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
+import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
+import kws.superawesome.tv.kwssdk.base.responses.CreateUser
+import kws.superawesome.tv.kwssdk.base.responses.Login
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 import tv.superawesome.samobilebase.network.NetworkTask
@@ -20,21 +20,22 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : CreateUserService {
 
 
-    override fun createuser(username: String,
+    override fun createUser(username: String,
                             password: String,
                             dateOfBirth: String,
                             country: String,
                             parentEmail: String,
-                            callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
+                            callback: (user: CreateUser?, error: Throwable?) -> Unit) {
 
-        getTempAccessToken(environment = environment) { authToken: String?, networkError: Throwable? ->
+        getTempAccessToken(environment = environment) { login: Login?, networkError: Throwable? ->
 
-            if (authToken != null && networkError == null) {
-                val metadata = KWSMetadata.processMetadata(authToken)
+            if (login?.token != null && networkError == null) {
+                val token = login.token
+                val metadata = KWSMetadata.processMetadata(token)
                 val appId = metadata.appId
 
                 //Creation of user with temp access token
-                doUserCreation(environment, username, password, dateOfBirth, country, parentEmail, appId, authToken, callback)
+                doUserCreation(environment, username, password, dateOfBirth, country, parentEmail, appId, token, callback)
             } else {
                 //
                 // network failure
@@ -46,9 +47,9 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
 
 
     private fun getTempAccessToken(environment: KWSNetworkEnvironment,
-                                   callback: (authToken: String?, error: Throwable?) -> Unit) {
+                                   callback: (login: Login?, error: Throwable?) -> Unit) {
 
-        val networkGetTempAccessTokenRequest = GetTempAccessTokenRequest(
+        val networkGetTempAccessTokenRequest = TempAccessTokenRequest(
                 environment = environment,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
@@ -62,17 +63,12 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest,
-                        clazz = LoginResponse::class.java) ?: LoginResponse()
-                val token = authResponse.token
-
+                val authResponse = parseTask.execute<Login>(input = parseRequest,
+                        clazz = Login::class.java)
                 //
-                // send callback
-                if (token != null) {
-                    callback(token, null)
-                } else {
-                    callback(null, Throwable("Error parsing JWT token"))
-                }
+                //send callback
+                val error = if (authResponse != null) null else Throwable("Error - couldn't parse JWT")
+                callback(authResponse,error)
 
             }
             //
@@ -91,7 +87,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                                parentEmail: String,
                                appId: Int,
                                token: String,
-                               callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
+                               callback: (createdUser: CreateUser?, error: Throwable?) -> Unit) {
 
 
         val networkCreateUserRequest = CreateUserRequest(
@@ -113,23 +109,14 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<CreateUserResponse>(input = parseRequest,
-                        clazz = CreateUserResponse::class.java) ?: CreateUserResponse()
-                val tmpToken = authResponse.token
+                val createUserResponse = parseTask.execute<CreateUser>(input = parseRequest,
+                        clazz = CreateUser::class.java)
 
-                if (tmpToken != null) {
-                    //if we have a valid token
-                    val metadata = KWSMetadata.processMetadata(tmpToken)
+                val error = if (createUserResponse != null) null else Throwable("Error - invalid create user")
 
-                    if (metadata != null && metadata.isValid()) {
-                        val loggedUser = LoggedUser(token = tmpToken, kwsMetaData = metadata)
-                        callback(loggedUser, null)
-                    } else {
-                        callback(null, Throwable("Invalid token"))
-                    }
-                } else {
-                    callback(null, Throwable(rawString))
-                }
+                //
+                //send callback
+                callback(createUserResponse, error)
 
             } else {
                 //

@@ -1,19 +1,18 @@
 package kws.superawesome.tv.kwssdk.TestRequests
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.GetTempAccessTokenRequest
+import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
 import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
+import kotlin.test.*
 
 /**
  * Created by guilherme.mota on 15/12/2017.
  */
-class KWS_GetTempAccessTokenRequest_Test {
+class KWS_TempAccessTokenRequest_Test {
 
 
     private val APPID = "stan-test" // "superawesomeclub";
@@ -42,7 +41,7 @@ class KWS_GetTempAccessTokenRequest_Test {
 
 
         //when
-        val getTempAccessTokenRequest = GetTempAccessTokenRequest(
+        val getTempAccessTokenRequest = TempAccessTokenRequest(
                 environment = kwsNetworkEnvironmnet,
                 clientID = kwsNetworkEnvironmnet.appID,
                 clientSecret = kwsNetworkEnvironmnet.mobileKey)
@@ -52,7 +51,8 @@ class KWS_GetTempAccessTokenRequest_Test {
         assertNotNull(getTempAccessTokenRequest)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(getTempAccessTokenRequest.headers as Map<String, String>?, IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
+        assertThat<Map<String, String>>(getTempAccessTokenRequest.headers as Map<String, String>?,
+                IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
 
         //endpoint
         assertEquals(getTempAccessTokenRequest.endpoint, endpoint)
@@ -60,11 +60,17 @@ class KWS_GetTempAccessTokenRequest_Test {
         //method type request
         assertEquals(getTempAccessTokenRequest.method, method)
 
+        //query
+        assertNull(getTempAccessTokenRequest.query)
+
         //body
-        MatcherAssert.assertThat(getTempAccessTokenRequest.body!!.size, CoreMatchers.`is`(3))
-        MatcherAssert.assertThat<Map<String, String>>(getTempAccessTokenRequest.body as Map<String, String>?, IsMapContaining.hasEntry("grant_type", "client_credentials"))
-        MatcherAssert.assertThat(getTempAccessTokenRequest.body, IsMapContaining.hasKey("client_id"))
-        MatcherAssert.assertThat(getTempAccessTokenRequest.body, IsMapContaining.hasKey("client_secret"))
+        assertThat(getTempAccessTokenRequest.body!!.size, CoreMatchers.`is`(3))
+        assertThat<Map<String, String>>(getTempAccessTokenRequest.body as Map<String, String>?, IsMapContaining.hasEntry("grant_type", "client_credentials"))
+        assertThat(getTempAccessTokenRequest.body, IsMapContaining.hasKey("client_id"))
+        assertThat(getTempAccessTokenRequest.body, IsMapContaining.hasKey("client_secret"))
+
+        //form encoded urls
+        assertTrue(getTempAccessTokenRequest.formEncodeUrls)
 
     }
 

@@ -6,10 +6,8 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-internal class GetAppConfigRequest(environment: KWSNetworkEnvironment, clientID: String)
+internal class AppConfigRequest(environment: KWSNetworkEnvironment, clientID: String)
     : BaseRequest(environment = environment) {
-
-    override val headers: Map<String, String> = mapOf("Content-Type" to "application/json")
 
     override val endpoint: String = "v1/apps/config"
 

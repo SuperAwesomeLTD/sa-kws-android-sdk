@@ -9,19 +9,16 @@ import tv.superawesome.samobilebase.network.NetworkRequest
  * Created by guilherme.mota on 08/12/2017.
  */
 internal abstract class BaseRequest(override val environment: NetworkEnvironment,
-                                    token: String? = null) : NetworkRequest {
+                                    val token: String? = null) : NetworkRequest {
 
-    val defaultHeader: Map<String, String> = mapOf(
-            "Accept-Language" to "en",
-            "X-Client-Version" to "ios-1.0.0",
-            "Content-Type" to "application/json")
-
-    val authHeader: Map<String, String>? =
+    override val headers: Map<String, String>?
+        get() {
+            val head = mutableMapOf("Content-Type" to "application/json")
             token?.let {
-                mapOf("Authorization" to "Bearer $it")
+                head.put("Authorization", "Bearer $it")
             }
-
-    override val headers: Map<String, String> = defaultHeader + (authHeader ?: mapOf())
+            return head
+        }
 
     override val query: Map<String, Any>? = null
 

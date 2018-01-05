@@ -1,19 +1,17 @@
 package kws.superawesome.tv.kwssdk.TestRequests
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.GetRandomUsernameRequest
-import org.hamcrest.MatcherAssert
+import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
+import kotlin.test.*
 
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-class KWS_GetRandomUsernameRequest_Test {
+class KWS_RandomUsernameRequest_Test {
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
     private val URL = "https://stan-test-cluster.api.kws.superawesome.tv/"
@@ -40,7 +38,7 @@ class KWS_GetRandomUsernameRequest_Test {
         val method = NetworkMethod.GET
 
         //when
-        val getRandomUsernameRequest = GetRandomUsernameRequest(
+        val getRandomUsernameRequest = RandomUsernameRequest(
                 environment = kwsNetworkEnvironmnet,
                 appID = appID)
 
@@ -49,7 +47,7 @@ class KWS_GetRandomUsernameRequest_Test {
         assertNotNull(getRandomUsernameRequest)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(getRandomUsernameRequest.headers as Map<String, String>?,
+        assertThat<Map<String, String>>(getRandomUsernameRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
@@ -58,7 +56,13 @@ class KWS_GetRandomUsernameRequest_Test {
         //method type
         assertEquals(getRandomUsernameRequest.method, method)
 
+        //query
+        assertNull(getRandomUsernameRequest.query)
+
         //body
         assertNull(getRandomUsernameRequest.body)
+
+        //form encoded urls
+        assertFalse(getRandomUsernameRequest.formEncodeUrls)
     }
 }

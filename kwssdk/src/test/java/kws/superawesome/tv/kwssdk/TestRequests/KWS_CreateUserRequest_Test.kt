@@ -7,14 +7,12 @@ import org.hamcrest.MatcherAssert
 import org.junit.Test
 import tv.superawesome.lib.sautils.SAUtils
 import tv.superawesome.samobilebase.network.NetworkMethod
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
-import kotlin.test.assertNotEquals
+import kotlin.test.*
 
 
 /**
@@ -83,14 +81,15 @@ class KWS_CreateUserRequest_Test {
         assertNotEquals(appID,0)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(createUserRequest.headers as Map<String, String>?,
+        assertThat<Map<String, String>>(createUserRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
         assertEquals(createUserRequest.endpoint, endpoint)
 
         //query parameters
-        assertThat<Map<String, String>>(createUserRequest.query as Map<String, String>?, IsMapContaining.hasEntry("access_token", token))
+        assertThat<Map<String, String>>(createUserRequest.query as Map<String, String>?,
+                IsMapContaining.hasEntry("access_token", token))
 
         //body
         assertThat(createUserRequest.body!!.size, `is`(6))
@@ -105,9 +104,12 @@ class KWS_CreateUserRequest_Test {
         assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("country", "")))
         assertThat(createUserRequest.body, IsMapContaining.hasKey("parentEmail"))
         assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("parentEmail", "")))
+
         //method request type
         assertEquals(createUserRequest.method, method)
 
+        //form encoded urls
+        assertFalse(createUserRequest.formEncodeUrls)
 
 
     }

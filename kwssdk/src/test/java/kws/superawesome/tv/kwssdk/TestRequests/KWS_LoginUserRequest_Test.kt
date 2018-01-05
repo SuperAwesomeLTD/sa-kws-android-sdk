@@ -10,6 +10,8 @@ import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 /**
  * Created by guilherme.mota on 15/12/2017.
@@ -61,13 +63,17 @@ class KWS_LoginUserRequest_Test {
         assertNotNull(password)
 
         //headers
-        assertThat<Map<String, String>>(loginUserRequest.headers as Map<String, String>?, IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
+        assertThat<Map<String, String>>(loginUserRequest.headers as Map<String, String>?,
+                IsMapContaining.hasEntry("Content-Type", "application/x-www-form-urlencoded"))
 
         //endpoint
         assertEquals(loginUserRequest.endpoint, endpoint)
 
         //method type
         assertEquals(loginUserRequest.method, method)
+
+        //query
+        assertNull(loginUserRequest.query)
 
         //body
         assertThat(loginUserRequest.body!!.size, `is`(5))
@@ -80,6 +86,9 @@ class KWS_LoginUserRequest_Test {
         assertThat<Map<String, String>>(loginUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("client_id", "")))
         assertThat(loginUserRequest.body, IsMapContaining.hasKey("client_secret"))
         assertThat<Map<String, String>>(loginUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("client_secret", "")))
+
+        //form url encoded
+        assertTrue(loginUserRequest.formEncodeUrls)
 
     }
 

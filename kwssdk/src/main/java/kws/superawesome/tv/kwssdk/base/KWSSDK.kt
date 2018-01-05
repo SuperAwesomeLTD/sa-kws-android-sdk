@@ -2,12 +2,10 @@ package kws.superawesome.tv.kwssdk.base
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.providers.CreateUserProvider
-import kws.superawesome.tv.kwssdk.base.providers.GetRandomUsernameProvider
+import kws.superawesome.tv.kwssdk.base.providers.RandomUsernameProvider
+import kws.superawesome.tv.kwssdk.base.providers.UserProvider
 import kws.superawesome.tv.kwssdk.base.providers.LoginProvider
-import kws.superawesome.tv.kwssdk.base.services.BaseService
-import kws.superawesome.tv.kwssdk.base.services.CreateUserService
-import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService
-import kws.superawesome.tv.kwssdk.base.services.LoginService
+import kws.superawesome.tv.kwssdk.base.services.*
 
 /**
  * Created by guilherme.mota on 11/12/2017.
@@ -19,7 +17,8 @@ object KWSSDK {
             when (T::class) {
                 LoginService::class -> LoginProvider(environment = environment) as T?
                 CreateUserService::class -> CreateUserProvider(environment = environment) as T?
-                GetRandomUsernameService::class -> GetRandomUsernameProvider(environment = environment) as T?
+                RandomUsernameService::class -> RandomUsernameProvider(environment = environment) as T?
+                UserService::class -> UserProvider(environment = environment) as T?
                 else -> null
             }
 
@@ -31,8 +30,10 @@ object KWSSDK {
             LoginProvider(environment = environment) as T?
         else if (clazz == CreateUserService::class.java)
             CreateUserProvider(environment = environment) as T?
-        else if (clazz == GetRandomUsernameService::class.java)
-            GetRandomUsernameProvider(environment = environment) as T?
+        else if (clazz == RandomUsernameService::class.java)
+            RandomUsernameProvider(environment = environment) as T?
+        else if (clazz == UserService::class.java)
+            UserProvider(environment = environment) as T?
         else null
     }
 
