@@ -26,9 +26,9 @@ import org.junit.runners.Suite
         //Responses
         KWS_CreateUserResponse_Test::class,
         KWS_LoginResponse_Test::class,
-        KWS_GetRandomUsernameResponse_Test::class,
-        KWS_AppConfigResponse_Test::class,
-        KWS_GetUserDetailsResponse_Test::class
+        KWS_RandomUsernameResponse_Test::class,
+        KWS_AppConfig_Test::class,
+        KWS_UserDetailsResponse_Test::class
 )
 
 class TestSuite {

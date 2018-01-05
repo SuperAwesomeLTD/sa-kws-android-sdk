@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by guilherme.mota on 12/12/2017.
  */
-data class CreateUserResponse(
+data class CreateUser(
         @SerializedName("token") val token: String? = null,
         @SerializedName("id") val id: Int? = null)
