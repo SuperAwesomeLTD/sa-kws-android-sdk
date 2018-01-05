@@ -5,7 +5,7 @@ import kws.superawesome.tv.kwssdk.base.responses.UserDetails
 /**
  * Created by guilherme.mota on 03/01/2018.
  */
-interface UserDetailsService : BaseService {
+interface UserService : BaseService {
 
     fun getUserDetails(userId: Int,
                        token: String,
