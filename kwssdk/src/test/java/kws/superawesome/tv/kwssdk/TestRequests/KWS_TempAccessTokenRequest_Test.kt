@@ -1,9 +1,8 @@
 package kws.superawesome.tv.kwssdk.TestRequests
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.GetTempAccessTokenRequest
+import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
 import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
@@ -13,7 +12,7 @@ import kotlin.test.*
 /**
  * Created by guilherme.mota on 15/12/2017.
  */
-class KWS_GetTempAccessTokenRequest_Test {
+class KWS_TempAccessTokenRequest_Test {
 
 
     private val APPID = "stan-test" // "superawesomeclub";
@@ -42,7 +41,7 @@ class KWS_GetTempAccessTokenRequest_Test {
 
 
         //when
-        val getTempAccessTokenRequest = GetTempAccessTokenRequest(
+        val getTempAccessTokenRequest = TempAccessTokenRequest(
                 environment = kwsNetworkEnvironmnet,
                 clientID = kwsNetworkEnvironmnet.appID,
                 clientSecret = kwsNetworkEnvironmnet.mobileKey)

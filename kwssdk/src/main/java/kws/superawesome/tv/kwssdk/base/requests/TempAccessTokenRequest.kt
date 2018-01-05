@@ -6,9 +6,9 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 12/12/2017.
  */
-internal class GetTempAccessTokenRequest(environment: KWSNetworkEnvironment,
-                                         clientID: String,
-                                         clientSecret: String
+internal class TempAccessTokenRequest(environment: KWSNetworkEnvironment,
+                                      clientID: String,
+                                      clientSecret: String
 ) :
         BaseRequest(environment = environment) {
 
