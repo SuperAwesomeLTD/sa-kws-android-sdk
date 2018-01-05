@@ -24,6 +24,7 @@ import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
+import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService;
 import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
