@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by guilherme.mota on 03/01/2018.
  */
-data class UserApplicationProfileResponse(
+data class ApplicationProfile(
         @SerializedName("username") val username: String?,
         @SerializedName("customField1") val customField1: Int?,
         @SerializedName("customField2") val customField2: Int?,

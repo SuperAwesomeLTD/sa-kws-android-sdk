@@ -6,9 +6,12 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-internal class GetRandomUsernameRequest(environment: KWSNetworkEnvironment, appID: Int)
+internal class AppConfigRequest(environment: KWSNetworkEnvironment, clientID: String)
     : BaseRequest(environment = environment) {
 
-    override val endpoint: String = "v2/apps/$appID/random-display-name"
+    override val endpoint: String = "v1/apps/config"
+
+    override val query: Map<String, Any>? = mapOf("oauthClientId" to clientID)
+
 
 }

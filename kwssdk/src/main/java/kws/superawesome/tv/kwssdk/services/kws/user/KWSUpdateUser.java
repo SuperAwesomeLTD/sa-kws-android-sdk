@@ -39,13 +39,13 @@ public class KWSUpdateUser extends KWSService {
                 "phoneNumber", updatedUser.phoneNumber,
                 "gender", updatedUser.gender,
                 "language", updatedUser.language,
-                "addressResponse", SAJsonParser.newObject(new Object[] {
+                "address", SAJsonParser.newObject(new Object[] {
                         "street", updatedUser.address.street,
                         "postCode", updatedUser.address.postCode,
                         "city", updatedUser.address.city,
                         "country", updatedUser.address.country
                 }),
-                "applicationProfileResponse", SAJsonParser.newObject(new Object[] {
+                "applicationProfile", SAJsonParser.newObject(new Object[] {
                         "avatarId", updatedUser.applicationProfile.avatarId,
                         "customField1", updatedUser.applicationProfile.customField1,
                         "customField2", updatedUser.applicationProfile.customField2,

@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inviteUser(View v) {
-        final String email = "guilherme.mota+7@superawesome.tv";
+        final String email = "guilherme.mota+8@superawesome.tv";
         KWSChildren.sdk.inviteUser(this, email, new KWSChildrenInviteUserInterface() {
             @Override
             public void didInviteUser(boolean success) {

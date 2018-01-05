@@ -6,7 +6,7 @@ import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
-import kws.superawesome.tv.kwssdk.base.responses.LoginResponse
+import kws.superawesome.tv.kwssdk.base.responses.Login
 import kws.superawesome.tv.kwssdk.base.services.LoginService
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
@@ -22,7 +22,7 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
 
     override fun loginUser(username: String,
                            password: String,
-                           callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
+                           callback: (user: Login?, error: Throwable?) -> Unit) {
 
 
         val networkRequest = LoginUserRequest(
@@ -39,23 +39,12 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
 
                 val parseRequest = ParseJsonRequest(rawString = rawString)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<LoginResponse>(input = parseRequest, clazz = LoginResponse::class.java) ?: LoginResponse()
-                val tmpToken = authResponse.token
+                val authResponse = parseTask.execute<Login>(input = parseRequest, clazz = Login::class.java)
 
-                if (tmpToken != null) {
-                    //if we have a valid token
-                    val metadata = KWSMetadata.processMetadata(tmpToken)
-
-                    if (metadata != null && metadata.isValid()) {
-                        val loggedUser = LoggedUser(token = tmpToken, kwsMetaData = metadata)
-                        callback(loggedUser, null)
-                    } else {
-                        callback(null, Throwable("Invalid token"))
-                    }
-                } else {
-                    callback(null, Throwable(rawString))
-                }
-
+                //
+                //send callback
+                val error = if (authResponse != null) null else Throwable("Error - not valid login")
+                callback(authResponse,error)
 
             }
             // network error case
