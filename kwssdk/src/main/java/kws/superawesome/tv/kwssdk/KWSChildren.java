@@ -15,18 +15,18 @@ import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationPermissions;
+import kws.superawesome.tv.kwssdk.base.responses.ApplicationProfile;
 import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
 import kws.superawesome.tv.kwssdk.base.responses.Login;
-import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
-import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.responses.Points;
+import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
-import kws.superawesome.tv.kwssdk.base.responses.ApplicationProfile;
+import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
-import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
-import kws.superawesome.tv.kwssdk.base.services.UserDetailsService;
 import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
+import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
+import kws.superawesome.tv.kwssdk.base.services.UserDetailsService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
@@ -189,23 +189,23 @@ public class KWSChildren {
         if (createUserService != null) {
             createUserService.createUser(username, password, dateOfBirth, country, parentEmail,
                     new Function2<CreateUser, Throwable, Unit>() {
-                @Override
-                public Unit invoke(CreateUser createdUser, Throwable throwable) {
+                        @Override
+                        public Unit invoke(CreateUser createdUser, Throwable throwable) {
 
-                    String token = createdUser.getToken();
-                    KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
+                            String token = createdUser.getToken();
+                            KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
 
-                    if (kwsMetadata != null && kwsMetadata.isValid()) {
-                        LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
-                        setLoggedUser(loggedUser);
-                        listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
-                    } else {
-                        listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
-                    }
+                            if (kwsMetadata != null && kwsMetadata.isValid()) {
+                                LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
+                                setLoggedUser(loggedUser);
+                                listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
+                            } else {
+                                listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
+                            }
 
-                    return null;
-                }
-            });
+                            return null;
+                        }
+                    });
         }
 
     }

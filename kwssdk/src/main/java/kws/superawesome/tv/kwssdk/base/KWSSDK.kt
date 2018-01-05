@@ -1,10 +1,7 @@
 package kws.superawesome.tv.kwssdk.base
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.providers.CreateUserProvider
-import kws.superawesome.tv.kwssdk.base.providers.RandomUsernameProvider
-import kws.superawesome.tv.kwssdk.base.providers.UserDetailsProvider
-import kws.superawesome.tv.kwssdk.base.providers.LoginProvider
+import kws.superawesome.tv.kwssdk.base.providers.*
 import kws.superawesome.tv.kwssdk.base.services.*
 
 /**
@@ -17,8 +14,8 @@ object KWSSDK {
             when (T::class) {
                 LoginService::class -> LoginProvider(environment = environment) as T?
                 CreateUserService::class -> CreateUserProvider(environment = environment) as T?
-                GetRandomUsernameService::class -> GetRandomUsernameProvider(environment = environment) as T?
-                GetUserDetailsService::class -> GetUserDetailsProvider(environment = environment) as T?
+                RandomUsernameService::class -> RandomUsernameProvider(environment = environment) as T?
+                UserDetailsService::class -> UserDetailsProvider(environment = environment) as T?
                 InviteUserService::class -> InviteUserProvider(environment = environment) as T?
                 else -> null
             }
@@ -31,11 +28,11 @@ object KWSSDK {
             LoginProvider(environment = environment) as T?
         else if (clazz == CreateUserService::class.java)
             CreateUserProvider(environment = environment) as T?
-        else if (clazz == GetRandomUsernameService::class.java)
-            GetRandomUsernameProvider(environment = environment) as T?
-        else if (clazz == GetUserDetailsService::class.java)
-            GetUserDetailsProvider(environment = environment) as T?
-else if (clazz == InviteUserService::class.java)
+        else if (clazz == RandomUsernameService::class.java)
+            RandomUsernameProvider(environment = environment) as T?
+        else if (clazz == UserDetailsService::class.java)
+            UserDetailsProvider(environment = environment) as T?
+        else if (clazz == InviteUserService::class.java)
             InviteUserProvider(environment = environment) as T?
         else null
     }
