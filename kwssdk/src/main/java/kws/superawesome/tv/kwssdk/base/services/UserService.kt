@@ -10,4 +10,8 @@ interface UserService : BaseService {
     fun getUserDetails(userId: Int,
                        token: String,
                        callback: (userDetailsDetails: UserDetails?, error: Throwable?) -> Unit)
+
+    fun inviteUser(email: String, userId: Int, token: String,
+                   callback: (success: Boolean?, error: Throwable?) -> Unit)
+
 }

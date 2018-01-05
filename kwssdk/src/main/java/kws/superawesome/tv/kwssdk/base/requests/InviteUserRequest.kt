@@ -16,7 +16,6 @@ internal class InviteUserRequest(environment: KWSNetworkEnvironment,
 
     override val method: NetworkMethod = NetworkMethod.POST
 
-    override val body: Map<String, Any>? = mapOf(
-            "email" to emailAddress)
+    override val body: Map<String, Any>? = mapOf("email" to emailAddress)
 
 }

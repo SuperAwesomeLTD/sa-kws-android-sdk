@@ -24,13 +24,10 @@ import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
-import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService;
-import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.UserService;
-import kws.superawesome.tv.kwssdk.base.services.LoginService;
-import kws.superawesome.tv.kwssdk.base.services.TriggerEventService;
+import kws.superawesome.tv.kwssdk.base.services.EventsService;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
@@ -445,15 +442,15 @@ public class KWSChildren {
     // invite another user
     public void inviteUser(Context context, String emailAddress, final KWSChildrenInviteUserInterface listener) {
 
-        InviteUserService inviteUserService = KWSSDK.get(kwsEnvironment, InviteUserService.class);
+        UserService userService = KWSSDK.get(kwsEnvironment, UserService.class);
 
-        if (inviteUserService != null) {
+        if (userService != null) {
             if (loggedUser == null || loggedUser.metadata == null) {
                 listener.didInviteUser(false);
                 return;
             }
 
-            inviteUserService.inviteUser(emailAddress, loggedUser.metadata.userId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
+            userService.inviteUser(emailAddress, loggedUser.metadata.userId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
                 @Override
                 public Unit invoke(Boolean isUserInvited, Throwable throwable) {
 
@@ -475,15 +472,15 @@ public class KWSChildren {
 
     public void triggerEvent(Context context, String token, int points, final KWSChildrenTriggerEventInterface listener) {
 
-        TriggerEventService triggerEventService = KWSSDK.get(kwsEnvironment, TriggerEventService.class);
+        EventsService eventsService = KWSSDK.get(kwsEnvironment, EventsService.class);
 
-        if (triggerEventService != null) {
+        if (eventsService != null) {
             if (loggedUser == null || loggedUser.metadata == null) {
                 listener.didTriggerEvent(false);
                 return;
             }
 
-            triggerEventService.triggerEvent(points, loggedUser.metadata.userId, loggedUser.token, token, new Function2<Boolean, Throwable, Unit>() {
+            eventsService.triggerEvent(points, loggedUser.metadata.userId, loggedUser.token, token, new Function2<Boolean, Throwable, Unit>() {
                 @Override
                 public Unit invoke(Boolean isUserInvited, Throwable throwable) {
 
@@ -504,16 +501,16 @@ public class KWSChildren {
 
     public void hasTriggeredEvent(Context context, int eventId, final KWSChildrenHasTriggeredEventInterface listener) {
 
-        HasTriggeredEventService hasTriggeredEventService = KWSSDK.get(kwsEnvironment, HasTriggeredEventService.class);
+        EventsService eventsService = KWSSDK.get(kwsEnvironment, EventsService.class);
 
-        if (hasTriggeredEventService != null) {
+        if (eventsService != null) {
 
             if (loggedUser == null || loggedUser.metadata == null) {
                 listener.didTriggerEvent(false);
                 return;
             }
 
-            hasTriggeredEventService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+            eventsService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<HasTriggeredEvent, Throwable, Unit>() {
                 @Override
                 public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
 

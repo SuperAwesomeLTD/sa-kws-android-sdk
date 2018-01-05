@@ -2,19 +2,42 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.HasTriggeredEventRequest
+import kws.superawesome.tv.kwssdk.base.requests.TriggerEventRequest
 import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent
-import kws.superawesome.tv.kwssdk.base.responses.Login
-import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService
+import kws.superawesome.tv.kwssdk.base.services.EventsService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
- * Created by guilherme.mota on 05/01/2018.
+ * Created by guilherme.mota on 04/01/2018.
  */
 @PublishedApi
-internal class HasTriggeredEventProvider(val environment: KWSNetworkEnvironment) : HasTriggeredEventService {
+internal class EventsProvider(val environment: KWSNetworkEnvironment) : EventsService {
 
+
+    override fun triggerEvent(points: Int, userId: Int, token: String, eventToken: String,
+                              callback: (success: Boolean?, error: Throwable?) -> Unit) {
+
+        val triggerEventRequest = TriggerEventRequest(
+                environment = environment,
+                points = points,
+                userId = userId,
+                token = token,
+                eventToken = eventToken
+        )
+
+        val triggerEventNetworkTask = NetworkTask()
+        triggerEventNetworkTask.execute(input = triggerEventRequest) { rawString, networkError ->
+
+            //
+            // send callback
+            callback(rawString.isNullOrEmpty() && networkError == null, networkError)
+
+        }
+
+
+    }
 
     override fun hasTriggeredEvent(userId: Int, eventId: Int, token: String,
                                    callback: (hasTriggeredEvent: HasTriggeredEvent?, error: Throwable?) -> Unit) {
@@ -39,9 +62,11 @@ internal class HasTriggeredEventProvider(val environment: KWSNetworkEnvironment)
                 //
                 //send callback
                 val error = if (hasTriggeredEvent != null) null else Throwable("Error - not valid login")
-                callback(hasTriggeredEvent,error)
+                callback(hasTriggeredEvent, error)
 
             } else {
+                //
+                //network failure
                 callback(null, networkError)
             }
 
