@@ -350,10 +350,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkEvent(View v) {
-        KWSChildren.sdk.hasTriggeredEvent(this, 762, new KWSChildrenHasTriggeredEventInterface() {
+        final int eventId = 10;
+        KWSChildren.sdk.hasTriggeredEvent(this, eventId, new KWSChildrenHasTriggeredEventInterface() {
             @Override
             public void didTriggerEvent(Boolean triggered) {
-                log += "Event 762 is : " + triggered + "\n";
+                log += "Event " + String.valueOf(eventId) + " is : " + triggered + "\n";
                 logView.setText(log);
             }
         });

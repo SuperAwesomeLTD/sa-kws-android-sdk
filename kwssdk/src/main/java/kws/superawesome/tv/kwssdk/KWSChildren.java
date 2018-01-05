@@ -23,6 +23,7 @@ import kws.superawesome.tv.kwssdk.base.responses.UserApplicationProfileResponse;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.base.services.GetRandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.GetUserDetailsService;
+import kws.superawesome.tv.kwssdk.base.services.HasTriggeredEventService;
 import kws.superawesome.tv.kwssdk.base.services.InviteUserService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.TriggerEventService;
@@ -487,8 +488,35 @@ public class KWSChildren {
 
     }
 
-    public void hasTriggeredEvent(Context context, int eventId, KWSChildrenHasTriggeredEventInterface listener) {
-        hasTriggeredEvent.execute(context, eventId, listener);
+    public void hasTriggeredEvent(Context context, int eventId, final KWSChildrenHasTriggeredEventInterface listener) {
+//        hasTriggeredEvent.execute(context, eventId, listener);
+
+        HasTriggeredEventService hasTriggeredEventService = KWSSDK.get(kwsEnvironment, HasTriggeredEventService.class);
+
+        if (hasTriggeredEventService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didTriggerEvent(false);
+                return;
+            }
+
+            hasTriggeredEventService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
+                @Override
+                public Unit invoke(Boolean isHasEventBeenTriggered, Throwable throwable) {
+
+                    if (isHasEventBeenTriggered) {
+                        listener.didTriggerEvent(true);
+                    } else {
+                        listener.didTriggerEvent(false);
+                    }
+
+                    return null;
+                }
+            });
+
+
+        }
+
     }
 
     public void getScore(Context context, KWSChildrenGetScoreInterface listener) {

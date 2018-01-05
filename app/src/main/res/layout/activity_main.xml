@@ -141,7 +141,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Check evt 762"
+        android:text="Check evt with ID"
         android:onClick="checkEvent"/>
 
     <LinearLayout
