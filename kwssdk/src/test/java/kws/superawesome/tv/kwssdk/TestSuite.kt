@@ -25,6 +25,7 @@ import org.junit.runners.Suite
         KWS_HasTriggeredEventRequest_Test::class,
         KWS_LeadersRequest_Test::class,
         KWS_ScoreRequest_Test::class,
+        KWS_SetAppDataRequest_Test::class,
 
         //Responses
         KWS_CreateUserResponse_Test::class,
