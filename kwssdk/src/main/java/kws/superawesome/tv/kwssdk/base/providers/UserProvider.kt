@@ -2,9 +2,9 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
-import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
-import kws.superawesome.tv.kwssdk.base.responses.Leaders
+import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
+import kws.superawesome.tv.kwssdk.base.responses.Score
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails
 import kws.superawesome.tv.kwssdk.base.services.UserService
 import tv.superawesome.samobilebase.network.NetworkTask
@@ -68,7 +68,42 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
     }
 
 
+    override fun getScore(appId: Int, token: String, callback: (score: Score?, error: Throwable?) -> Unit) {
 
+
+        val getUserScoreRequest = UserScoreRequest(
+                environment = environment,
+                appId = appId,
+                token = token
+        )
+
+        val getUserScoreRequestNetworkTask = NetworkTask()
+        getUserScoreRequestNetworkTask.execute(input = getUserScoreRequest) { rawString, networkError ->
+
+
+            if (rawString != null && networkError == null) {
+                val parseRequest = ParseJsonRequest(rawString = rawString)
+                val parseTask = ParseJsonTask()
+                val getScoreResponse = parseTask.execute<Score>(input = parseRequest,
+                        clazz = Score::class.java)
+
+                //
+                //send callback
+                val error = if (getScoreResponse == null) Throwable("Error getting user score") else null;
+                callback(getScoreResponse, error)
+
+            } else {
+                //
+                // network failure
+
+                callback(null, networkError)
+            }
+        }
+
+
+    }
 
 }
+
+
 

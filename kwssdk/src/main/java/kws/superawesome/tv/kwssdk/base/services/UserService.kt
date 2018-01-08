@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.services
 
-import kws.superawesome.tv.kwssdk.base.responses.Leaders
+import kws.superawesome.tv.kwssdk.base.responses.Score
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails
 
 /**
@@ -16,6 +16,11 @@ interface UserService : BaseService {
                    userId: Int,
                    token: String,
                    callback: (success: Boolean?, error: Throwable?) -> Unit)
+
+
+    fun getScore(appId: Int,
+                 token: String,
+                 callback: (score: Score?, error: Throwable?) -> Unit)
 
 
 }
