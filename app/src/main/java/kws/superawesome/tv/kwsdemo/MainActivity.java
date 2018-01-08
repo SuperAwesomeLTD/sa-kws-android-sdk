@@ -379,8 +379,14 @@ public class MainActivity extends AppCompatActivity {
         KWSChildren.sdk.getAppData(this, new KWSChildrenGetAppDataInterface() {
             @Override
             public void didGetAppData(List<KWSAppData> appData) {
-                for (KWSAppData data : appData) {
-                    log += "[" + data.name + "]=" + data.value + "\n";
+
+                if (appData.isEmpty()) {
+                    log += "No data to show\n";
+                } else {
+                    log += "Get App Data response as:\n";
+                    for (KWSAppData data : appData) {
+                        log += "[" + data.name + "]=" + data.value + "\n";
+                    }
                 }
                 logView.setText(log);
             }

@@ -16,6 +16,8 @@ import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.responses.AppData;
+import kws.superawesome.tv.kwssdk.base.responses.AppDataDetails;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationPermissions;
 import kws.superawesome.tv.kwssdk.base.responses.ApplicationProfile;
 import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
@@ -34,6 +36,7 @@ import kws.superawesome.tv.kwssdk.base.services.EventsService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
 import kws.superawesome.tv.kwssdk.base.services.UserService;
+import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
@@ -599,8 +602,8 @@ public class KWSChildren {
                     ArrayList<KWSLeader> listOfKWSLeader = new ArrayList<>();
 
                     for (LeadersDetail leadersDetail : results) {
-                        KWSLeader buildKWSLeaderObject = buildKWSLeaderObject(leadersDetail);
-                        listOfKWSLeader.add(buildKWSLeaderObject);
+                        KWSLeader builtKWSLeaderObject = buildKWSLeaderObject(leadersDetail);
+                        listOfKWSLeader.add(builtKWSLeaderObject);
                     }
                     return listOfKWSLeader;
                 }
@@ -621,8 +624,57 @@ public class KWSChildren {
 
     // app data
 
-    public void getAppData(Context context, KWSChildrenGetAppDataInterface listener) {
-        getAppData.execute(context, listener);
+    public void getAppData(Context context, final KWSChildrenGetAppDataInterface listener) {
+//        getAppData.execute(context, listener);
+
+        AppService appService = KWSSDK.get(kwsEnvironment, AppService.class);
+
+        if (appService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didGetAppData(new ArrayList<KWSAppData>());
+                return;
+            }
+
+            appService.getAppData(loggedUser.metadata.appId,
+                    loggedUser.metadata.userId,
+                    loggedUser.token, new Function2<AppData, Throwable, Unit>() {
+                        @Override
+                        public Unit invoke(AppData appData, Throwable throwable) {
+
+                            if (appData != null) {
+                                ArrayList<KWSAppData> listOfKWSAppData = getListOfKWSAppData(appData.getResults());
+                                listener.didGetAppData(listOfKWSAppData);
+                            } else {
+                                listener.didGetAppData(new ArrayList<KWSAppData>());
+                            }
+
+                            return null;
+                        }
+
+                        private ArrayList<KWSAppData> getListOfKWSAppData(ArrayList<AppDataDetails> results) {
+                            ArrayList<KWSAppData> listOfKWSAppData = new ArrayList<>();
+
+                            for (AppDataDetails appDataDetails : results) {
+                                KWSAppData builtKWSAppDataObject = buildKWSAppDataObject(appDataDetails);
+                                listOfKWSAppData.add(builtKWSAppDataObject);
+                            }
+                            return listOfKWSAppData;
+                        }
+
+                        private KWSAppData buildKWSAppDataObject(AppDataDetails appDataDetails) {
+
+                            KWSAppData kwsAppData = new KWSAppData();
+                            kwsAppData.name = appDataDetails.getName();
+                            kwsAppData.value = appDataDetails.getValue();
+
+                            return kwsAppData;
+
+                        }
+                    });
+        }
+
+
     }
 
     public void setAppData(Context context, int value, String name, final KWSChildrenSetAppDataInterface listener) {
