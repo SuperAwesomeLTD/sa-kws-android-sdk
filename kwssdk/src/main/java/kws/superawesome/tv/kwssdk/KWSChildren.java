@@ -460,9 +460,9 @@ public class KWSChildren {
 
             userService.inviteUser(emailAddress, loggedUser.metadata.userId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+                public Unit invoke(Boolean isInviteUser, Throwable throwable) {
 
-                    if (isUserInvited) {
+                    if (isInviteUser) {
                         listener.didInviteUser(true);
                     } else {
                         listener.didInviteUser(false);
@@ -490,9 +490,9 @@ public class KWSChildren {
 
             eventsService.triggerEvent(points, loggedUser.metadata.userId, loggedUser.token, token, new Function2<Boolean, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+                public Unit invoke(Boolean isTriggerEvent, Throwable throwable) {
 
-                    if (isUserInvited) {
+                    if (isTriggerEvent) {
                         listener.didTriggerEvent(true);
                     } else {
                         listener.didTriggerEvent(false);
@@ -520,9 +520,9 @@ public class KWSChildren {
 
             eventsService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<HasTriggeredEvent, Throwable, Unit>() {
                 @Override
-                public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+                public Unit invoke(HasTriggeredEvent isHasTriggeredEvent, Throwable throwable) {
 
-                    if (hasTriggeredEvent != null && hasTriggeredEvent.getHasTriggeredEvent()) {
+                    if (isHasTriggeredEvent != null && isHasTriggeredEvent.getHasTriggeredEvent()) {
                         listener.didTriggerEvent(true);
                     } else {
                         listener.didTriggerEvent(false);

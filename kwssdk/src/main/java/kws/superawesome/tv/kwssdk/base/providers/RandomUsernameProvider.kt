@@ -45,33 +45,33 @@ internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : 
     private fun getAppConfig(environment: KWSNetworkEnvironment,
                              callback: (appConfig: AppConfig?, error: Throwable?) -> Unit) {
 
-        val networkAppConfigRequest = AppConfigRequest(
+        val appConfigNetworkRequest = AppConfigRequest(
                 environment = environment,
                 clientID = environment.appID
         )
 
-        val networkAppConfigTask = NetworkTask()
+        val appConfigNetworkTask = NetworkTask()
 
-        networkAppConfigTask.execute(input = networkAppConfigRequest) { rawString, networkError ->
+        appConfigNetworkTask.execute(input = appConfigNetworkRequest) { appConfigNetworkResponse ->
 
             // network success case
-            if (rawString != null && networkError == null) {
+            if (appConfigNetworkResponse.response != null && appConfigNetworkResponse.error == null) {
 
-                val parseRequest = ParseJsonRequest(rawString = rawString)
+                val parseRequest = ParseJsonRequest(rawString = appConfigNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val appConfigResponse = parseTask.execute<AppConfig>(input = parseRequest,
+                val appConfigResponseObject = parseTask.execute<AppConfig>(input = parseRequest,
                         clazz = AppConfig::class.java)
 
                 //
                 // send callback
-                val error = if (appConfigResponse != null) null else Throwable("Error - not found valid app config")
-                callback(appConfigResponse, error)
+                val error = if (appConfigResponseObject != null) null else Throwable("Error - not found valid app config")
+                callback(appConfigResponseObject, error)
 
             }
             //
             // network failure
             else {
-                callback(null, networkError)
+                callback(null, appConfigNetworkResponse.error)
             }
         }
     }
@@ -81,30 +81,32 @@ internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : 
                                           id: Int,
                                           callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
-        val networkGetRandomUsernameRequest = RandomUsernameRequest(
+        val getRandomUsernameNetworkRequest = RandomUsernameRequest(
                 environment = environment,
                 appID = id)
 
-        val networkGetRandomUsernameTask = NetworkTask()
-        networkGetRandomUsernameTask.execute(input = networkGetRandomUsernameRequest) { rawString, networkError ->
+        val getRandomUsernameNetworkTask = NetworkTask()
+        getRandomUsernameNetworkTask.execute(input = getRandomUsernameNetworkRequest) {  getRandomUsernameNetworkResponse ->
 
-            if (rawString != null && networkError == null) {
+            val responseString = getRandomUsernameNetworkResponse.response
 
-                val randomUserName = rawString.replace("\"", "")
+            if (responseString != null && getRandomUsernameNetworkResponse.error == null) {
+
+                val randomUserName = responseString.replace("\"", "")
 
                 //
                 // send callback
                 if(randomUserName != null){
                     callback(RandomUsername(randomUserName), null)
                 }else{
-                    callback(RandomUsername(rawString), null)
+                    callback(RandomUsername(responseString), null)
                 }
 
 
             } else {
                 //
                 //network failure
-                callback(null, networkError)
+                callback(null, getRandomUsernameNetworkResponse.error)
             }
 
         }

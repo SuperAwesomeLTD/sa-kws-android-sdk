@@ -26,23 +26,23 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
         )
 
         val getUserDetailsNetworkTask = NetworkTask()
-        getUserDetailsNetworkTask.execute(input = getUserDetailsNetworkRequest) { rawString, networkError ->
+        getUserDetailsNetworkTask.execute(input = getUserDetailsNetworkRequest) { getUserDetailsNetworkResponse ->
 
             // network success case
-            if (rawString != null && networkError == null) {
-                val parseRequest = ParseJsonRequest(rawString = rawString)
+            if (getUserDetailsNetworkResponse.response != null && getUserDetailsNetworkResponse.error == null) {
+                val parseRequest = ParseJsonRequest(rawString = getUserDetailsNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val getUserDetailsResponse = parseTask.execute<UserDetails>(input = parseRequest,
+                val getUserDetailsResponseObject = parseTask.execute<UserDetails>(input = parseRequest,
                         clazz = UserDetails::class.java)
 
-                val error = if (getUserDetailsResponse == null) Throwable("Error getting user details") else null;
-                callback(getUserDetailsResponse, error)
+                val error = if (getUserDetailsResponseObject == null) Throwable("Error getting user details") else null;
+                callback(getUserDetailsResponseObject, error)
 
             }
             //
             // network failure
             else {
-                callback(null, networkError)
+                callback(null, getUserDetailsNetworkResponse.error)
             }
 
         }
@@ -50,7 +50,7 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
 
     override fun inviteUser(email: String, userId: Int, token: String, callback: (success: Boolean?, error: Throwable?) -> Unit) {
 
-        val inviteUserRequest = InviteUserRequest(
+        val inviteUserNetworkRequest = InviteUserRequest(
                 environment = environment,
                 userId = userId,
                 token = token,
@@ -58,11 +58,12 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
         )
 
         val inviteUserRequestNetworkTask = NetworkTask()
-        inviteUserRequestNetworkTask.execute(input = inviteUserRequest) { rawString, networkError ->
+        inviteUserRequestNetworkTask.execute(input = inviteUserNetworkRequest) { inviteUserNetworkResponse ->
 
             //
             //send callback
-            callback(rawString.isNullOrEmpty() && networkError == null, networkError)
+            callback((inviteUserNetworkResponse.status == 200 || inviteUserNetworkResponse.status == 204)
+                    && inviteUserNetworkResponse.error == null, inviteUserNetworkResponse.error)
 
         }
     }
@@ -71,32 +72,32 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
     override fun getScore(appId: Int, token: String, callback: (score: Score?, error: Throwable?) -> Unit) {
 
 
-        val getUserScoreRequest = UserScoreRequest(
+        val getUserScoreNetworkRequest = UserScoreRequest(
                 environment = environment,
                 appId = appId,
                 token = token
         )
 
         val getUserScoreRequestNetworkTask = NetworkTask()
-        getUserScoreRequestNetworkTask.execute(input = getUserScoreRequest) { rawString, networkError ->
+        getUserScoreRequestNetworkTask.execute(input = getUserScoreNetworkRequest) { getUserScoreNetworkResponse ->
 
 
-            if (rawString != null && networkError == null) {
-                val parseRequest = ParseJsonRequest(rawString = rawString)
+            if (getUserScoreNetworkResponse.response != null && getUserScoreNetworkResponse.error == null) {
+                val parseRequest = ParseJsonRequest(rawString = getUserScoreNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val getScoreResponse = parseTask.execute<Score>(input = parseRequest,
+                val getScoreResponseObject = parseTask.execute<Score>(input = parseRequest,
                         clazz = Score::class.java)
 
                 //
                 //send callback
-                val error = if (getScoreResponse == null) Throwable("Error getting user score") else null;
-                callback(getScoreResponse, error)
+                val error = if (getScoreResponseObject == null) Throwable("Error getting user score") else null;
+                callback(getScoreResponseObject, error)
 
             } else {
                 //
                 // network failure
 
-                callback(null, networkError)
+                callback(null, getUserScoreNetworkResponse.error)
             }
         }
 
