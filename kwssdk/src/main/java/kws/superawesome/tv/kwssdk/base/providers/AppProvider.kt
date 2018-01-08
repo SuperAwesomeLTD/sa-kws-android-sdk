@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
+import kws.superawesome.tv.kwssdk.base.requests.SetAppDataRequest
 import kws.superawesome.tv.kwssdk.base.responses.Leaders
 import kws.superawesome.tv.kwssdk.base.services.AppService
 import tv.superawesome.samobilebase.network.NetworkTask
@@ -44,6 +45,32 @@ internal class AppProvider(val environment: KWSNetworkEnvironment) : AppService 
             else {
                 callback(null, getLeadersNetworkResponse.error)
             }
+
+        }
+
+
+    }
+
+    override fun setAppData(appId: Int, userId: Int, nameValue: String, numericValue: Int, token: String, callback: (success: Boolean?, error: Throwable?) -> Unit) {
+
+        val setAppDataNetworkRequest = SetAppDataRequest(
+                environment = environment,
+                appId = appId,
+                userId = userId,
+                nameValue = nameValue,
+                numericValue = numericValue,
+                token = token
+        )
+
+
+        val setAppDataNetworkTask = NetworkTask()
+        setAppDataNetworkTask.execute(input = setAppDataNetworkRequest) { setAppDataNetworkResponse ->
+
+            //
+            //send callback
+            callback((setAppDataNetworkResponse.status == 200 || setAppDataNetworkResponse.status == 204)
+                    && setAppDataNetworkResponse.error == null, setAppDataNetworkResponse.error)
+
 
         }
 
