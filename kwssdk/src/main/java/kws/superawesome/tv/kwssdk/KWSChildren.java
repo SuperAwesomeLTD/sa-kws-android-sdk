@@ -462,12 +462,7 @@ public class KWSChildren {
                 @Override
                 public Unit invoke(Boolean isInviteUser, Throwable throwable) {
 
-                    if (isInviteUser) {
-                        listener.didInviteUser(true);
-                    } else {
-                        listener.didInviteUser(false);
-                    }
-
+                    listener.didInviteUser(isInviteUser);
 
                     return null;
                 }
@@ -492,12 +487,7 @@ public class KWSChildren {
                 @Override
                 public Unit invoke(Boolean isTriggerEvent, Throwable throwable) {
 
-                    if (isTriggerEvent) {
-                        listener.didTriggerEvent(true);
-                    } else {
-                        listener.didTriggerEvent(false);
-                    }
-
+                    listener.didTriggerEvent(isTriggerEvent);
 
                     return null;
                 }
@@ -520,9 +510,9 @@ public class KWSChildren {
 
             eventsService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<HasTriggeredEvent, Throwable, Unit>() {
                 @Override
-                public Unit invoke(HasTriggeredEvent isHasTriggeredEvent, Throwable throwable) {
+                public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
 
-                    if (isHasTriggeredEvent != null && isHasTriggeredEvent.getHasTriggeredEvent()) {
+                    if (hasTriggeredEvent != null && hasTriggeredEvent.getHasTriggeredEvent()) {
                         listener.didTriggerEvent(true);
                     } else {
                         listener.didTriggerEvent(false);
@@ -537,7 +527,7 @@ public class KWSChildren {
 
     }
 
-    public void getScore(Context context, final KWSChildrenGetScoreInterface listener){
+    public void getScore(Context context, final KWSChildrenGetScoreInterface listener) {
 
         UserService userService = KWSSDK.get(kwsEnvironment, UserService.class);
 
