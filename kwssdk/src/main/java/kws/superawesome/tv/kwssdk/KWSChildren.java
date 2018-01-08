@@ -25,6 +25,7 @@ import kws.superawesome.tv.kwssdk.base.responses.LeadersDetail;
 import kws.superawesome.tv.kwssdk.base.responses.Login;
 import kws.superawesome.tv.kwssdk.base.responses.Points;
 import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
+import kws.superawesome.tv.kwssdk.base.responses.Score;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.AppService;
@@ -40,6 +41,7 @@ import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
 import kws.superawesome.tv.kwssdk.models.user.KWSApplicationProfile;
 import kws.superawesome.tv.kwssdk.models.user.KWSPermissions;
 import kws.superawesome.tv.kwssdk.models.user.KWSPoints;
+import kws.superawesome.tv.kwssdk.models.user.KWSScore;
 import kws.superawesome.tv.kwssdk.models.user.KWSUser;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserInterface;
 import kws.superawesome.tv.kwssdk.process.KWSChildrenCreateUserStatus;
@@ -535,8 +537,45 @@ public class KWSChildren {
 
     }
 
-    public void getScore(Context context, KWSChildrenGetScoreInterface listener) {
-        getScore.execute(context, listener);
+    public void getScore(Context context, final KWSChildrenGetScoreInterface listener){
+
+        UserService userService = KWSSDK.get(kwsEnvironment, UserService.class);
+
+        if (userService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didGetScore(null);
+                return;
+            }
+
+
+            userService.getScore(loggedUser.metadata.appId, loggedUser.token, new Function2<Score, Throwable, Unit>() {
+                @Override
+                public Unit invoke(Score score, Throwable throwable) {
+
+                    if (score != null) {
+                        KWSScore kwsScore = buildScore(score);
+                        listener.didGetScore(kwsScore);
+                    } else {
+                        listener.didGetScore(null);
+                    }
+
+                    return null;
+                }
+
+                private KWSScore buildScore(Score score) {
+                    KWSScore kwsScore = new KWSScore();
+
+                    kwsScore.score = score.getScore();
+                    kwsScore.rank = score.getRank();
+
+                    return kwsScore;
+                }
+            });
+
+        }
+
+
     }
 
     public void getLeaderboard(Context context, final KWSChildrenGetLeaderboardInterface listener) {
