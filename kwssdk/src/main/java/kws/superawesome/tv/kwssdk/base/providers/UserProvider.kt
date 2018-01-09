@@ -2,7 +2,6 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.Error
-import kws.superawesome.tv.kwssdk.base.models.Permissions
 import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest

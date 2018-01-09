@@ -1,7 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.requests
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.models.Permissions
 import org.json.JSONArray
 import tv.superawesome.samobilebase.network.NetworkMethod
 

@@ -27,6 +27,7 @@ import org.junit.runners.Suite
         KWS_ScoreRequest_Test::class,
         KWS_SetAppDataRequest_Test::class,
         KWS_GetAppDataRequest_Test::class,
+        KWS_PermissionsRequest_Test::class,
 
         //Responses
         KWS_CreateUserResponse_Test::class,
