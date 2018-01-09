@@ -8,7 +8,8 @@ import tv.superawesome.samobilebase.network.NetworkRequest
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
-internal abstract class BaseRequest(override val environment: NetworkEnvironment,
+/*internal*/
+abstract class BaseRequest(override val environment: NetworkEnvironment,
                                     val token: String? = null) : NetworkRequest {
 
     override val headers: Map<String, String>?

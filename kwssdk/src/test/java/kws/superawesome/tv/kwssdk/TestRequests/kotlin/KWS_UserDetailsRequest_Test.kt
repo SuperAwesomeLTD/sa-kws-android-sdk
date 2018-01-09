@@ -1,8 +1,7 @@
-package kws.superawesome.tv.kwssdk.TestRequests
+package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
-import org.hamcrest.CoreMatchers
+import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
@@ -13,9 +12,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 /**
- * Created by guilherme.mota on 09/01/2018.
+ * Created by guilherme.mota on 04/01/2018.
  */
-class KWS_PermissionsRequest_Test {
+class KWS_UserDetailsRequest_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
@@ -33,54 +32,47 @@ class KWS_PermissionsRequest_Test {
             get() = URL
     }
 
-
     @Test
     fun GetUserDetailsRequest_Valid() {
 
 
         val userId = 25
-        val endpoint = "v1/users/$userId/request-permissions"
-        val method = NetworkMethod.POST
+        val endpoint = "v1/users/$userId"
+        val method = NetworkMethod.GET
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
                 "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
 
-        val permissionsList = listOf<String>("accessAddress", "accessFirstName")
-
 
         //when
-        val requestPermission = PermissionsRequest(
+        val getUserDetailsRequest = UserDetailsRequest(
                 environment = kwsNetworkEnvironmnet,
                 userId = userId,
-                token = token,
-                permissionsList = permissionsList
+                token = token
         )
 
 
         //then
-        assertNotNull(requestPermission)
+        assertNotNull(getUserDetailsRequest)
 
         //headers
-        assertThat<Map<String, String>>(requestPermission.headers,
+        assertThat<Map<String, String>>(getUserDetailsRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
-        assertEquals(requestPermission.endpoint, endpoint)
+        assertEquals(getUserDetailsRequest.endpoint, endpoint)
 
         //method type request
-        assertEquals(requestPermission.method, method)
+        assertEquals(getUserDetailsRequest.method, method)
 
         //query
-        assertNull(requestPermission.query)
+        assertNull(getUserDetailsRequest.query)
 
         //body
-        assertNotNull(requestPermission.body)
-        assertThat(requestPermission.body!!.size, CoreMatchers.`is`(1))
-        assertThat(requestPermission.body, IsMapContaining.hasKey("permissions"))
-
+        assertNull(getUserDetailsRequest.body)
 
         //form encoded urls
-        assertFalse(requestPermission.formEncodeUrls)
+        assertFalse(getUserDetailsRequest.formEncodeUrls)
 
 
     }

@@ -1,7 +1,7 @@
-package kws.superawesome.tv.kwssdk.TestRequests
+package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
+import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
 import org.hamcrest.MatcherAssert
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
@@ -12,9 +12,11 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 /**
- * Created by guilherme.mota on 05/01/2018.
+ * Created by guilherme.mota on 08/01/2018.
  */
-class KWS_LeadersRequest_Test {
+class KWS_ScoreRequest_Test {
+
+
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
     private val URL = "https://stan-test-cluster.api.kws.superawesome.tv/"
@@ -37,7 +39,7 @@ class KWS_LeadersRequest_Test {
 
 
         val appId = 2
-        val endpoint = "v1/apps/$appId/leaders"
+        val endpoint = "v1/apps/$appId/score"
         val method = NetworkMethod.GET
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
@@ -45,7 +47,7 @@ class KWS_LeadersRequest_Test {
 
 
         //when
-        val getLeadersRequest = LeadersRequest(
+        val getScoreRequest = UserScoreRequest(
                 environment = kwsNetworkEnvironmnet,
                 appId = appId,
                 token = token
@@ -53,27 +55,28 @@ class KWS_LeadersRequest_Test {
 
 
         //then
-        assertNotNull(getLeadersRequest)
+        assertNotNull(getScoreRequest)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(getLeadersRequest.headers,
+        MatcherAssert.assertThat<Map<String, String>>(getScoreRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
-        assertEquals(getLeadersRequest.endpoint, endpoint)
+        assertEquals(getScoreRequest.endpoint, endpoint)
 
         //method type request
-        assertEquals(getLeadersRequest.method, method)
+        assertEquals(getScoreRequest.method, method)
 
         //query
-        assertNull(getLeadersRequest.query)
+        assertNull(getScoreRequest.query)
 
         //body
-        assertNull(getLeadersRequest.body)
+        assertNull(getScoreRequest.body)
 
         //form encoded urls
-        assertFalse(getLeadersRequest.formEncodeUrls)
+        assertFalse(getScoreRequest.formEncodeUrls)
 
 
     }
+
 }

@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestRequests
+package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest

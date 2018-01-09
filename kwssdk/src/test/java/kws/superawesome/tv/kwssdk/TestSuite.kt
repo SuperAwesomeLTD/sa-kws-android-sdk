@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk
 
-import kws.superawesome.tv.kwssdk.TestRequests.*
+import kws.superawesome.tv.kwssdk.TestRequests.kotlin.*
 import kws.superawesome.tv.kwssdk.TestResponses.*
 import org.junit.runner.RunWith
 import org.junit.runners.Suite

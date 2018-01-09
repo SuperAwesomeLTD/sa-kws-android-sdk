@@ -1,9 +1,9 @@
-package kws.superawesome.tv.kwssdk.TestRequests
+package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
+import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
 import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
@@ -13,9 +13,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 /**
- * Created by guilherme.mota on 04/01/2018.
+ * Created by guilherme.mota on 09/01/2018.
  */
-class KWS_InviteUserRequest_Test {
+class KWS_PermissionsRequest_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
@@ -33,50 +33,54 @@ class KWS_InviteUserRequest_Test {
             get() = URL
     }
 
+
     @Test
     fun GetUserDetailsRequest_Valid() {
 
 
         val userId = 25
-        val endpoint = "v1/users/$userId/invite-user"
+        val endpoint = "v1/users/$userId/request-permissions"
         val method = NetworkMethod.POST
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
                 "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
-        val emailAddress = "guilherme.mota+4@superawesome.tv"
+
+        val permissionsList = listOf<String>("accessAddress", "accessFirstName")
 
 
         //when
-        val inviteUserRequest = InviteUserRequest(
+        val requestPermission = PermissionsRequest(
                 environment = kwsNetworkEnvironmnet,
                 userId = userId,
                 token = token,
-                emailAddress = emailAddress
+                permissionsList = permissionsList
         )
 
 
         //then
-        assertNotNull(inviteUserRequest)
+        assertNotNull(requestPermission)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(inviteUserRequest.headers,
+        assertThat<Map<String, String>>(requestPermission.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
-        assertEquals(inviteUserRequest.endpoint, endpoint)
+        assertEquals(requestPermission.endpoint, endpoint)
 
         //method type request
-        assertEquals(inviteUserRequest.method, method)
+        assertEquals(requestPermission.method, method)
 
         //query
-        assertNull(inviteUserRequest.query)
+        assertNull(requestPermission.query)
 
         //body
-        MatcherAssert.assertThat(inviteUserRequest.body!!.size, CoreMatchers.`is`(1))
-        MatcherAssert.assertThat(inviteUserRequest.body, IsMapContaining.hasKey("email"))
+        assertNotNull(requestPermission.body)
+        assertThat(requestPermission.body!!.size, CoreMatchers.`is`(1))
+        assertThat(requestPermission.body, IsMapContaining.hasKey("permissions"))
+
 
         //form encoded urls
-        assertFalse(inviteUserRequest.formEncodeUrls)
+        assertFalse(requestPermission.formEncodeUrls)
 
 
     }

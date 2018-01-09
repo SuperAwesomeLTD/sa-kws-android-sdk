@@ -1,19 +1,20 @@
-package kws.superawesome.tv.kwssdk.TestRequests
+package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.GetAppDataRequest
+import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
 import org.hamcrest.MatcherAssert
 import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 /**
- * Created by guilherme.mota on 08/01/2018.
+ * Created by guilherme.mota on 05/01/2018.
  */
-class KWS_GetAppDataRequest_Test {
-
-
+class KWS_LeadersRequest_Test {
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
     private val URL = "https://stan-test-cluster.api.kws.superawesome.tv/"
@@ -32,12 +33,11 @@ class KWS_GetAppDataRequest_Test {
 
 
     @Test
-    fun SetAppDataRequest_Valid() {
+    fun GetLeadersRequest_Valid() {
 
-        //given
+
         val appId = 2
-        val userId = 25
-        val endpoint = "v1/apps/$appId/users/$userId/app-data"
+        val endpoint = "v1/apps/$appId/leaders"
         val method = NetworkMethod.GET
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
@@ -45,47 +45,35 @@ class KWS_GetAppDataRequest_Test {
 
 
         //when
-        val getAppDataRequest = GetAppDataRequest(
+        val getLeadersRequest = LeadersRequest(
                 environment = kwsNetworkEnvironmnet,
                 appId = appId,
-                userId = userId,
                 token = token
-
         )
 
 
         //then
-        assertNotNull(getAppDataRequest)
-
-        // token
-        assertNotEquals(token, "")
-        assertNotNull(token)
-
-
-        // appid
-        assertNotEquals(appId, 0)
+        assertNotNull(getLeadersRequest)
 
         //headers
-        MatcherAssert.assertThat<Map<String, String>>(getAppDataRequest.headers,
+        MatcherAssert.assertThat<Map<String, String>>(getLeadersRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
-        assertEquals(getAppDataRequest.endpoint, endpoint)
+        assertEquals(getLeadersRequest.endpoint, endpoint)
 
-        //query parameters
-        assertNull(getAppDataRequest.query)
+        //method type request
+        assertEquals(getLeadersRequest.method, method)
+
+        //query
+        assertNull(getLeadersRequest.query)
 
         //body
-        assertNull(getAppDataRequest.body)
-
-        //method request type
-        assertEquals(getAppDataRequest.method, method)
+        assertNull(getLeadersRequest.body)
 
         //form encoded urls
-        assertFalse(getAppDataRequest.formEncodeUrls)
+        assertFalse(getLeadersRequest.formEncodeUrls)
 
 
     }
-
-
 }

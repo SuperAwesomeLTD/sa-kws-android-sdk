@@ -1,7 +1,7 @@
-package kws.superawesome.tv.kwssdk.TestRequests
+package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.TriggerEventRequest
+import kws.superawesome.tv.kwssdk.base.requests.HasTriggeredEventRequest
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.hamcrest.MatcherAssert.assertThat
@@ -14,9 +14,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 /**
- * Created by guilherme.mota on 04/01/2018.
+ * Created by guilherme.mota on 05/01/2018.
  */
-class KWS_TriggerEventRequest_Test {
+class KWS_HasTriggeredEventRequest_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"
@@ -39,49 +39,46 @@ class KWS_TriggerEventRequest_Test {
 
 
         val userId = 25
-        val endpoint = "v1/users/$userId/trigger-event"
+        val endpoint = "v1/users/$userId/has-triggered-event"
         val method = NetworkMethod.POST
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc" +
                 "3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxMzM1MDM0NywiZXhwIjoxNTEzNDM2NzQ3LCJpc3Mi" +
                 "OiJzdXBlcmF3ZXNvbWUifQ.zBLzyW3RJC7ybZyOeKq5SLulq6L1SmIpdDSByR1rLAc"
 
-        val points = 20
-        val eventToken = "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260"
+        val eventId = 10
 
 
         //when
-        val triggerEventRequest = TriggerEventRequest(
+        val hasTriggeredEventRequest = HasTriggeredEventRequest(
                 environment = kwsNetworkEnvironmnet,
-                points = points,
                 userId = userId,
-                token = token,
-                eventToken = eventToken
+                eventId = eventId,
+                token = token
         )
 
 
         //then
-        assertNotNull(triggerEventRequest)
+        assertNotNull(hasTriggeredEventRequest)
 
         //headers
-        assertThat<Map<String, String>>(triggerEventRequest.headers,
+        assertThat<Map<String, String>>(hasTriggeredEventRequest.headers,
                 IsMapContaining.hasEntry("Content-Type", "application/json"))
 
         //endpoint
-        assertEquals(triggerEventRequest.endpoint, endpoint)
+        assertEquals(hasTriggeredEventRequest.endpoint, endpoint)
 
         //method type request
-        assertEquals(triggerEventRequest.method, method)
+        assertEquals(hasTriggeredEventRequest.method, method)
 
         //query
-        assertNull(triggerEventRequest.query)
+        assertNull(hasTriggeredEventRequest.query)
 
         //body
-        MatcherAssert.assertThat(triggerEventRequest.body!!.size, CoreMatchers.`is`(2))
-        MatcherAssert.assertThat(triggerEventRequest.body, IsMapContaining.hasKey("points"))
-        MatcherAssert.assertThat(triggerEventRequest.body, IsMapContaining.hasKey("token"))
+        MatcherAssert.assertThat(hasTriggeredEventRequest.body!!.size, CoreMatchers.`is`(1))
+        MatcherAssert.assertThat(hasTriggeredEventRequest.body, IsMapContaining.hasKey("eventId"))
 
         //form encoded urls
-        assertFalse(triggerEventRequest.formEncodeUrls)
+        assertFalse(hasTriggeredEventRequest.formEncodeUrls)
 
 
     }
