@@ -7,7 +7,8 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
-internal class PermissionsRequest(environment: KWSNetworkEnvironment,
+/*internal*/
+class PermissionsRequest(environment: KWSNetworkEnvironment,
                                   userId: Int,
                                   token: String,
                                   permissionsList: List<String>

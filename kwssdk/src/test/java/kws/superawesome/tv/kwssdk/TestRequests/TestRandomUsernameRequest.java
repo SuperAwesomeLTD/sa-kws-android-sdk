@@ -9,17 +9,17 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest;
+import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestAppConfigRequest {
+public class TestRandomUsernameRequest {
 
     //class to be tested
-    private AppConfigRequest appConfigRequest;
+    private RandomUsernameRequest randomUsernameRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
@@ -35,27 +35,27 @@ public class TestAppConfigRequest {
     public final void testRequest() {
 
         //given
-        String clientID = "__mock_clientId__";
-        String endpoint = "v1/apps/config";
+        int appId = 1;
+        String endpoint = "v2/apps/" + appId + "/random-display-name";
         NetworkMethod method = NetworkMethod.GET;
 
         //when
-        appConfigRequest = new AppConfigRequest(
+        randomUsernameRequest = new RandomUsernameRequest(
                 environment,
-                clientID);
-
+                appId
+        );
 
         //then
-        Assert.assertNotNull(appConfigRequest);
-        Assert.assertNotNull(clientID);
-        Assert.assertEquals(endpoint, appConfigRequest.getEndpoint());
-        Assert.assertEquals(method, appConfigRequest.getMethod());
+        Assert.assertNotNull(randomUsernameRequest);
+        Assert.assertNotNull(randomUsernameRequest.getEnvironment());
+        Assert.assertEquals(method, randomUsernameRequest.getMethod());
+        Assert.assertEquals(endpoint, randomUsernameRequest.getEndpoint());
 
-        Map<String, Object> body = appConfigRequest.getBody();
+        Map<String, Object> body = randomUsernameRequest.getBody();
 
         Assert.assertNull(body);
 
-        Map<String, String> header = appConfigRequest.getHeaders();
+        Map<String, String> header = randomUsernameRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 1);
@@ -63,12 +63,13 @@ public class TestAppConfigRequest {
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
 
-        Map<String, Object> query = appConfigRequest.getQuery();
+        Map<String, Object> query = randomUsernameRequest.getQuery();
 
-        Assert.assertNotNull(query);
-        Assert.assertEquals(query.size(), 1);
-        Assert.assertTrue(query.containsKey("oauthClientId"));
+        Assert.assertNull(query);
 
-        Assert.assertFalse(appConfigRequest.getFormEncodeUrls());
+        Assert.assertFalse(randomUsernameRequest.getFormEncodeUrls());
+
     }
+
+
 }

@@ -6,7 +6,8 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 04/01/2018.
  */
-internal class TriggerEventRequest(environment: KWSNetworkEnvironment,
+/*internal*/
+class TriggerEventRequest(environment: KWSNetworkEnvironment,
                                    points: Int,
                                    userId: Int,
                                    token: String,
