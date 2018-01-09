@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwssdk.base.services
 
 import kws.superawesome.tv.kwssdk.base.responses.Score
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionStatus
 
 /**
  * Created by guilherme.mota on 03/01/2018.
@@ -21,6 +22,12 @@ interface UserService : BaseService {
     fun getScore(appId: Int,
                  token: String,
                  callback: (score: Score?, error: Throwable?) -> Unit)
+
+
+    fun requestPermissions(userId: Int,
+                           token: String,
+                           permissionsList: List<String>,
+                           callback: (success: Boolean, error: Throwable?) -> Unit)
 
 
 }

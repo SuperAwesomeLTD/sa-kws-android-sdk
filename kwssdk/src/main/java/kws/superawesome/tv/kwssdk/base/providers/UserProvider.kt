@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
+import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
 import kws.superawesome.tv.kwssdk.base.responses.Score
@@ -99,6 +100,48 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
 
                 callback(null, getUserScoreNetworkResponse.error)
             }
+        }
+
+
+    }
+
+
+    override fun requestPermissions(userId: Int, token: String, permissionsList: List<String>, callback: (success: Boolean, error: Throwable?) -> Unit) {
+
+
+        val requestPermissionsNetworkRequest = PermissionsRequest(
+                environment = environment,
+                userId = userId,
+                token = token,
+                permissionsList = permissionsList
+        )
+
+        val requestPermissionNetworkTask = NetworkTask()
+        requestPermissionNetworkTask.execute(input = requestPermissionsNetworkRequest) { requestPermissionsNetworkResponse ->
+
+            if (requestPermissionsNetworkResponse.response != null && requestPermissionsNetworkResponse.error == null) {
+
+                //
+                //send callback
+                if (requestPermissionsNetworkResponse.status == 200
+                        || requestPermissionsNetworkResponse.status == 204) {
+                    callback(true, null)
+                } else {
+                    //
+                    // we have a response, but something else went wrong
+                    val payload = requestPermissionsNetworkResponse.response
+                    val message = if (payload != null) payload else "Unknown network error"
+                    val error = Throwable (message)
+                    callback (false, error)
+                }
+
+            } else {
+                //
+                // network failure
+                callback(false, requestPermissionsNetworkResponse.error)
+            }
+
+
         }
 
 
