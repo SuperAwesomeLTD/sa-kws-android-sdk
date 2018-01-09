@@ -5,7 +5,8 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 /**
  * Created by guilherme.mota on 08/01/2018.
  */
-internal class GetAppDataRequest(environment: KWSNetworkEnvironment,
+/*internal*/
+class GetAppDataRequest(environment: KWSNetworkEnvironment,
                         appId: Int,
                         userId: Int,
                         token: String

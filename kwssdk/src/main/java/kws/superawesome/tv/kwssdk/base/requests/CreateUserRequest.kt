@@ -6,7 +6,8 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 12/12/2017.
  */
-internal class CreateUserRequest(environment: KWSNetworkEnvironment,
+/*internal*/
+class CreateUserRequest(environment: KWSNetworkEnvironment,
                                  username: String,
                                  password: String,
                                  dateOfBirth: String,

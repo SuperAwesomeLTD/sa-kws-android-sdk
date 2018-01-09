@@ -10,6 +10,7 @@ import org.junit.Test
 /**
  * Created by guilherme.mota on 15/12/2017.
  */
+@Deprecated("Not used anymore")
 class KWS_BaseRequest_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";

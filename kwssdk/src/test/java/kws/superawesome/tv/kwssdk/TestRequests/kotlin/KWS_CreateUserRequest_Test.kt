@@ -2,22 +2,16 @@ package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
 import org.junit.Test
 import tv.superawesome.lib.sautils.SAUtils
 import tv.superawesome.samobilebase.network.NetworkMethod
-
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.not
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.collection.IsMapContaining
-import kotlin.test.*
 
 
 /**
  * Created by guilherme.mota on 15/12/2017.
  */
+
+@Deprecated("Not used anymore")
 class KWS_CreateUserRequest_Test {
 
 
@@ -67,49 +61,49 @@ class KWS_CreateUserRequest_Test {
                 )
 
 
-        //then
-        assertNotNull(createUserRequest)
-
-        // token
-        assertNotEquals(token,"")
-        assertNotNull(token)
-
-        //password
-        assertNotNull(password)
-
-        // appid
-        assertNotEquals(appID,0)
-
-        //headers
-        assertThat<Map<String, String>>(createUserRequest.headers,
-                IsMapContaining.hasEntry("Content-Type", "application/json"))
-
-        //endpoint
-        assertEquals(createUserRequest.endpoint, endpoint)
-
-        //query parameters
-        assertThat<Map<String, String>>(createUserRequest.query as Map<String, String>?,
-                IsMapContaining.hasEntry("access_token", token))
-
-        //body
-        assertThat(createUserRequest.body!!.size, `is`(6))
-        assertThat<Map<String, Boolean>>(createUserRequest.body as Map<String, Boolean>?, IsMapContaining.hasEntry("authenticate", true))
-        assertThat(createUserRequest.body, IsMapContaining.hasKey("username"))
-        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("username", "")))
-        assertThat(createUserRequest.body, IsMapContaining.hasKey("password"))
-        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("password", "")))
-        assertThat(createUserRequest.body, IsMapContaining.hasKey("dateOfBirth"))
-        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("dateOfBirth", "")))
-        assertThat(createUserRequest.body, IsMapContaining.hasKey("country"))
-        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("country", "")))
-        assertThat(createUserRequest.body, IsMapContaining.hasKey("parentEmail"))
-        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("parentEmail", "")))
-
-        //method request type
-        assertEquals(createUserRequest.method, method)
-
-        //form encoded urls
-        assertFalse(createUserRequest.formEncodeUrls)
+//        //then
+//        assertNotNull(createUserRequest)
+//
+//        // token
+//        assertNotEquals(token,"")
+//        assertNotNull(token)
+//
+//        //password
+//        assertNotNull(password)
+//
+//        // appid
+//        assertNotEquals(appID,0)
+//
+//        //headers
+//        assertThat<Map<String, String>>(createUserRequest.headers,
+//                IsMapContaining.hasEntry("Content-Type", "application/json"))
+//
+//        //endpoint
+//        assertEquals(createUserRequest.endpoint, endpoint)
+//
+//        //query parameters
+//        assertThat<Map<String, String>>(createUserRequest.query as Map<String, String>?,
+//                IsMapContaining.hasEntry("access_token", token))
+//
+//        //body
+//        assertThat(createUserRequest.body!!.size, `is`(6))
+//        assertThat<Map<String, Boolean>>(createUserRequest.body as Map<String, Boolean>?, IsMapContaining.hasEntry("authenticate", true))
+//        assertThat(createUserRequest.body, IsMapContaining.hasKey("username"))
+//        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("username", "")))
+//        assertThat(createUserRequest.body, IsMapContaining.hasKey("password"))
+//        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("password", "")))
+//        assertThat(createUserRequest.body, IsMapContaining.hasKey("dateOfBirth"))
+//        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("dateOfBirth", "")))
+//        assertThat(createUserRequest.body, IsMapContaining.hasKey("country"))
+//        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("country", "")))
+//        assertThat(createUserRequest.body, IsMapContaining.hasKey("parentEmail"))
+//        assertThat<Map<String, String>>(createUserRequest.body as Map<String, String>?, not(IsMapContaining.hasEntry("parentEmail", "")))
+//
+//        //method request type
+//        assertEquals(createUserRequest.method, method)
+//
+//        //form encoded urls
+//        assertFalse(createUserRequest.formEncodeUrls)
 
 
     }
