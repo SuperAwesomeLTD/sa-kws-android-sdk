@@ -27,7 +27,7 @@ interface UserService : BaseService {
     fun requestPermissions(userId: Int,
                            token: String,
                            permissionsList: List<String>,
-                           callback: (kwsChildrenRequestPermissionStatus: KWSChildrenRequestPermissionStatus?, error: Throwable?) -> Unit)
+                           callback: (success: Boolean, error: Throwable?) -> Unit)
 
 
 }
