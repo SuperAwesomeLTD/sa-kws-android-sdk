@@ -1,12 +1,16 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.models.Error
+import kws.superawesome.tv.kwssdk.base.models.Permissions
 import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
+import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
 import kws.superawesome.tv.kwssdk.base.responses.Score
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails
 import kws.superawesome.tv.kwssdk.base.services.UserService
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionStatus
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
@@ -99,6 +103,57 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
 
                 callback(null, getUserScoreNetworkResponse.error)
             }
+        }
+
+
+    }
+
+
+    override fun requestPermissions(userId: Int, token: String, permissionsList: List<String>, callback: (kwsChildrenRequestPermissionStatus: KWSChildrenRequestPermissionStatus?, error: Throwable?) -> Unit) {
+
+
+        val requestPermissionsNetworkRequest = PermissionsRequest(
+                environment = environment,
+                userId = userId,
+                token = token,
+                permissionsList = permissionsList
+        )
+
+        val requestPermissionNetworkTask = NetworkTask()
+        requestPermissionNetworkTask.execute(input = requestPermissionsNetworkRequest) { requestPermissionsNetworkResponse ->
+
+            if (requestPermissionsNetworkResponse.response != null && requestPermissionsNetworkResponse.error == null) {
+
+                //
+                //send callback
+                if (requestPermissionsNetworkResponse.status == 200
+                        || requestPermissionsNetworkResponse.status == 204) {
+                    callback(KWSChildrenRequestPermissionStatus.Success, null)
+                } else {
+
+                    val parseRequest = ParseJsonRequest(rawString = requestPermissionsNetworkResponse.response)
+                    val parseTask = ParseJsonTask()
+                    val requestPermissionsErrorResponseObject = parseTask.execute<Error>(input = parseRequest,
+                            clazz = Error::class.java)
+
+
+                    if (requestPermissionsErrorResponseObject != null
+                            && requestPermissionsErrorResponseObject.code == 10
+                            //todo the parent email code should be mapped to an enum/constant field instead of hardcoded '6'
+                            && requestPermissionsErrorResponseObject.invalid.parentEmail.code == 6) {
+                        callback(KWSChildrenRequestPermissionStatus.NoParentEmail, null)
+                    } else {
+                        callback(KWSChildrenRequestPermissionStatus.NetworkError, null)
+                    }
+                }
+
+            } else {
+                //
+                // network failure
+                callback(null, requestPermissionsNetworkResponse.error)
+            }
+
+
         }
 
 

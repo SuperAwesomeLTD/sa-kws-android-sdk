@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
@@ -64,6 +65,7 @@ import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdatePare
 import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmail;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionInterface;
+import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionStatus;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSRequestPermission;
 import kws.superawesome.tv.kwssdk.services.kws.randomname.KWSChildrenGetRandomUsernameInterface;
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenGetLeaderboardInterface;
@@ -446,8 +448,47 @@ public class KWSChildren {
         parentEmail.execute(context, email, listener);
     }
 
-    public void requestPermission(Context context, KWSChildrenPermissionType[] requestedPermissions, KWSChildrenRequestPermissionInterface listener) {
-        requestPermission.execute(context, requestedPermissions, listener);
+    public void requestPermission(Context context, KWSChildrenPermissionType[] requestedPermissions, final KWSChildrenRequestPermissionInterface listener) {
+        UserService userService = KWSSDK.get(kwsEnvironment, UserService.class);
+
+        if (userService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NetworkError);
+                return;
+            }
+
+            List<String> listOfPermissions = getListOfPermissions(requestedPermissions);
+
+            userService.requestPermissions(loggedUser.metadata.userId, loggedUser.token,
+                    listOfPermissions, new Function2<KWSChildrenRequestPermissionStatus, Throwable, Unit>() {
+                        @Override
+                        public Unit invoke(KWSChildrenRequestPermissionStatus kwsChildrenRequestPermissionStatus, Throwable throwable) {
+
+                            if (kwsChildrenRequestPermissionStatus != null) {
+                                listener.didRequestPermission(kwsChildrenRequestPermissionStatus);
+                            } else {
+                                listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NetworkError);
+
+                            }
+
+                            return null;
+                        }
+                    });
+
+        }
+
+    }
+
+    private List<String> getListOfPermissions(KWSChildrenPermissionType[] requestedPermissions) {
+
+        List<String> permissionsArray = new ArrayList<>();
+
+        for (KWSChildrenPermissionType typeOfPermission : requestedPermissions) {
+            permissionsArray.add(typeOfPermission.toString());
+        }
+
+        return permissionsArray;
     }
 
     // invite another user
