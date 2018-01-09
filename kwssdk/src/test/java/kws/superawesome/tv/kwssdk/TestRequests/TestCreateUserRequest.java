@@ -98,6 +98,8 @@ public class TestCreateUserRequest {
         Assert.assertEquals(query.size(), 1);
         Assert.assertTrue(query.containsKey("access_token"));
         Assert.assertEquals(token, query.get("access_token"));
+
+        Assert.assertFalse(createUserRequest.getFormEncodeUrls());
     }
 
 

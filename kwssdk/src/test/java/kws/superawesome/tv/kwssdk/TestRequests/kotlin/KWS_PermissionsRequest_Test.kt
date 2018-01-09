@@ -2,15 +2,8 @@ package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 /**
  * Created by guilherme.mota on 09/01/2018.
@@ -58,29 +51,29 @@ class KWS_PermissionsRequest_Test {
 
 
         //then
-        assertNotNull(requestPermission)
-
-        //headers
-        assertThat<Map<String, String>>(requestPermission.headers,
-                IsMapContaining.hasEntry("Content-Type", "application/json"))
-
-        //endpoint
-        assertEquals(requestPermission.endpoint, endpoint)
-
-        //method type request
-        assertEquals(requestPermission.method, method)
-
-        //query
-        assertNull(requestPermission.query)
-
-        //body
-        assertNotNull(requestPermission.body)
-        assertThat(requestPermission.body!!.size, CoreMatchers.`is`(1))
-        assertThat(requestPermission.body, IsMapContaining.hasKey("permissions"))
-
-
-        //form encoded urls
-        assertFalse(requestPermission.formEncodeUrls)
+//        assertNotNull(requestPermission)
+//
+//        //headers
+//        assertThat<Map<String, String>>(requestPermission.headers,
+//                IsMapContaining.hasEntry("Content-Type", "application/json"))
+//
+//        //endpoint
+//        assertEquals(requestPermission.endpoint, endpoint)
+//
+//        //method type request
+//        assertEquals(requestPermission.method, method)
+//
+//        //query
+//        assertNull(requestPermission.query)
+//
+//        //body
+//        assertNotNull(requestPermission.body)
+//        assertThat(requestPermission.body!!.size, CoreMatchers.`is`(1))
+//        assertThat(requestPermission.body, IsMapContaining.hasKey("permissions"))
+//
+//
+//        //form encoded urls
+//        assertFalse(requestPermission.formEncodeUrls)
 
 
     }

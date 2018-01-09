@@ -2,15 +2,13 @@ package kws.superawesome.tv.kwssdk.TestRequests.kotlin
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.GetAppDataRequest
-import org.hamcrest.MatcherAssert
-import org.hamcrest.collection.IsMapContaining
 import org.junit.Test
 import tv.superawesome.samobilebase.network.NetworkMethod
-import kotlin.test.*
 
 /**
  * Created by guilherme.mota on 08/01/2018.
  */
+@Deprecated("Not used anymore")
 class KWS_GetAppDataRequest_Test {
 
 
@@ -54,35 +52,35 @@ class KWS_GetAppDataRequest_Test {
         )
 
 
-        //then
-        assertNotNull(getAppDataRequest)
-
-        // token
-        assertNotEquals(token, "")
-        assertNotNull(token)
-
-
-        // appid
-        assertNotEquals(appId, 0)
-
-        //headers
-        MatcherAssert.assertThat<Map<String, String>>(getAppDataRequest.headers,
-                IsMapContaining.hasEntry("Content-Type", "application/json"))
-
-        //endpoint
-        assertEquals(getAppDataRequest.endpoint, endpoint)
-
-        //query parameters
-        assertNull(getAppDataRequest.query)
-
-        //body
-        assertNull(getAppDataRequest.body)
-
-        //method request type
-        assertEquals(getAppDataRequest.method, method)
-
-        //form encoded urls
-        assertFalse(getAppDataRequest.formEncodeUrls)
+//        //then
+//        assertNotNull(getAppDataRequest)
+//
+//        // token
+//        assertNotEquals(token, "")
+//        assertNotNull(token)
+//
+//
+//        // appid
+//        assertNotEquals(appId, 0)
+//
+//        //headers
+//        MatcherAssert.assertThat<Map<String, String>>(getAppDataRequest.headers,
+//                IsMapContaining.hasEntry("Content-Type", "application/json"))
+//
+//        //endpoint
+//        assertEquals(getAppDataRequest.endpoint, endpoint)
+//
+//        //query parameters
+//        assertNull(getAppDataRequest.query)
+//
+//        //body
+//        assertNull(getAppDataRequest.body)
+//
+//        //method request type
+//        assertEquals(getAppDataRequest.method, method)
+//
+//        //form encoded urls
+//        assertFalse(getAppDataRequest.formEncodeUrls)
 
 
     }
