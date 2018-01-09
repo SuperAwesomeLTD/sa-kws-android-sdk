@@ -26,6 +26,7 @@ import org.junit.runners.Suite
         KWS_LeadersRequest_Test::class,
         KWS_ScoreRequest_Test::class,
         KWS_SetAppDataRequest_Test::class,
+        KWS_GetAppDataRequest_Test::class,
 
         //Responses
         KWS_CreateUserResponse_Test::class,
@@ -34,7 +35,8 @@ import org.junit.runners.Suite
         KWS_AppConfigResponse_Test::class,
         KWS_UserDetailsResponse_Test::class,
         KWS_LeadersResponse_Test::class,
-        KWS_ScoreResponse_Test::class
+        KWS_ScoreResponse_Test::class,
+        KWS_GetAppDataResponse_Test::class
 )
 
 class TestSuite {
