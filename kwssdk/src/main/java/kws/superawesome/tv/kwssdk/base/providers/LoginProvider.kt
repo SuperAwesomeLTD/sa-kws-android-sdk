@@ -25,33 +25,33 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
                            callback: (user: Login?, error: Throwable?) -> Unit) {
 
 
-        val networkRequest = LoginUserRequest(
+        val loginUserNetworkRequest = LoginUserRequest(
                 environment = environment,
                 username = username,
                 password = password,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
-        val networkTask = NetworkTask()
-        networkTask.execute(input = networkRequest) { rawString, networkError ->
+        val loginUserNetworkTask = NetworkTask()
+        loginUserNetworkTask.execute(input = loginUserNetworkRequest) { loginUserNetworkResponse ->
 
             //
             // network success case
-            if (rawString != null && networkError == null) {
+            if (loginUserNetworkResponse.response != null && loginUserNetworkResponse.error == null) {
 
-                val parseRequest = ParseJsonRequest(rawString = rawString)
+                val parseRequest = ParseJsonRequest(rawString = loginUserNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<Login>(input = parseRequest, clazz = Login::class.java)
+                val loginResponseObject = parseTask.execute<Login>(input = parseRequest, clazz = Login::class.java)
 
                 //
                 //send callback
-                val error = if (authResponse != null) null else Throwable("Error - not valid login")
-                callback(authResponse, error)
+                val error = if (loginResponseObject != null) null else Throwable("Error - not valid login")
+                callback(loginResponseObject, error)
 
             }
             //
             // network failure
             else {
-                callback(null, networkError)
+                callback(null, loginUserNetworkResponse.error)
             }
         }
     }

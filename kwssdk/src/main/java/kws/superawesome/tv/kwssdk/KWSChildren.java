@@ -460,14 +460,9 @@ public class KWSChildren {
 
             userService.inviteUser(emailAddress, loggedUser.metadata.userId, loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+                public Unit invoke(Boolean isInviteUser, Throwable throwable) {
 
-                    if (isUserInvited) {
-                        listener.didInviteUser(true);
-                    } else {
-                        listener.didInviteUser(false);
-                    }
-
+                    listener.didInviteUser(isInviteUser);
 
                     return null;
                 }
@@ -490,14 +485,9 @@ public class KWSChildren {
 
             eventsService.triggerEvent(points, loggedUser.metadata.userId, loggedUser.token, token, new Function2<Boolean, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Boolean isUserInvited, Throwable throwable) {
+                public Unit invoke(Boolean isTriggerEvent, Throwable throwable) {
 
-                    if (isUserInvited) {
-                        listener.didTriggerEvent(true);
-                    } else {
-                        listener.didTriggerEvent(false);
-                    }
-
+                    listener.didTriggerEvent(isTriggerEvent);
 
                     return null;
                 }
@@ -537,7 +527,7 @@ public class KWSChildren {
 
     }
 
-    public void getScore(Context context, final KWSChildrenGetScoreInterface listener){
+    public void getScore(Context context, final KWSChildrenGetScoreInterface listener) {
 
         UserService userService = KWSSDK.get(kwsEnvironment, UserService.class);
 

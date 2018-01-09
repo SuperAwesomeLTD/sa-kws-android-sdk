@@ -49,32 +49,32 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
     private fun getTempAccessToken(environment: KWSNetworkEnvironment,
                                    callback: (login: Login?, error: Throwable?) -> Unit) {
 
-        val networkGetTempAccessTokenRequest = TempAccessTokenRequest(
+        val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
                 environment = environment,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
 
-        val networkGetTemAccessTokenTask = NetworkTask()
+        val getTemAccessTokenNetworkTask = NetworkTask()
 
-        networkGetTemAccessTokenTask.execute(input = networkGetTempAccessTokenRequest) { rawString, networkError ->
+        getTemAccessTokenNetworkTask.execute(input = getTempAccessTokenNetworkRequest) { getTempAccessTokenNetworkResponse ->
 
             // network success case
-            if (rawString != null && networkError == null) {
+            if (getTempAccessTokenNetworkResponse.response != null && getTempAccessTokenNetworkResponse.error == null) {
 
-                val parseRequest = ParseJsonRequest(rawString = rawString)
+                val parseRequest = ParseJsonRequest(rawString = getTempAccessTokenNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val authResponse = parseTask.execute<Login>(input = parseRequest,
+                val getTemAccessResponseObject = parseTask.execute<Login>(input = parseRequest,
                         clazz = Login::class.java)
                 //
                 //send callback
-                val error = if (authResponse != null) null else Throwable("Error - couldn't parse JWT")
-                callback(authResponse,error)
+                val error = if (getTemAccessResponseObject != null) null else Throwable("Error - couldn't parse JWT")
+                callback(getTemAccessResponseObject,error)
 
             }
             //
             // network failure
             else {
-                callback(null, networkError)
+                callback(null, getTempAccessTokenNetworkResponse.error)
             }
         }
     }
@@ -90,7 +90,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                                callback: (createdUser: CreateUser?, error: Throwable?) -> Unit) {
 
 
-        val networkCreateUserRequest = CreateUserRequest(
+        val createUserNetworkRequest = CreateUserRequest(
                 environment = environment,
                 username = username,
                 password = password,
@@ -100,28 +100,28 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 token = token,
                 appID = appId)
 
-        val networkCreateUserTask = NetworkTask()
+        val createUserNetworkTask = NetworkTask()
 
-        networkCreateUserTask.execute(input = networkCreateUserRequest) { rawString, networkError ->
+        createUserNetworkTask.execute(input = createUserNetworkRequest) { createUserNetworkResponse ->
 
             // network success case
-            if (rawString != null && networkError == null) {
+            if (createUserNetworkResponse.response != null && createUserNetworkResponse.error == null) {
 
-                val parseRequest = ParseJsonRequest(rawString = rawString)
+                val parseRequest = ParseJsonRequest(rawString = createUserNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val createUserResponse = parseTask.execute<CreateUser>(input = parseRequest,
+                val createUserResponseObject = parseTask.execute<CreateUser>(input = parseRequest,
                         clazz = CreateUser::class.java)
 
-                val error = if (createUserResponse != null) null else Throwable("Error - invalid create user")
+                val error = if (createUserResponseObject != null) null else Throwable("Error - invalid create user")
 
                 //
                 //send callback
-                callback(createUserResponse, error)
+                callback(createUserResponseObject, error)
 
             } else {
                 //
                 // network failure
-                callback(null, networkError)
+                callback(null, createUserNetworkResponse.error)
             }
         }
     }

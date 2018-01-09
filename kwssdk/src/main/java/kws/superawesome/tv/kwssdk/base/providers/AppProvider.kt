@@ -11,37 +11,38 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
-class AppProvider(val environment: KWSNetworkEnvironment) : AppService {
+@PublishedApi
+internal class AppProvider(val environment: KWSNetworkEnvironment) : AppService {
 
     override fun getLeaders(appId: Int, token: String, callback: (leaders: Leaders?, error: Throwable?) -> Unit) {
 
-        val getLeadersRequest = LeadersRequest(
+        val getLeadersNetworkRequest = LeadersRequest(
                 environment = environment,
                 appId = appId,
                 token = token
         )
 
         val getLeadersNetworkTask = NetworkTask()
-        getLeadersNetworkTask.execute(input = getLeadersRequest) { rawString, networkError ->
+        getLeadersNetworkTask.execute(input = getLeadersNetworkRequest) { getLeadersNetworkResponse ->
 
             //
             // network success case
-            if (rawString != null && networkError == null) {
-                val parseRequest = ParseJsonRequest(rawString = rawString)
+            if (getLeadersNetworkResponse.response != null && getLeadersNetworkResponse.error == null) {
+                val parseRequest = ParseJsonRequest(rawString = getLeadersNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val getLeadersResponse = parseTask.execute<Leaders>(input = parseRequest,
+                val getLeadersResponseObject = parseTask.execute<Leaders>(input = parseRequest,
                         clazz = Leaders::class.java)
 
                 //
                 // send callback
-                val error = if (getLeadersResponse == null) Throwable("Error getting user details") else null;
-                callback(getLeadersResponse, error)
+                val error = if (getLeadersResponseObject == null) Throwable("Error getting user details") else null;
+                callback(getLeadersResponseObject, error)
 
             }
             //
             // network failure
             else {
-                callback(null, networkError)
+                callback(null, getLeadersNetworkResponse.error)
             }
 
         }
