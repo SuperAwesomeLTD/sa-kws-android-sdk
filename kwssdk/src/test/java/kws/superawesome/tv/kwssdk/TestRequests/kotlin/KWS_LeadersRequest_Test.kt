@@ -8,6 +8,7 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
+@Deprecated("Not used anymore")
 class KWS_LeadersRequest_Test {
     private val APPID = "stan-test" // "superawesomeclub";
     private val KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4"

@@ -35,7 +35,7 @@ public class TestAppConfigRequest {
     public final void testRequest() {
 
         //given
-        String clientID = "stan-test";
+        String clientID = "__mock_clientId__";
         String endpoint = "v1/apps/config";
         NetworkMethod method = NetworkMethod.GET;
 
@@ -68,7 +68,6 @@ public class TestAppConfigRequest {
         Assert.assertNotNull(query);
         Assert.assertEquals(query.size(), 1);
         Assert.assertTrue(query.containsKey("oauthClientId"));
-
 
         Assert.assertFalse(appConfigRequest.getFormEncodeUrls());
     }

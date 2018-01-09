@@ -40,8 +40,8 @@ public class TestCreateUserRequest {
         String password = "__mock_password__";
         String dateOfBirth = "__mock_dob__";
         String country = "__mock_country__";
-        String parentEmail = "__mock_@_token__";
-        int appID = 2;
+        String parentEmail = "__mock_@_email__";
+        int appID = 1;
         String token = "__mock_token__";
         String endpoint = "v1/apps/" + appID + "/users";
         NetworkMethod method = NetworkMethod.POST;
@@ -98,6 +98,7 @@ public class TestCreateUserRequest {
         Assert.assertEquals(query.size(), 1);
         Assert.assertTrue(query.containsKey("access_token"));
         Assert.assertEquals(token, query.get("access_token"));
+
 
         Assert.assertFalse(createUserRequest.getFormEncodeUrls());
     }

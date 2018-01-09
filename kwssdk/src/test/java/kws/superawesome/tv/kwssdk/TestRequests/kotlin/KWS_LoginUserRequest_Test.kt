@@ -8,6 +8,7 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 15/12/2017.
  */
+@Deprecated("Not used anymore")
 class KWS_LoginUserRequest_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";

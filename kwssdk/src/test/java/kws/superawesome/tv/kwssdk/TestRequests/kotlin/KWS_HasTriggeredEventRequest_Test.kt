@@ -12,6 +12,8 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
+
+@Deprecated("Not used anymore")
 class KWS_HasTriggeredEventRequest_Test {
 
     private val APPID = "stan-test" // "superawesomeclub";

@@ -6,13 +6,13 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
-internal class LoginUserRequest(environment: KWSNetworkEnvironment,
-                                username: String,
-                                password: String,
-                                clientID: String,
-                                clientSecret: String
-) :
-        BaseRequest(environment = environment) {
+/*internal*/
+class LoginUserRequest(environment: KWSNetworkEnvironment,
+                       username: String,
+                       password: String,
+                       clientID: String,
+                       clientSecret: String
+) : BaseRequest(environment = environment) {
 
     override val headers: Map<String, String> = mapOf("Content-Type" to "application/x-www-form-urlencoded")
 

@@ -5,15 +5,14 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
-internal class LeadersRequest(environment: KWSNetworkEnvironment,
-                              appId: Int,
-                              token: String
+/*internal*/
+class LeadersRequest(environment: KWSNetworkEnvironment,
+                     appId: Int,
+                     token: String
 ) : BaseRequest(environment = environment, token = token) {
 
 
     override val endpoint: String = "v1/apps/$appId/leaders"
-
-
 
 
 }
