@@ -362,10 +362,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setAppData(View v) {
-        KWSChildren.sdk.setAppData(this, 33, "new_val", new KWSChildrenSetAppDataInterface() {
+
+        final int value = 33;
+        final String name = "new_val";
+
+        KWSChildren.sdk.setAppData(this, value, "new_val", new KWSChildrenSetAppDataInterface() {
             @Override
             public void didSetAppData(boolean success) {
-                log += "Set new_val=33 with " + success + "\n";
+                log += "Set " + name + " = " + value + " with " + success + "\n";
                 logView.setText(log);
             }
         });

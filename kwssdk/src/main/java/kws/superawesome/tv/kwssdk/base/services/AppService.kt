@@ -13,10 +13,15 @@ interface AppService : BaseService {
                    callback: (leaders: Leaders?, error: Throwable?) -> Unit)
 
     //TODO
-    //fun getAppData()
+//    fun getAppData()
 
-    //TODO
-    //fun setAppData()
+
+    fun setAppData(appId: Int,
+                   userId: Int,
+                   nameValue: String,
+                   numericValue: Int,
+                   token: String,
+                   callback: (success: Boolean?, error: Throwable?) -> Unit)
 
 
 }

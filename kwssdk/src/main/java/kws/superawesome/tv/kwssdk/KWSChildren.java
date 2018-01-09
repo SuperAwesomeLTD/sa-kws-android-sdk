@@ -625,8 +625,33 @@ public class KWSChildren {
         getAppData.execute(context, listener);
     }
 
-    public void setAppData(Context context, int value, String name, KWSChildrenSetAppDataInterface listener) {
-        setAppData.execute(context, name, value, listener);
+    public void setAppData(Context context, int value, String name, final KWSChildrenSetAppDataInterface listener) {
+
+        AppService appService = KWSSDK.get(kwsEnvironment, AppService.class);
+
+        if (appService != null) {
+
+            if (loggedUser == null || loggedUser.metadata == null) {
+                listener.didSetAppData(false);
+                return;
+            }
+
+            appService.setAppData(loggedUser.metadata.appId,
+                    loggedUser.metadata.userId,
+                    name,
+                    value,
+                    loggedUser.token, new Function2<Boolean, Throwable, Unit>() {
+                        @Override
+                        public Unit invoke(Boolean isSetAppData, Throwable throwable) {
+
+                            listener.didSetAppData(isSetAppData);
+
+                            return null;
+                        }
+                    });
+
+        }
+
     }
 
     // handle remote notifications
