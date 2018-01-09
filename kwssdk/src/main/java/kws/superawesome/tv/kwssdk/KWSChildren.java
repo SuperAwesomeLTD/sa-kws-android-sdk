@@ -461,12 +461,12 @@ public class KWSChildren {
             List<String> listOfPermissions = getListOfPermissions(requestedPermissions);
 
             userService.requestPermissions(loggedUser.metadata.userId, loggedUser.token,
-                    listOfPermissions, new Function2<KWSChildrenRequestPermissionStatus, Throwable, Unit>() {
+                    listOfPermissions, new Function2<Boolean, Throwable, Unit>() {
                         @Override
-                        public Unit invoke(KWSChildrenRequestPermissionStatus kwsChildrenRequestPermissionStatus, Throwable throwable) {
+                        public Unit invoke(Boolean success, Throwable throwable) {
 
-                            if (kwsChildrenRequestPermissionStatus != null) {
-                                listener.didRequestPermission(kwsChildrenRequestPermissionStatus);
+                            if (success) {
+                                listener.didRequestPermission(KWSChildrenRequestPermissionStatus.Success);
                             } else {
                                 listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NetworkError);
 
