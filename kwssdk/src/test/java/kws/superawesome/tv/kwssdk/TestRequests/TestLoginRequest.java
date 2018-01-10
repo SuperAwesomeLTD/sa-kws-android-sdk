@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwssdk.TestRequests;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -24,26 +25,40 @@ public class TestLoginRequest {
 
     //mocks
     private KWSNetworkEnvironment environment;
+    private String username, password, clientId, clientSecret, endpoint;
+    private NetworkMethod method;
 
     @Before
     public void setup() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
-    }
-
-
-    @Test
-    public final void testRequest() {
 
         //given
-        String username = "__mock_username__";
-        String password = "__mock_password__";
-        String clientId = "__mock_clientId__";
-        String clientSecret = "__mock_clientSecret__";
-        String endpoint = "oauth/token";
-        NetworkMethod method = NetworkMethod.POST;
+        username = "__mock_username__";
+        password = "__mock_password__";
+        clientId = "__mock_clientId__";
+        clientSecret = "__mock_clientSecret__";
+        endpoint = "oauth/token";
+        method = NetworkMethod.POST;
 
+        setRequestConstruct();
 
+    }
+
+    @Test
+    public void testConstants() {
+
+        Assert.assertNotNull(username);
+        Assert.assertNotNull(password);
+        Assert.assertNotNull(clientId);
+        Assert.assertNotNull(clientSecret);
+        Assert.assertNotNull(endpoint);
+        Assert.assertNotNull(method);
+
+        setRequestConstruct();
+    }
+
+    public void setRequestConstruct() {
         //when
         loginUserRequest = new LoginUserRequest(
                 environment,
@@ -53,12 +68,35 @@ public class TestLoginRequest {
                 clientSecret
         );
 
+    }
+
+
+    @Test
+    public final void testRequest() {
         //then
         Assert.assertNotNull(loginUserRequest);
-        Assert.assertNotNull(loginUserRequest.getEnvironment());
-        Assert.assertEquals(method, loginUserRequest.getMethod());
-        Assert.assertEquals(endpoint, loginUserRequest.getEndpoint());
+    }
 
+
+    @Test
+    public final void testRequestEnvironment() {
+        Assert.assertNotNull(loginUserRequest.getEnvironment());
+    }
+
+    @Test
+    public final void testMethod() {
+        Assert.assertEquals(method, loginUserRequest.getMethod());
+    }
+
+
+    @Test
+    public final void testEndpoint() {
+        Assert.assertEquals(endpoint, loginUserRequest.getEndpoint());
+    }
+
+
+    @Test
+    public final void testBody() {
         Map<String, Object> body = loginUserRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -75,7 +113,10 @@ public class TestLoginRequest {
         Assert.assertEquals(clientId, body.get("client_id"));
         Assert.assertEquals(clientSecret, body.get("client_secret"));
 
+    }
 
+    @Test
+    public final void testHeader() {
         Map<String, String> header = loginUserRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -84,12 +125,25 @@ public class TestLoginRequest {
         Assert.assertEquals("application/x-www-form-urlencoded", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
 
+    }
+
+    @Test
+    public final void testQuery() {
         Map<String, Object> query = loginUserRequest.getQuery();
 
         Assert.assertNull(query);
-
-        Assert.assertTrue(loginUserRequest.getFormEncodeUrls());
-
-
     }
+
+    @Test
+    public final void testFormEncodedURLs() {
+        Assert.assertTrue(loginUserRequest.getFormEncodeUrls());
+    }
+
+    @After
+    public void unSetup() throws Throwable {
+        environment = null;
+        loginUserRequest = null;
+    }
+
+
 }

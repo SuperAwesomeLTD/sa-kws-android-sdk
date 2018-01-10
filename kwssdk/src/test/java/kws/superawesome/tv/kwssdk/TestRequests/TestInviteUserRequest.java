@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwssdk.TestRequests;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -23,24 +24,39 @@ public class TestInviteUserRequest {
 
     //mocks
     private KWSNetworkEnvironment environment;
+    private int userId;
+    private String endpoint, token, emailAddress;
+    private NetworkMethod method;
 
     @Before
     public void setup() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
+
+        //given
+        userId = 1;
+        endpoint = "v1/users/" + userId + "/invite-user";
+        method = NetworkMethod.POST;
+        token = "__mock_token__";
+        emailAddress = "__mock_@_email";
+
+        setRequestConstruct();
+
     }
 
 
     @Test
-    public final void testRequest() {
+    public void testConstants() {
 
-        //given
-        int userId = 1;
-        String endpoint = "v1/users/" + userId + "/invite-user";
-        NetworkMethod method = NetworkMethod.POST;
-        String token = "__mock_token__";
-        String emailAddress = "__mock_@_email";
+        Assert.assertTrue(userId > -1);
+        Assert.assertNotNull(token);
+        Assert.assertNotNull(endpoint);
+        Assert.assertNotNull(method);
 
+        setRequestConstruct();
+    }
+
+    public void setRequestConstruct() {
         //when
         inviteUserRequest = new InviteUserRequest(
                 environment,
@@ -49,13 +65,35 @@ public class TestInviteUserRequest {
                 token
         );
 
-        //then
+    }
+
+
+    @Test
+    public final void testRequest() {
         //then
         Assert.assertNotNull(inviteUserRequest);
-        Assert.assertNotNull(inviteUserRequest.getEnvironment());
-        Assert.assertEquals(method, inviteUserRequest.getMethod());
-        Assert.assertEquals(endpoint, inviteUserRequest.getEndpoint());
+    }
 
+
+    @Test
+    public final void testRequestEnvironment() {
+        Assert.assertNotNull(inviteUserRequest.getEnvironment());
+    }
+
+    @Test
+    public final void testMethod() {
+        Assert.assertEquals(method, inviteUserRequest.getMethod());
+    }
+
+
+    @Test
+    public final void testEndpoint() {
+        Assert.assertEquals(endpoint, inviteUserRequest.getEndpoint());
+    }
+
+
+    @Test
+    public final void testBody() {
         Map<String, Object> body = inviteUserRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -63,6 +101,11 @@ public class TestInviteUserRequest {
         Assert.assertTrue(body.containsKey("email"));
         Assert.assertEquals(emailAddress, body.get("email"));
 
+
+    }
+
+    @Test
+    public final void testHeader() {
         Map<String, String> header = inviteUserRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -72,12 +115,25 @@ public class TestInviteUserRequest {
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
 
+    }
+
+    @Test
+    public final void testQuery() {
         Map<String, Object> query = inviteUserRequest.getQuery();
 
         Assert.assertNull(query);
-
-        Assert.assertFalse(inviteUserRequest.getFormEncodeUrls());
-
     }
+
+    @Test
+    public final void testFormEncodedURLs() {
+        Assert.assertFalse(inviteUserRequest.getFormEncodeUrls());
+    }
+
+    @After
+    public void unSetup() throws Throwable {
+        environment = null;
+        inviteUserRequest = null;
+    }
+
 
 }

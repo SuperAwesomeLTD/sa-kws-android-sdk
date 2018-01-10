@@ -23,38 +23,80 @@ public class TestAppConfigRequest {
 
     //mocks
     private KWSNetworkEnvironment environment;
+    private String clientID;
+    private String endpoint;
+    private NetworkMethod method;
 
     @Before
     public void setup() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
+
+        //given
+        clientID = "__mock_clientId__";
+        endpoint = "v1/apps/config";
+        method = NetworkMethod.GET;
+
+        setRequestConstruct();
+
     }
 
 
     @Test
-    public final void testRequest() {
+    public void testConstants() {
 
-        //given
-        String clientID = "__mock_clientId__";
-        String endpoint = "v1/apps/config";
-        NetworkMethod method = NetworkMethod.GET;
+        Assert.assertNotNull(clientID);
+        Assert.assertNotNull(endpoint);
+        Assert.assertNotNull(method);
+
+        setRequestConstruct();
+
+    }
+
+    public void setRequestConstruct() {
 
         //when
         appConfigRequest = new AppConfigRequest(
                 environment,
                 clientID);
 
+    }
 
-        //then
+
+    @Test
+    public final void testRequest() {
         Assert.assertNotNull(appConfigRequest);
-        Assert.assertNotNull(clientID);
-        Assert.assertEquals(endpoint, appConfigRequest.getEndpoint());
-        Assert.assertEquals(method, appConfigRequest.getMethod());
 
+    }
+
+    @Test
+    public final void testRequestEnvironment() {
+        Assert.assertNotNull(appConfigRequest.getEnvironment());
+
+    }
+
+    @Test
+    public void testMethod() {
+        Assert.assertEquals(method, appConfigRequest.getMethod());
+    }
+
+
+    @Test
+    public final void testEndpoint() {
+        Assert.assertEquals(endpoint, appConfigRequest.getEndpoint());
+    }
+
+
+    @Test
+    public void testBody() {
         Map<String, Object> body = appConfigRequest.getBody();
 
         Assert.assertNull(body);
+    }
 
+
+    @Test
+    public void testHeader() {
         Map<String, String> header = appConfigRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -62,13 +104,21 @@ public class TestAppConfigRequest {
         Assert.assertTrue(header.containsKey("Content-Type"));
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
+    }
 
+    @Test
+    public void testQuery() {
         Map<String, Object> query = appConfigRequest.getQuery();
 
         Assert.assertNotNull(query);
         Assert.assertEquals(query.size(), 1);
         Assert.assertTrue(query.containsKey("oauthClientId"));
+    }
 
+    @Test
+    public void testFormEncodedURLs() {
         Assert.assertFalse(appConfigRequest.getFormEncodeUrls());
     }
+
+
 }

@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwssdk.TestRequests;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -24,23 +25,38 @@ public class TestUserDetailsRequest {
 
     //mocks
     private KWSNetworkEnvironment environment;
+    private int userId;
+    private String endpoint, token;
+    private NetworkMethod method;
 
     @Before
     public void setup() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
+
+        //given
+        userId = 1;
+        endpoint = "v1/users/" + userId;
+        method = NetworkMethod.GET;
+        token = "__mock_token__";
+
+        setRequestConstruct();
+
     }
 
 
     @Test
-    public final void testRequest() {
+    public void testConstants() {
 
-        //given
-        int userId = 1;
-        String endpoint = "v1/users/" + userId;
-        NetworkMethod method = NetworkMethod.GET;
-        String token = "__mock_token__";
+        Assert.assertTrue(userId > -1);
+        Assert.assertNotNull(token);
+        Assert.assertNotNull(endpoint);
+        Assert.assertNotNull(method);
 
+        setRequestConstruct();
+    }
+
+    public void setRequestConstruct() {
         //when
         userDetailsRequest = new UserDetailsRequest(
                 environment,
@@ -48,17 +64,42 @@ public class TestUserDetailsRequest {
                 token
         );
 
+    }
 
+
+    @Test
+    public final void testRequest() {
         //then
         Assert.assertNotNull(userDetailsRequest);
-        Assert.assertNotNull(userDetailsRequest.getEnvironment());
-        Assert.assertEquals(method, userDetailsRequest.getMethod());
-        Assert.assertEquals(endpoint, userDetailsRequest.getEndpoint());
+    }
 
+
+    @Test
+    public final void testRequestEnvironment() {
+        Assert.assertNotNull(userDetailsRequest.getEnvironment());
+    }
+
+    @Test
+    public final void testMethod() {
+        Assert.assertEquals(method, userDetailsRequest.getMethod());
+    }
+
+
+    @Test
+    public final void testEndpoint() {
+        Assert.assertEquals(endpoint, userDetailsRequest.getEndpoint());
+    }
+
+
+    @Test
+    public final void testBody() {
         Map<String, Object> body = userDetailsRequest.getBody();
 
         Assert.assertNull(body);
+    }
 
+    @Test
+    public final void testHeader() {
         Map<String, String> header = userDetailsRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -68,10 +109,26 @@ public class TestUserDetailsRequest {
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
 
+    }
+
+    @Test
+    public final void testQuery() {
+
         Map<String, Object> query = userDetailsRequest.getQuery();
 
         Assert.assertNull(query);
 
+    }
+
+    @Test
+    public final void testFormEncodedURLs() {
         Assert.assertFalse(userDetailsRequest.getFormEncodeUrls());
     }
+
+    @After
+    public void unSetup() throws Throwable {
+        environment = null;
+        userDetailsRequest = null;
+    }
+
 }
