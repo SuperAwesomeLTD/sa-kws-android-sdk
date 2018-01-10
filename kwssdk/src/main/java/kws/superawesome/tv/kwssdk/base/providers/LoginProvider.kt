@@ -17,8 +17,11 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
-@PublishedApi
-internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginService {
+/*@PublishedApi internal*/
+class LoginProvider
+@JvmOverloads
+constructor(private val environment: KWSNetworkEnvironment,
+            private val networkTask: NetworkTask = NetworkTask()) : LoginService {
 
     override fun loginUser(username: String,
                            password: String,
@@ -31,8 +34,8 @@ internal class LoginProvider(val environment: KWSNetworkEnvironment) : LoginServ
                 password = password,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
-        val loginUserNetworkTask = NetworkTask()
-        loginUserNetworkTask.execute(input = loginUserNetworkRequest) { loginUserNetworkResponse ->
+
+        networkTask.execute(input = loginUserNetworkRequest) { loginUserNetworkResponse ->
 
             //
             // network success case

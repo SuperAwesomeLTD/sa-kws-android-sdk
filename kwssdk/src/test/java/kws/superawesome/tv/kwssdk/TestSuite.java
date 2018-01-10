@@ -3,6 +3,7 @@ package kws.superawesome.tv.kwssdk;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import kws.superawesome.tv.kwssdk.TestProviders.TestLoginProvider;
 import kws.superawesome.tv.kwssdk.TestRequests.TestAppConfigRequest;
 import kws.superawesome.tv.kwssdk.TestRequests.TestCreateUserRequest;
 import kws.superawesome.tv.kwssdk.TestRequests.TestGetAppDataRequest;
@@ -37,7 +38,12 @@ import kws.superawesome.tv.kwssdk.TestRequests.TestUserDetailsRequest;
         TestScoreRequest.class,
         TestSetAppDataRequest.class,
         TestTriggerEventRequest.class,
-        TestUserDetailsRequest.class
+        TestUserDetailsRequest.class,
+
+        //Providers
+        TestLoginProvider.class
+
+
 })
 public class TestSuite {
 }
