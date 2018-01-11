@@ -68,8 +68,8 @@ public class TestLoginProvider {
             public Unit invoke(Login login, Throwable throwable) {
 
 
-                //TODO the assertions here should be different. Throwable will never be null because response is never null.
-                //This should be the right one: Assert.assertNotNull(throwable);
+                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
+                /**This should be the right one: Assert.assertNotNull(throwable);**/
 
                 // then
                 Assert.assertNull(login.getToken());
@@ -86,6 +86,9 @@ public class TestLoginProvider {
         provider.loginUser("testuser123", "bad_password", new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
+
+                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
+                /**This should be the right one: Assert.assertNotNull(throwable);**/
 
                 // then
                 Assert.assertNull(login.getToken());
@@ -154,6 +157,9 @@ public class TestLoginProvider {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
+                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
+                /**This should be the right one: Assert.assertNotNull(throwable);**/
+
                 // then
                 Assert.assertNull(login.getToken());
                 Assert.assertNull(throwable);
@@ -169,6 +175,9 @@ public class TestLoginProvider {
         provider.loginUser("testuser123", "", new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
+
+                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
+                /**This should be the right one: Assert.assertNotNull(throwable);**/
 
                 // then
                 Assert.assertNull(login.getToken());
