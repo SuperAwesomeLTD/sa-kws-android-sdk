@@ -49,7 +49,15 @@ public class TestPermissionsRequest {
         permissionsList.add("__mock_permission_2__");
 
 
-        setRequestConstruct();
+        //when
+        permissionsRequest = new PermissionsRequest(
+                environment,
+                userId,
+                token,
+                permissionsList
+        );
+
+
     }
 
     @Test
@@ -61,20 +69,8 @@ public class TestPermissionsRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
     }
 
-    public void setRequestConstruct() {
-        //when
-        permissionsRequest = new PermissionsRequest(
-                environment,
-                userId,
-                token,
-                permissionsList
-        );
-
-
-    }
 
 
     @Test

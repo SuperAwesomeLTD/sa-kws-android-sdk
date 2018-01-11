@@ -38,7 +38,12 @@ public class TestRandomUsernameRequest {
         endpoint = "v2/apps/" + appId + "/random-display-name";
         method = NetworkMethod.GET;
 
-        setRequestConstruct();
+        //when
+        randomUsernameRequest = new RandomUsernameRequest(
+                environment,
+                appId
+        );
+
     }
 
 
@@ -49,18 +54,7 @@ public class TestRandomUsernameRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
     }
-
-    public void setRequestConstruct() {
-        //when
-        randomUsernameRequest = new RandomUsernameRequest(
-                environment,
-                appId
-        );
-
-    }
-
 
     @Test
     public final void testRequest() {

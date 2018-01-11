@@ -45,7 +45,17 @@ public class TestCreateUserRequest {
         endpoint = "v1/apps/" + appID + "/users";
         method = NetworkMethod.POST;
 
-        setRequestConstruct();
+        //when
+        createUserRequest = new CreateUserRequest(
+                environment,
+                username,
+                password,
+                dateOfBirth,
+                country,
+                parentEmail,
+                appID,
+                token
+        );
 
     }
 
@@ -62,21 +72,6 @@ public class TestCreateUserRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
-    }
-
-    public void setRequestConstruct() {
-        //when
-        createUserRequest = new CreateUserRequest(
-                environment,
-                username,
-                password,
-                dateOfBirth,
-                country,
-                parentEmail,
-                appID,
-                token
-        );
     }
 
 

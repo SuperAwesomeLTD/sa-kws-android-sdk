@@ -44,7 +44,15 @@ public class TestSetAppDataRequest {
         method = NetworkMethod.POST;
         token = "__mock_token__";
 
-        setRequestConstruct();
+        //when
+        setAppDataRequest = new SetAppDataRequest(
+                environment,
+                appId,
+                userId,
+                nameValue,
+                numericValue,
+                token
+        );
 
     }
 
@@ -60,19 +68,6 @@ public class TestSetAppDataRequest {
         Assert.assertNotNull(method);
         Assert.assertNotNull(token);
 
-        setRequestConstruct();
-    }
-
-    public void setRequestConstruct() {
-        //when
-        setAppDataRequest = new SetAppDataRequest(
-                environment,
-                appId,
-                userId,
-                nameValue,
-                numericValue,
-                token
-        );
     }
 
 

@@ -41,7 +41,15 @@ public class TestLoginRequest {
         endpoint = "oauth/token";
         method = NetworkMethod.POST;
 
-        setRequestConstruct();
+        //when
+        loginUserRequest = new LoginUserRequest(
+                environment,
+                username,
+                password,
+                clientId,
+                clientSecret
+        );
+
 
     }
 
@@ -54,19 +62,6 @@ public class TestLoginRequest {
         Assert.assertNotNull(clientSecret);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
-
-        setRequestConstruct();
-    }
-
-    public void setRequestConstruct() {
-        //when
-        loginUserRequest = new LoginUserRequest(
-                environment,
-                username,
-                password,
-                clientId,
-                clientSecret
-        );
 
     }
 

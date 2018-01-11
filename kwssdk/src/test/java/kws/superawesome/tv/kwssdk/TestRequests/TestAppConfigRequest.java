@@ -37,7 +37,10 @@ public class TestAppConfigRequest {
         endpoint = "v1/apps/config";
         method = NetworkMethod.GET;
 
-        setRequestConstruct();
+        //when
+        appConfigRequest = new AppConfigRequest(
+                environment,
+                clientID);
 
     }
 
@@ -48,17 +51,6 @@ public class TestAppConfigRequest {
         Assert.assertNotNull(clientID);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
-
-        setRequestConstruct();
-
-    }
-
-    public void setRequestConstruct() {
-
-        //when
-        appConfigRequest = new AppConfigRequest(
-                environment,
-                clientID);
 
     }
 

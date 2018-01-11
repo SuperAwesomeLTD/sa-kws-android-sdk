@@ -41,7 +41,13 @@ public class TestGetAppDataRequest {
         method = NetworkMethod.GET;
         token = "__mock_token__";
 
-        setRequestConstruct();
+        //when
+        getAppDataRequest = new GetAppDataRequest(
+                environment,
+                appId,
+                userId,
+                token
+        );
     }
 
     @Test
@@ -52,16 +58,6 @@ public class TestGetAppDataRequest {
         Assert.assertNotNull(endpoint);
     }
 
-    public void setRequestConstruct() {
-
-        //when
-        getAppDataRequest = new GetAppDataRequest(
-                environment,
-                appId,
-                userId,
-                token
-        );
-    }
 
     @Test
     public final void testRequest() {
