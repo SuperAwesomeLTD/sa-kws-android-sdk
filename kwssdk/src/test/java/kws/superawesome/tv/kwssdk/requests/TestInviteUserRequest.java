@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestRequests;
+package kws.superawesome.tv.kwssdk.requests;
 
 import junit.framework.Assert;
 
@@ -10,22 +10,22 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest;
+import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestLeadersRequest {
+public class TestInviteUserRequest {
 
     //class to be tested
-    private LeadersRequest leadersRequest;
+    private InviteUserRequest inviteUserRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
-    private int appId;
-    private String endpoint, token;
+    private int userId;
+    private String endpoint, token, emailAddress;
     private NetworkMethod method;
 
     @Before
@@ -34,24 +34,28 @@ public class TestLeadersRequest {
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
         //given
-         appId = 1;
-         endpoint = "v1/apps/" + appId + "/leaders";
-         method = NetworkMethod.GET;
-         token = "__mock_token__";
+        userId = 1;
+        endpoint = "v1/users/" + userId + "/invite-user";
+        method = NetworkMethod.POST;
+        token = "__mock_token__";
+        emailAddress = "__mock_@_email";
+
 
         //when
-        leadersRequest = new LeadersRequest(
+        inviteUserRequest = new InviteUserRequest(
                 environment,
-                appId,
+                emailAddress,
+                userId,
                 token
         );
 
     }
 
+
     @Test
     public void testConstants() {
 
-        Assert.assertTrue(appId > -1);
+        Assert.assertTrue(userId > -1);
         Assert.assertNotNull(token);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
@@ -61,41 +65,42 @@ public class TestLeadersRequest {
     @Test
     public final void testRequest() {
         //then
-        Assert.assertNotNull(leadersRequest);
-
-
+        Assert.assertNotNull(inviteUserRequest);
     }
 
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(leadersRequest.getEnvironment());
-
+        Assert.assertNotNull(inviteUserRequest.getEnvironment());
     }
 
     @Test
     public final void testMethod() {
-        Assert.assertEquals(method, leadersRequest.getMethod());
-
+        Assert.assertEquals(method, inviteUserRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-        Assert.assertEquals(endpoint, leadersRequest.getEndpoint());
+        Assert.assertEquals(endpoint, inviteUserRequest.getEndpoint());
     }
 
 
     @Test
     public final void testBody() {
-        Map<String, Object> body = leadersRequest.getBody();
+        Map<String, Object> body = inviteUserRequest.getBody();
 
-        Assert.assertNull(body);
+        Assert.assertNotNull(body);
+        Assert.assertEquals(body.size(), 1);
+        Assert.assertTrue(body.containsKey("email"));
+        Assert.assertEquals(emailAddress, body.get("email"));
+
+
     }
 
     @Test
     public final void testHeader() {
-        Map<String, String> header = leadersRequest.getHeaders();
+        Map<String, String> header = inviteUserRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 2);
@@ -108,23 +113,21 @@ public class TestLeadersRequest {
 
     @Test
     public final void testQuery() {
-        Map<String, Object> query = leadersRequest.getQuery();
+        Map<String, Object> query = inviteUserRequest.getQuery();
 
         Assert.assertNull(query);
-
     }
 
     @Test
     public final void testFormEncodedURLs() {
-        Assert.assertFalse(leadersRequest.getFormEncodeUrls());
+        Assert.assertFalse(inviteUserRequest.getFormEncodeUrls());
     }
 
     @After
     public void unSetup() throws Throwable {
         environment = null;
-        leadersRequest = null;
+        inviteUserRequest = null;
     }
-
 
 
 }

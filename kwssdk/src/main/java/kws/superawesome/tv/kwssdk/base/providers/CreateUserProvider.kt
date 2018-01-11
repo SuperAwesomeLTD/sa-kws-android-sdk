@@ -1,7 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
 import kws.superawesome.tv.kwssdk.base.responses.CreateUser
@@ -9,6 +8,8 @@ import kws.superawesome.tv.kwssdk.base.responses.Login
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 import tv.superawesome.samobilebase.network.NetworkTask
+import tv.superawesome.samobilebase.parsebase64.ParseBase64Request
+import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
@@ -31,11 +32,24 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
 
             if (login?.token != null && networkError == null) {
                 val token = login.token
-                val metadata = KWSMetadata.processMetadata(token)
-                val appId = metadata.appId
 
-                //Creation of user with temp access token
-                doUserCreation(environment, username, password, dateOfBirth, country, parentEmail, appId, token, callback)
+                val base64req = ParseBase64Request(base64String = token)
+                val base64Task = ParseBase64Task()
+                val metadataJson = base64Task.execute(input = base64req)
+
+                val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
+                val parseJsonTask = ParseJsonTask()
+                val metadata = parseJsonTask.execute(input = parseJsonReq, clazz = KWSMetadata::class.java)
+
+                if (metadata != null) {
+
+                    val appId = metadata.appId
+
+                    //Creation of user with temp access token
+                    doUserCreation(environment, username, password, dateOfBirth, country, parentEmail, appId, token, callback)
+                } else {
+                    callback(null, Throwable("Error getting the metadata"))
+                }
             } else {
                 //
                 // network failure
@@ -68,7 +82,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 //
                 //send callback
                 val error = if (getTemAccessResponseObject != null) null else Throwable("Error - couldn't parse JWT")
-                callback(getTemAccessResponseObject,error)
+                callback(getTemAccessResponseObject, error)
 
             }
             //

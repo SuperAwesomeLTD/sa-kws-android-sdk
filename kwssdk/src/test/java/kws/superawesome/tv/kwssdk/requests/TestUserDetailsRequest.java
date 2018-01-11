@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestRequests;
+package kws.superawesome.tv.kwssdk.requests;
 
 import junit.framework.Assert;
 
@@ -10,22 +10,23 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest;
+import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestInviteUserRequest {
+public class TestUserDetailsRequest {
+
 
     //class to be tested
-    private InviteUserRequest inviteUserRequest;
+    private UserDetailsRequest userDetailsRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
     private int userId;
-    private String endpoint, token, emailAddress;
+    private String endpoint, token;
     private NetworkMethod method;
 
     @Before
@@ -35,16 +36,13 @@ public class TestInviteUserRequest {
 
         //given
         userId = 1;
-        endpoint = "v1/users/" + userId + "/invite-user";
-        method = NetworkMethod.POST;
+        endpoint = "v1/users/" + userId;
+        method = NetworkMethod.GET;
         token = "__mock_token__";
-        emailAddress = "__mock_@_email";
-
 
         //when
-        inviteUserRequest = new InviteUserRequest(
+        userDetailsRequest = new UserDetailsRequest(
                 environment,
-                emailAddress,
                 userId,
                 token
         );
@@ -62,45 +60,41 @@ public class TestInviteUserRequest {
 
     }
 
+
     @Test
     public final void testRequest() {
         //then
-        Assert.assertNotNull(inviteUserRequest);
+        Assert.assertNotNull(userDetailsRequest);
     }
 
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(inviteUserRequest.getEnvironment());
+        Assert.assertNotNull(userDetailsRequest.getEnvironment());
     }
 
     @Test
     public final void testMethod() {
-        Assert.assertEquals(method, inviteUserRequest.getMethod());
+        Assert.assertEquals(method, userDetailsRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-        Assert.assertEquals(endpoint, inviteUserRequest.getEndpoint());
+        Assert.assertEquals(endpoint, userDetailsRequest.getEndpoint());
     }
 
 
     @Test
     public final void testBody() {
-        Map<String, Object> body = inviteUserRequest.getBody();
+        Map<String, Object> body = userDetailsRequest.getBody();
 
-        Assert.assertNotNull(body);
-        Assert.assertEquals(body.size(), 1);
-        Assert.assertTrue(body.containsKey("email"));
-        Assert.assertEquals(emailAddress, body.get("email"));
-
-
+        Assert.assertNull(body);
     }
 
     @Test
     public final void testHeader() {
-        Map<String, String> header = inviteUserRequest.getHeaders();
+        Map<String, String> header = userDetailsRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 2);
@@ -113,21 +107,22 @@ public class TestInviteUserRequest {
 
     @Test
     public final void testQuery() {
-        Map<String, Object> query = inviteUserRequest.getQuery();
+
+        Map<String, Object> query = userDetailsRequest.getQuery();
 
         Assert.assertNull(query);
+
     }
 
     @Test
     public final void testFormEncodedURLs() {
-        Assert.assertFalse(inviteUserRequest.getFormEncodeUrls());
+        Assert.assertFalse(userDetailsRequest.getFormEncodeUrls());
     }
 
     @After
     public void unSetup() throws Throwable {
         environment = null;
-        inviteUserRequest = null;
+        userDetailsRequest = null;
     }
-
 
 }

@@ -3,21 +3,21 @@ package kws.superawesome.tv.kwssdk;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import kws.superawesome.tv.kwssdk.TestProviders.TestLoginProvider;
-import kws.superawesome.tv.kwssdk.TestRequests.TestAppConfigRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestCreateUserRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestGetAppDataRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestGetTempAccessTokenRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestHasTriggeredEventRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestInviteUserRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestLeadersRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestLoginRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestPermissionsRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestRandomUsernameRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestScoreRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestSetAppDataRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestTriggerEventRequest;
-import kws.superawesome.tv.kwssdk.TestRequests.TestUserDetailsRequest;
+import kws.superawesome.tv.kwssdk.providers.TestLoginProvider;
+import kws.superawesome.tv.kwssdk.requests.TestAppConfigRequest;
+import kws.superawesome.tv.kwssdk.requests.TestCreateUserRequest;
+import kws.superawesome.tv.kwssdk.requests.TestGetAppDataRequest;
+import kws.superawesome.tv.kwssdk.requests.TestGetTempAccessTokenRequest;
+import kws.superawesome.tv.kwssdk.requests.TestHasTriggeredEventRequest;
+import kws.superawesome.tv.kwssdk.requests.TestInviteUserRequest;
+import kws.superawesome.tv.kwssdk.requests.TestLeadersRequest;
+import kws.superawesome.tv.kwssdk.requests.TestLoginRequest;
+import kws.superawesome.tv.kwssdk.requests.TestPermissionsRequest;
+import kws.superawesome.tv.kwssdk.requests.TestRandomUsernameRequest;
+import kws.superawesome.tv.kwssdk.requests.TestScoreRequest;
+import kws.superawesome.tv.kwssdk.requests.TestSetAppDataRequest;
+import kws.superawesome.tv.kwssdk.requests.TestTriggerEventRequest;
+import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
 
 /**
  * Created by guilherme.mota on 09/01/2018.

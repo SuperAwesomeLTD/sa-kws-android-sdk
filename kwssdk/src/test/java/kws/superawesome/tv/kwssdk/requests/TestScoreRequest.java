@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestRequests;
+package kws.superawesome.tv.kwssdk.requests;
 
 import junit.framework.Assert;
 
@@ -10,24 +10,23 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.HasTriggeredEventRequest;
+import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestHasTriggeredEventRequest {
-
+public class TestScoreRequest {
 
     //class to be tested
-    private HasTriggeredEventRequest hasTriggeredEventRequest;
+    private UserScoreRequest userScoreRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
-    private int userId, eventId;
-    private NetworkMethod method;
+    private int appId;
     private String endpoint, token;
+    private NetworkMethod method;
 
     @Before
     public void setup() {
@@ -35,20 +34,16 @@ public class TestHasTriggeredEventRequest {
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
         //given
-        userId = 1;
-        eventId = 1;
-        endpoint = "v1/users/" + userId + "/has-triggered-event";
-        method = NetworkMethod.POST;
+        appId = 1;
+        endpoint = "v1/apps/" + appId + "/score";
+        method = NetworkMethod.GET;
         token = "__mock_token__";
 
-
         //when
-        hasTriggeredEventRequest = new HasTriggeredEventRequest(
+        userScoreRequest = new UserScoreRequest(
                 environment,
-                userId,
-                eventId,
+                appId,
                 token
-
         );
 
     }
@@ -57,57 +52,45 @@ public class TestHasTriggeredEventRequest {
     @Test
     public void testConstants() {
 
-        Assert.assertTrue(userId > -1);
-        Assert.assertTrue(eventId > -1);
-        Assert.assertNotNull(token);
+        Assert.assertTrue(appId > -1);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
-
     }
-
 
     @Test
     public final void testRequest() {
         //then
-        Assert.assertNotNull(hasTriggeredEventRequest);
+        Assert.assertNotNull(userScoreRequest);
     }
 
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(hasTriggeredEventRequest.getEnvironment());
+        Assert.assertNotNull(userScoreRequest.getEnvironment());
     }
 
     @Test
     public final void testMethod() {
-
-        Assert.assertEquals(method, hasTriggeredEventRequest.getMethod());
-
+        Assert.assertEquals(method, userScoreRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-
-        Assert.assertEquals(endpoint, hasTriggeredEventRequest.getEndpoint());
+        Assert.assertEquals(endpoint, userScoreRequest.getEndpoint());
     }
 
 
     @Test
     public final void testBody() {
-        Map<String, Object> body = hasTriggeredEventRequest.getBody();
+        Map<String, Object> body = userScoreRequest.getBody();
 
-        Assert.assertNotNull(body);
-        Assert.assertEquals(body.size(), 1);
-        Assert.assertTrue(body.containsKey("eventId"));
-        Assert.assertEquals(eventId, body.get("eventId"));
-
-
+        Assert.assertNull(body);
     }
 
     @Test
     public final void testHeader() {
-        Map<String, String> header = hasTriggeredEventRequest.getHeaders();
+        Map<String, String> header = userScoreRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 2);
@@ -115,25 +98,28 @@ public class TestHasTriggeredEventRequest {
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
+
+
     }
 
     @Test
     public final void testQuery() {
-        Map<String, Object> query = hasTriggeredEventRequest.getQuery();
+        Map<String, Object> query = userScoreRequest.getQuery();
 
         Assert.assertNull(query);
+
+
     }
 
     @Test
     public final void testFormEncodedURLs() {
-        Assert.assertFalse(hasTriggeredEventRequest.getFormEncodeUrls());
+        Assert.assertFalse(userScoreRequest.getFormEncodeUrls());
     }
 
     @After
     public void unSetup() throws Throwable {
         environment = null;
-        hasTriggeredEventRequest = null;
+        userScoreRequest = null;
     }
-
 
 }

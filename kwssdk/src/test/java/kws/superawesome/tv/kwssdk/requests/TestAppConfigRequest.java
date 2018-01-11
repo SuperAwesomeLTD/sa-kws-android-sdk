@@ -1,8 +1,7 @@
-package kws.superawesome.tv.kwssdk.TestRequests;
+package kws.superawesome.tv.kwssdk.requests;
 
 import junit.framework.Assert;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,21 +9,21 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest;
+import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestRandomUsernameRequest {
+public class TestAppConfigRequest {
 
     //class to be tested
-    private RandomUsernameRequest randomUsernameRequest;
+    private AppConfigRequest appConfigRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
-    private int appId;
+    private String clientID;
     private String endpoint;
     private NetworkMethod method;
 
@@ -34,15 +33,14 @@ public class TestRandomUsernameRequest {
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
         //given
-        appId = 1;
-        endpoint = "v2/apps/" + appId + "/random-display-name";
+        clientID = "__mock_clientId__";
+        endpoint = "v1/apps/config";
         method = NetworkMethod.GET;
 
         //when
-        randomUsernameRequest = new RandomUsernameRequest(
+        appConfigRequest = new AppConfigRequest(
                 environment,
-                appId
-        );
+                clientID);
 
     }
 
@@ -50,73 +48,69 @@ public class TestRandomUsernameRequest {
     @Test
     public void testConstants() {
 
-        Assert.assertTrue(appId > -1);
+        Assert.assertNotNull(clientID);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
     }
 
+
     @Test
     public final void testRequest() {
-        //then
-        Assert.assertNotNull(randomUsernameRequest);
-    }
+        Assert.assertNotNull(appConfigRequest);
 
+    }
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(randomUsernameRequest.getEnvironment());
+        Assert.assertNotNull(appConfigRequest.getEnvironment());
+
     }
 
     @Test
-    public final void testMethod() {
-        Assert.assertEquals(method, randomUsernameRequest.getMethod());
+    public void testMethod() {
+        Assert.assertEquals(method, appConfigRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-        Assert.assertEquals(endpoint, randomUsernameRequest.getEndpoint());
+        Assert.assertEquals(endpoint, appConfigRequest.getEndpoint());
     }
 
 
     @Test
-    public final void testBody() {
-        Map<String, Object> body = randomUsernameRequest.getBody();
+    public void testBody() {
+        Map<String, Object> body = appConfigRequest.getBody();
 
         Assert.assertNull(body);
-
     }
 
+
     @Test
-    public final void testHeader() {
-        Map<String, String> header = randomUsernameRequest.getHeaders();
+    public void testHeader() {
+        Map<String, String> header = appConfigRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 1);
         Assert.assertTrue(header.containsKey("Content-Type"));
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
-
     }
 
     @Test
-    public final void testQuery() {
-        Map<String, Object> query = randomUsernameRequest.getQuery();
+    public void testQuery() {
+        Map<String, Object> query = appConfigRequest.getQuery();
 
-        Assert.assertNull(query);
+        Assert.assertNotNull(query);
+        Assert.assertEquals(query.size(), 1);
+        Assert.assertTrue(query.containsKey("oauthClientId"));
     }
 
     @Test
-    public final void testFormEncodedURLs() {
-
-        Assert.assertFalse(randomUsernameRequest.getFormEncodeUrls());
+    public void testFormEncodedURLs() {
+        Assert.assertFalse(appConfigRequest.getFormEncodeUrls());
     }
 
-    @After
-    public void unSetup() throws Throwable {
-        environment = null;
-        randomUsernameRequest = null;
-    }
 
 }

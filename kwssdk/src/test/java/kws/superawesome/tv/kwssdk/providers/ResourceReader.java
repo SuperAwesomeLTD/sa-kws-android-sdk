@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestProviders;
+package kws.superawesome.tv.kwssdk.providers;
 
 import org.jetbrains.annotations.NotNull;
 

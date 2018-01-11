@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestProviders;
+package kws.superawesome.tv.kwssdk.providers;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +11,8 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 public class MockEnvironment implements KWSNetworkEnvironment {
 
     private String url;
+    private static final String APPID = "stan-test"; // "superawesomeclub";
+    private static final String KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4";
 
     MockEnvironment(String url) {
         this.url = url;
@@ -19,18 +21,18 @@ public class MockEnvironment implements KWSNetworkEnvironment {
     @NotNull
     @Override
     public String getDomain() {
-        return null;
+        return url;
     }
 
     @NotNull
     @Override
     public String getAppID() {
-        return "stan-test";
+        return APPID;
     }
 
     @NotNull
     @Override
     public String getMobileKey() {
-        return "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4";
+        return KEY;
     }
 }

@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestRequests;
+package kws.superawesome.tv.kwssdk.requests;
 
 import junit.framework.Assert;
 
@@ -10,21 +10,22 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest;
+import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestGetTempAccessTokenRequest {
+public class TestLoginRequest {
+
 
     //class to be tested
-    private TempAccessTokenRequest tempAccessTokenRequest;
+    private LoginUserRequest loginUserRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
-    private String clientId, clientSecret, endpoint;
+    private String username, password, clientId, clientSecret, endpoint;
     private NetworkMethod method;
 
     @Before
@@ -33,21 +34,30 @@ public class TestGetTempAccessTokenRequest {
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
         //given
+        username = "__mock_username__";
+        password = "__mock_password__";
         clientId = "__mock_clientId__";
         clientSecret = "__mock_clientSecret__";
         endpoint = "oauth/token";
         method = NetworkMethod.POST;
 
         //when
-        tempAccessTokenRequest = new TempAccessTokenRequest(
+        loginUserRequest = new LoginUserRequest(
                 environment,
+                username,
+                password,
                 clientId,
-                clientSecret);
+                clientSecret
+        );
+
+
     }
 
     @Test
     public void testConstants() {
 
+        Assert.assertNotNull(username);
+        Assert.assertNotNull(password);
         Assert.assertNotNull(clientId);
         Assert.assertNotNull(clientSecret);
         Assert.assertNotNull(endpoint);
@@ -59,39 +69,42 @@ public class TestGetTempAccessTokenRequest {
     @Test
     public final void testRequest() {
         //then
-        Assert.assertNotNull(tempAccessTokenRequest);
+        Assert.assertNotNull(loginUserRequest);
     }
 
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(tempAccessTokenRequest.getEnvironment());
+        Assert.assertNotNull(loginUserRequest.getEnvironment());
     }
 
     @Test
     public final void testMethod() {
-        Assert.assertEquals(method, tempAccessTokenRequest.getMethod());
-
+        Assert.assertEquals(method, loginUserRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-        Assert.assertEquals(endpoint, tempAccessTokenRequest.getEndpoint());
+        Assert.assertEquals(endpoint, loginUserRequest.getEndpoint());
     }
 
 
     @Test
     public final void testBody() {
-
-        Map<String, Object> body = tempAccessTokenRequest.getBody();
+        Map<String, Object> body = loginUserRequest.getBody();
 
         Assert.assertNotNull(body);
-        Assert.assertEquals(body.size(), 3);
+        Assert.assertEquals(body.size(), 5);
         Assert.assertTrue(body.containsKey("grant_type"));
+        Assert.assertTrue(body.containsKey("username"));
+        Assert.assertTrue(body.containsKey("password"));
         Assert.assertTrue(body.containsKey("client_id"));
         Assert.assertTrue(body.containsKey("client_secret"));
-        Assert.assertEquals("client_credentials", body.get("grant_type"));
+
+        Assert.assertEquals("password", body.get("grant_type"));
+        Assert.assertEquals(username, body.get("username"));
+        Assert.assertEquals(password, body.get("password"));
         Assert.assertEquals(clientId, body.get("client_id"));
         Assert.assertEquals(clientSecret, body.get("client_secret"));
 
@@ -99,7 +112,7 @@ public class TestGetTempAccessTokenRequest {
 
     @Test
     public final void testHeader() {
-        Map<String, String> header = tempAccessTokenRequest.getHeaders();
+        Map<String, String> header = loginUserRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 1);
@@ -111,20 +124,21 @@ public class TestGetTempAccessTokenRequest {
 
     @Test
     public final void testQuery() {
-        Map<String, Object> query = tempAccessTokenRequest.getQuery();
+        Map<String, Object> query = loginUserRequest.getQuery();
 
         Assert.assertNull(query);
     }
 
     @Test
     public final void testFormEncodedURLs() {
-        Assert.assertTrue(tempAccessTokenRequest.getFormEncodeUrls());
+        Assert.assertTrue(loginUserRequest.getFormEncodeUrls());
     }
 
     @After
     public void unSetup() throws Throwable {
         environment = null;
-        tempAccessTokenRequest = null;
+        loginUserRequest = null;
     }
+
 
 }

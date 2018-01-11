@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.TestRequests;
+package kws.superawesome.tv.kwssdk.requests;
 
 import junit.framework.Assert;
 
@@ -10,22 +10,23 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest;
+import kws.superawesome.tv.kwssdk.base.requests.GetAppDataRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestScoreRequest {
+public class TestGetAppDataRequest {
+
 
     //class to be tested
-    private UserScoreRequest userScoreRequest;
+    private GetAppDataRequest getAppDataRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
-    private int appId;
-    private String endpoint, token;
+    private String token, endpoint;
+    private int appId, userId;
     private NetworkMethod method;
 
     @Before
@@ -35,62 +36,60 @@ public class TestScoreRequest {
 
         //given
         appId = 1;
-        endpoint = "v1/apps/" + appId + "/score";
+        userId = 1;
+        endpoint = "v1/apps/" + appId + "/users/" + userId + "/app-data";
         method = NetworkMethod.GET;
         token = "__mock_token__";
 
         //when
-        userScoreRequest = new UserScoreRequest(
+        getAppDataRequest = new GetAppDataRequest(
                 environment,
                 appId,
+                userId,
                 token
         );
-
     }
-
 
     @Test
     public void testConstants() {
-
         Assert.assertTrue(appId > -1);
+        Assert.assertTrue(userId > -1);
+        Assert.assertNotNull(token);
         Assert.assertNotNull(endpoint);
-        Assert.assertNotNull(method);
     }
+
 
     @Test
     public final void testRequest() {
-        //then
-        Assert.assertNotNull(userScoreRequest);
+        Assert.assertNotNull(getAppDataRequest);
     }
 
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(userScoreRequest.getEnvironment());
+        Assert.assertNotNull(getAppDataRequest.getEnvironment());
     }
 
     @Test
     public final void testMethod() {
-        Assert.assertEquals(method, userScoreRequest.getMethod());
+        Assert.assertEquals(method, getAppDataRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-        Assert.assertEquals(endpoint, userScoreRequest.getEndpoint());
+        Assert.assertEquals(endpoint, getAppDataRequest.getEndpoint());
     }
-
 
     @Test
     public final void testBody() {
-        Map<String, Object> body = userScoreRequest.getBody();
-
+        Map<String, Object> body = getAppDataRequest.getBody();
         Assert.assertNull(body);
     }
 
     @Test
     public final void testHeader() {
-        Map<String, String> header = userScoreRequest.getHeaders();
+        Map<String, String> header = getAppDataRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 2);
@@ -98,28 +97,24 @@ public class TestScoreRequest {
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
-
-
     }
 
     @Test
     public final void testQuery() {
-        Map<String, Object> query = userScoreRequest.getQuery();
-
+        Map<String, Object> query = getAppDataRequest.getQuery();
         Assert.assertNull(query);
-
-
     }
 
     @Test
     public final void testFormEncodedURLs() {
-        Assert.assertFalse(userScoreRequest.getFormEncodeUrls());
+        Assert.assertFalse(getAppDataRequest.getFormEncodeUrls());
     }
 
     @After
     public void unSetup() throws Throwable {
         environment = null;
-        userScoreRequest = null;
+        getAppDataRequest = null;
     }
+
 
 }
