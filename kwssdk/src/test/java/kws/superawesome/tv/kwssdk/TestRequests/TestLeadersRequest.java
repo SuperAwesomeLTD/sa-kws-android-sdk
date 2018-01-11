@@ -39,8 +39,12 @@ public class TestLeadersRequest {
          method = NetworkMethod.GET;
          token = "__mock_token__";
 
-         setRequestConstruct();
-
+        //when
+        leadersRequest = new LeadersRequest(
+                environment,
+                appId,
+                token
+        );
 
     }
 
@@ -52,19 +56,7 @@ public class TestLeadersRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
     }
-
-    public void setRequestConstruct() {
-        //when
-        leadersRequest = new LeadersRequest(
-                environment,
-                appId,
-                token
-        );
-
-    }
-
 
     @Test
     public final void testRequest() {

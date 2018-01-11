@@ -40,7 +40,12 @@ public class TestUserDetailsRequest {
         method = NetworkMethod.GET;
         token = "__mock_token__";
 
-        setRequestConstruct();
+        //when
+        userDetailsRequest = new UserDetailsRequest(
+                environment,
+                userId,
+                token
+        );
 
     }
 
@@ -52,17 +57,6 @@ public class TestUserDetailsRequest {
         Assert.assertNotNull(token);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
-
-        setRequestConstruct();
-    }
-
-    public void setRequestConstruct() {
-        //when
-        userDetailsRequest = new UserDetailsRequest(
-                environment,
-                userId,
-                token
-        );
 
     }
 

@@ -42,7 +42,14 @@ public class TestTriggerEventRequest {
         token = "__mock_token__";
         eventToken = "__mock_eventToken__";
 
-        setRequestConstruct();
+        //when
+        triggerEventRequest = new TriggerEventRequest(
+                environment,
+                points,
+                userId,
+                token,
+                eventToken
+        );
     }
 
 
@@ -56,21 +63,7 @@ public class TestTriggerEventRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
     }
-
-    public void setRequestConstruct() {
-        //when
-        triggerEventRequest = new TriggerEventRequest(
-                environment,
-                points,
-                userId,
-                token,
-                eventToken
-        );
-
-    }
-
 
     @Test
     public final void testRequest() {

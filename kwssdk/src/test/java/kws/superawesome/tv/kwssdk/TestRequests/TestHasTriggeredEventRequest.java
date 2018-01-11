@@ -42,7 +42,14 @@ public class TestHasTriggeredEventRequest {
         token = "__mock_token__";
 
 
-        setRequestConstruct();
+        //when
+        hasTriggeredEventRequest = new HasTriggeredEventRequest(
+                environment,
+                userId,
+                eventId,
+                token
+
+        );
 
     }
 
@@ -56,18 +63,6 @@ public class TestHasTriggeredEventRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
-    }
-
-    public void setRequestConstruct() {
-        //when
-        hasTriggeredEventRequest = new HasTriggeredEventRequest(
-                environment,
-                userId,
-                eventId,
-                token
-
-        );
     }
 
 

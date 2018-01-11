@@ -39,7 +39,12 @@ public class TestScoreRequest {
         method = NetworkMethod.GET;
         token = "__mock_token__";
 
-        setRequestConstruct();
+        //when
+        userScoreRequest = new UserScoreRequest(
+                environment,
+                appId,
+                token
+        );
 
     }
 
@@ -50,20 +55,7 @@ public class TestScoreRequest {
         Assert.assertTrue(appId > -1);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
-
-        setRequestConstruct();
     }
-
-    public void setRequestConstruct() {
-        //when
-        userScoreRequest = new UserScoreRequest(
-                environment,
-                appId,
-                token
-        );
-
-    }
-
 
     @Test
     public final void testRequest() {

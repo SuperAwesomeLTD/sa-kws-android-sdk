@@ -40,7 +40,14 @@ public class TestInviteUserRequest {
         token = "__mock_token__";
         emailAddress = "__mock_@_email";
 
-        setRequestConstruct();
+
+        //when
+        inviteUserRequest = new InviteUserRequest(
+                environment,
+                emailAddress,
+                userId,
+                token
+        );
 
     }
 
@@ -53,20 +60,7 @@ public class TestInviteUserRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
     }
-
-    public void setRequestConstruct() {
-        //when
-        inviteUserRequest = new InviteUserRequest(
-                environment,
-                emailAddress,
-                userId,
-                token
-        );
-
-    }
-
 
     @Test
     public final void testRequest() {

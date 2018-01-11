@@ -38,7 +38,11 @@ public class TestGetTempAccessTokenRequest {
         endpoint = "oauth/token";
         method = NetworkMethod.POST;
 
-        setRequestConstruct();
+        //when
+        tempAccessTokenRequest = new TempAccessTokenRequest(
+                environment,
+                clientId,
+                clientSecret);
     }
 
     @Test
@@ -49,15 +53,6 @@ public class TestGetTempAccessTokenRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-        setRequestConstruct();
-    }
-
-    public void setRequestConstruct() {
-        //when
-        tempAccessTokenRequest = new TempAccessTokenRequest(
-                environment,
-                clientId,
-                clientSecret);
     }
 
 
