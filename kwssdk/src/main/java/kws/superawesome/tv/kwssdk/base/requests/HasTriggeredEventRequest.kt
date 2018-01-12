@@ -6,10 +6,11 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
-internal class HasTriggeredEventRequest(environment: KWSNetworkEnvironment,
-                                        userId: Int,
-                                        eventId: Int,
-                                        token: String
+/*internal*/
+class HasTriggeredEventRequest(environment: KWSNetworkEnvironment,
+                               userId: Int,
+                               eventId: Int,
+                               token: String
 
 ) : BaseRequest(environment = environment, token = token) {
 

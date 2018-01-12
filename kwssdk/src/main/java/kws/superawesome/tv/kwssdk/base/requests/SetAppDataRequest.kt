@@ -6,12 +6,13 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 /**
  * Created by guilherme.mota on 08/01/2018.
  */
-internal class SetAppDataRequest(environment: KWSNetworkEnvironment,
-                                 appId: Int,
-                                 userId: Int,
-                                 nameValue: String,
-                                 numericValue: Int,
-                                 token: String
+/*internal*/
+class SetAppDataRequest(environment: KWSNetworkEnvironment,
+                        appId: Int,
+                        userId: Int,
+                        nameValue: String,
+                        numericValue: Int,
+                        token: String
 ) : BaseRequest(environment = environment, token = token) {
 
 

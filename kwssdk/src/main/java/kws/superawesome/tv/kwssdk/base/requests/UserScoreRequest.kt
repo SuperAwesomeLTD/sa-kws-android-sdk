@@ -5,9 +5,10 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 /**
  * Created by guilherme.mota on 08/01/2018.
  */
-internal class UserScoreRequest(environment: KWSNetworkEnvironment,
-                                appId: Int,
-                                token: String
+/*internal*/
+class UserScoreRequest(environment: KWSNetworkEnvironment,
+                       appId: Int,
+                       token: String
 ) : BaseRequest(environment = environment, token = token) {
 
 
