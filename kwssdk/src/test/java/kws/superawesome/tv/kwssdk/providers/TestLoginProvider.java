@@ -69,7 +69,9 @@ public class TestLoginProvider {
 
 
                 //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**This should be the right one: Assert.assertNotNull(throwable);**/
+                /**Should be using:
+                 Assert.assertNull(login);
+                 Assert.assertNotNull(throwable);**/
 
                 // then
                 Assert.assertNull(login.getToken());
@@ -88,7 +90,9 @@ public class TestLoginProvider {
             public Unit invoke(Login login, Throwable throwable) {
 
                 //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**This should be the right one: Assert.assertNotNull(throwable);**/
+                /**Should be using:
+                 Assert.assertNull(login);
+                 Assert.assertNotNull(throwable);**/
 
                 // then
                 Assert.assertNull(login.getToken());
@@ -158,7 +162,9 @@ public class TestLoginProvider {
             public Unit invoke(Login login, Throwable throwable) {
 
                 //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**This should be the right one: Assert.assertNotNull(throwable);**/
+                /**Should be using:
+                 Assert.assertNull(login);
+                 Assert.assertNotNull(throwable);**/
 
                 // then
                 Assert.assertNull(login.getToken());
@@ -177,7 +183,9 @@ public class TestLoginProvider {
             public Unit invoke(Login login, Throwable throwable) {
 
                 //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**This should be the right one: Assert.assertNotNull(throwable);**/
+                /**Should be using:
+                 Assert.assertNull(login);
+                 Assert.assertNotNull(throwable);**/
 
                 // then
                 Assert.assertNull(login.getToken());
