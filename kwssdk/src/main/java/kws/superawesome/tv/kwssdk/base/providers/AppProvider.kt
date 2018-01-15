@@ -41,7 +41,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 //
                 // send callback
-                val error = if (getLeadersResponseObject?.results != null) null else Throwable("Error getting leader details")
+                val error = if (getLeadersResponseObject != null) null else Throwable("Error getting leader details")
                 callback(getLeadersResponseObject, error)
 
             }
@@ -69,11 +69,8 @@ constructor(private val environment: KWSNetworkEnvironment,
 
         networkTask.execute(input = setAppDataNetworkRequest) { setAppDataNetworkResponse ->
 
-            //
-            //send callback
             callback((setAppDataNetworkResponse.status == 200 || setAppDataNetworkResponse.status == 204)
                     && setAppDataNetworkResponse.error == null, setAppDataNetworkResponse.error)
-
 
         }
 

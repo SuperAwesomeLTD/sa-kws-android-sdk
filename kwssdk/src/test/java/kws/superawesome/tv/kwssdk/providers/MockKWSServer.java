@@ -75,13 +75,38 @@ class MockKWSServer {
                             }
                         }
                     }
-                    case "/v1/apps/" + 2 + "/leaders?": {
 
-                        return getLeadersMockResponse(2);
+                    //
+                    // for getting leaders
+                    case "/v1/apps/2/leaders?": {
+                        return responseFromResource("mock_get_leaders_success_response.json");
                     }
-                    case "/v1/apps/" + 0 + "/leaders?": {
+                    case "/v1/apps/0/leaders?": {
+                        return responseFromResource("mock_get_leaders_forbidden_response.json",403);
+                    }
 
-                        return getLeadersMockResponse(0);
+                    //
+                    //for setting app data
+                    case "/v1/apps/2/users/25/app-data/set?": {
+                        body = request.getBody().readUtf8();
+                        try {
+                            String bodyForJSON = body;
+                            JSONObject bodyJson = new JSONObject(bodyForJSON);
+                            String name = bodyJson.getString("name");
+
+                            if (name == null || name.isEmpty())
+                                return responseFromResource("mock_set_app_data_empty_name_response.json", 400);
+                            else
+                                return responseFromResource("mock_empty_response.json");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    case "/v1/apps/0/users/25/app-data/set?":
+                    case "/v1/apps/0/users/0/app-data/set?":
+                    case "/v1/apps/2/users/0/app-data/set?": {
+                        return responseFromResource("mock_set_app_data_forbidden_response.json", 403);
                     }
                     //
                     // any other case
@@ -91,24 +116,16 @@ class MockKWSServer {
 
             }
 
-            private MockResponse getLeadersMockResponse(int appId) {
-                if (appId == 2)
-                    return responseFromResource("mock_get_leaders_success_response.json");
-                else if(appId == 0)
-                    return responseFromResource("mock_get_leaders_forbidden_response.json");
-                else
-                    return responseFromResource("mock_get_leaders_not_found_response.json");
-            }
 
             public MockResponse getLoginMockResponse(String username, String password) {
                 if (username == null || password == null)
-                    return responseFromResource("mock_empty_response.json");
+                    return responseFromResource("mock_empty_response.json", 400);
                 else if (username.isEmpty() || password.isEmpty())
-                    return responseFromResource("mock_login_missing_credentials_response.json");
+                    return responseFromResource("mock_login_missing_credentials_response.json", 400);
                 else if (username.equals("bad_username"))
-                    return responseFromResource("mock_login_bad_credentials_response.json");
+                    return responseFromResource("mock_login_bad_credentials_response.json", 400);
                 else if (password.equals("bad_password"))
-                    return responseFromResource("mock_login_bad_credentials_response.json");
+                    return responseFromResource("mock_login_bad_credentials_response.json", 400);
                 else
                     return responseFromResource("mock_login_success_response.json");
             }
@@ -165,8 +182,12 @@ class MockKWSServer {
 
 
     private MockResponse responseFromResource(String file) {
+        return responseFromResource(file, 200);
+    }
+
+    private MockResponse responseFromResource(String file, int httpCode) {
         String responseBody = ResourceReader.readResource(file);
-        return new MockResponse().setBody(responseBody);
+        return new MockResponse().setResponseCode(httpCode).setBody(responseBody);
     }
 
     void shutdown() throws Throwable {
