@@ -19,11 +19,6 @@ public class TestLoginProvider extends BaseProvider{
     // class to test
     private LoginProvider provider;
 
-    //same as the one in `mock_login_success_response.json`
-    private String mockedToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
-            "eyJ1c2VySWQiOjI1LCJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc3QiLCJzY29wZSI6InVzZXIiLCJpYXQiOjE1MTU2MDY3ODgsImV4cCI6MTUxNTY5MzE4OCwiaXNzIjoic3VwZXJhd2Vzb21lIn0." +
-            "G4eviyQZK9KOBycggFiabHlhegkmrysS05j28e-hfZw";
-
     @Before
     public void setup() throws Throwable {
 
@@ -41,7 +36,7 @@ public class TestLoginProvider extends BaseProvider{
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-                Assert.assertNull(login.getToken());
+                Assert.assertNull(login);
                 Assert.assertNotNull(throwable);
 
                 return null;
@@ -56,7 +51,7 @@ public class TestLoginProvider extends BaseProvider{
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-                Assert.assertNull(login.getToken());
+                Assert.assertNull(login);
                 Assert.assertNotNull(throwable);
 
                 return null;
@@ -73,8 +68,6 @@ public class TestLoginProvider extends BaseProvider{
 
                 // then
                 Assert.assertNotNull(login);
-                Assert.assertNotNull(login.getToken());
-                Assert.assertEquals(mockedToken, login.getToken());
                 Assert.assertNull(throwable);
 
                 return null;
@@ -122,7 +115,7 @@ public class TestLoginProvider extends BaseProvider{
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-                Assert.assertNull(login.getToken());
+                Assert.assertNull(login);
                 Assert.assertNotNull(throwable);
 
                 return null;
@@ -137,7 +130,7 @@ public class TestLoginProvider extends BaseProvider{
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-                Assert.assertNull(login.getToken());
+                Assert.assertNull(login);
                 Assert.assertNotNull(throwable);
 
                 return null;

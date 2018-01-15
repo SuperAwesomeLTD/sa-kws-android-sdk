@@ -7,6 +7,7 @@ import org.junit.Test;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.providers.AppProvider;
+import kws.superawesome.tv.kwssdk.base.responses.AppData;
 import kws.superawesome.tv.kwssdk.base.responses.Leaders;
 
 /**
@@ -17,17 +18,9 @@ public class TestAppProvider extends BaseProvider {
 
     //class to test
     private AppProvider provider;
-
-    private int goodAppId = 2;
-    private int badAppId = 0;
-
-    private int goodUserId = 25;
-    private int badUserId = 0;
-
-    private String mockedToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
-            "eyJ1c2VySWQiOjI1LCJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc3QiLCJzY29wZSI6InVzZXIiLCJpYXQiOjE1MTYwMTI3NDksImV4cCI6MTUxNjA5OTE0OSwiaXNzIjoic3VwZXJhd2Vzb21lIn0." +
-            "R4AGaBDhEdecmhaISrgmhHNRvGvcAvrC5vFG4UPm9-o";
-
+    
+    private int goodAppId, badAppId, goodUserId, badUserId;
+    private String goodMockedToken, badMockedToken;
 
     @Before
     public void setup() throws Throwable {
@@ -35,16 +28,29 @@ public class TestAppProvider extends BaseProvider {
         //extended method from Base
         prepareMockedClient();
 
+        //given
+        goodAppId = 2;
+        badAppId = 0;
 
+        goodUserId = 25;
+        badUserId = 0;
+
+        goodMockedToken = "good_token";
+        badMockedToken = "bad_token";
+
+        //when
         // init class to test
         provider = new AppProvider(environment, task);
 
     }
 
+
+    //
+    //Get Leaders
     @Test
     public void testAppProviderGetLeadersOK() {
 
-        provider.getLeaders(goodAppId, mockedToken, new Function2<Leaders, Throwable, Unit>() {
+        provider.getLeaders(goodAppId, goodMockedToken, new Function2<Leaders, Throwable, Unit>() {
             @Override
             public Unit invoke(Leaders leaders, Throwable throwable) {
 
@@ -60,7 +66,7 @@ public class TestAppProvider extends BaseProvider {
 
     @Test
     public void testAppProviderGetLeadersBadAppIdResponse() {
-        provider.getLeaders(badAppId, mockedToken, new Function2<Leaders, Throwable, Unit>() {
+        provider.getLeaders(badAppId, goodMockedToken, new Function2<Leaders, Throwable, Unit>() {
             @Override
             public Unit invoke(Leaders leaders, Throwable throwable) {
 
@@ -75,7 +81,7 @@ public class TestAppProvider extends BaseProvider {
 
     @Test(expected = NumberFormatException.class)
     public void testAppProviderGetLeadersAppIdException() throws Throwable {
-        provider.getLeaders(Integer.valueOf("badAppId"), mockedToken, new Function2<Leaders, Throwable, Unit>() {
+        provider.getLeaders(Integer.valueOf("badAppId"), goodMockedToken, new Function2<Leaders, Throwable, Unit>() {
             @Override
             public Unit invoke(Leaders leaders, Throwable throwable) {
 
@@ -105,10 +111,13 @@ public class TestAppProvider extends BaseProvider {
         });
     }
 
+
+    //
+    //Set App Data
     @Test
     public void testAppProviderSetAppDataOK() {
 
-        provider.setAppData(goodAppId, goodUserId, "new_value_35", 35, mockedToken, new Function2<Boolean, Throwable, Unit>() {
+        provider.setAppData(goodAppId, goodUserId, "new_value_35", 35, goodMockedToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
             public Unit invoke(Boolean aBoolean, Throwable throwable) {
 
@@ -124,7 +133,7 @@ public class TestAppProvider extends BaseProvider {
     @Test
     public void testAppProviderSetAppDataEmptyNameValue() {
 
-        provider.setAppData(goodAppId, goodUserId, "", 35, mockedToken, new Function2<Boolean, Throwable, Unit>() {
+        provider.setAppData(goodAppId, goodUserId, "", 35, goodMockedToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
             public Unit invoke(Boolean aBoolean, Throwable throwable) {
 
@@ -140,7 +149,7 @@ public class TestAppProvider extends BaseProvider {
     @Test(expected = IllegalArgumentException.class)
     public void testAppProviderSetAppDataNullNameValue() {
 
-        provider.setAppData(goodAppId, goodUserId, null, 35, mockedToken, new Function2<Boolean, Throwable, Unit>() {
+        provider.setAppData(goodAppId, goodUserId, null, 35, goodMockedToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
             public Unit invoke(Boolean aBoolean, Throwable throwable) {
 
@@ -158,7 +167,7 @@ public class TestAppProvider extends BaseProvider {
     @Test
     public void testAppProviderSetAppDataBadAppID() {
 
-        provider.setAppData(badAppId, goodUserId, "new_value_35", 35, mockedToken, new Function2<Boolean, Throwable, Unit>() {
+        provider.setAppData(badAppId, goodUserId, "new_value_35", 35, goodMockedToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
             public Unit invoke(Boolean aBoolean, Throwable throwable) {
 
@@ -174,7 +183,7 @@ public class TestAppProvider extends BaseProvider {
     @Test
     public void testAppProviderSetAppDataBadUserId() {
 
-        provider.setAppData(goodAppId, badUserId, "new_value_35", 35, mockedToken, new Function2<Boolean, Throwable, Unit>() {
+        provider.setAppData(goodAppId, badUserId, "new_value_35", 35, goodMockedToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
             public Unit invoke(Boolean aBoolean, Throwable throwable) {
 
@@ -184,6 +193,59 @@ public class TestAppProvider extends BaseProvider {
                 return null;
             }
         });
+
+    }
+
+    //
+    //Get App Data
+    @Test
+    public void testAppProviderGetAppDataOK() {
+
+        provider.getAppData(goodAppId, goodUserId, goodMockedToken, new Function2<AppData, Throwable, Unit>() {
+            @Override
+            public Unit invoke(AppData appData, Throwable throwable) {
+
+                Assert.assertNotNull(appData);
+                Assert.assertNull(throwable);
+
+                return null;
+            }
+        });
+
+
+    }
+
+    @Test
+    public void testAppProviderGetAppDataBadAppId() {
+
+        provider.getAppData(badAppId, goodUserId, goodMockedToken, new Function2<AppData, Throwable, Unit>() {
+            @Override
+            public Unit invoke(AppData appData, Throwable throwable) {
+
+                Assert.assertNull(appData);
+                Assert.assertNotNull(throwable);
+
+                return null;
+            }
+        });
+
+
+    }
+
+    @Test
+    public void testAppProviderGetAppDataBadUserId() {
+
+        provider.getAppData(badAppId, goodUserId, goodMockedToken, new Function2<AppData, Throwable, Unit>() {
+            @Override
+            public Unit invoke(AppData appData, Throwable throwable) {
+
+                Assert.assertNull(appData);
+                Assert.assertNotNull(throwable);
+
+                return null;
+            }
+        });
+
 
     }
 

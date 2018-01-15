@@ -46,35 +46,6 @@ class MockKWSServer {
             @Override
             public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
                 switch (request.getPath()) {
-                    //
-                    // for login
-                    case "/oauth/token?": {
-                        body = request.getBody().readUtf8();
-                        try {
-                            String bodyForJSON = body;
-                            JSONObject bodyJson = new JSONObject(bodyForJSON);
-                            String username = bodyJson.getString("username");
-                            String password = bodyJson.getString("password");
-
-                            return getLoginMockResponse(username, password);
-
-                        } catch (JSONException e) {
-
-                            //might of not been of type JSON, decode string
-                            String bodyForURLEncoded = body;
-                            try {
-                                Map<String, List<String>> stringListMap = splitQuery(bodyForURLEncoded);
-                                String username = getStringValueFromMap(stringListMap, "username");
-                                String password = getStringValueFromMap(stringListMap, "password");
-
-                                return getLoginMockResponse(username, password);
-
-                            } catch (UnsupportedEncodingException ex) {
-                                ex.printStackTrace();
-                                return new MockResponse().setResponseCode(404);
-                            }
-                        }
-                    }
 
                     //
                     // for getting leaders
@@ -82,7 +53,7 @@ class MockKWSServer {
                         return responseFromResource("mock_get_leaders_success_response.json");
                     }
                     case "/v1/apps/0/leaders?": {
-                        return responseFromResource("mock_get_leaders_forbidden_response.json",403);
+                        return responseFromResource("mock_forbidden_response.json", 403);
                     }
 
                     //
@@ -106,8 +77,81 @@ class MockKWSServer {
                     case "/v1/apps/0/users/25/app-data/set?":
                     case "/v1/apps/0/users/0/app-data/set?":
                     case "/v1/apps/2/users/0/app-data/set?": {
-                        return responseFromResource("mock_set_app_data_forbidden_response.json", 403);
+                        return responseFromResource("mock_app_data_forbidden_response.json", 403);
                     }
+                    //
+                    //for getting app data
+                    case "/v1/apps/2/users/25/app-data?": {
+                        return responseFromResource("mock_get_app_data_success_response.json");
+                    }
+                    case "/v1/apps/0/users/25/app-data?":
+                    case "/v1/apps/0/users/0/app-data?":
+                    case "/v1/apps/2/users/0/app-data?": {
+                        return responseFromResource("mock_app_data_forbidden_response.json", 403);
+                    }
+                    //
+                    // for create user
+                    case "/v1/apps/2/users?access_token=bad_token":
+                    case "/v1/apps/0/users?access_token=bad_token": {
+                        return responseFromResource("mock_create_user_bad_token_response.json", 401);
+                    }
+                    case "/v1/apps/0/users?access_token=good_token": {
+                        return responseFromResource("mock_forbidden_response.json", 403);
+                    }
+                    case "/v1/apps/2/users?access_token=good_token": {
+                        body = request.getBody().readUtf8();
+                        try {
+                            String bodyForJSON = body;
+                            JSONObject bodyJson = new JSONObject(bodyForJSON);
+                            String username = bodyJson.getString("username");
+                            String password = bodyJson.getString("password");
+                            String dateOfBirth = bodyJson.getString("dateOfBirth");
+                            String country = bodyJson.getString("country");
+                            String parentEmail = bodyJson.getString("parentEmail");
+
+                            if (username == null || username.isEmpty() || username.length() < 3 || username.equals("bad_username"))
+                                return responseFromResource("mock_create_user_bad_username_response.json", 400);
+                            if (password == null || password.isEmpty() || password.length() < 8 || password.equals("bad_password"))
+                                return responseFromResource("mock_create_user_bad_password_response.json", 400);
+                            if (dateOfBirth == null || dateOfBirth.isEmpty() || dateOfBirth.equals("bad_dob"))
+                                return responseFromResource("mock_create_user_bad_dob_response.json", 400);
+                            if (country == null || country.isEmpty() || country.equals("bad_country"))
+                                return responseFromResource("mock_create_user_bad_country_response.json", 400);
+                            if (parentEmail == null || parentEmail.isEmpty() || parentEmail.equals("bad_parent"))
+                                return responseFromResource("mock_create_user_bad_email_response.json", 400);
+                            else
+                                return responseFromResource("mock_create_user_success_response.json");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    //
+                    // for login && for get temp access token (same endpoint)
+                    case "/oauth/token?": {
+                        body = request.getBody().readUtf8();
+                        try {
+                            String bodyForURLEncoded = body;
+                            Map<String, List<String>> stringListMap = splitQuery(bodyForURLEncoded);
+
+                            if (stringListMap.containsKey("username")
+                                    && stringListMap.containsKey("password")) {
+                                //username and password in the urlencoded string is for the login
+                                return getLoginMockResponse(stringListMap);
+                            } else {
+                                //otherwise it's for the temp access token
+                                return getCreateUserMockResponse(stringListMap);
+
+                            }
+
+                        } catch (UnsupportedEncodingException ex) {
+                            ex.printStackTrace();
+                            return new MockResponse().setResponseCode(404);
+                        }
+                    }
+
+
                     //
                     // any other case
                     default:
@@ -116,8 +160,25 @@ class MockKWSServer {
 
             }
 
+            private MockResponse getCreateUserMockResponse(Map<String, List<String>> stringListMap) {
+                String grantType = getStringValueFromMap(stringListMap, "grant_type");
+                String clientId = getStringValueFromMap(stringListMap, "client_id");
+                String clientSecret = getStringValueFromMap(stringListMap, "client_secret");
 
-            public MockResponse getLoginMockResponse(String username, String password) {
+                if (grantType.isEmpty()
+                        || clientId == null || clientId.isEmpty()
+                        || clientSecret == null || clientSecret.isEmpty())
+                    return responseFromResource("mock_temp_access_token_bad_cred_response.json", 400);
+                else
+                    return responseFromResource("mock_temp_access_token_success_response.json");
+
+            }
+
+
+            public MockResponse getLoginMockResponse(Map<String, List<String>> stringListMap) {
+                String username = getStringValueFromMap(stringListMap, "username");
+                String password = getStringValueFromMap(stringListMap, "password");
+
                 if (username == null || password == null)
                     return responseFromResource("mock_empty_response.json", 400);
                 else if (username.isEmpty() || password.isEmpty())

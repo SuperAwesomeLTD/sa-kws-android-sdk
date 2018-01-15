@@ -17,8 +17,11 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  * Created by guilherme.mota on 12/12/2017.
  */
 
-@PublishedApi
-internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : CreateUserService {
+/*@PublishedApi
+internal*/ class CreateUserProvider
+@JvmOverloads
+constructor(private val environment: KWSNetworkEnvironment,
+            private val networkTask: NetworkTask = NetworkTask()) : CreateUserService {
 
 
     override fun createUser(username: String,
@@ -60,7 +63,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
     }
 
 
-    private fun getTempAccessToken(environment: KWSNetworkEnvironment,
+    fun getTempAccessToken(environment: KWSNetworkEnvironment,
                                    callback: (login: Login?, error: Throwable?) -> Unit) {
 
         val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
@@ -68,9 +71,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
 
-        val getTemAccessTokenNetworkTask = NetworkTask()
-
-        getTemAccessTokenNetworkTask.execute(input = getTempAccessTokenNetworkRequest) { getTempAccessTokenNetworkResponse ->
+        networkTask.execute(input = getTempAccessTokenNetworkRequest) { getTempAccessTokenNetworkResponse ->
 
             // network success case
             if (getTempAccessTokenNetworkResponse.response != null && getTempAccessTokenNetworkResponse.error == null) {
@@ -93,7 +94,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
         }
     }
 
-    private fun doUserCreation(environment: KWSNetworkEnvironment,
+    fun doUserCreation(environment: KWSNetworkEnvironment,
                                username: String,
                                password: String,
                                dateOfBirth: String,
@@ -114,9 +115,7 @@ internal class CreateUserProvider(val environment: KWSNetworkEnvironment) : Crea
                 token = token,
                 appID = appId)
 
-        val createUserNetworkTask = NetworkTask()
-
-        createUserNetworkTask.execute(input = createUserNetworkRequest) { createUserNetworkResponse ->
+        networkTask.execute(input = createUserNetworkRequest) { createUserNetworkResponse ->
 
             // network success case
             if (createUserNetworkResponse.response != null && createUserNetworkResponse.error == null) {
