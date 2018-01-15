@@ -47,7 +47,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 //
                 //send callback
-                val error = if (loginResponseObject != null) null else Throwable("Error - not valid login")
+                val error = if (loginResponseObject?.token != null) null else Throwable("Error - not valid login")
                 callback(loginResponseObject, error)
 
             }

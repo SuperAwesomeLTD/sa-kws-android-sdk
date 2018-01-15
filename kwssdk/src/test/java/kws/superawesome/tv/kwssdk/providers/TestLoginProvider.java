@@ -5,31 +5,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.Executor;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.providers.LoginProvider;
 import kws.superawesome.tv.kwssdk.base.responses.Login;
-import tv.superawesome.samobilebase.aux.network.SANetwork;
-import tv.superawesome.samobilebase.network.NetworkTask;
 
 /**
  * Created by guilherme.mota on 10/01/2018.
  */
 
-public class TestLoginProvider {
+public class TestLoginProvider extends BaseProvider{
 
     // class to test
     private LoginProvider provider;
-
-    // mocks
-    private KWSNetworkEnvironment environment;
-    private SANetwork network;
-    private NetworkTask task;
-    private MockKWSServer server;
-    private Executor executor;
 
     //same as the one in `mock_login_success_response.json`
     private String mockedToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
@@ -38,23 +26,9 @@ public class TestLoginProvider {
 
     @Before
     public void setup() throws Throwable {
-        // create server
-        server = new MockKWSServer();
 
-        // start the server instance
-        server.start();
-
-        // create environment
-        environment = new MockEnvironment(server.url());
-
-        // start mock executor
-        executor = new MockExecutor();
-
-        // start semi-mocked SANetwork class
-        network = new SANetwork(executor);
-
-        // init semi-mocked network task
-        task = new NetworkTask(network);
+        //extended method from Base
+        prepareMockedClient();
 
         // init class to test
         provider = new LoginProvider(environment, task);
@@ -67,15 +41,8 @@ public class TestLoginProvider {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-
-                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**Should be using:
-                 Assert.assertNull(login);
-                 Assert.assertNotNull(throwable);**/
-
-                // then
                 Assert.assertNull(login.getToken());
-                Assert.assertNull(throwable);
+                Assert.assertNotNull(throwable);
 
                 return null;
             }
@@ -89,14 +56,8 @@ public class TestLoginProvider {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**Should be using:
-                 Assert.assertNull(login);
-                 Assert.assertNotNull(throwable);**/
-
-                // then
                 Assert.assertNull(login.getToken());
-                Assert.assertNull(throwable);
+                Assert.assertNotNull(throwable);
 
                 return null;
             }
@@ -161,14 +122,8 @@ public class TestLoginProvider {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**Should be using:
-                 Assert.assertNull(login);
-                 Assert.assertNotNull(throwable);**/
-
-                // then
                 Assert.assertNull(login.getToken());
-                Assert.assertNull(throwable);
+                Assert.assertNotNull(throwable);
 
                 return null;
             }
@@ -182,14 +137,8 @@ public class TestLoginProvider {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
-                //TODO the assertions here should be different. Throwable will *never* be null because response is *never* null.
-                /**Should be using:
-                 Assert.assertNull(login);
-                 Assert.assertNotNull(throwable);**/
-
-                // then
                 Assert.assertNull(login.getToken());
-                Assert.assertNull(throwable);
+                Assert.assertNotNull(throwable);
 
                 return null;
             }

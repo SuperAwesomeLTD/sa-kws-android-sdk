@@ -24,6 +24,7 @@ class MockKWSServer {
     private MockWebServer server;
     private String body;
 
+
     MockKWSServer() {
 
         // Create a MockWebServer. These are lean enough that you can create a new
@@ -73,12 +74,30 @@ class MockKWSServer {
                                 return new MockResponse().setResponseCode(404);
                             }
                         }
-                    } //
+                    }
+                    case "/v1/apps/" + 2 + "/leaders?": {
+
+                        return getLeadersMockResponse(2);
+                    }
+                    case "/v1/apps/" + 0 + "/leaders?": {
+
+                        return getLeadersMockResponse(0);
+                    }
+                    //
                     // any other case
                     default:
                         return new MockResponse().setResponseCode(404).setBody("No response");
                 }
 
+            }
+
+            private MockResponse getLeadersMockResponse(int appId) {
+                if (appId == 2)
+                    return responseFromResource("mock_get_leaders_success_response.json");
+                else if(appId == 0)
+                    return responseFromResource("mock_get_leaders_forbidden_response.json");
+                else
+                    return responseFromResource("mock_get_leaders_not_found_response.json");
             }
 
             public MockResponse getLoginMockResponse(String username, String password) {
@@ -90,7 +109,8 @@ class MockKWSServer {
                     return responseFromResource("mock_login_bad_credentials_response.json");
                 else if (password.equals("bad_password"))
                     return responseFromResource("mock_login_bad_credentials_response.json");
-                else return responseFromResource("mock_login_success_response.json");
+                else
+                    return responseFromResource("mock_login_success_response.json");
             }
         };
 
