@@ -150,7 +150,31 @@ class MockKWSServer {
                             return new MockResponse().setResponseCode(404);
                         }
                     }
+                    //
+                    // trigger events
+                    case "/users/0/trigger-event": {
+                        return responseFromResource("mock_forbidden_response.json", 403);
+                    }
 
+                    case "/users/25/trigger-event": {
+                        body = request.getBody().readUtf8();
+                        try {
+                            String bodyForJSON = body;
+                            JSONObject bodyJson = new JSONObject(bodyForJSON);
+                            String token = bodyJson.getString("token");
+
+                            if (token == null || token.isEmpty() || token.equals("bad_token"))
+                                return responseFromResource("mock_trigger_event_fail_response.json", 404);
+                            else
+                                return responseFromResource("mock_empty_response.json");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    // has triggered events
 
                     //
                     // any other case

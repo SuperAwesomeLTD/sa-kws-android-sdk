@@ -14,7 +14,7 @@ import kws.superawesome.tv.kwssdk.base.responses.Login;
  * Created by guilherme.mota on 10/01/2018.
  */
 
-public class TestLoginProvider extends BaseProvider{
+public class TestLoginProviderTest extends TestBaseProvider {
 
     // class to test
     private LoginProvider provider;

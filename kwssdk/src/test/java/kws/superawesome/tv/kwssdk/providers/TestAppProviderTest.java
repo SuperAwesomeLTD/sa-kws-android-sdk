@@ -14,13 +14,13 @@ import kws.superawesome.tv.kwssdk.base.responses.Leaders;
  * Created by guilherme.mota on 15/01/2018.
  */
 
-public class TestAppProvider extends BaseProvider {
+public class TestAppProviderTest extends TestBaseProvider {
 
     //class to test
     private AppProvider provider;
     
     private int goodAppId, badAppId, goodUserId, badUserId;
-    private String goodMockedToken, badMockedToken;
+    private String goodMockedToken;
 
     @Before
     public void setup() throws Throwable {
@@ -36,7 +36,6 @@ public class TestAppProvider extends BaseProvider {
         badUserId = 0;
 
         goodMockedToken = "good_token";
-        badMockedToken = "bad_token";
 
         //when
         // init class to test

@@ -3,9 +3,9 @@ package kws.superawesome.tv.kwssdk;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import kws.superawesome.tv.kwssdk.providers.TestAppProvider;
-import kws.superawesome.tv.kwssdk.providers.TestCreateUserProvider;
-import kws.superawesome.tv.kwssdk.providers.TestLoginProvider;
+import kws.superawesome.tv.kwssdk.providers.TestAppProviderTest;
+import kws.superawesome.tv.kwssdk.providers.TestCreateUserProviderTest;
+import kws.superawesome.tv.kwssdk.providers.TestLoginProviderTest;
 import kws.superawesome.tv.kwssdk.requests.TestAppConfigRequest;
 import kws.superawesome.tv.kwssdk.requests.TestCreateUserRequest;
 import kws.superawesome.tv.kwssdk.requests.TestGetAppDataRequest;
@@ -43,9 +43,9 @@ import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
         TestUserDetailsRequest.class,
 
         //Providers
-        TestLoginProvider.class,
-        TestAppProvider.class,
-        TestCreateUserProvider.class
+        TestLoginProviderTest.class,
+        TestAppProviderTest.class,
+        TestCreateUserProviderTest.class
 
 
 })

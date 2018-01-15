@@ -16,7 +16,7 @@ import kws.superawesome.tv.kwssdk.base.responses.Login;
  * Created by guilherme.mota on 15/01/2018.
  */
 
-public class TestCreateUserProvider extends BaseProvider {
+public class TestCreateUserProviderTest extends TestBaseProvider {
 
     //class to test
     private CreateUserProvider provider;

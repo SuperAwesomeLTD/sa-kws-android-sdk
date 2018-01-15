@@ -10,7 +10,7 @@ import tv.superawesome.samobilebase.network.NetworkTask;
  * Created by guilherme.mota on 15/01/2018.
  */
 
-public class BaseProvider {
+public class TestBaseProvider {
 
     // mocks
     protected KWSNetworkEnvironment environment;
