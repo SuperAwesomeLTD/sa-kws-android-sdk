@@ -7,6 +7,7 @@ import org.junit.Test;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.providers.EventsProvider;
+import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent;
 
 /**
  * Created by guilherme.mota on 15/01/2018.
@@ -17,7 +18,7 @@ public class TestEventsProviderTest extends TestBaseProvider {
     //class to test
     private EventsProvider provider;
 
-    private int points, eventId, goodUserId, badUserId;
+    private int points, goodEventId, badEventId, goodUserId, badUserId;
     private String goodMockedToken, goodEventToken, badEventToken;
 
     @Before
@@ -28,7 +29,9 @@ public class TestEventsProviderTest extends TestBaseProvider {
 
         //given
         points = 20;
-        eventId = 10;
+
+        goodEventId = 10;
+        badEventId = 1;
 
         goodUserId = 25;
         badUserId = 0;
@@ -44,8 +47,10 @@ public class TestEventsProviderTest extends TestBaseProvider {
 
     }
 
+    //
+    // Trigger Event
     @Test
-    public void testEventsProviderOK() {
+    public void testEventsProviderTriggerEventOK() {
 
         provider.triggerEvent(points, goodUserId, goodMockedToken, goodEventToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
@@ -61,7 +66,7 @@ public class TestEventsProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testEventsProviderBadUserId() {
+    public void testEventsProviderTriggerEventBadUserId() {
 
         provider.triggerEvent(points, badUserId, goodMockedToken, goodEventToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
@@ -77,13 +82,63 @@ public class TestEventsProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testEventsProviderBadEventToken() {
+    public void testEventsProviderTriggerEventBadEventToken() {
 
-        provider.triggerEvent(points, badUserId, goodMockedToken, badEventToken, new Function2<Boolean, Throwable, Unit>() {
+        provider.triggerEvent(points, goodUserId, goodMockedToken, badEventToken, new Function2<Boolean, Throwable, Unit>() {
             @Override
             public Unit invoke(Boolean aSuccess, Throwable throwable) {
 
                 Assert.assertFalse(aSuccess);
+                Assert.assertNotNull(throwable);
+
+                return null;
+            }
+        });
+
+    }
+
+    //
+    // Has Triggered Event
+    @Test
+    public void testEventsProviderHasTriggeredEventOK() {
+
+        provider.hasTriggeredEvent(goodUserId, goodEventId, goodMockedToken, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+            @Override
+            public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+
+                Assert.assertNotNull(hasTriggeredEvent);
+                Assert.assertNull(throwable);
+
+                return null;
+            }
+        });
+
+    }
+
+    @Test
+    public void testEventsProviderHasTriggeredEventBadUserId() {
+
+        provider.hasTriggeredEvent(badUserId, goodEventId, goodMockedToken, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+            @Override
+            public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+
+                Assert.assertNull(hasTriggeredEvent);
+                Assert.assertNotNull(throwable);
+
+                return null;
+            }
+        });
+
+    }
+
+    @Test
+    public void testEventsProviderHasTriggeredEventBadEventId() {
+
+        provider.hasTriggeredEvent(goodUserId, badEventId, goodMockedToken, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+            @Override
+            public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+
+                Assert.assertNull(hasTriggeredEvent);
                 Assert.assertNotNull(throwable);
 
                 return null;

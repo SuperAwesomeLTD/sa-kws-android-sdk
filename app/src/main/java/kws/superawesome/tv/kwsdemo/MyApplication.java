@@ -1,6 +1,5 @@
 package kws.superawesome.tv.kwsdemo;
 
-import android.app.Application;
 import android.support.multidex.MultiDexApplication;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;

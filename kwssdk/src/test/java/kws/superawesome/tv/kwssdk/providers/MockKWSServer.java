@@ -46,14 +46,13 @@ class MockKWSServer {
             @Override
             public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
                 switch (request.getPath()) {
-
                     //
                     // for getting leaders
                     case "/v1/apps/2/leaders?": {
                         return responseFromResource("mock_get_leaders_success_response.json");
                     }
                     case "/v1/apps/0/leaders?": {
-                        return responseFromResource("mock_forbidden_response.json", 403);
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
 
                     //
@@ -68,7 +67,7 @@ class MockKWSServer {
                             if (name == null || name.isEmpty())
                                 return responseFromResource("mock_set_app_data_empty_name_response.json", 400);
                             else
-                                return responseFromResource("mock_empty_response.json");
+                                return responseFromResource("mock_generic_empty_response.json");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -77,7 +76,7 @@ class MockKWSServer {
                     case "/v1/apps/0/users/25/app-data/set?":
                     case "/v1/apps/0/users/0/app-data/set?":
                     case "/v1/apps/2/users/0/app-data/set?": {
-                        return responseFromResource("mock_app_data_forbidden_response.json", 403);
+                        return responseFromResource("mock_generic_forbidden_response.json.json", 403);
                     }
                     //
                     //for getting app data
@@ -87,7 +86,7 @@ class MockKWSServer {
                     case "/v1/apps/0/users/25/app-data?":
                     case "/v1/apps/0/users/0/app-data?":
                     case "/v1/apps/2/users/0/app-data?": {
-                        return responseFromResource("mock_app_data_forbidden_response.json", 403);
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
                     //
                     // for create user
@@ -96,7 +95,7 @@ class MockKWSServer {
                         return responseFromResource("mock_create_user_bad_token_response.json", 401);
                     }
                     case "/v1/apps/0/users?access_token=good_token": {
-                        return responseFromResource("mock_forbidden_response.json", 403);
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
                     case "/v1/apps/2/users?access_token=good_token": {
                         body = request.getBody().readUtf8();
@@ -141,7 +140,7 @@ class MockKWSServer {
                                 return getLoginMockResponse(stringListMap);
                             } else {
                                 //otherwise it's for the temp access token
-                                return getCreateUserMockResponse(stringListMap);
+                                return getTempAccessTokenMockResponse(stringListMap);
 
                             }
 
@@ -152,29 +151,65 @@ class MockKWSServer {
                     }
                     //
                     // trigger events
-                    case "/users/0/trigger-event": {
-                        return responseFromResource("mock_forbidden_response.json", 403);
+                    case "/v1/users/0/trigger-event?": {
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-
-                    case "/users/25/trigger-event": {
+                    case "/v1/users/25/trigger-event?": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;
                             JSONObject bodyJson = new JSONObject(bodyForJSON);
-                            String token = bodyJson.getString("token");
+                            String eventToken = bodyJson.getString("token");
 
-                            if (token == null || token.isEmpty() || token.equals("bad_token"))
-                                return responseFromResource("mock_trigger_event_fail_response.json", 404);
+                            if (eventToken == null || eventToken.isEmpty() || eventToken.equals("bad_event_token"))
+                                return responseFromResource("mock_generic_event_not_found_response.json", 404);
                             else
-                                return responseFromResource("mock_empty_response.json");
+                                return responseFromResource("mock_has_triggered_event_success_response.json");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
 
-
+                    //
                     // has triggered events
+                    case "/v1/users/0/has-triggered-event?": {
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
+                    }
+                    case "/v1/users/25/has-triggered-event?": {
+                        body = request.getBody().readUtf8();
+                        try {
+                            String bodyForJSON = body;
+                            JSONObject bodyJson = new JSONObject(bodyForJSON);
+                            int eventId = bodyJson.getInt("eventId");
+
+                            if (eventId == 1)
+                                return responseFromResource("mock_generic_event_not_found_response.json", 404);
+                            else
+                                return responseFromResource("mock_has_triggered_event_success_response.json");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //
+                    // get app config
+                    case "/v1/apps/config?oauthClientId=bad_client_id": {
+                        return responseFromResource("mock_generic_event_not_found_response.json", 404);
+                    }
+                    case "/v1/apps/config?oauthClientId=good_client_id": {
+                        return responseFromResource("mock_get_app_config_success_response.json");
+                    }
+                    //
+                    // get random username
+                    case "/v2/apps/0/random-display-name?": {
+                        return responseFromResource("mock_generic_simpler_not_found_response.json", 404);
+                    }
+                    case "/v2/apps/2/random-display-name?": {
+                        return responseFromResource("mock_get_random_username_success_response.json");
+
+                    }
+
 
                     //
                     // any other case
@@ -184,14 +219,15 @@ class MockKWSServer {
 
             }
 
-            private MockResponse getCreateUserMockResponse(Map<String, List<String>> stringListMap) {
+
+            private MockResponse getTempAccessTokenMockResponse(Map<String, List<String>> stringListMap) {
                 String grantType = getStringValueFromMap(stringListMap, "grant_type");
                 String clientId = getStringValueFromMap(stringListMap, "client_id");
                 String clientSecret = getStringValueFromMap(stringListMap, "client_secret");
 
                 if (grantType.isEmpty()
-                        || clientId == null || clientId.isEmpty()
-                        || clientSecret == null || clientSecret.isEmpty())
+                        || clientId == null || clientId.isEmpty() || clientId.equals("bad_client_id")
+                        || clientSecret == null || clientSecret.isEmpty() || clientSecret.equals("bad_client_secret"))
                     return responseFromResource("mock_temp_access_token_bad_cred_response.json", 400);
                 else
                     return responseFromResource("mock_temp_access_token_success_response.json");
@@ -204,12 +240,10 @@ class MockKWSServer {
                 String password = getStringValueFromMap(stringListMap, "password");
 
                 if (username == null || password == null)
-                    return responseFromResource("mock_empty_response.json", 400);
+                    return responseFromResource("mock_generic_empty_response.json", 400);
                 else if (username.isEmpty() || password.isEmpty())
                     return responseFromResource("mock_login_missing_credentials_response.json", 400);
-                else if (username.equals("bad_username"))
-                    return responseFromResource("mock_login_bad_credentials_response.json", 400);
-                else if (password.equals("bad_password"))
+                else if (username.equals("bad_username") || password.equals("bad_password"))
                     return responseFromResource("mock_login_bad_credentials_response.json", 400);
                 else
                     return responseFromResource("mock_login_success_response.json");

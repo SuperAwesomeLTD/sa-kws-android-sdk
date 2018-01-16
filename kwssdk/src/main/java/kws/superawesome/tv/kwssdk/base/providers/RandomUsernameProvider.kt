@@ -14,8 +14,11 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-@PublishedApi
-internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : RandomUsernameService {
+/*@PublishedApi
+internal*/
+class RandomUsernameProvider
+constructor(private val environment: KWSNetworkEnvironment,
+            private val networkTask: NetworkTask = NetworkTask()) : RandomUsernameService {
 
 
     override fun getRandomUsername(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
@@ -42,7 +45,7 @@ internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : 
     }
 
 
-    private fun getAppConfig(environment: KWSNetworkEnvironment,
+    fun getAppConfig(environment: KWSNetworkEnvironment,
                              callback: (appConfig: AppConfig?, error: Throwable?) -> Unit) {
 
         val appConfigNetworkRequest = AppConfigRequest(
@@ -50,9 +53,7 @@ internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : 
                 clientID = environment.appID
         )
 
-        val appConfigNetworkTask = NetworkTask()
-
-        appConfigNetworkTask.execute(input = appConfigNetworkRequest) { appConfigNetworkResponse ->
+        networkTask.execute(input = appConfigNetworkRequest) { appConfigNetworkResponse ->
 
             // network success case
             if (appConfigNetworkResponse.response != null && appConfigNetworkResponse.error == null) {
@@ -77,7 +78,7 @@ internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : 
     }
 
 
-    private fun getActuallyRandomUserName(environment: KWSNetworkEnvironment,
+    fun getActuallyRandomUserName(environment: KWSNetworkEnvironment,
                                           id: Int,
                                           callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
@@ -85,8 +86,7 @@ internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : 
                 environment = environment,
                 appID = id)
 
-        val getRandomUsernameNetworkTask = NetworkTask()
-        getRandomUsernameNetworkTask.execute(input = getRandomUsernameNetworkRequest) {  getRandomUsernameNetworkResponse ->
+        networkTask.execute(input = getRandomUsernameNetworkRequest) { getRandomUsernameNetworkResponse ->
 
             val responseString = getRandomUsernameNetworkResponse.response
 
@@ -96,9 +96,9 @@ internal class RandomUsernameProvider(val environment: KWSNetworkEnvironment) : 
 
                 //
                 // send callback
-                if(randomUserName != null){
+                if (randomUserName != null) {
                     callback(RandomUsername(randomUserName), null)
-                }else{
+                } else {
                     callback(RandomUsername(responseString), null)
                 }
 

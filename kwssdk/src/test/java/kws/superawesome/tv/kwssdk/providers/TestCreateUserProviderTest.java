@@ -22,7 +22,7 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     private CreateUserProvider provider;
 
     private String goodUsername, badUsername, goodPassword, badPassword, goodDOB,
-            badDOB, goodCountry, badCountry, goodParentEmail, badParentEmail, goodMockedToken, badMockedToken;
+            badDOB, goodCountry, badCountry, goodParentEmail, badParentEmail, goodMockedToken, badMockedToken, goodClientId, badClientId, goodClientSecret, badClientSecret;
     private int goodAppId, badAppId;
 
     @Before
@@ -53,6 +53,12 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
 
         goodAppId = 2;
         badAppId = 0;
+
+        goodClientId = "good_client_id";
+        badClientId = "bad_client_id";
+
+        goodClientSecret = "good_client_secret";
+        badClientSecret = "bad_client_secret";
 
         //when
         // init class to test
@@ -269,19 +275,19 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
 
 
     @Test
-    public void testCreateUserProviderGetTempAccessTokenBadEnvironment() {
+    public void testCreateUserProviderGetTempAccessTokenBadEnvironmentAppIdAndMobileKey() {
         //given
-        KWSNetworkEnvironment testEnvironment = new KWSNetworkEnvironment() {
+        KWSNetworkEnvironment badEnvironment = new KWSNetworkEnvironment() {
             @NotNull
             @Override
             public String getAppID() {
-                return "";
+                return badClientId;
             }
 
             @NotNull
             @Override
             public String getMobileKey() {
-                return "";
+                return badClientSecret;
             }
 
             @NotNull
@@ -292,7 +298,7 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
         };
 
         //then
-        provider.getTempAccessToken(testEnvironment, new Function2<Login, Throwable, Unit>() {
+        provider.getTempAccessToken(badEnvironment, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 

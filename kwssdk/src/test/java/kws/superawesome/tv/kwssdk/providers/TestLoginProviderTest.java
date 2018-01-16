@@ -19,20 +19,46 @@ public class TestLoginProviderTest extends TestBaseProvider {
     // class to test
     private LoginProvider provider;
 
+    private String goodUsername, badUsername, goodPassword, badPassword;
+
     @Before
     public void setup() throws Throwable {
 
         //extended method from Base
         prepareMockedClient();
 
+        //given
+        goodUsername = "good_username";
+        badUsername = "bad_username";
+
+        goodPassword = "good_password";
+        badPassword = "bad_password";
+
+        //then
         // init class to test
         provider = new LoginProvider(environment, task);
     }
 
     @Test
+    public void testLoginProviderOK() throws Throwable {
+        // when
+        provider.loginUser(goodUsername, goodPassword, new Function2<Login, Throwable, Unit>() {
+            @Override
+            public Unit invoke(Login login, Throwable throwable) {
+
+                // then
+                Assert.assertNotNull(login);
+                Assert.assertNull(throwable);
+
+                return null;
+            }
+        });
+    }
+
+    @Test
     public void testLoginProviderBadUsername() throws Throwable {
         // when
-        provider.loginUser("bad_username", "testtest", new Function2<Login, Throwable, Unit>() {
+        provider.loginUser(badUsername, goodPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -47,7 +73,7 @@ public class TestLoginProviderTest extends TestBaseProvider {
     @Test
     public void testLoginProviderBadPassword() throws Throwable {
         // when
-        provider.loginUser("testuser123", "bad_password", new Function2<Login, Throwable, Unit>() {
+        provider.loginUser(goodUsername, badPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -59,26 +85,11 @@ public class TestLoginProviderTest extends TestBaseProvider {
         });
     }
 
-    @Test
-    public void testLoginProviderOK() throws Throwable {
-        // when
-        provider.loginUser("testuser123", "testtest", new Function2<Login, Throwable, Unit>() {
-            @Override
-            public Unit invoke(Login login, Throwable throwable) {
-
-                // then
-                Assert.assertNotNull(login);
-                Assert.assertNull(throwable);
-
-                return null;
-            }
-        });
-    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testLoginProviderFailNullUsername() throws Throwable {
         // when
-        provider.loginUser(null, "testtest", new Function2<Login, Throwable, Unit>() {
+        provider.loginUser(null, goodPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -94,7 +105,7 @@ public class TestLoginProviderTest extends TestBaseProvider {
     @Test(expected = IllegalArgumentException.class)
     public void testLoginProviderFailNullPassword() throws Throwable {
         // when
-        provider.loginUser("testuser123", null, new Function2<Login, Throwable, Unit>() {
+        provider.loginUser(goodUsername, null, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -111,7 +122,7 @@ public class TestLoginProviderTest extends TestBaseProvider {
     @Test
     public void testLoginProviderFailEmptyUsername() throws Throwable {
         // when
-        provider.loginUser("", "testtest", new Function2<Login, Throwable, Unit>() {
+        provider.loginUser("", goodPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -126,7 +137,7 @@ public class TestLoginProviderTest extends TestBaseProvider {
     @Test
     public void testLoginProviderFailEmptyPassword() throws Throwable {
         // when
-        provider.loginUser("testuser123", "", new Function2<Login, Throwable, Unit>() {
+        provider.loginUser(goodUsername, "", new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
