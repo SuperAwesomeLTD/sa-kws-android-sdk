@@ -18,8 +18,20 @@ public class TestEventsProviderTest extends TestBaseProvider {
     //class to test
     private EventsProvider provider;
 
-    private int points, goodEventId, badEventId, goodUserId, badUserId;
-    private String goodMockedToken, goodEventToken, badEventToken;
+    //given
+    private int points = 20;
+
+    private int goodEventId = 10;
+    private int badEventId = 1;
+
+    private int goodUserId = 25;
+    private int badUserId = 0;
+
+    private String goodMockedToken = "good_token";
+
+    private String goodEventToken = "good_event_token";
+    private String badEventToken = "bad_event_token";
+
 
     @Before
     public void setup() throws Throwable {
@@ -27,19 +39,6 @@ public class TestEventsProviderTest extends TestBaseProvider {
         //extended method from Base
         prepareMockedClient();
 
-        //given
-        points = 20;
-
-        goodEventId = 10;
-        badEventId = 1;
-
-        goodUserId = 25;
-        badUserId = 0;
-
-        goodMockedToken = "good_token";
-
-        goodEventToken = "good_event_token";
-        badEventToken = "bad_event_token";
 
         //when
         // init class to test

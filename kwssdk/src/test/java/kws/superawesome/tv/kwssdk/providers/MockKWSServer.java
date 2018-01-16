@@ -1,10 +1,12 @@
 package kws.superawesome.tv.kwssdk.providers;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,7 +69,7 @@ class MockKWSServer {
                             if (name == null || name.isEmpty())
                                 return responseFromResource("mock_set_app_data_empty_name_response.json", 400);
                             else
-                                return responseFromResource("mock_generic_empty_response.json");
+                                return responseFromResource("mock_generic_empty_response.json", 204);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -76,7 +78,7 @@ class MockKWSServer {
                     case "/v1/apps/0/users/25/app-data/set?":
                     case "/v1/apps/0/users/0/app-data/set?":
                     case "/v1/apps/2/users/0/app-data/set?": {
-                        return responseFromResource("mock_generic_forbidden_response.json.json", 403);
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
                     //
                     //for getting app data
@@ -209,8 +211,75 @@ class MockKWSServer {
                         return responseFromResource("mock_get_random_username_success_response.json");
 
                     }
+                    //
+                    // get user details
+                    case "/v1/users/0?": {
+                        return responseFromResource("mock_generic_event_not_found_response.json", 404);
+                    }
 
+                    case "/v1/users/25?": {
+                        return responseFromResource("mock_get_user_details_success_response.json");
+                    }
 
+                    //
+                    // invite user
+                    case "/v1/users/0/invite-user?": {
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
+                    }
+                    case "/v1/users/25/invite-user?": {
+                        body = request.getBody().readUtf8();
+                        try {
+                            String bodyForJSON = body;
+                            JSONObject bodyJson = new JSONObject(bodyForJSON);
+                            String email = bodyJson.getString("email");
+
+                            if (email == null || email.isEmpty() || email.equals("bad_email"))
+                                return responseFromResource("mock_invite_user_bad_email_response.json", 403);
+                            else
+                                return responseFromResource("mock_generic_empty_response.json", 204);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //
+                    // get user score
+                    case "/v1/apps/0/score?": {
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
+                    }
+                    case "/v1/apps/2/score?": {
+                        return responseFromResource("mock_get_user_score_success_response.json");
+                    }
+                    //
+                    // request permissions
+                    case "/v1/users/0/request-permissions?": {
+                        return responseFromResource("mock_generic_forbidden_response.json", 403);
+                    }
+                    case "/v1/users/25/request-permissions?": {
+                        body = request.getBody().readUtf8();
+                        try {
+                            String bodyForJSON = body;
+                            JSONObject bodyJson = new JSONObject(bodyForJSON);
+                            JSONArray permissionsArray = bodyJson.getJSONArray("permissions");
+
+                            ArrayList<String> permissionsList = new ArrayList<>();
+                            if (permissionsArray != null) {
+                                for (int i = 0; i < permissionsArray.length(); i++) {
+                                    permissionsList.add(permissionsArray.getString(i));
+                                }
+                            } else {
+                                return new MockResponse().setResponseCode(400).setBody("Null array");
+                            }
+
+                            if (permissionsList.contains("bad_permission"))
+                                return responseFromResource("mock_request_permissions_bad_permission_response.json", 400);
+                            else
+                                return responseFromResource("mock_generic_empty_response.json", 204);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     //
                     // any other case
                     default:

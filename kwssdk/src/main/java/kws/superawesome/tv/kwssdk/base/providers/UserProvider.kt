@@ -15,8 +15,11 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 03/01/2018.
  */
-@PublishedApi
-internal class UserProvider(val environment: KWSNetworkEnvironment) : UserService {
+/*@PublishedApi
+internal*/
+class UserProvider
+constructor(private val environment: KWSNetworkEnvironment,
+            private val networkTask: NetworkTask = NetworkTask()) : UserService {
 
     override fun getUserDetails(userId: Int, token: String, callback: (userDetailsDetails: UserDetails?, error: Throwable?) -> Unit) {
 
@@ -26,8 +29,7 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
                 token = token
         )
 
-        val getUserDetailsNetworkTask = NetworkTask()
-        getUserDetailsNetworkTask.execute(input = getUserDetailsNetworkRequest) { getUserDetailsNetworkResponse ->
+        networkTask.execute(input = getUserDetailsNetworkRequest) { getUserDetailsNetworkResponse ->
 
             // network success case
             if (getUserDetailsNetworkResponse.response != null && getUserDetailsNetworkResponse.error == null) {
@@ -58,8 +60,7 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
                 emailAddress = email
         )
 
-        val inviteUserRequestNetworkTask = NetworkTask()
-        inviteUserRequestNetworkTask.execute(input = inviteUserNetworkRequest) { inviteUserNetworkResponse ->
+        networkTask.execute(input = inviteUserNetworkRequest) { inviteUserNetworkResponse ->
 
             //
             //send callback
@@ -79,8 +80,7 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
                 token = token
         )
 
-        val getUserScoreRequestNetworkTask = NetworkTask()
-        getUserScoreRequestNetworkTask.execute(input = getUserScoreNetworkRequest) { getUserScoreNetworkResponse ->
+        networkTask.execute(input = getUserScoreNetworkRequest) { getUserScoreNetworkResponse ->
 
 
             if (getUserScoreNetworkResponse.response != null && getUserScoreNetworkResponse.error == null) {
@@ -116,8 +116,7 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
                 permissionsList = permissionsList
         )
 
-        val requestPermissionNetworkTask = NetworkTask()
-        requestPermissionNetworkTask.execute(input = requestPermissionsNetworkRequest) { requestPermissionsNetworkResponse ->
+        networkTask.execute(input = requestPermissionsNetworkRequest) { requestPermissionsNetworkResponse ->
 
             if (requestPermissionsNetworkResponse.response != null && requestPermissionsNetworkResponse.error == null) {
 
@@ -131,8 +130,8 @@ internal class UserProvider(val environment: KWSNetworkEnvironment) : UserServic
                     // we have a response, but something else went wrong
                     val payload = requestPermissionsNetworkResponse.response
                     val message = if (payload != null) payload else "Unknown network error"
-                    val error = Throwable (message)
-                    callback (false, error)
+                    val error = Throwable(message)
+                    callback(false, error)
                 }
 
             } else {

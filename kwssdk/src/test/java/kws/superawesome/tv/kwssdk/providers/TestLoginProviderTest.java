@@ -19,7 +19,12 @@ public class TestLoginProviderTest extends TestBaseProvider {
     // class to test
     private LoginProvider provider;
 
-    private String goodUsername, badUsername, goodPassword, badPassword;
+    //given
+    private String goodUsername = "good_username";
+    private String badUsername = "bad_username";
+
+    private String goodPassword = "good_password";
+    private String badPassword = "bad_password";
 
     @Before
     public void setup() throws Throwable {
@@ -27,12 +32,6 @@ public class TestLoginProviderTest extends TestBaseProvider {
         //extended method from Base
         prepareMockedClient();
 
-        //given
-        goodUsername = "good_username";
-        badUsername = "bad_username";
-
-        goodPassword = "good_password";
-        badPassword = "bad_password";
 
         //then
         // init class to test

@@ -1,0 +1,44 @@
+{
+  "id": 25,
+  "username": "good_username",
+  "firstName": null,
+  "lastName": null,
+  "address": {
+    "street": null,
+    "city": null,
+    "postCode": null,
+    "country": null
+  },
+  "dateOfBirth": "good_dob",
+  "gender": "",
+  "language": "en",
+  "email": null,
+  "hasSetParentEmail": true,
+  "applicationProfile": {
+    "username": "good_username",
+    "customField1": 0,
+    "customField2": 0,
+    "avatarId": 0
+  },
+  "applicationPermissions": {
+    "accessAddress": null,
+    "accessFirstName": null,
+    "accessLastName": null,
+    "accessEmail": null,
+    "accessStreetAddress": null,
+    "accessCity": null,
+    "accessPostalCode": null,
+    "accessCountry": null,
+    "sendPushNotification": true,
+    "sendNewsletter": null,
+    "enterCompetitions": null
+  },
+  "points": {
+    "totalReceived": 600,
+    "total": 600,
+    "totalPointsReceivedInCurrentApp": 600,
+    "availableBalance": 600,
+    "pending": 0
+  },
+  "createdAt": "good_creation_date"
+}

@@ -22,8 +22,12 @@ public class TestRandomUsernameProvider extends TestBaseProvider {
     //class to test
     private RandomUsernameProvider provider;
 
-    private int goodAppId, badAppId;
-    private String goodClientId, badClientId;
+    //given
+    private int goodAppId = 2;
+    private int badAppId = 0;
+
+    private String goodClientId = "good_client_id";
+    private String badClientId = "bad_client_id";
 
     @Before
     public void setup() throws Throwable {
@@ -31,12 +35,6 @@ public class TestRandomUsernameProvider extends TestBaseProvider {
         //extended method from Base
         prepareMockedClient();
 
-        //given
-        goodAppId = 2;
-        badAppId = 0;
-
-        goodClientId = "good_client_id";
-        badClientId = "bad_client_id";
 
         //then
         // init class to test
@@ -119,7 +117,7 @@ public class TestRandomUsernameProvider extends TestBaseProvider {
     }
 
     @Test
-    public void testRandomUsernameProviderRandomUsernameOK(){
+    public void testRandomUsernameProviderRandomUsernameOK() {
 
         provider.getActuallyRandomUserName(environment, goodAppId, new Function2<RandomUsername, Throwable, Unit>() {
             @Override
@@ -133,11 +131,10 @@ public class TestRandomUsernameProvider extends TestBaseProvider {
         });
 
 
-
     }
 
     @Test
-    public void testRandomUsernameProviderRandomUsernameBadAppId(){
+    public void testRandomUsernameProviderRandomUsernameBadAppId() {
 
         provider.getActuallyRandomUserName(environment, badAppId, new Function2<RandomUsername, Throwable, Unit>() {
             @Override

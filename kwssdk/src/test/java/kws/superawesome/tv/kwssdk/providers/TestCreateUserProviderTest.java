@@ -21,9 +21,31 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     //class to test
     private CreateUserProvider provider;
 
-    private String goodUsername, badUsername, goodPassword, badPassword, goodDOB,
-            badDOB, goodCountry, badCountry, goodParentEmail, badParentEmail, goodMockedToken, badMockedToken, goodClientId, badClientId, goodClientSecret, badClientSecret;
-    private int goodAppId, badAppId;
+    //given
+    private String goodUsername = "testuser123";
+    private String badUsername = "bad_username";
+
+    private String goodPassword = "testtest";
+    private String badPassword = "bad_password";
+
+    private String goodDOB = "2012-03-03";
+    private String badDOB = "bad_dob";
+
+    private String goodCountry = "US";
+    private String badCountry = "bad_country";
+
+    private String goodParentEmail = "good_parent@email.com";
+    private String badParentEmail = "bad_parent";
+
+    private String goodMockedToken = "good_token";
+    private String badMockedToken = "bad_token";
+
+    private String badClientId = "bad_client_id";
+
+    private String badClientSecret = "bad_client_secret";
+
+    private int goodAppId = 2;
+    private int badAppId = 0;
 
     @Before
     public void setup() throws Throwable {
@@ -32,33 +54,6 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
         //extended method from Base
         prepareMockedClient();
 
-        //given
-        goodUsername = "testuser123";
-        badUsername = "bad_username";
-
-        goodPassword = "testtest";
-        badPassword = "bad_password";
-
-        goodDOB = "2012-03-03";
-        badDOB = "bad_dob";
-
-        goodCountry = "US";
-        badCountry = "bad_country";
-
-        goodParentEmail = "good_parent@email.com";
-        badParentEmail = "bad_parent";
-
-        goodMockedToken = "good_token";
-        badMockedToken = "bad_token";
-
-        goodAppId = 2;
-        badAppId = 0;
-
-        goodClientId = "good_client_id";
-        badClientId = "bad_client_id";
-
-        goodClientSecret = "good_client_secret";
-        badClientSecret = "bad_client_secret";
 
         //when
         // init class to test

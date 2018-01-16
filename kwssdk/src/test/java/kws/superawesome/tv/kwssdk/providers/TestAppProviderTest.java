@@ -18,9 +18,14 @@ public class TestAppProviderTest extends TestBaseProvider {
 
     //class to test
     private AppProvider provider;
-    
-    private int goodAppId, badAppId, goodUserId, badUserId;
-    private String goodMockedToken;
+
+    private int goodAppId = 2;
+    private int badAppId = 0;
+
+    private int goodUserId = 25;
+    private int badUserId = 0;
+
+    private String goodMockedToken ="good_token";
 
     @Before
     public void setup() throws Throwable {
@@ -28,14 +33,6 @@ public class TestAppProviderTest extends TestBaseProvider {
         //extended method from Base
         prepareMockedClient();
 
-        //given
-        goodAppId = 2;
-        badAppId = 0;
-
-        goodUserId = 25;
-        badUserId = 0;
-
-        goodMockedToken = "good_token";
 
         //when
         // init class to test

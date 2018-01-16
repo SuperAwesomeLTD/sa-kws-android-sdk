@@ -7,6 +7,8 @@ import kws.superawesome.tv.kwssdk.providers.TestAppProviderTest;
 import kws.superawesome.tv.kwssdk.providers.TestCreateUserProviderTest;
 import kws.superawesome.tv.kwssdk.providers.TestEventsProviderTest;
 import kws.superawesome.tv.kwssdk.providers.TestLoginProviderTest;
+import kws.superawesome.tv.kwssdk.providers.TestRandomUsernameProvider;
+import kws.superawesome.tv.kwssdk.providers.TestUserProvider;
 import kws.superawesome.tv.kwssdk.requests.TestAppConfigRequest;
 import kws.superawesome.tv.kwssdk.requests.TestCreateUserRequest;
 import kws.superawesome.tv.kwssdk.requests.TestGetAppDataRequest;
@@ -47,7 +49,9 @@ import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
         TestLoginProviderTest.class,
         TestAppProviderTest.class,
         TestCreateUserProviderTest.class,
-        TestEventsProviderTest.class
+        TestEventsProviderTest.class,
+        TestRandomUsernameProvider.class,
+        TestUserProvider.class
 
 
 })
