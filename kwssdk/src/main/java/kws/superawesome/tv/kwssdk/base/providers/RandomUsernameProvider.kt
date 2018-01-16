@@ -17,6 +17,7 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /*@PublishedApi
 internal*/
 class RandomUsernameProvider
+@JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : RandomUsernameService {
 

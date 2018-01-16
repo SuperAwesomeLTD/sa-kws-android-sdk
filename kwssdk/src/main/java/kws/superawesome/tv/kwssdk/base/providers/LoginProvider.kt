@@ -17,7 +17,8 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
-/*@PublishedApi internal*/
+/*@PublishedApi
+internal*/
 class LoginProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
