@@ -10,6 +10,19 @@ import tv.superawesome.samobilebase.network.NetworkTask
  */
 object KWSSDK {
 
+    @JvmStatic
+    inline fun <reified T : BaseService> getService(environment: KWSNetworkEnvironment, networkTask: NetworkTask = NetworkTask()): T? =
+            when (T::class) {
+                LoginService::class -> LoginProvider(environment = environment, networkTask = networkTask) as T?
+                CreateUserService::class -> CreateUserProvider(environment = environment, networkTask = networkTask) as T?
+                RandomUsernameService::class -> RandomUsernameProvider(environment = environment, networkTask = networkTask) as T?
+                UserService::class -> UserProvider(environment = environment, networkTask = networkTask) as T?
+                EventsService::class -> EventsProvider(environment = environment, networkTask = networkTask) as T?
+                AppService::class -> AppProvider(environment = environment, networkTask = networkTask) as T?
+                else -> null
+            }
+
+
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
     @JvmOverloads
