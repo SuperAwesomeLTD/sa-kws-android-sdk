@@ -11,15 +11,16 @@ import kws.superawesome.tv.kwssdk.base.services.LoginService
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 import tv.superawesome.samobilebase.network.NetworkTask
+import tv.superawesome.samobilebase.parsebase64.ParseBase64Request
+import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
-/*@PublishedApi
-internal*/
-class LoginProvider
+@PublishedApi
+internal class LoginProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : LoginService {
@@ -78,7 +79,13 @@ constructor(private val environment: KWSNetworkEnvironment,
 
             if (token != null) {
                 //if we have a valid token
-                val metadata = KWSMetadata.processMetadata(token)
+                val base64req = ParseBase64Request(base64String = token)
+                val base64Task = ParseBase64Task()
+                val metadataJson = base64Task.execute(input = base64req)
+
+                val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
+                val parseJsonTask = ParseJsonTask()
+                val metadata = parseJsonTask.execute(input = parseJsonReq, clazz = KWSMetadata::class.java)
 
                 if (metadata != null && metadata.isValid()) {
                     val loggedUser = LoggedUser(token = token, kwsMetaData = metadata)

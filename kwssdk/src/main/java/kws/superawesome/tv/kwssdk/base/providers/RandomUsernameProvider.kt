@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest
 import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest
-import kws.superawesome.tv.kwssdk.base.responses.AppConfigAppObject
 import kws.superawesome.tv.kwssdk.base.responses.AppConfig
 import kws.superawesome.tv.kwssdk.base.responses.RandomUsername
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService
@@ -14,15 +13,14 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-/*@PublishedApi
-internal*/
-class RandomUsernameProvider
+@PublishedApi
+internal class RandomUsernameProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : RandomUsernameService {
 
 
-    override fun getRandomUsername(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
+    override fun startRandomUsernameFlow(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
 
         getAppConfig(environment = environment) { appConfig: AppConfig?, networkError: Throwable? ->
@@ -33,7 +31,7 @@ constructor(private val environment: KWSNetworkEnvironment,
                 val id = appConfig.appConfigAppObject.id
 
                 //Actually get random user
-                getActuallyRandomUserName(environment = environment, id = id, callback = callback)
+                getRandomUsername(environment = environment, id = id, callback = callback)
             } else {
                 //
                 // network failure
@@ -46,8 +44,8 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
 
-    fun getAppConfig(environment: KWSNetworkEnvironment,
-                             callback: (appConfig: AppConfig?, error: Throwable?) -> Unit) {
+   override fun getAppConfig(environment: KWSNetworkEnvironment,
+                     callback: (appConfig: AppConfig?, error: Throwable?) -> Unit) {
 
         val appConfigNetworkRequest = AppConfigRequest(
                 environment = environment,
@@ -79,9 +77,9 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
 
-    fun getActuallyRandomUserName(environment: KWSNetworkEnvironment,
-                                          id: Int,
-                                          callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
+    override fun getRandomUsername(environment: KWSNetworkEnvironment,
+                                   id: Int,
+                                   callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
         val getRandomUsernameNetworkRequest = RandomUsernameRequest(
                 environment = environment,

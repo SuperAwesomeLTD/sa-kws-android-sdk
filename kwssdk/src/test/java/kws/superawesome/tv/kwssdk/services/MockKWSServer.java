@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.providers;
+package kws.superawesome.tv.kwssdk.services;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,19 +47,19 @@ class MockKWSServer {
         final Dispatcher dispatcher = new Dispatcher() {
             @Override
             public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
-                switch (request.getPath()) {
+                switch (request.getRequestLine()) {
                     //
                     // for getting leaders
-                    case "/v1/apps/2/leaders?": {
+                    case "GET /v1/apps/2/leaders HTTP/1.1": {
                         return responseFromResource("mock_get_leaders_success_response.json");
                     }
-                    case "/v1/apps/0/leaders?": {
+                    case "GET /v1/apps/0/leaders HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
 
                     //
                     //for setting app data
-                    case "/v1/apps/2/users/25/app-data/set?": {
+                    case "POST /v1/apps/2/users/25/app-data/set HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;
@@ -75,31 +75,31 @@ class MockKWSServer {
                             e.printStackTrace();
                         }
                     }
-                    case "/v1/apps/0/users/25/app-data/set?":
-                    case "/v1/apps/0/users/0/app-data/set?":
-                    case "/v1/apps/2/users/0/app-data/set?": {
+                    case "POST /v1/apps/0/users/25/app-data/set HTTP/1.1":
+                    case "POST /v1/apps/0/users/0/app-data/set HTTP/1.1":
+                    case "POST /v1/apps/2/users/0/app-data/set HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
                     //
                     //for getting app data
-                    case "/v1/apps/2/users/25/app-data?": {
+                    case "GET /v1/apps/2/users/25/app-data HTTP/1.1": {
                         return responseFromResource("mock_get_app_data_success_response.json");
                     }
-                    case "/v1/apps/0/users/25/app-data?":
-                    case "/v1/apps/0/users/0/app-data?":
-                    case "/v1/apps/2/users/0/app-data?": {
+                    case "GET /v1/apps/0/users/25/app-data HTTP/1.1":
+                    case "GET /v1/apps/0/users/0/app-data HTTP/1.1":
+                    case "GET /v1/apps/2/users/0/app-data HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
                     //
                     // for create user
-                    case "/v1/apps/2/users?access_token=bad_token":
-                    case "/v1/apps/0/users?access_token=bad_token": {
+                    case "POST /v1/apps/2/users?access_token=bad_token HTTP/1.1":
+                    case "POST /v1/apps/0/users?access_token=bad_token HTTP/1.1": {
                         return responseFromResource("mock_create_user_bad_token_response.json", 401);
                     }
-                    case "/v1/apps/0/users?access_token=good_token": {
+                    case "POST /v1/apps/0/users?access_token=good_token HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-                    case "/v1/apps/2/users?access_token=good_token": {
+                    case "POST /v1/apps/2/users?access_token=good_token HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;
@@ -130,7 +130,7 @@ class MockKWSServer {
 
                     //
                     // for login && for get temp access token (same endpoint)
-                    case "/oauth/token?": {
+                    case "POST /oauth/token HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForURLEncoded = body;
@@ -153,10 +153,10 @@ class MockKWSServer {
                     }
                     //
                     // trigger events
-                    case "/v1/users/0/trigger-event?": {
+                    case "POST /v1/users/0/trigger-event HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-                    case "/v1/users/25/trigger-event?": {
+                    case "POST /v1/users/25/trigger-event HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;
@@ -175,10 +175,10 @@ class MockKWSServer {
 
                     //
                     // has triggered events
-                    case "/v1/users/0/has-triggered-event?": {
+                    case "POST /v1/users/0/has-triggered-event HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-                    case "/v1/users/25/has-triggered-event?": {
+                    case "POST /v1/users/25/has-triggered-event HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;
@@ -196,37 +196,37 @@ class MockKWSServer {
                     }
                     //
                     // get app config
-                    case "/v1/apps/config?oauthClientId=bad_client_id": {
+                    case "GET /v1/apps/config?oauthClientId=bad_client_id HTTP/1.1": {
                         return responseFromResource("mock_generic_event_not_found_response.json", 404);
                     }
-                    case "/v1/apps/config?oauthClientId=good_client_id": {
+                    case "GET /v1/apps/config?oauthClientId=good_client_id HTTP/1.1": {
                         return responseFromResource("mock_get_app_config_success_response.json");
                     }
                     //
                     // get random username
-                    case "/v2/apps/0/random-display-name?": {
+                    case "GET /v2/apps/0/random-display-name HTTP/1.1": {
                         return responseFromResource("mock_generic_simpler_not_found_response.json", 404);
                     }
-                    case "/v2/apps/2/random-display-name?": {
+                    case "GET /v2/apps/2/random-display-name HTTP/1.1": {
                         return responseFromResource("mock_get_random_username_success_response.json");
 
                     }
                     //
                     // get user details
-                    case "/v1/users/0?": {
+                    case "GET /v1/users/0 HTTP/1.1": {
                         return responseFromResource("mock_generic_event_not_found_response.json", 404);
                     }
 
-                    case "/v1/users/25?": {
+                    case "GET /v1/users/25 HTTP/1.1": {
                         return responseFromResource("mock_get_user_details_success_response.json");
                     }
 
                     //
                     // invite user
-                    case "/v1/users/0/invite-user?": {
+                    case "POST /v1/users/0/invite-user HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-                    case "/v1/users/25/invite-user?": {
+                    case "POST /v1/users/25/invite-user HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;
@@ -244,18 +244,18 @@ class MockKWSServer {
                     }
                     //
                     // get user score
-                    case "/v1/apps/0/score?": {
+                    case "GET /v1/apps/0/score HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-                    case "/v1/apps/2/score?": {
+                    case "GET /v1/apps/2/score HTTP/1.1": {
                         return responseFromResource("mock_get_user_score_success_response.json");
                     }
                     //
                     // request permissions
-                    case "/v1/users/0/request-permissions?": {
+                    case "POST /v1/users/0/request-permissions HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-                    case "/v1/users/25/request-permissions?": {
+                    case "POST /v1/users/25/request-permissions HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;

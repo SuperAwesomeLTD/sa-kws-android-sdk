@@ -14,9 +14,8 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
-/*@PublishedApi
-internal*/
-class AppProvider
+@PublishedApi
+internal class AppProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : AppService {

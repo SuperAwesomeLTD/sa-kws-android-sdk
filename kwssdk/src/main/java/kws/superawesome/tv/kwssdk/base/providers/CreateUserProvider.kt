@@ -16,20 +16,19 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 /**
  * Created by guilherme.mota on 12/12/2017.
  */
-/*@PublishedApi
-internal*/
-class CreateUserProvider
+@PublishedApi
+internal class CreateUserProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : CreateUserService {
 
 
-    override fun createUser(username: String,
-                            password: String,
-                            dateOfBirth: String,
-                            country: String,
-                            parentEmail: String,
-                            callback: (user: CreateUser?, error: Throwable?) -> Unit) {
+    override fun startCreateUserFlow(username: String,
+                                     password: String,
+                                     dateOfBirth: String,
+                                     country: String,
+                                     parentEmail: String,
+                                     callback: (user: CreateUser?, error: Throwable?) -> Unit) {
 
         getTempAccessToken(environment = environment) { login: Login?, networkError: Throwable? ->
 
@@ -63,8 +62,8 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
 
-    fun getTempAccessToken(environment: KWSNetworkEnvironment,
-                                   callback: (login: Login?, error: Throwable?) -> Unit) {
+    override fun getTempAccessToken(environment: KWSNetworkEnvironment,
+                                    callback: (login: Login?, error: Throwable?) -> Unit) {
 
         val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
                 environment = environment,
@@ -94,15 +93,15 @@ constructor(private val environment: KWSNetworkEnvironment,
         }
     }
 
-    fun doUserCreation(environment: KWSNetworkEnvironment,
-                               username: String,
-                               password: String,
-                               dateOfBirth: String,
-                               country: String,
-                               parentEmail: String,
-                               appId: Int,
-                               token: String,
-                               callback: (createdUser: CreateUser?, error: Throwable?) -> Unit) {
+    override fun doUserCreation(environment: KWSNetworkEnvironment,
+                                username: String,
+                                password: String,
+                                dateOfBirth: String,
+                                country: String,
+                                parentEmail: String,
+                                appId: Int,
+                                token: String,
+                                callback: (createdUser: CreateUser?, error: Throwable?) -> Unit) {
 
 
         val createUserNetworkRequest = CreateUserRequest(

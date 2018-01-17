@@ -1,27 +1,18 @@
-package kws.superawesome.tv.kwssdk.providers;
+package kws.superawesome.tv.kwssdk.services.create_user;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.providers.CreateUserProvider;
 import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
-import kws.superawesome.tv.kwssdk.base.responses.Login;
 
 /**
- * Created by guilherme.mota on 15/01/2018.
+ * Created by guilherme.mota on 17/01/2018.
  */
 
-public class TestCreateUserProviderTest extends TestBaseProvider {
+public class TestCreateUserService_DoUserCreation extends TestCreateUserService {
 
-    //class to test
-    private CreateUserProvider provider;
-
-    //given
     private String goodUsername = "testuser123";
     private String badUsername = "bad_username";
 
@@ -37,35 +28,11 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     private String goodParentEmail = "good_parent@email.com";
     private String badParentEmail = "bad_parent";
 
-    private String goodMockedToken = "good_token";
-    private String badMockedToken = "bad_token";
-
-    private String badClientId = "bad_client_id";
-
-    private String badClientSecret = "bad_client_secret";
-
-    private int goodAppId = 2;
-    private int badAppId = 0;
-
-    @Before
-    public void setup() throws Throwable {
-
-
-        //extended method from Base
-        prepareMockedClient();
-
-
-        //when
-        // init class to test
-        provider = new CreateUserProvider(environment, task);
-
-
-    }
 
     @Test
-    public void testCreateUserProviderDoUserCreationOK() {
+    public void testCreateUserServiceDoUserCreationOK() {
         //then
-        provider.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -81,9 +48,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadUsername() {
+    public void testCreateUserServiceDoUserCreationBadUsername() {
         //then
-        provider.doUserCreation(environment, badUsername, goodPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, badUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -99,9 +66,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateUserProviderDoUserCreationBadNullUsername() {
+    public void testCreateUserServiceDoUserCreationBadNullUsername() {
         //then
-        provider.doUserCreation(environment, null, goodPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, null, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -117,9 +84,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadPassword() {
+    public void testCreateUserServiceDoUserCreationBadPassword() {
         //then
-        provider.doUserCreation(environment, goodUsername, badPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, badPassword, goodDOB, goodCountry,
                 goodParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -135,9 +102,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateUserProviderDoUserCreationBadNullPassword() {
+    public void testCreateUserServiceDoUserCreationBadNullPassword() {
         //then
-        provider.doUserCreation(environment, goodUsername, null, goodDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, null, goodDOB, goodCountry,
                 goodParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -153,9 +120,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadDOB() {
+    public void testCreateUserServiceDoUserCreationBadDOB() {
         //then
-        provider.doUserCreation(environment, goodUsername, goodPassword, badDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, goodPassword, badDOB, goodCountry,
                 goodParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -169,9 +136,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadCountry() {
+    public void testCreateUserServiceDoUserCreationBadCountry() {
         //then
-        provider.doUserCreation(environment, goodUsername, goodPassword, goodDOB, badCountry,
+        service.doUserCreation(environment, goodUsername, goodPassword, goodDOB, badCountry,
                 goodParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -187,9 +154,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
 
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadParentEmail() {
+    public void testCreateUserServiceDoUserCreationBadParentEmail() {
         //then
-        provider.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
                 badParentEmail, goodAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -203,9 +170,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadAppId() {
+    public void testCreateUserServiceDoUserCreationBadAppId() {
         //then
-        provider.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, badAppId, goodMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -219,9 +186,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadToken() {
+    public void testCreateUserServiceDoUserCreationBadToken() {
         //then
-        provider.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, goodAppId, badMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -235,9 +202,9 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testCreateUserProviderDoUserCreationBadAppIdAndToken() {
+    public void testCreateUserServiceDoUserCreationBadAppIdAndToken() {
         //then
-        provider.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
+        service.doUserCreation(environment, goodUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, badAppId, badMockedToken, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -249,60 +216,6 @@ public class TestCreateUserProviderTest extends TestBaseProvider {
                     }
                 });
 
-
-    }
-
-    @Test
-    public void testCreateUserProviderGetTempAccessTokenOK() {
-        //then
-        provider.getTempAccessToken(environment, new Function2<Login, Throwable, Unit>() {
-            @Override
-            public Unit invoke(Login login, Throwable throwable) {
-
-                Assert.assertNotNull(login);
-                Assert.assertNull(throwable);
-
-                return null;
-            }
-        });
-
-    }
-
-
-    @Test
-    public void testCreateUserProviderGetTempAccessTokenBadEnvironmentAppIdAndMobileKey() {
-        //given
-        KWSNetworkEnvironment badEnvironment = new KWSNetworkEnvironment() {
-            @NotNull
-            @Override
-            public String getAppID() {
-                return badClientId;
-            }
-
-            @NotNull
-            @Override
-            public String getMobileKey() {
-                return badClientSecret;
-            }
-
-            @NotNull
-            @Override
-            public String getDomain() {
-                return environment.getDomain();
-            }
-        };
-
-        //then
-        provider.getTempAccessToken(badEnvironment, new Function2<Login, Throwable, Unit>() {
-            @Override
-            public Unit invoke(Login login, Throwable throwable) {
-
-                Assert.assertNull(login);
-                Assert.assertNotNull(throwable);
-
-                return null;
-            }
-        });
 
     }
 

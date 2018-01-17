@@ -19,8 +19,8 @@ class KWS_RandomUsernameResponse_Test {
         val getRandomUsername = RandomUsername(randomUsername = randomUsername)
 
         //then
-//        assertNotNull(getRandomUsername)
-//        assertEquals(getRandomUsername.randomUsername, randomUsername)
+//        assertNotNull(startRandomUsernameFlow)
+//        assertEquals(startRandomUsernameFlow.randomUsername, randomUsername)
 
 
     }
@@ -37,8 +37,8 @@ class KWS_RandomUsernameResponse_Test {
 
 
         //then
-//        assertNotNull(getRandomUsername)
-//        assertNull(getRandomUsername.randomUsername, randomUsername)
+//        assertNotNull(startRandomUsernameFlow)
+//        assertNull(startRandomUsernameFlow.randomUsername, randomUsername)
 
 
     }

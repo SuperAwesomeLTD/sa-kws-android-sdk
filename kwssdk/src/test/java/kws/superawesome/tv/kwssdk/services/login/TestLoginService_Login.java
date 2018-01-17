@@ -1,47 +1,22 @@
-package kws.superawesome.tv.kwssdk.providers;
+package kws.superawesome.tv.kwssdk.services.login;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.providers.LoginProvider;
 import kws.superawesome.tv.kwssdk.base.responses.Login;
 
 /**
- * Created by guilherme.mota on 10/01/2018.
+ * Created by guilherme.mota on 17/01/2018.
  */
 
-public class TestLoginProviderTest extends TestBaseProvider {
-
-    // class to test
-    private LoginProvider provider;
-
-    //given
-    private String goodUsername = "good_username";
-    private String badUsername = "bad_username";
-
-    private String goodPassword = "good_password";
-    private String badPassword = "bad_password";
-
-    @Before
-    public void setup() throws Throwable {
-
-        //extended method from Base
-        prepareMockedClient();
-
-
-        //then
-        // init class to test
-        provider = new LoginProvider(environment, task);
-    }
+public class TestLoginService_Login extends TestLoginService {
 
     @Test
-    public void testLoginProviderOK() throws Throwable {
+    public void testLoginProviderLoginOK() throws Throwable {
         // when
-        provider.loginUser(goodUsername, goodPassword, new Function2<Login, Throwable, Unit>() {
+        service.loginUser(goodUsername, goodPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -55,9 +30,9 @@ public class TestLoginProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testLoginProviderBadUsername() throws Throwable {
+    public void testLoginProviderLoginBadUsername() throws Throwable {
         // when
-        provider.loginUser(badUsername, goodPassword, new Function2<Login, Throwable, Unit>() {
+        service.loginUser(badUsername, goodPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -70,9 +45,9 @@ public class TestLoginProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testLoginProviderBadPassword() throws Throwable {
+    public void testLoginProviderLoginBadPassword() throws Throwable {
         // when
-        provider.loginUser(goodUsername, badPassword, new Function2<Login, Throwable, Unit>() {
+        service.loginUser(goodUsername, badPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -86,9 +61,9 @@ public class TestLoginProviderTest extends TestBaseProvider {
 
 
     @Test(expected = IllegalArgumentException.class)
-    public void testLoginProviderFailNullUsername() throws Throwable {
+    public void testLoginProviderLoginFailNullUsername() throws Throwable {
         // when
-        provider.loginUser(null, goodPassword, new Function2<Login, Throwable, Unit>() {
+        service.loginUser(null, goodPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -102,9 +77,9 @@ public class TestLoginProviderTest extends TestBaseProvider {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testLoginProviderFailNullPassword() throws Throwable {
+    public void testLoginProviderLoginFailNullPassword() throws Throwable {
         // when
-        provider.loginUser(goodUsername, null, new Function2<Login, Throwable, Unit>() {
+        service.loginUser(goodUsername, null, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -119,9 +94,9 @@ public class TestLoginProviderTest extends TestBaseProvider {
 
 
     @Test
-    public void testLoginProviderFailEmptyUsername() throws Throwable {
+    public void testLoginProviderLoginFailEmptyUsername() throws Throwable {
         // when
-        provider.loginUser("", goodPassword, new Function2<Login, Throwable, Unit>() {
+        service.loginUser("", goodPassword, new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -134,9 +109,9 @@ public class TestLoginProviderTest extends TestBaseProvider {
     }
 
     @Test
-    public void testLoginProviderFailEmptyPassword() throws Throwable {
+    public void testLoginProviderLoginFailEmptyPassword() throws Throwable {
         // when
-        provider.loginUser(goodUsername, "", new Function2<Login, Throwable, Unit>() {
+        service.loginUser(goodUsername, "", new Function2<Login, Throwable, Unit>() {
             @Override
             public Unit invoke(Login login, Throwable throwable) {
 
@@ -148,11 +123,5 @@ public class TestLoginProviderTest extends TestBaseProvider {
         });
     }
 
-
-    @After
-    public void unsetup() throws Throwable {
-        // Shut down the server. Instances cannot be reused.
-        server.shutdown();
-    }
 
 }

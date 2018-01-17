@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.providers;
+package kws.superawesome.tv.kwssdk.services;
 
 import java.util.concurrent.Executor;
 
