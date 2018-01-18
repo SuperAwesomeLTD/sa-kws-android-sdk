@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         logView.setText(log);
+
+                        Log.d("SuperAwesome", status.toString());
                     }
                 });
     }
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         log += "Invalid Email credentials\n";
                         break;
                 }
-
+                Log.d("SuperAwesome", status.toString());
                 logView.setText(log);
             }
         });
@@ -138,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 log += "Web View Authentication status is " + status + "\n";
                 logView.setText(log);
+                Log.d("SuperAwesome", status.toString());
             }
         });
     }
@@ -152,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
             public void didGetRandomUsername(String name) {
                 log += "Random name " + name + "\n";
                 logView.setText(log);
+                Log.d("SuperAwesome", name);
             }
         });
     }
@@ -221,10 +225,10 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (KWSChildren.sdk.getLoggedUser() != null) {
-                    log += "Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                    log += "SuperAwesome Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
-
+                Log.d("SuperAwesome", status.toString());
             }
         });
     }
@@ -237,7 +241,8 @@ public class MainActivity extends AppCompatActivity {
             public void didUnregisterForRemoteNotifications(boolean unregistered) {
                 log += unregistered ? "User is un-registered\n" : "Network error unsubscribing Firebase token to KWSChildren\n";
                 if (KWSChildren.sdk.getLoggedUser() != null) {
-                    log += "Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson().toString());
+                    log += "SuperAwesome Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
             }
@@ -253,9 +258,11 @@ public class MainActivity extends AppCompatActivity {
             public void isRegisteredForRemoteNotifications(boolean registered) {
                 log += registered ? "User is already registered\n" : "User is not registered\n";
                 if (KWSChildren.sdk.getLoggedUser() != null) {
-                    log += "Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
+                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson().toString());
+                    log += "SuperAwesome Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
+
             }
         });
     }
@@ -283,6 +290,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void didGetLeaderboard(List<KWSLeader> leaderboard) {
                 log += "Got " + leaderboard.size() + " leaders!\n";
+
+                StringBuilder logString = new StringBuilder();
+                for (KWSLeader item : leaderboard) {
+                    logString.append(item.writeToJson().toString()).append(", ");
+                }
+                if (logString.length() != 0) {
+                    Log.d("SuperAwesome", logString + "");
+                }
                 logView.setText(log);
             }
         });
@@ -311,6 +326,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 logView.setText(log);
+                Log.d("SuperAwesome", status.toString());
             }
         });
 
@@ -323,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
             public void didTriggerEvent(boolean success) {
                 log += "Triggered evt: " + success + "\n";
                 logView.setText(log);
+                Log.d("SuperAwesome ", String.valueOf(success));
             }
         });
     }
@@ -333,6 +350,9 @@ public class MainActivity extends AppCompatActivity {
             public void didGetScore(KWSScore score) {
                 log += score != null ? "Rank: " + score.rank + " Score: " + score.score + "\n" : "Could not get score\n";
                 logView.setText(log);
+                if (score != null) {
+                    Log.d("SuperAwesome ", score.writeToJson().toString());
+                }
             }
         });
     }
@@ -344,6 +364,7 @@ public class MainActivity extends AppCompatActivity {
             public void didInviteUser(boolean success) {
                 log += "Invited " + email + " " + success + "\n";
                 logView.setText(log);
+                Log.d("SuperAwesome ", String.valueOf(success));
             }
         });
 
@@ -356,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
             public void didTriggerEvent(Boolean triggered) {
                 log += "Event " + String.valueOf(eventId) + " is : " + triggered + "\n";
                 logView.setText(log);
+                Log.d("SuperAwesome ", String.valueOf(triggered));
             }
         });
 
@@ -371,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
             public void didSetAppData(boolean success) {
                 log += "Set " + name + " = " + value + " with " + success + "\n";
                 logView.setText(log);
+                Log.d("SuperAwesome ", String.valueOf(success));
             }
         });
     }
@@ -379,16 +402,18 @@ public class MainActivity extends AppCompatActivity {
         KWSChildren.sdk.getAppData(this, new KWSChildrenGetAppDataInterface() {
             @Override
             public void didGetAppData(List<KWSAppData> appData) {
-
+                String logHelp = "";
                 if (appData.isEmpty()) {
                     log += "No data to show\n";
                 } else {
                     log += "Get App Data response as:\n";
                     for (KWSAppData data : appData) {
                         log += "[" + data.name + "]=" + data.value + "\n";
+                        logHelp += "[" + data.name + "]=" + data.value + "\n";
                     }
                 }
                 logView.setText(log);
+                Log.d("SuperAwesome ", logHelp);
             }
         });
     }

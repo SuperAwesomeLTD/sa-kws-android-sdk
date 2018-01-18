@@ -35,7 +35,7 @@ class KWS_LoginResponse_Test {
         val token = null
 
         //when
-        val loginResponse = Login(token)
+//        val loginResponse = Login(token)
 
         //then
 //        assertNotNull(loginResponse)

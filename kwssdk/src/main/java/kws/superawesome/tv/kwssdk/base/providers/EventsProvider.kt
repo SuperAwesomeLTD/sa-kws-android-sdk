@@ -13,7 +13,10 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  * Created by guilherme.mota on 04/01/2018.
  */
 @PublishedApi
-internal class EventsProvider(val environment: KWSNetworkEnvironment) : EventsService {
+internal class EventsProvider
+@JvmOverloads
+constructor(private val environment: KWSNetworkEnvironment,
+            private val networkTask: NetworkTask = NetworkTask()) : EventsService {
 
 
     override fun triggerEvent(points: Int, userId: Int, token: String, eventToken: String,
@@ -27,8 +30,7 @@ internal class EventsProvider(val environment: KWSNetworkEnvironment) : EventsSe
                 eventToken = eventToken
         )
 
-        val triggerEventNetworkTask = NetworkTask()
-        triggerEventNetworkTask.execute(input = triggerEventNetworkRequest) { triggerEventNetworkResponse ->
+        networkTask.execute(input = triggerEventNetworkRequest) { triggerEventNetworkResponse ->
 
             //
             // send callback
@@ -50,8 +52,7 @@ internal class EventsProvider(val environment: KWSNetworkEnvironment) : EventsSe
                 token = token
         )
 
-        val hasTriggeredEventNetworkTask = NetworkTask()
-        hasTriggeredEventNetworkTask.execute(input = hasTriggeredEventNetworkRequest) { hasTriggeredEventNetworkResponse ->
+        networkTask.execute(input = hasTriggeredEventNetworkRequest) { hasTriggeredEventNetworkResponse ->
 
             if (hasTriggeredEventNetworkResponse.response != null && hasTriggeredEventNetworkResponse.error == null) {
 

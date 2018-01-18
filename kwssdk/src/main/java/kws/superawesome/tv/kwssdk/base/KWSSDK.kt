@@ -3,6 +3,7 @@ package kws.superawesome.tv.kwssdk.base
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.providers.*
 import kws.superawesome.tv.kwssdk.base.services.*
+import tv.superawesome.samobilebase.network.NetworkTask
 
 /**
  * Created by guilherme.mota on 11/12/2017.
@@ -10,34 +11,32 @@ import kws.superawesome.tv.kwssdk.base.services.*
 object KWSSDK {
 
     @JvmStatic
-    inline fun <reified T : BaseService> getService(environment: KWSNetworkEnvironment): T? =
+    inline fun <reified T : BaseService> getService(environment: KWSNetworkEnvironment, networkTask: NetworkTask = NetworkTask()): T? =
             when (T::class) {
-                LoginService::class -> LoginProvider(environment = environment) as T?
-                CreateUserService::class -> CreateUserProvider(environment = environment) as T?
-                RandomUsernameService::class -> RandomUsernameProvider(environment = environment) as T?
-                UserService::class -> UserProvider(environment = environment) as T?
-                EventsService::class -> EventsProvider(environment = environment) as T?
-                AppService::class -> AppProvider(environment = environment) as T?
+                LoginService::class -> LoginProvider(environment = environment, networkTask = networkTask) as T?
+                CreateUserService::class -> CreateUserProvider(environment = environment, networkTask = networkTask) as T?
+                RandomUsernameService::class -> RandomUsernameProvider(environment = environment, networkTask = networkTask) as T?
+                UserService::class -> UserProvider(environment = environment, networkTask = networkTask) as T?
+                EventsService::class -> EventsProvider(environment = environment, networkTask = networkTask) as T?
+                AppService::class -> AppProvider(environment = environment, networkTask = networkTask) as T?
                 else -> null
             }
 
+
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
-    fun <T : BaseService> get(environment: KWSNetworkEnvironment, clazz: Class<T>): T? {
-
-        return if (clazz == LoginService::class.java)
-            LoginProvider(environment = environment) as T?
-        else if (clazz == CreateUserService::class.java)
-            CreateUserProvider(environment = environment) as T?
-        else if (clazz == RandomUsernameService::class.java)
-            RandomUsernameProvider(environment = environment) as T?
-        else if (clazz == UserService::class.java)
-            UserProvider(environment = environment) as T?
-        else if (clazz == EventsService::class.java)
-            EventsProvider(environment = environment) as T?
-        else if (clazz == AppService::class.java)
-            AppProvider(environment = environment) as T?
-        else null
-    }
+    @JvmOverloads
+    fun <T : BaseService> get(environment: KWSNetworkEnvironment,
+                              clazz: Class<T>,
+                              networkTask: NetworkTask = NetworkTask()): T? =
+            when (clazz) {
+                LoginService::class.java -> LoginProvider(environment = environment, networkTask = networkTask) as T?
+                CreateUserService::class.java -> CreateUserProvider(environment = environment, networkTask = networkTask) as T?
+                RandomUsernameService::class.java -> RandomUsernameProvider(environment = environment, networkTask = networkTask) as T?
+                UserService::class.java -> UserProvider(environment = environment, networkTask = networkTask) as T?
+                EventsService::class.java -> EventsProvider(environment = environment, networkTask = networkTask) as T?
+                AppService::class.java -> AppProvider(environment = environment, networkTask = networkTask) as T?
+                else -> null
+            } as T?
 
 }

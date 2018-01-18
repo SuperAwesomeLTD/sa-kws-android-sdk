@@ -15,7 +15,10 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  * Created by guilherme.mota on 05/01/2018.
  */
 @PublishedApi
-internal class AppProvider(val environment: KWSNetworkEnvironment) : AppService {
+internal class AppProvider
+@JvmOverloads
+constructor(private val environment: KWSNetworkEnvironment,
+            private val networkTask: NetworkTask = NetworkTask()) : AppService {
 
     override fun getLeaders(appId: Int, token: String, callback: (leaders: Leaders?, error: Throwable?) -> Unit) {
 
@@ -25,8 +28,7 @@ internal class AppProvider(val environment: KWSNetworkEnvironment) : AppService 
                 token = token
         )
 
-        val getLeadersNetworkTask = NetworkTask()
-        getLeadersNetworkTask.execute(input = getLeadersNetworkRequest) { getLeadersNetworkResponse ->
+        networkTask.execute(input = getLeadersNetworkRequest) { getLeadersNetworkResponse ->
 
             //
             // network success case
@@ -38,7 +40,7 @@ internal class AppProvider(val environment: KWSNetworkEnvironment) : AppService 
 
                 //
                 // send callback
-                val error = if (getLeadersResponseObject == null) Throwable("Error getting user details") else null;
+                val error = if (getLeadersResponseObject != null) null else Throwable("Error getting leader details")
                 callback(getLeadersResponseObject, error)
 
             }
@@ -64,15 +66,10 @@ internal class AppProvider(val environment: KWSNetworkEnvironment) : AppService 
                 token = token
         )
 
+        networkTask.execute(input = setAppDataNetworkRequest) { setAppDataNetworkResponse ->
 
-        val setAppDataNetworkTask = NetworkTask()
-        setAppDataNetworkTask.execute(input = setAppDataNetworkRequest) { setAppDataNetworkResponse ->
-
-            //
-            //send callback
             callback((setAppDataNetworkResponse.status == 200 || setAppDataNetworkResponse.status == 204)
                     && setAppDataNetworkResponse.error == null, setAppDataNetworkResponse.error)
-
 
         }
 
@@ -89,8 +86,7 @@ internal class AppProvider(val environment: KWSNetworkEnvironment) : AppService 
                 token = token
         )
 
-        val getAppDataNetworkTask = NetworkTask()
-        getAppDataNetworkTask.execute(input = getAppDataNetworkRequest) { getAppDataNetworkResponse ->
+        networkTask.execute(input = getAppDataNetworkRequest) { getAppDataNetworkResponse ->
 
             if (getAppDataNetworkResponse.response != null && getAppDataNetworkResponse.error == null) {
 

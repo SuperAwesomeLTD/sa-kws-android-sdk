@@ -85,6 +85,10 @@ import kws.superawesome.tv.kwssdk.services.kws.user.KWSUpdateUser;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
+import tv.superawesome.samobilebase.parsebase64.ParseBase64Request;
+import tv.superawesome.samobilebase.parsebase64.ParseBase64Task;
+import tv.superawesome.samobilebase.parsejson.ParseJsonRequest;
+import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
 
 /**
  * Created by gabriel.coman on 23/05/16.
@@ -207,7 +211,9 @@ public class KWSChildren {
                         public Unit invoke(CreateUser createdUser, Throwable throwable) {
 
                             String token = createdUser.getToken();
-                            KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
+                            KWSMetadata kwsMetadata = getMetadataFromToken(token);
+
+//                            KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
 
                             if (kwsMetadata != null && kwsMetadata.isValid()) {
                                 LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
@@ -234,8 +240,8 @@ public class KWSChildren {
                 public Unit invoke(Login login, Throwable throwable) {
 
                     String token = login.getToken();
-                    KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
-
+//                    KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
+                    KWSMetadata kwsMetadata = getMetadataFromToken(token);
                     if (kwsMetadata != null && kwsMetadata.isValid()) {
                         LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
                         setLoggedUser(loggedUser);
@@ -832,7 +838,6 @@ public class KWSChildren {
     public String getClientId() {
         return clientId;
     }
-
     public String getClientSecret() {
         return clientSecret;
     }
@@ -863,4 +868,15 @@ public class KWSChildren {
             preferences.edit().putString(LOGGED_USER_KEY, this.loggedUser.writeToJson().toString()).apply();
         }
     }
+
+    private KWSMetadata getMetadataFromToken(String token) {
+        ParseBase64Request base64req = new ParseBase64Request(token);
+        ParseBase64Task base64Task = new ParseBase64Task();
+        String metadataJson = base64Task.execute(base64req);
+
+        ParseJsonRequest parseJsonReq = new ParseJsonRequest(metadataJson);
+        ParseJsonTask parseJsonTask = new ParseJsonTask();
+        return parseJsonTask.execute(parseJsonReq, KWSMetadata.class);
+    }
+
 }
