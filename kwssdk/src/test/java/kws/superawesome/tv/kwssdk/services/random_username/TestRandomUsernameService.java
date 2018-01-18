@@ -71,7 +71,7 @@ public class TestRandomUsernameService extends TestBaseService {
         };
 
         service = KWSSDK.get(goodNetworkEnvironment, RandomUsernameService.class, task);
-        service.startRandomUsernameFlow(new Function2<RandomUsername, Throwable, Unit>() {
+        service.getRandomUsername(new Function2<RandomUsername, Throwable, Unit>() {
             @Override
             public Unit invoke(RandomUsername randomUsername, Throwable throwable) {
 
@@ -110,7 +110,7 @@ public class TestRandomUsernameService extends TestBaseService {
         };
 
         service = KWSSDK.get(badNetworkEnvironment, RandomUsernameService.class, task);
-        service.startRandomUsernameFlow(new Function2<RandomUsername, Throwable, Unit>() {
+        service.getRandomUsername(new Function2<RandomUsername, Throwable, Unit>() {
             @Override
             public Unit invoke(RandomUsername randomUsername, Throwable throwable) {
 

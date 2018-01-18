@@ -10,12 +10,12 @@ import kws.superawesome.tv.kwssdk.base.responses.Login
  */
 interface CreateUserService : BaseService {
 
-    fun startCreateUserFlow(username: String,
-                            password: String,
-                            dateOfBirth: String,
-                            country: String,
-                            parentEmail: String,
-                            callback: (user: CreateUser?, error: Throwable?) -> Unit
+    fun createUser(username: String,
+                   password: String,
+                   dateOfBirth: String,
+                   country: String,
+                   parentEmail: String,
+                   callback: (user: CreateUser?, error: Throwable?) -> Unit
     )
 
 

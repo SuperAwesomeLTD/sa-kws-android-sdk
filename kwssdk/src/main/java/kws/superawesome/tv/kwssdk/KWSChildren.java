@@ -205,7 +205,7 @@ public class KWSChildren {
         CreateUserService createUserService = KWSSDK.get(kwsEnvironment, CreateUserService.class);
 
         if (createUserService != null) {
-            createUserService.startCreateUserFlow(username, password, dateOfBirth, country, parentEmail,
+            createUserService.createUser(username, password, dateOfBirth, country, parentEmail,
                     new Function2<CreateUser, Throwable, Unit>() {
                         @Override
                         public Unit invoke(CreateUser createdUser, Throwable throwable) {
@@ -294,7 +294,7 @@ public class KWSChildren {
         RandomUsernameService randomUsernameService = KWSSDK.get(kwsEnvironment, RandomUsernameService.class);
 
         if (randomUsernameService != null) {
-            randomUsernameService.startRandomUsernameFlow(new Function2<RandomUsername, Throwable, Unit>() {
+            randomUsernameService.getRandomUsername(new Function2<RandomUsername, Throwable, Unit>() {
                 @Override
                 public Unit invoke(RandomUsername randomUsername, Throwable throwable) {
                     if (randomUsername != null && throwable == null) {

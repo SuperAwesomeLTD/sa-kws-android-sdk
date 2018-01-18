@@ -23,7 +23,7 @@ class KWS_AppConfigResponse_Test {
 
         //then
 //        assertNotNull(appConfigAppObjectResponse)
-//        assertNotNull(startRandomUsernameFlow)
+//        assertNotNull(getRandomUsername)
 //        assertEquals(appConfigAppObjectResponse.id, id)
 //        assertEquals(appConfigAppObjectResponse.name, name)
 
@@ -45,7 +45,7 @@ class KWS_AppConfigResponse_Test {
 
         //then
 //        assertNotNull(appConfigAppObjectResponse)
-//        assertNotNull(startRandomUsernameFlow)
+//        assertNotNull(getRandomUsername)
 //        assertNull(appConfigAppObjectResponse.name)
 //        assertEquals(appConfigAppObjectResponse.id, id)
 

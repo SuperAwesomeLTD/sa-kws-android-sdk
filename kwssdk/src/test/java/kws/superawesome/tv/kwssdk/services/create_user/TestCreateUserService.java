@@ -70,7 +70,7 @@ public class TestCreateUserService extends TestBaseService {
     @Test
     public void testCreateUserServiceOK() {
 
-        service.startCreateUserFlow(goodUsername, goodPassword, goodDOB, goodCountry,
+        service.createUser(goodUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -109,7 +109,7 @@ public class TestCreateUserService extends TestBaseService {
         };
 
         service = KWSSDK.get(badEnvironment, CreateUserService.class, task);
-        service.startCreateUserFlow(goodUsername, goodPassword, goodDOB, goodCountry,
+        service.createUser(goodUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -127,7 +127,7 @@ public class TestCreateUserService extends TestBaseService {
     @Test
     public void testCreateUserServiceBadUsername() {
 
-        service.startCreateUserFlow(badUsername, goodPassword, goodDOB, goodCountry,
+        service.createUser(badUsername, goodPassword, goodDOB, goodCountry,
                 goodParentEmail, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -145,7 +145,7 @@ public class TestCreateUserService extends TestBaseService {
     @Test
     public void testCreateUserServiceBadPassword() {
 
-        service.startCreateUserFlow(goodUsername, badPassword, goodDOB, goodCountry,
+        service.createUser(goodUsername, badPassword, goodDOB, goodCountry,
                 goodParentEmail, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -163,7 +163,7 @@ public class TestCreateUserService extends TestBaseService {
     @Test
     public void testCreateUserServiceBadDOB() {
 
-        service.startCreateUserFlow(goodUsername, goodPassword, badDOB, goodCountry,
+        service.createUser(goodUsername, goodPassword, badDOB, goodCountry,
                 goodParentEmail, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -181,7 +181,7 @@ public class TestCreateUserService extends TestBaseService {
     @Test
     public void testCreateUserServiceBadCountry() {
 
-        service.startCreateUserFlow(goodUsername, goodPassword, goodDOB, badCountry,
+        service.createUser(goodUsername, goodPassword, goodDOB, badCountry,
                 goodParentEmail, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {
@@ -200,7 +200,7 @@ public class TestCreateUserService extends TestBaseService {
     @Test
     public void testCreateUserServiceBadParentEmail() {
 
-        service.startCreateUserFlow(goodUsername, goodPassword, goodDOB, badCountry,
+        service.createUser(goodUsername, goodPassword, goodDOB, badCountry,
                 badParentEmail, new Function2<CreateUser, Throwable, Unit>() {
                     @Override
                     public Unit invoke(CreateUser createUser, Throwable throwable) {

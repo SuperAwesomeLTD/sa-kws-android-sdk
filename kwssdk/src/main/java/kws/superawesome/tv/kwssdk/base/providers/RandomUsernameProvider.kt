@@ -20,7 +20,7 @@ constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : RandomUsernameService {
 
 
-    override fun startRandomUsernameFlow(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
+    override fun getRandomUsername(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
 
         getAppConfig(environment = environment) { appConfig: AppConfig?, networkError: Throwable? ->
@@ -31,7 +31,7 @@ constructor(private val environment: KWSNetworkEnvironment,
                 val id = appConfig.appConfigAppObject.id
 
                 //Actually get random user
-                getRandomUsername(environment = environment, id = id, callback = callback)
+                fetchRandomUsernameFromBackend(environment = environment, id = id, callback = callback)
             } else {
                 //
                 // network failure
@@ -43,7 +43,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
     }
 
-    fun getAppConfig(environment: KWSNetworkEnvironment,
+    private fun getAppConfig(environment: KWSNetworkEnvironment,
                      callback: (appConfig: AppConfig?, error: Throwable?) -> Unit) {
 
         val appConfigNetworkRequest = AppConfigRequest(
@@ -76,9 +76,9 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
 
-    fun getRandomUsername(environment: KWSNetworkEnvironment,
-                                   id: Int,
-                                   callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
+    private fun fetchRandomUsernameFromBackend(environment: KWSNetworkEnvironment,
+                                       id: Int,
+                                       callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
         val getRandomUsernameNetworkRequest = RandomUsernameRequest(
                 environment = environment,

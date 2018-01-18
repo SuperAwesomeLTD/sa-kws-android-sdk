@@ -23,12 +23,12 @@ constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : CreateUserService {
 
 
-    override fun startCreateUserFlow(username: String,
-                                     password: String,
-                                     dateOfBirth: String,
-                                     country: String,
-                                     parentEmail: String,
-                                     callback: (user: CreateUser?, error: Throwable?) -> Unit) {
+    override fun createUser(username: String,
+                            password: String,
+                            dateOfBirth: String,
+                            country: String,
+                            parentEmail: String,
+                            callback: (user: CreateUser?, error: Throwable?) -> Unit) {
 
         getTempAccessToken(environment = environment) { login: Login?, networkError: Throwable? ->
 
@@ -62,7 +62,7 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
 
-    fun getTempAccessToken(environment: KWSNetworkEnvironment,
+    private fun getTempAccessToken(environment: KWSNetworkEnvironment,
                                     callback: (login: Login?, error: Throwable?) -> Unit) {
 
         val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
@@ -93,7 +93,7 @@ constructor(private val environment: KWSNetworkEnvironment,
         }
     }
 
-    fun doUserCreation(environment: KWSNetworkEnvironment,
+    private fun doUserCreation(environment: KWSNetworkEnvironment,
                                 username: String,
                                 password: String,
                                 dateOfBirth: String,

@@ -9,7 +9,7 @@ import kws.superawesome.tv.kwssdk.base.responses.RandomUsername
  */
 interface RandomUsernameService : BaseService {
 
-    fun startRandomUsernameFlow(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit)
+    fun getRandomUsername(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit)
 
 
 }
