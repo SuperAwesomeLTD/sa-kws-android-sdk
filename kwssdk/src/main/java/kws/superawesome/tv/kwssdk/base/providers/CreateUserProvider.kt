@@ -62,7 +62,7 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
 
-    override fun getTempAccessToken(environment: KWSNetworkEnvironment,
+    fun getTempAccessToken(environment: KWSNetworkEnvironment,
                                     callback: (login: Login?, error: Throwable?) -> Unit) {
 
         val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
@@ -93,7 +93,7 @@ constructor(private val environment: KWSNetworkEnvironment,
         }
     }
 
-    override fun doUserCreation(environment: KWSNetworkEnvironment,
+    fun doUserCreation(environment: KWSNetworkEnvironment,
                                 username: String,
                                 password: String,
                                 dateOfBirth: String,

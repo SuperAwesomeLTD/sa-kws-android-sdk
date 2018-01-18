@@ -1,6 +1,8 @@
 package kws.superawesome.tv.kwssdk.services.events;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.services.EventsService;
@@ -21,18 +23,24 @@ public class TestEventsService extends TestBaseService {
 
     protected String goodMockedToken = "good_token";
 
-
+    @Override
     @Before
     public void setup() throws Throwable {
 
         //extended method from Base
-        prepareMockedClient();
+        super.setup();
 
 
         //when
         // init class to test
         service = KWSSDK.get(environment, EventsService.class, task);
 
+    }
+
+
+    @Test
+    public void testServiceToNotBeNull() {
+        Assert.assertNotNull(service);
     }
 
 }

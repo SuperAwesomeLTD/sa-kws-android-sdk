@@ -43,8 +43,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
     }
 
-
-   override fun getAppConfig(environment: KWSNetworkEnvironment,
+    fun getAppConfig(environment: KWSNetworkEnvironment,
                      callback: (appConfig: AppConfig?, error: Throwable?) -> Unit) {
 
         val appConfigNetworkRequest = AppConfigRequest(
@@ -77,7 +76,7 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
 
-    override fun getRandomUsername(environment: KWSNetworkEnvironment,
+    fun getRandomUsername(environment: KWSNetworkEnvironment,
                                    id: Int,
                                    callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 

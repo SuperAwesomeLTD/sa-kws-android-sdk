@@ -20,13 +20,11 @@ import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_GetAppData;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_GetLeaders;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_SetAppData;
-import kws.superawesome.tv.kwssdk.services.create_user.TestCreateUserService_DoUserCreation;
-import kws.superawesome.tv.kwssdk.services.create_user.TestCreateUserService_GetTempAccessToken;
+import kws.superawesome.tv.kwssdk.services.create_user.TestCreateUserService;
 import kws.superawesome.tv.kwssdk.services.events.TestEventsService_HasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.services.events.TestEventsService_TriggerEvent;
 import kws.superawesome.tv.kwssdk.services.login.TestLoginService_Login;
-import kws.superawesome.tv.kwssdk.services.random_username.TestRandomUsernameService_GetAppConfig;
-import kws.superawesome.tv.kwssdk.services.random_username.TestRandomUsernameService_GetRandomUsername;
+import kws.superawesome.tv.kwssdk.services.random_username.TestRandomUsernameService;
 import kws.superawesome.tv.kwssdk.services.user.TestUserService_GetScore;
 import kws.superawesome.tv.kwssdk.services.user.TestUserService_GetUserDetails;
 import kws.superawesome.tv.kwssdk.services.user.TestUserService_InviteUser;
@@ -63,16 +61,14 @@ import kws.superawesome.tv.kwssdk.services.user.TestUserService_RequestPermissio
         TestLoginService_Login.class,
 
         //Create User
-        TestCreateUserService_GetTempAccessToken.class,
-        TestCreateUserService_DoUserCreation.class,
+        TestCreateUserService.class,
 
         //Events
         TestEventsService_TriggerEvent.class,
         TestEventsService_HasTriggeredEvent.class,
 
         //Random Username
-        TestRandomUsernameService_GetAppConfig.class,
-        TestRandomUsernameService_GetRandomUsername.class,
+        TestRandomUsernameService.class,
 
         //User
         TestUserService_GetScore.class,

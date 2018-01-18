@@ -1,6 +1,8 @@
 package kws.superawesome.tv.kwssdk.services.user;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.services.UserService;
@@ -30,12 +32,12 @@ public class TestUserService extends TestBaseService {
     protected String goodPermissionString = "good_permission";
     protected String badPermissionString = "bad_permission";
 
-
+    @Override
     @Before
     public void setup() throws Throwable {
 
         //extended method from Base
-        prepareMockedClient();
+        super.setup();
 
 
         //then
@@ -44,5 +46,11 @@ public class TestUserService extends TestBaseService {
 
 
     }
+
+    @Test
+    public void testServiceToNotBeNull() {
+        Assert.assertNotNull(service);
+    }
+
 
 }

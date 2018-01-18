@@ -96,10 +96,10 @@ class MockKWSServer {
                     case "POST /v1/apps/0/users?access_token=bad_token HTTP/1.1": {
                         return responseFromResource("mock_create_user_bad_token_response.json", 401);
                     }
-                    case "POST /v1/apps/0/users?access_token=good_token HTTP/1.1": {
+                    case "POST /v1/apps/0/users?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxNjAzMzIxMCwiZXhwIjoxNTE2MTE5NjEwLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.eER6Y3IqRy6Vrged9TURSbYTUnJAX90816V3XrWzrJQ HTTP/1.1": {
                         return responseFromResource("mock_generic_forbidden_response.json", 403);
                     }
-                    case "POST /v1/apps/2/users?access_token=good_token HTTP/1.1": {
+                    case "POST /v1/apps/2/users?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxNjAzMzIxMCwiZXhwIjoxNTE2MTE5NjEwLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.eER6Y3IqRy6Vrged9TURSbYTUnJAX90816V3XrWzrJQ HTTP/1.1": {
                         body = request.getBody().readUtf8();
                         try {
                             String bodyForJSON = body;

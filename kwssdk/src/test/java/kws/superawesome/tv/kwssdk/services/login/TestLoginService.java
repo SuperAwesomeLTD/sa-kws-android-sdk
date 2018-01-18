@@ -1,6 +1,8 @@
 package kws.superawesome.tv.kwssdk.services.login;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
@@ -22,11 +24,12 @@ public class TestLoginService extends TestBaseService {
     protected String goodPassword = "good_password";
     protected String badPassword = "bad_password";
 
+    @Override
     @Before
     public void setup() throws Throwable {
 
         //extended method from Base
-        prepareMockedClient();
+        super.setup();
 
 
         //then
@@ -34,5 +37,10 @@ public class TestLoginService extends TestBaseService {
         service = KWSSDK.get(environment, LoginService.class, task);
     }
 
+
+    @Test
+    public void testServiceToNotBeNull() {
+        Assert.assertNotNull(service);
+    }
 
 }

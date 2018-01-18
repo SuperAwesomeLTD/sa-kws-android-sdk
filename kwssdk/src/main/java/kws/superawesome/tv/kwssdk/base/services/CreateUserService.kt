@@ -18,19 +18,5 @@ interface CreateUserService : BaseService {
                             callback: (user: CreateUser?, error: Throwable?) -> Unit
     )
 
-    fun getTempAccessToken(environment: KWSNetworkEnvironment,
-                           callback: (login: Login?, error: Throwable?) -> Unit
-    )
-
-    fun doUserCreation(environment: KWSNetworkEnvironment,
-                       username: String,
-                       password: String,
-                       dateOfBirth: String,
-                       country: String,
-                       parentEmail: String,
-                       appId: Int,
-                       token: String,
-                       callback: (createdUser: CreateUser?, error: Throwable?) -> Unit
-    )
 
 }

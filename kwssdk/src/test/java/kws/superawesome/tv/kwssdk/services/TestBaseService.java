@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwssdk.services;
 
 import org.junit.After;
+import org.junit.Before;
 
 import java.util.concurrent.Executor;
 
@@ -19,9 +20,8 @@ public class TestBaseService {
     protected MockKWSServer server;
     protected NetworkTask task;
 
-    private Executor executor;
-
-    protected void prepareMockedClient() throws Throwable {
+    @Before
+    protected void setup() throws Throwable {
 
         // create server
         server = new MockKWSServer();
@@ -33,7 +33,7 @@ public class TestBaseService {
         environment = new MockEnvironment(server.url());
 
         // start mock executor
-        executor = new MockExecutor();
+        Executor executor = new MockExecutor();
 
         // init semi-mocked network task
         task = new NetworkTask(executor);
@@ -41,7 +41,7 @@ public class TestBaseService {
     }
 
     @After
-    public void unsetup() throws Throwable {
+    public void tearDown() throws Throwable {
         // Shut down the server. Instances cannot be reused.
         server.shutdown();
     }
