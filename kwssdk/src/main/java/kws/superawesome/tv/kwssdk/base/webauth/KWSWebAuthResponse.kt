@@ -55,20 +55,20 @@ class KWSWebAuthResponse: Activity() {
         if (data != null && action != null && scheme != null && action == Intent.ACTION_VIEW && scheme == packName) {
 
             //
-            // get the fragment (the part after the # of the url)
-            val fragment = data.fragment
+            // get the fragment (data as a string)
+            val dataString = intent.dataString
 
             //
-            // get all the parts of the token
+            // get the actual token
             val parts = try {
-                TextUtils.split(fragment, "=")
+                TextUtils.split(dataString, "=")
             } catch (e: Exception) {
                 null
             }
 
             //
             // check for parts array validity
-            val token = if (parts != null && parts.size >= 2) {
+            val authCode = if (parts != null && parts.size >= 2) {
                 parts[1]
             } else {
                 null
@@ -76,7 +76,7 @@ class KWSWebAuthResponse: Activity() {
 
             //
             // send back callback
-            callback?.invoke(token)
+            callback?.invoke(authCode)
         }
     }
 

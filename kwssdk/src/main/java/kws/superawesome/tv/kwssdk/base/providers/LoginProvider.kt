@@ -6,15 +6,19 @@ import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
+import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
 import kws.superawesome.tv.kwssdk.base.responses.Login
 import kws.superawesome.tv.kwssdk.base.services.LoginService
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
+import kws.superawesome.tv.kwssdk.base.webauth.OAuthHelper
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Request
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
+
+
 
 /**
  * Created by guilherme.mota on 08/12/2017.
@@ -65,21 +69,76 @@ constructor(private val environment: KWSNetworkEnvironment,
                           parent: Activity,
                           callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
 
+        val codeVerifier = OAuthHelper.generateCodeVerifier()
+        val codeChallenge = OAuthHelper.generateCodeChallenge(codeVerifier)
+        val codeChallengeMethod = OAuthHelper.CODE_CHALLENGE_METHOD
+
+        getAuthCode(environment = environment,
+                singleSignOnUrl = singleSignOnUrl,
+                parent = parent, codeChallenge = codeChallenge,
+                codeChallengeMethod = codeChallengeMethod) { authCode: String?, networkError: Throwable? ->
+
+            if (!authCode.isNullOrEmpty()) {
+
+                getAccessToken(environment = environment, authCode = authCode!!, codeVerifier = codeVerifier, callback = callback)
+
+            } else {
+                //
+                //network failure
+                callback(null, networkError)
+            }
+
+
+        }
+    }
+
+    private fun getAuthCode(environment: KWSNetworkEnvironment, singleSignOnUrl: String,
+                            parent: Activity,
+                            codeChallenge: String,
+                            codeChallengeMethod: String,
+                            callback: (String?, Throwable?) -> Unit) {
+
         // TODO("Maybe replace this with a custom Request object")
         val endpoint = "oauth"
         val clientId = environment.appID
         val packageName = parent.packageName
-        val url = "$singleSignOnUrl$endpoint?clientId=$clientId&redirectUri=$packageName://"
+        val url = "$singleSignOnUrl$endpoint?clientId=$clientId&codeChallenge=$codeChallenge&codeChallengeMethod=$codeChallengeMethod&redirectUri=$packageName://"
         val uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, uri)
         parent.startActivity(intent)
 
         // TODO("Again, somewhat hacky here! But don't have a proper solution yet")
-        KWSWebAuthResponse.callback = { token ->
+        KWSWebAuthResponse.callback = { code ->
 
-            if (token != null) {
-                //if we have a valid token
-                val base64req = ParseBase64Request(base64String = token)
+
+            val error = if (!code.isNullOrEmpty()) null else Throwable("Error - invalid code")
+            //
+            //send callback
+            callback(code, error)
+        }
+    }
+
+    private fun getAccessToken(environment: KWSNetworkEnvironment, authCode: String,
+                               codeVerifier: String, callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
+
+        val oAuthTokenNetworkRequest = OAuthUserTokenRequest(
+                environment = environment,
+                clientID = environment.appID,
+                authCode = authCode,
+                codeVerifier = codeVerifier,
+                clientSecret = environment.mobileKey
+        )
+
+        networkTask.execute(input = oAuthTokenNetworkRequest) { oAuthTokenNetworkResponse ->
+
+            if (oAuthTokenNetworkResponse.response != null && oAuthTokenNetworkResponse.error == null) {
+
+                val parseRequest = ParseJsonRequest(rawString = oAuthTokenNetworkResponse.response)
+                val parseTask = ParseJsonTask()
+                val oauthResponseObject = parseTask.execute<Login>(input = parseRequest,
+                        clazz = Login::class.java)
+
+                val base64req = ParseBase64Request(base64String = oauthResponseObject?.token)
                 val base64Task = ParseBase64Task()
                 val metadataJson = base64Task.execute(input = base64req)
 
@@ -87,15 +146,23 @@ constructor(private val environment: KWSNetworkEnvironment,
                 val parseJsonTask = ParseJsonTask()
                 val metadata = parseJsonTask.execute(input = parseJsonReq, clazz = KWSMetadata::class.java)
 
-                if (metadata != null && metadata.isValid()) {
-                    val loggedUser = LoggedUser(token = token, kwsMetaData = metadata)
-                    callback(loggedUser, null)
-                } else {
-                    callback(null, Throwable("Invalid token"))
-                }
+
+                val error = if (metadata != null || metadata?.isValid!!) null else Throwable("Error - invalid oauth user")
+                val loggedUser = LoggedUser(token = oauthResponseObject?.token!!, kwsMetaData = metadata)
+
+                //
+                //send callback
+                callback(loggedUser, error)
+
             } else {
-                callback(null, Throwable("OAuth token is null"))
+                //
+                //network error
+                callback(null, oAuthTokenNetworkResponse.error)
             }
+
         }
+
+
     }
+
 }
