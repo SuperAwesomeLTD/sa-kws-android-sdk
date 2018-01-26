@@ -11,15 +11,31 @@ import java.security.SecureRandom
 /**
  * Created by guilherme.mota on 24/01/2018.
  */
-object OAuthHelper {
+class OAuthCodeGenerator {
 
-    private val TAG = OAuthHelper::class.java.simpleName
+    private val TAG = OAuthCodeGenerator::class.java.simpleName
 
-    private const val US_ASCII = "US-ASCII"
-    private const val SHA_256 = "SHA-256"
+    private val US_ASCII = "US-ASCII"
+    private val SHA_256 = "SHA-256"
+    private val CODE_CHALLENGE_METHOD = "S256"
 
-    //type of code challenge
-    const val CODE_CHALLENGE_METHOD = "S256"
+    data class OAuthDataClass(
+            val codeChallenge: String,
+            val codeVerifier: String,
+            val codeChallengeMethod: String
+    )
+
+    fun execute(): OAuthDataClass {
+        val codeVerifier = generateCodeVerifier()
+        val codeChallenge = generateCodeChallenge(codeVerifier)
+        val codeChallengeMethod = CODE_CHALLENGE_METHOD
+
+        return OAuthDataClass(
+                codeChallenge = codeChallenge,
+                codeVerifier = codeVerifier,
+                codeChallengeMethod = codeChallengeMethod)
+    }
+
 
     private fun getBase64String(source: ByteArray): String {
         return Base64.encodeToString(source, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
@@ -52,17 +68,19 @@ object OAuthHelper {
         return signature
     }
 
-    fun generateCodeVerifier(): String {
+    private fun generateCodeVerifier(): String {
         val sr = SecureRandom()
         val code = ByteArray(32)
         sr.nextBytes(code)
-        return Base64.encodeToString(code, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
+        return getBase64String(code)
     }
 
-    fun generateCodeChallenge(codeVerifier: String): String {
+    private fun generateCodeChallenge(codeVerifier: String): String {
         val input = getASCIIBytes(codeVerifier)
         val signature = getSHA256(input)
         return getBase64String(signature)
     }
+
+
 
 }
