@@ -76,9 +76,9 @@ constructor(private val environment: KWSNetworkEnvironment,
                 parent = parent, codeChallenge = oAuthDataClass.codeChallenge,
                 codeChallengeMethod = oAuthDataClass.codeChallengeMethod) { authCode: String?, networkError: Throwable? ->
 
-            if (!authCode.isNullOrEmpty()) {
+            if (authCode != null && !authCode.isEmpty()) {
 
-                getAccessToken(environment = environment, authCode = authCode!!, codeVerifier = oAuthDataClass.codeVerifier, callback = callback)
+                getAccessToken(environment = environment, authCode = authCode, codeVerifier = oAuthDataClass.codeVerifier, callback = callback)
 
             } else {
                 //
