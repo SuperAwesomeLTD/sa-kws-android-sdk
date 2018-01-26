@@ -2,6 +2,8 @@ package kws.superawesome.tv.kwssdk.base.webauth
 
 import android.util.Base64
 import android.util.Log
+import kws.superawesome.tv.kwssdk.base.models.OAuthData
+import tv.superawesome.samobilebase.Task
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -11,26 +13,30 @@ import java.security.SecureRandom
 /**
  * Created by guilherme.mota on 24/01/2018.
  */
-class OAuthCodeGenerator {
+class OAuthCodeTask : Task<Any?, OAuthData> {
 
-    private val TAG = OAuthCodeGenerator::class.java.simpleName
+    private val TAG = OAuthCodeTask::class.java.simpleName
 
-    private val US_ASCII = "US-ASCII"
-    private val SHA_256 = "SHA-256"
-    private val CODE_CHALLENGE_METHOD = "S256"
+    enum class OAuthEncoding(encoding: String) {
+        UsASCII ("US-ASCII")
+    }
 
-    data class OAuthDataClass(
-            val codeChallenge: String,
-            val codeVerifier: String,
-            val codeChallengeMethod: String
-    )
+    enum class OAuthDigest(digest: String){
+        Sha256 ("SHA-256")
+    }
 
-    fun execute(): OAuthDataClass {
+    enum class OAuthChallenge(challenge: String){
+        S256 ("S256"),
+        Plain ("plain")
+    }
+
+
+    fun execute(): OAuthData {
         val codeVerifier = generateCodeVerifier()
         val codeChallenge = generateCodeChallenge(codeVerifier)
-        val codeChallengeMethod = CODE_CHALLENGE_METHOD
+        val codeChallengeMethod = OAuthChallenge.S256.toString()
 
-        return OAuthDataClass(
+        return OAuthData(
                 codeChallenge = codeChallenge,
                 codeVerifier = codeVerifier,
                 codeChallengeMethod = codeChallengeMethod)
@@ -45,7 +51,8 @@ class OAuthCodeGenerator {
     private fun getASCIIBytes(value: String): ByteArray {
         val input: ByteArray
         try {
-            input = value.toByteArray(charset(US_ASCII))
+            val usASCII = OAuthEncoding.UsASCII.toString()
+            input = value.toByteArray(charset(usASCII))
         } catch (e: UnsupportedEncodingException) {
             Log.e(TAG, "Could not convert string to an ASCII byte array", e)
             throw IllegalStateException("Could not convert string to an ASCII byte array", e)
@@ -57,7 +64,7 @@ class OAuthCodeGenerator {
     private fun getSHA256(input: ByteArray): ByteArray {
         val signature: ByteArray
         try {
-            val md = MessageDigest.getInstance(SHA_256)
+            val md = MessageDigest.getInstance(OAuthDigest.Sha256.toString())
             md.update(input, 0, input.size)
             signature = md.digest()
         } catch (e: NoSuchAlgorithmException) {

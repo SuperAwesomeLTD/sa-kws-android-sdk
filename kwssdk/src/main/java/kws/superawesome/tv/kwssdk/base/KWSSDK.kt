@@ -19,6 +19,7 @@ object KWSSDK {
                 UserService::class -> UserProvider(environment = environment, networkTask = networkTask) as T?
                 EventsService::class -> EventsProvider(environment = environment, networkTask = networkTask) as T?
                 AppService::class -> AppProvider(environment = environment, networkTask = networkTask) as T?
+                AuthService::class -> AuthProvider(environment = environment, networkTask = networkTask) as T?
                 else -> null
             }
 
@@ -36,6 +37,7 @@ object KWSSDK {
                 UserService::class.java -> UserProvider(environment = environment, networkTask = networkTask) as T?
                 EventsService::class.java -> EventsProvider(environment = environment, networkTask = networkTask) as T?
                 AppService::class.java -> AppProvider(environment = environment, networkTask = networkTask) as T?
+                AuthService::class.java -> AuthProvider(environment = environment, networkTask = networkTask) as T?
                 else -> null
             } as T?
 

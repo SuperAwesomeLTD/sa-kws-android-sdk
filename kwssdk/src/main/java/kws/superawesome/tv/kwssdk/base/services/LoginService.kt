@@ -13,8 +13,4 @@ interface LoginService : BaseService {
                   password: String,
                   callback: (user: Login?, error: Throwable?) -> Unit)
 
-    fun authUser (singleSignOnUrl: String,
-                  parent: Activity,
-                  callback: (user: LoggedUser?, error: Throwable?) -> Unit)
-
 }
