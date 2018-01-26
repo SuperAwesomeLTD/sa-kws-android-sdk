@@ -11,6 +11,7 @@ import kws.superawesome.tv.kwssdk.requests.TestHasTriggeredEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestInviteUserRequest;
 import kws.superawesome.tv.kwssdk.requests.TestLeadersRequest;
 import kws.superawesome.tv.kwssdk.requests.TestLoginRequest;
+import kws.superawesome.tv.kwssdk.requests.TestOAuthUserTokenRequest;
 import kws.superawesome.tv.kwssdk.requests.TestPermissionsRequest;
 import kws.superawesome.tv.kwssdk.requests.TestRandomUsernameRequest;
 import kws.superawesome.tv.kwssdk.requests.TestScoreRequest;
@@ -50,6 +51,7 @@ import kws.superawesome.tv.kwssdk.services.user.TestUserService_RequestPermissio
         TestSetAppDataRequest.class,
         TestTriggerEventRequest.class,
         TestUserDetailsRequest.class,
+        TestOAuthUserTokenRequest.class,
 
         //Services
         //App

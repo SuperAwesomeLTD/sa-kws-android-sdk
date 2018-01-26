@@ -32,6 +32,7 @@ import kws.superawesome.tv.kwssdk.base.responses.Score;
 import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
 import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.AppService;
+import kws.superawesome.tv.kwssdk.base.services.AuthService;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.base.services.EventsService;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
@@ -258,10 +259,10 @@ public class KWSChildren {
 
     public void authWithSingleSignOnUrl(String singleSignOnUrl, Activity parent, final KWSChildrenLoginUserInterface listener) {
 
-        LoginService loginService = KWSSDK.get(kwsEnvironment, LoginService.class);
+        AuthService authService = KWSSDK.get(kwsEnvironment, AuthService.class);
 
-        if (loginService != null) {
-            loginService.authUser(singleSignOnUrl, parent, new Function2<LoggedUser, Throwable, Unit>() {
+        if (authService != null) {
+            authService.authUser(singleSignOnUrl, parent, new Function2<LoggedUser, Throwable, Unit>() {
                 @Override
                 public Unit invoke(LoggedUser loggedUser, Throwable throwable) {
 
