@@ -22,8 +22,9 @@ android {
 
 repositories {
     maven {
-        url  "http://dl.bintray.com/gabrielcoman/maven"
+        url "http://dl.bintray.com/gabrielcoman/maven"
     }
+    mavenCentral()
 }
 
 dependencies {
@@ -42,14 +43,27 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-messaging:11.6.2'
 
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     //Tests
     androidTestImplementation 'com.android.support.test:testing-support-lib:0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    //Tests - Mockito
+    def mockito_version = 'latest.release'
+
+    // For local unit tests on your development machine
+    testCompile "org.mockito:mockito-core:$mockito_version"
+
+    // For instrumentation tests on Android devices and emulators
+    androidTestCompile "org.mockito:mockito-android:$mockito_version"
 
 
 }
-
 
 // ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'

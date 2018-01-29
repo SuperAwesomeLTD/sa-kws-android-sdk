@@ -26,14 +26,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="LOGIN"
+            android:text="Login"
             android:onClick="loginUser"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="AUTH"
+            android:text="Auth"
             android:onClick="authUser"/>
 
         <Button
@@ -141,7 +141,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Check evt 762"
+        android:text="Check evt with ID"
         android:onClick="checkEvent"/>
 
     <LinearLayout

@@ -31,6 +31,10 @@ public class KWSApplicationProfile extends SABaseObject implements Parcelable {
         customField5 = in.readInt();
     }
 
+    public KWSApplicationProfile() {
+
+    }
+
     public KWSApplicationProfile(JSONObject jsonObject) {
         readFromJson(jsonObject);
     }
@@ -88,7 +92,7 @@ public class KWSApplicationProfile extends SABaseObject implements Parcelable {
     }
 
     @Override
-    public boolean isValid () {
+    public boolean isValid() {
         return true;
     }
 }

@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.4.0
+ - Merged master with new develop branch, which includes & expects Kotlin support
+ - Improved internal SDK architecture (using services, providers and a facade to abstract them away whilst also maintaing the same public interface)
+ - Improved WebView OAuth proess to make it more reliable
+ - Added tests to the new services & providers
+ - First build with new architecture!
+
 2.3.3
  - Added WebView Auth
 

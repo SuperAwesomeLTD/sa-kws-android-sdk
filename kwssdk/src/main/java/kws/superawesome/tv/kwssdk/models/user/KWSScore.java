@@ -20,6 +20,9 @@ public class KWSScore extends SABaseObject implements Parcelable {
         score = in.readInt();
     }
 
+    public KWSScore() {
+    }
+
     public KWSScore(JSONObject jsonObject) {
         readFromJson(jsonObject);
     }
@@ -55,7 +58,7 @@ public class KWSScore extends SABaseObject implements Parcelable {
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[] {
+        return SAJsonParser.newObject(new Object[]{
                 "rank", rank,
                 "score", score
         });

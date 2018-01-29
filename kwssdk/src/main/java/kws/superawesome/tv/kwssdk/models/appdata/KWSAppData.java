@@ -20,6 +20,9 @@ public class KWSAppData extends SABaseObject implements Parcelable {
         value = in.readInt();
     }
 
+    public KWSAppData() {
+    }
+
     public KWSAppData(JSONObject jsonObject) {
         readFromJson(jsonObject);
     }
@@ -55,7 +58,7 @@ public class KWSAppData extends SABaseObject implements Parcelable {
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[] {
+        return SAJsonParser.newObject(new Object[]{
                 "name", name,
                 "value", value
         });

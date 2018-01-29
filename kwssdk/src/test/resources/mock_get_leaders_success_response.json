@@ -1,0 +1,67 @@
+{
+  "results": [
+    {
+      "user": "testuser9112",
+      "score": 540,
+      "rank": 1
+    },
+    {
+      "user": "testusr472",
+      "score": 40,
+      "rank": 2
+    },
+    {
+      "user": "testusr293",
+      "score": 40,
+      "rank": 3
+    },
+    {
+      "user": "testusr461",
+      "score": 20,
+      "rank": 4
+    },
+    {
+      "user": "testusr415",
+      "score": 20,
+      "rank": 5
+    },
+    {
+      "user": "testusr235",
+      "score": 20,
+      "rank": 6
+    },
+    {
+      "user": "testuser1521",
+      "score": 20,
+      "rank": 7
+    },
+    {
+      "user": "testusr494",
+      "score": 20,
+      "rank": 8
+    },
+    {
+      "user": "testuser715",
+      "score": 20,
+      "rank": 9
+    },
+    {
+      "user": "testuser8865",
+      "score": 20,
+      "rank": 10
+    },
+    {
+      "user": "testusr444",
+      "score": 20,
+      "rank": 11
+    },
+    {
+      "user": "testuser644",
+      "score": 20,
+      "rank": 12
+    }
+  ],
+  "count": 12,
+  "offset": 0,
+  "limit": 1000
+}
