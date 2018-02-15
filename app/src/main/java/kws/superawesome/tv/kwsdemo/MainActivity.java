@@ -66,11 +66,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void createNewUser(View v) {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
+        final String pwd = "testtest";
 
-        KWSChildren.sdk.createUser(this, username, "testtest",
+        final String parentEmail = "guilherme.mota@superawesome.tv";
+
+        KWSChildren.sdk.createUser(this, username, pwd,
                 "2011-03-02",
                 "US",
-                "dev.gabriel.coman@gmail.com",
+                parentEmail,
                 new KWSChildrenCreateUserInterface() {
                     @Override
                     public void didCreateUser(KWSChildrenCreateUserStatus status) {
@@ -113,12 +116,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginUser(View v) {
 
-        KWSChildren.sdk.loginUser(this, "testuser9112", "testtest", new KWSChildrenLoginUserInterface() {
+        final String username = "guitestnumber4";
+        final String pwd = "testtest";
+
+        KWSChildren.sdk.loginUser(this, username, pwd, new KWSChildrenLoginUserInterface() {
             @Override
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 switch (status) {
                     case Success:
-                        log += "Auth as testuser9112 w/ testtest\n";
+                        log += "Auth as " + username + "w/ pwd as: " + pwd + "\n";
                         Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
                         break;
                     case NetworkError:
@@ -135,7 +141,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void authUser(View v) {
-        KWSChildren.sdk.authWithSingleSignOnUrl("https://stan-test-cluster.accounts.kws.superawesome.tv/", this, new KWSChildrenLoginUserInterface() {
+
+        //stan test ---> https://stan-test-cluster.accounts.kws.superawesome.tv/
+
+        String singleSignOnUrl = "https://club.demo.superawesome.tv/";
+
+        KWSChildren.sdk.authWithSingleSignOnUrl(singleSignOnUrl, this, new KWSChildrenLoginUserInterface() {
             @Override
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 log += "Web View Authentication status is " + status + "\n";
@@ -153,9 +164,16 @@ public class MainActivity extends AppCompatActivity {
         KWSChildren.sdk.getRandomUsername(this, new KWSChildrenGetRandomUsernameInterface() {
             @Override
             public void didGetRandomUsername(String name) {
-                log += "Random name " + name + "\n";
-                logView.setText(log);
-                Log.d("SuperAwesome", name);
+
+                if(name != null){
+                    log += "Random name " + name + "\n";
+                    logView.setText(log);
+                    Log.d("SuperAwesome", name);
+                }else{
+                    log += "Invalid Random name. (null)  \n";
+                    logView.setText(log);
+                    Log.d("SuperAwesome", "Random name is (null)");
+                }
             }
         });
     }

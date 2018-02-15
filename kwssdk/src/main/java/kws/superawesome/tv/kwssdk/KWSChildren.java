@@ -211,19 +211,22 @@ public class KWSChildren {
                         @Override
                         public Unit invoke(CreateUser createdUser, Throwable throwable) {
 
-                            String token = createdUser.getToken();
-                            KWSMetadata kwsMetadata = getMetadataFromToken(token);
-
-//                            KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
-
-                            if (kwsMetadata != null && kwsMetadata.isValid()) {
-                                LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
-                                setLoggedUser(loggedUser);
-                                listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
+                            if (createdUser != null) {
+                                String token = createdUser.getToken();
+                                KWSMetadata kwsMetadata = getMetadataFromToken(token);
+                                if (kwsMetadata != null && kwsMetadata.isValid()) {
+                                    LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
+                                    setLoggedUser(loggedUser);
+                                    listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
+                                } else {
+                                    listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
+                                }
                             } else {
                                 listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
+                                if(throwable != null){
+                                    Log.d("SA", throwable.toString());
+                                }
                             }
-
                             return null;
                         }
                     });
@@ -240,15 +243,21 @@ public class KWSChildren {
                 @Override
                 public Unit invoke(Login login, Throwable throwable) {
 
-                    String token = login.getToken();
-//                    KWSMetadata kwsMetadata = KWSMetadata.processMetadata(token);
-                    KWSMetadata kwsMetadata = getMetadataFromToken(token);
-                    if (kwsMetadata != null && kwsMetadata.isValid()) {
-                        LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
-                        setLoggedUser(loggedUser);
-                        listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
+                    if (login != null) {
+                        String token = login.getToken();
+                        KWSMetadata kwsMetadata = getMetadataFromToken(token);
+                        if (kwsMetadata != null && kwsMetadata.isValid()) {
+                            LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
+                            setLoggedUser(loggedUser);
+                            listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
+                        } else {
+                            listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
+                        }
                     } else {
                         listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
+                        if (throwable != null) {
+                            Log.d("SA", throwable.toString());
+                        }
                     }
 
                     return null;
@@ -839,6 +848,7 @@ public class KWSChildren {
     public String getClientId() {
         return clientId;
     }
+
     public String getClientSecret() {
         return clientSecret;
     }

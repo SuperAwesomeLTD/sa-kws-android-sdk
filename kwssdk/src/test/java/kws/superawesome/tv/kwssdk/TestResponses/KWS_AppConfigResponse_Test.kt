@@ -14,7 +14,7 @@ class KWS_AppConfigResponse_Test {
 
         //given
         val id = 2
-        val name = "stan-test"
+        val name = ""
 
 
         //when

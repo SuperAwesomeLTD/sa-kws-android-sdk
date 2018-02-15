@@ -11,8 +11,8 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 public class MockEnvironment implements KWSNetworkEnvironment {
 
     private String url;
-    private static final String APPID = "stan-test"; // "superawesomeclub";
-    private static final String KEY = "DRYNvSStuSvnaDg0d3f9t17QybbpQqX4";
+    private static final String APPID = "kws-sdk-testing"; // "superawesomeclub"; //"stan-test"
+    private static final String KEY = "TKZpmBq3wWjSuYHN27Id0hjzN4cIL13D";
 
     MockEnvironment(String url) {
         this.url = url;
