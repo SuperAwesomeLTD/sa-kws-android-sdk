@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.base.models
+package kws.superawesome.tv.kwssdk.base.models.internal
 
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 

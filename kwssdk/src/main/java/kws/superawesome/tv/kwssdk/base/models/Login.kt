@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.base.responses
+package kws.superawesome.tv.kwssdk.base.models
 
 import com.google.gson.annotations.SerializedName
 

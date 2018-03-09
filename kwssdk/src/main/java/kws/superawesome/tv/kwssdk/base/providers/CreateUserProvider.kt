@@ -3,8 +3,8 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
-import kws.superawesome.tv.kwssdk.base.responses.CreateUser
-import kws.superawesome.tv.kwssdk.base.responses.Login
+import kws.superawesome.tv.kwssdk.base.models.CreateUser
+import kws.superawesome.tv.kwssdk.base.models.Login
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 import tv.superawesome.samobilebase.network.NetworkTask

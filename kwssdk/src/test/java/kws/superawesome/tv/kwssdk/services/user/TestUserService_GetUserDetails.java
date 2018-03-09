@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
+import kws.superawesome.tv.kwssdk.base.models.UserDetails;
 
 /**
  * Created by guilherme.mota on 17/01/2018.
@@ -29,7 +29,7 @@ public class TestUserService_GetUserDetails extends TestUserService {
                 Assert.assertNull(throwable);
 
                 Assert.assertEquals(25, (int) userDetails.getId());
-                Assert.assertEquals("username", userDetails.getUsername());
+                Assert.assertEquals("username", userDetails.getName());
                 Assert.assertEquals("first_name", userDetails.getFirstName());
                 Assert.assertEquals("last_name", userDetails.getLastName());
 
@@ -46,29 +46,29 @@ public class TestUserService_GetUserDetails extends TestUserService {
                 Assert.assertTrue(userDetails.getHasSetParentEmail());
 
                 Assert.assertNotNull(userDetails.getApplicationProfile());
-                Assert.assertEquals(userDetails.getApplicationProfile().getUsername(), "username");
+                Assert.assertEquals(userDetails.getApplicationProfile().getName(), "username");
                 Assert.assertEquals((int) userDetails.getApplicationProfile().getCustomField1(), 0);
                 Assert.assertEquals((int) userDetails.getApplicationProfile().getCustomField2(), 0);
                 Assert.assertEquals((int) userDetails.getApplicationProfile().getAvatarId(), 0);
 
                 Assert.assertNotNull(userDetails.getApplicationPermissions());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessAddress());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessFirstName());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessLastName());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessEmail());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessStreetAddress());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessCity());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessPostalCode());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getAccessCountry());
-                Assert.assertTrue(userDetails.getApplicationPermissions().getSendPushNotification());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getSendNewsletter());
-                Assert.assertFalse(userDetails.getApplicationPermissions().getEnterCompetitions());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getAddress());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getFirstName());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getLastName());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getEmail());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getStreetAddress());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getCity());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getPostalCode());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getCountry());
+                Assert.assertTrue(userDetails.getApplicationPermissions().getNotifications());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getNewsletter());
+                Assert.assertFalse(userDetails.getApplicationPermissions().getCompetition());
 
                 Assert.assertNotNull(userDetails.getPoints());
-                Assert.assertEquals((int) userDetails.getPoints().getTotalReceived(), 600);
+                Assert.assertEquals((int) userDetails.getPoints().getReceived(), 600);
                 Assert.assertEquals((int) userDetails.getPoints().getTotal(), 600);
-                Assert.assertEquals((int) userDetails.getPoints().getTotalPointsReceivedInCurrentApp(), 600);
-                Assert.assertEquals((int) userDetails.getPoints().getAvailableBalance(), 600);
+                Assert.assertEquals((int) userDetails.getPoints().getInApp(), 600);
+                Assert.assertEquals((int) userDetails.getPoints().getBalance(), 600);
                 Assert.assertEquals((int) userDetails.getPoints().getPending(), 1);
 
                 return null;

@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.services
 
-import kws.superawesome.tv.kwssdk.base.responses.AppData
-import kws.superawesome.tv.kwssdk.base.responses.Leaders
+import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
+import kws.superawesome.tv.kwssdk.base.models.Leaders
 
 /**
  * Created by guilherme.mota on 05/01/2018.
@@ -17,7 +17,7 @@ interface AppService : BaseService {
     fun getAppData(appId: Int,
                    userId: Int,
                    token: String,
-                   callback: (appData: AppData?, error: Throwable?) -> Unit)
+                   callback: (appDataWrapper: AppDataWrapper?, error: Throwable?) -> Unit)
 
 
     fun setAppData(appId: Int,

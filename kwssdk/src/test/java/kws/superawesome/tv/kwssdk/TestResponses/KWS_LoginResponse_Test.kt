@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.Login
+import kws.superawesome.tv.kwssdk.base.models.Login
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

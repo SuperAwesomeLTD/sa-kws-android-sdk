@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.CreateUser
+import kws.superawesome.tv.kwssdk.base.models.CreateUser
 import org.junit.Test
 
 /**
@@ -21,12 +21,12 @@ class KWS_CreateUserResponse_Test {
 
 
         //when
-        val createUserResponse = CreateUser(token = token, id = id)
+        val createUserResponse = CreateUser(token = token, userId = id)
 
         //then
 //        assertNotNull(createUserResponse)
 //        assertEquals(createUserResponse.token, token)
-//        assertEquals(createUserResponse.id, id)
+//        assertEquals(createUserResponse.userId, userId)
 
 
     }
@@ -40,13 +40,13 @@ class KWS_CreateUserResponse_Test {
         val id = 0
 
         //when
-        val createUserResponse = CreateUser(token = token, id = id)
+        val createUserResponse = CreateUser(token = token, userId = id)
 
 
         //then
 //        assertNotNull(createUserResponse)
 //        assertNull(createUserResponse.token, token)
-//        assertEquals(createUserResponse.id, id)
+//        assertEquals(createUserResponse.userId, userId)
 
 
     }

@@ -1,13 +1,13 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.AppConfig
-import kws.superawesome.tv.kwssdk.base.responses.AppConfigAppObject
+import kws.superawesome.tv.kwssdk.base.models.AppConfigWrapper
+import kws.superawesome.tv.kwssdk.base.models.AppConfig
 import org.junit.Test
 
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-class KWS_AppConfigResponse_Test {
+class KWS_AppConfigWrapperResponse_Test {
 
     @Test
     fun Check_Response_Valid_Id_Name() {
@@ -18,13 +18,13 @@ class KWS_AppConfigResponse_Test {
 
 
         //when
-        val appConfigAppObjectResponse = AppConfigAppObject(id = id, name = name)
-        val getRandomUsername = AppConfig(appConfigAppObject = appConfigAppObjectResponse)
+        val appConfigAppObjectResponse = AppConfig(id = id, name = name)
+        val getRandomUsername = AppConfigWrapper(app = appConfigAppObjectResponse)
 
         //then
 //        assertNotNull(appConfigAppObjectResponse)
 //        assertNotNull(getRandomUsername)
-//        assertEquals(appConfigAppObjectResponse.id, id)
+//        assertEquals(appConfigAppObjectResponse.userId, userId)
 //        assertEquals(appConfigAppObjectResponse.name, name)
 
 
@@ -39,15 +39,15 @@ class KWS_AppConfigResponse_Test {
         val name = null
 
         //when
-        val appConfigAppObjectResponse = AppConfigAppObject(id = id, name = name)
-        val getRandomUsername = AppConfig(appConfigAppObject = appConfigAppObjectResponse)
+        val appConfigAppObjectResponse = AppConfig(id = id, name = name)
+        val getRandomUsername = AppConfigWrapper(app = appConfigAppObjectResponse)
 
 
         //then
 //        assertNotNull(appConfigAppObjectResponse)
 //        assertNotNull(getRandomUsername)
 //        assertNull(appConfigAppObjectResponse.name)
-//        assertEquals(appConfigAppObjectResponse.id, id)
+//        assertEquals(appConfigAppObjectResponse.userId, userId)
 
 
     }

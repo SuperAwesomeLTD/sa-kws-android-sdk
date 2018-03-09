@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.models.LoggedUser
+import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
-import kws.superawesome.tv.kwssdk.base.responses.Login
+import kws.superawesome.tv.kwssdk.base.models.Login
 import kws.superawesome.tv.kwssdk.base.services.AuthService
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.base.webauth.OAuthCodeTask

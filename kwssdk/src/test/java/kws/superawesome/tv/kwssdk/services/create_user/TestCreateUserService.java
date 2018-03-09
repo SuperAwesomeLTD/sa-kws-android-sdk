@@ -9,7 +9,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
+import kws.superawesome.tv.kwssdk.base.models.CreateUser;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 

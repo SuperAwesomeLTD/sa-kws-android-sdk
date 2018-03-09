@@ -10,7 +10,7 @@ import kotlin.jvm.functions.Function2;
  * Created by guilherme.mota on 17/01/2018.
  */
 
-public class TestAppService_SetAppData extends TestAppService {
+public class TestAppService_SetAppDataWrapper extends TestAppService {
 
     private String goodValue = "new_value_35";
     private String badValue = "";

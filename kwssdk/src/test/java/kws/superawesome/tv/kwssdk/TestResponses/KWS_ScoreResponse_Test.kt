@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.Score
+import kws.superawesome.tv.kwssdk.base.models.Score
 import org.junit.Test
 
 /**

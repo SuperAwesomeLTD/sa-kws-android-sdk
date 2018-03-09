@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.base.models
+package kws.superawesome.tv.kwssdk.base.models.internal
 
 /**
  * Created by guilherme.mota on 26/01/2018.

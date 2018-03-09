@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.services
 
 import android.app.Activity
-import kws.superawesome.tv.kwssdk.base.models.LoggedUser
+import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
 
 /**
  * Created by guilherme.mota on 26/01/2018.

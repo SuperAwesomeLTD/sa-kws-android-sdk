@@ -2,7 +2,7 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
-import kws.superawesome.tv.kwssdk.base.responses.Login
+import kws.superawesome.tv.kwssdk.base.models.Login
 import kws.superawesome.tv.kwssdk.base.services.LoginService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest

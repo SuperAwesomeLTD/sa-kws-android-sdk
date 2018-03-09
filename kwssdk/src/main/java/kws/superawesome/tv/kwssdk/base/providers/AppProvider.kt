@@ -4,8 +4,8 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.GetAppDataRequest
 import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
 import kws.superawesome.tv.kwssdk.base.requests.SetAppDataRequest
-import kws.superawesome.tv.kwssdk.base.responses.AppData
-import kws.superawesome.tv.kwssdk.base.responses.Leaders
+import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
+import kws.superawesome.tv.kwssdk.base.models.Leaders
 import kws.superawesome.tv.kwssdk.base.services.AppService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
@@ -76,7 +76,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
     }
 
-    override fun getAppData(appId: Int, userId: Int, token: String, callback: (appData: AppData?, error: Throwable?) -> Unit) {
+    override fun getAppData(appId: Int, userId: Int, token: String, callback: (appDataWrapper: AppDataWrapper?, error: Throwable?) -> Unit) {
 
 
         val getAppDataNetworkRequest = GetAppDataRequest(
@@ -92,8 +92,8 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 val parseRequest = ParseJsonRequest(rawString = getAppDataNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val getAppDataResponseObject = parseTask.execute<AppData>(input = parseRequest,
-                        clazz = AppData::class.java)
+                val getAppDataResponseObject = parseTask.execute<AppDataWrapper>(input = parseRequest,
+                        clazz = AppDataWrapper::class.java)
 
                 //
                 // send callback

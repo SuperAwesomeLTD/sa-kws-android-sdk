@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                                 log += "User " + username + " created OK\n";
                                 break;
                             case InvalidUsername:
-                                log += "InvalidEmail username\n";
+                                log += "InvalidEmail name\n";
                                 break;
                             case InvalidPassword:
                                 log += "InvalidEmail password\n";
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                                 log += "InvalidEmail parent email\n";
                                 break;
                             case DuplicateUsername:
-                                log += "Duplicate username\n";
+                                log += "Duplicate name\n";
                                 break;
                             case NetworkError:
                                 log += "Network error\n";
@@ -188,11 +188,11 @@ public class MainActivity extends AppCompatActivity {
             public void didRegisterForRemoteNotifications(KWSChildrenRegisterForRemoteNotificationsStatus status) {
                 switch (status) {
                     case ParentDisabledNotifications: {
-                        log += "User has  no permissions (KWSChildren)\n";
+                        log += "User has  no applicationPermissions (KWSChildren)\n";
                         break;
                     }
                     case UserDisabledNotifications: {
-                        log += "User has  no permissions (System)\n";
+                        log += "User has  no applicationPermissions (System)\n";
                         break;
                     }
                     case NoParentEmail: {

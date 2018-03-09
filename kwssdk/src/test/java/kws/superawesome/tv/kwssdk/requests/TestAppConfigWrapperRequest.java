@@ -16,7 +16,7 @@ import tv.superawesome.samobilebase.network.NetworkMethod;
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestAppConfigRequest {
+public class TestAppConfigWrapperRequest {
 
     //class to be tested
     private AppConfigRequest appConfigRequest;

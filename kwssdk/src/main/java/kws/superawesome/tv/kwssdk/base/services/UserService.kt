@@ -1,8 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.services
 
-import kws.superawesome.tv.kwssdk.base.responses.Score
-import kws.superawesome.tv.kwssdk.base.responses.UserDetails
-import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionStatus
+import kws.superawesome.tv.kwssdk.base.models.Score
+import kws.superawesome.tv.kwssdk.base.models.UserDetails
 
 /**
  * Created by guilherme.mota on 03/01/2018.

@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.Leaders
-import kws.superawesome.tv.kwssdk.base.responses.LeadersDetail
+import kws.superawesome.tv.kwssdk.base.models.Leaders
+import kws.superawesome.tv.kwssdk.base.models.LeadersDetail
 import org.junit.Test
 
 /**

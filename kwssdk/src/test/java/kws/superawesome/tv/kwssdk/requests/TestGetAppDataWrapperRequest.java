@@ -10,23 +10,23 @@ import org.mockito.Mockito;
 import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.SetAppDataRequest;
+import kws.superawesome.tv.kwssdk.base.requests.GetAppDataRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestSetAppDataRequest {
+public class TestGetAppDataWrapperRequest {
 
 
     //class to be tested
-    private SetAppDataRequest setAppDataRequest;
+    private GetAppDataRequest getAppDataRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
-    private int appId, userId, numericValue;
-    private String nameValue, endpoint, token;
+    private String token, endpoint;
+    private int appId, userId;
     private NetworkMethod method;
 
     @Before
@@ -34,83 +34,62 @@ public class TestSetAppDataRequest {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
-
         //given
         appId = 1;
         userId = 1;
-        nameValue = "__mock_nameValue__";
-        numericValue = 1;
-        endpoint = "v1/apps/" + appId + "/users/" + userId + "/app-data/set";
-        method = NetworkMethod.POST;
+        endpoint = "v1/apps/" + appId + "/users/" + userId + "/app-data";
+        method = NetworkMethod.GET;
         token = "__mock_token__";
 
         //when
-        setAppDataRequest = new SetAppDataRequest(
+        getAppDataRequest = new GetAppDataRequest(
                 environment,
                 appId,
                 userId,
-                nameValue,
-                numericValue,
                 token
         );
-
     }
-
 
     @Test
     public void testConstants() {
-
         Assert.assertTrue(appId > -1);
         Assert.assertTrue(userId > -1);
-        Assert.assertTrue(numericValue > -1);
-        Assert.assertNotNull(nameValue);
-        Assert.assertNotNull(endpoint);
-        Assert.assertNotNull(method);
         Assert.assertNotNull(token);
-
+        Assert.assertNotNull(endpoint);
     }
 
 
     @Test
     public final void testRequest() {
-        //then
-        Assert.assertNotNull(setAppDataRequest);
+        Assert.assertNotNull(getAppDataRequest);
     }
 
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(setAppDataRequest.getEnvironment());
+        Assert.assertNotNull(getAppDataRequest.getEnvironment());
     }
 
     @Test
     public final void testMethod() {
-        Assert.assertEquals(method, setAppDataRequest.getMethod());
+        Assert.assertEquals(method, getAppDataRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-        Assert.assertEquals(endpoint, setAppDataRequest.getEndpoint());
+        Assert.assertEquals(endpoint, getAppDataRequest.getEndpoint());
     }
-
 
     @Test
     public final void testBody() {
-        Map<String, Object> body = setAppDataRequest.getBody();
-
-        Assert.assertNotNull(body);
-        Assert.assertEquals(body.size(), 2);
-        Assert.assertTrue(body.containsKey("name"));
-        Assert.assertTrue(body.containsKey("value"));
-        Assert.assertEquals(nameValue, body.get("name"));
-        Assert.assertEquals(numericValue, body.get("value"));
-
+        Map<String, Object> body = getAppDataRequest.getBody();
+        Assert.assertNull(body);
     }
 
     @Test
     public final void testHeader() {
-        Map<String, String> header = setAppDataRequest.getHeaders();
+        Map<String, String> header = getAppDataRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 2);
@@ -122,19 +101,20 @@ public class TestSetAppDataRequest {
 
     @Test
     public final void testQuery() {
-        Map<String, Object> query = setAppDataRequest.getQuery();
-
+        Map<String, Object> query = getAppDataRequest.getQuery();
         Assert.assertNull(query);
     }
 
     @Test
     public final void testFormEncodedURLs() {
-        Assert.assertFalse(setAppDataRequest.getFormEncodeUrls());
+        Assert.assertFalse(getAppDataRequest.getFormEncodeUrls());
     }
 
     @After
     public void unSetup() throws Throwable {
         environment = null;
-        setAppDataRequest = null;
+        getAppDataRequest = null;
     }
+
+
 }

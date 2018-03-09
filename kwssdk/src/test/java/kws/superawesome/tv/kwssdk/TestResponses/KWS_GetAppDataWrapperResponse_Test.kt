@@ -1,28 +1,28 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.AppData
-import kws.superawesome.tv.kwssdk.base.responses.AppDataDetails
+import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
+import kws.superawesome.tv.kwssdk.base.models.AppData
 import org.junit.Test
 
 /**
  * Created by guilherme.mota on 08/01/2018.
  */
-class KWS_GetAppDataResponse_Test {
+class KWS_GetAppDataWrapperResponse_Test {
 
     @Test
     fun Check_Response_Valid_AppData() {
 
         //given
-        val listOfAppDataDetails = ArrayList<AppDataDetails>()
-        listOfAppDataDetails.add(AppDataDetails(name = "new_val1", value = 1))
-        listOfAppDataDetails.add(AppDataDetails(name = "new_val2", value = 2))
-        listOfAppDataDetails.add(AppDataDetails(name = "new_val3", value = 3))
+        val listOfAppDataDetails = ArrayList<AppData>()
+        listOfAppDataDetails.add(AppData(name = "new_val1", value = 1))
+        listOfAppDataDetails.add(AppData(name = "new_val2", value = 2))
+        listOfAppDataDetails.add(AppData(name = "new_val3", value = 3))
 
         val offSet = 0
         val limit = 1000
 
         //when
-        val getLeaders = AppData(
+        val getLeaders = AppDataWrapper(
                 results = listOfAppDataDetails,
                 count = listOfAppDataDetails.size,
                 offset = offSet,
@@ -42,12 +42,12 @@ class KWS_GetAppDataResponse_Test {
     fun Check_Response_Not_Valid_AppData() {
 
         //given
-        val listOfLeaderDetails: ArrayList<AppDataDetails> = ArrayList()
+        val listOfLeaderDetails: ArrayList<AppData> = ArrayList()
         val offSet = 0
         val limit = 0
 
         //when
-        val getLeaders = AppData(
+        val getLeaders = AppDataWrapper(
                 results = listOfLeaderDetails,
                 count = listOfLeaderDetails.size,
                 offset = offSet,
