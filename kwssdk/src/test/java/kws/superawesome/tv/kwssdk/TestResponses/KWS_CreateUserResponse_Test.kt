@@ -21,12 +21,12 @@ class KWS_CreateUserResponse_Test {
 
 
         //when
-        val createUserResponse = CreateUser(token = token, userId = id)
+        val createUserResponse = CreateUser(token = token, id = id)
 
         //then
 //        assertNotNull(createUserResponse)
 //        assertEquals(createUserResponse.token, token)
-//        assertEquals(createUserResponse.userId, userId)
+//        assertEquals(createUserResponse.id, id)
 
 
     }
@@ -36,17 +36,17 @@ class KWS_CreateUserResponse_Test {
 
 
         //given
-        val token = null
+        val token = ""
         val id = 0
 
         //when
-        val createUserResponse = CreateUser(token = token, userId = id)
+        val createUserResponse = CreateUser(token = token, id = id)
 
 
         //then
 //        assertNotNull(createUserResponse)
 //        assertNull(createUserResponse.token, token)
-//        assertEquals(createUserResponse.userId, userId)
+//        assertEquals(createUserResponse.id, id)
 
 
     }

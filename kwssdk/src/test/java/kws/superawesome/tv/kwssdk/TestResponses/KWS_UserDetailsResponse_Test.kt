@@ -48,7 +48,7 @@ class KWS_UserDetailsResponse_Test {
 
         //then
 //        assertNotNull(getUserDetails)
-//        assertNotNull(getUserDetails.userId)
+//        assertNotNull(getUserDetails.id)
 //        assertNotNull(getUserDetails.name)
 //        assertNotNull(getUserDetails.dateOfBirth)
 
@@ -95,7 +95,7 @@ class KWS_UserDetailsResponse_Test {
         )
         //then
 //        assertNotNull(getUserDetails)
-//        assertNull(getUserDetails.userId)
+//        assertNull(getUserDetails.id)
 //        assertNull(getUserDetails.name)
 //        assertNull(getUserDetails.dateOfBirth)
 

@@ -1,8 +1,9 @@
 package kws.superawesome.tv.kwssdk.base.models
 
-import com.google.gson.annotations.SerializedName
+import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel
 
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-data class RandomUsername(val randomUsername: String? = null)
+data class RandomUsername(
+        override val randomUsername: String) : IRandomUsernameModel

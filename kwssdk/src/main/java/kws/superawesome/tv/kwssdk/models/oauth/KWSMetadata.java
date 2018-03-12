@@ -78,7 +78,7 @@ public class KWSMetadata extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject json) {
-        userId = SAJsonParser.getInt(json, "userId");
+        userId = SAJsonParser.getInt(json, "id");
         appId = SAJsonParser.getInt(json, "appId");
         clientId = SAJsonParser.getString(json, "clientId");
         scope = SAJsonParser.getString(json, "scope");
@@ -90,7 +90,7 @@ public class KWSMetadata extends SABaseObject implements Parcelable {
     @Override
     public JSONObject writeToJson() {
         return SAJsonParser.newObject(new Object[]{
-                "userId", userId,
+                "id", userId,
                 "appId", appId,
                 "clientId", clientId,
                 "scope", scope,

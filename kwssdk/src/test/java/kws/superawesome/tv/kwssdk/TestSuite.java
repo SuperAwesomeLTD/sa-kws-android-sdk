@@ -9,7 +9,7 @@ import kws.superawesome.tv.kwssdk.requests.TestGetAppDataWrapperRequest;
 import kws.superawesome.tv.kwssdk.requests.TestGetTempAccessTokenRequest;
 import kws.superawesome.tv.kwssdk.requests.TestHasTriggeredEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestInviteUserRequest;
-import kws.superawesome.tv.kwssdk.requests.TestLeadersRequest;
+import kws.superawesome.tv.kwssdk.requests.TestLeadersWrapperRequest;
 import kws.superawesome.tv.kwssdk.requests.TestLoginRequest;
 import kws.superawesome.tv.kwssdk.requests.TestOAuthUserTokenRequest;
 import kws.superawesome.tv.kwssdk.requests.TestPermissionsRequest;
@@ -19,7 +19,7 @@ import kws.superawesome.tv.kwssdk.requests.TestSetAppDataWrapperRequest;
 import kws.superawesome.tv.kwssdk.requests.TestTriggerEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_GetAppDataWrapper;
-import kws.superawesome.tv.kwssdk.services.app.TestAppService_GetLeaders;
+import kws.superawesome.tv.kwssdk.services.app.TestAppService_GetLeadersWrapper;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_SetAppDataWrapper;
 import kws.superawesome.tv.kwssdk.services.create_user.TestCreateUserService;
 import kws.superawesome.tv.kwssdk.services.events.TestEventsService_HasTriggeredEvent;
@@ -43,7 +43,7 @@ import kws.superawesome.tv.kwssdk.services.user.TestUserService_RequestPermissio
         TestGetTempAccessTokenRequest.class,
         TestHasTriggeredEventRequest.class,
         TestInviteUserRequest.class,
-        TestLeadersRequest.class,
+        TestLeadersWrapperRequest.class,
         TestLoginRequest.class,
         TestPermissionsRequest.class,
         TestRandomUsernameRequest.class,
@@ -56,7 +56,7 @@ import kws.superawesome.tv.kwssdk.services.user.TestUserService_RequestPermissio
         //Services
         //App
         TestAppService_GetAppDataWrapper.class,
-        TestAppService_GetLeaders.class,
+        TestAppService_GetLeadersWrapper.class,
         TestAppService_SetAppDataWrapper.class,
 
         //Login

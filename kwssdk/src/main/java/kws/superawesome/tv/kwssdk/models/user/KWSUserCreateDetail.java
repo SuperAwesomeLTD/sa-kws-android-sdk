@@ -54,7 +54,7 @@ public class KWSUserCreateDetail extends SABaseObject implements Parcelable {
     @Override
     public void readFromJson(JSONObject jsonObject) {
         status = SAJsonParser.getInt(jsonObject, "status");
-        userId = SAJsonParser.getInt(jsonObject, "userId");
+        userId = SAJsonParser.getInt(jsonObject, "id");
         token = SAJsonParser.getString(jsonObject, "token");
     }
 
@@ -62,7 +62,7 @@ public class KWSUserCreateDetail extends SABaseObject implements Parcelable {
     public JSONObject writeToJson() {
         return SAJsonParser.newObject(new Object[] {
                 "status", status,
-                "userId", userId,
+                "id", userId,
                 "token", token
         });
     }

@@ -24,7 +24,7 @@ class KWS_AppConfigWrapperResponse_Test {
         //then
 //        assertNotNull(appConfigAppObjectResponse)
 //        assertNotNull(getRandomUsername)
-//        assertEquals(appConfigAppObjectResponse.userId, userId)
+//        assertEquals(appConfigAppObjectResponse.id, id)
 //        assertEquals(appConfigAppObjectResponse.name, name)
 
 
@@ -47,7 +47,7 @@ class KWS_AppConfigWrapperResponse_Test {
 //        assertNotNull(appConfigAppObjectResponse)
 //        assertNotNull(getRandomUsername)
 //        assertNull(appConfigAppObjectResponse.name)
-//        assertEquals(appConfigAppObjectResponse.userId, userId)
+//        assertEquals(appConfigAppObjectResponse.id, id)
 
 
     }

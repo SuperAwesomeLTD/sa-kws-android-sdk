@@ -23,8 +23,8 @@ import kws.superawesome.tv.kwssdk.base.models.Permissions;
 import kws.superawesome.tv.kwssdk.base.models.ApplicationProfile;
 import kws.superawesome.tv.kwssdk.base.models.CreateUser;
 import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent;
+import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper;
 import kws.superawesome.tv.kwssdk.base.models.Leaders;
-import kws.superawesome.tv.kwssdk.base.models.LeadersDetail;
 import kws.superawesome.tv.kwssdk.base.models.Login;
 import kws.superawesome.tv.kwssdk.base.models.Points;
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername;
@@ -639,12 +639,12 @@ public class KWSChildren {
                 return;
             }
 
-            appService.getLeaders(loggedUser.metadata.appId, loggedUser.token, new Function2<Leaders, Throwable, Unit>() {
+            appService.getLeaders(loggedUser.metadata.appId, loggedUser.token, new Function2<LeadersWrapper, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Leaders leaders, Throwable throwable) {
+                public Unit invoke(LeadersWrapper leadersWrapper, Throwable throwable) {
 
-                    if (leaders != null) {
-                        ArrayList<KWSLeader> listOfKWSLeader = getListOfKWSLeaders(leaders.getResults());
+                    if (leadersWrapper != null) {
+                        ArrayList<KWSLeader> listOfKWSLeader = getListOfKWSLeaders(leadersWrapper.getResults());
                         listener.didGetLeaderboard(listOfKWSLeader);
 
                     } else {
@@ -654,22 +654,22 @@ public class KWSChildren {
                     return null;
                 }
 
-                private ArrayList<KWSLeader> getListOfKWSLeaders(ArrayList<LeadersDetail> results) {
+                private ArrayList<KWSLeader> getListOfKWSLeaders(ArrayList<Leaders> results) {
 
                     ArrayList<KWSLeader> listOfKWSLeader = new ArrayList<>();
 
-                    for (LeadersDetail leadersDetail : results) {
-                        KWSLeader builtKWSLeaderObject = buildKWSLeaderObject(leadersDetail);
+                    for (Leaders leaders : results) {
+                        KWSLeader builtKWSLeaderObject = buildKWSLeaderObject(leaders);
                         listOfKWSLeader.add(builtKWSLeaderObject);
                     }
                     return listOfKWSLeader;
                 }
 
-                private KWSLeader buildKWSLeaderObject(LeadersDetail leadersDetail) {
+                private KWSLeader buildKWSLeaderObject(Leaders leaders) {
                     KWSLeader kwsLeader = new KWSLeader();
-                    kwsLeader.rank = leadersDetail.getRank();
-                    kwsLeader.score = leadersDetail.getScore();
-                    kwsLeader.user = leadersDetail.getUser();
+                    kwsLeader.rank = leaders.getRank();
+                    kwsLeader.score = leaders.getScore();
+                    kwsLeader.user = leaders.getName();
                     return kwsLeader;
                 }
             });

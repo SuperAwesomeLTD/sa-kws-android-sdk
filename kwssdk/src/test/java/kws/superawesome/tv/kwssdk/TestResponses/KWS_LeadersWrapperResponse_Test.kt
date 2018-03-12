@@ -1,30 +1,30 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
+import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper
 import kws.superawesome.tv.kwssdk.base.models.Leaders
-import kws.superawesome.tv.kwssdk.base.models.LeadersDetail
 import org.junit.Test
 
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
-class KWS_LeadersResponse_Test {
+class KWS_LeadersWrapperResponse_Test {
 
 
     @Test
     fun Check_Response_Valid_Leaders() {
 
         //given
-        val listOfLeaderDetails = ArrayList<LeadersDetail>()
-        listOfLeaderDetails.add(LeadersDetail(user = "tersturs1234", score = 11, rank = 1))
-        listOfLeaderDetails.add(LeadersDetail(user = "tersturs4567", score = 12, rank = 2))
-        listOfLeaderDetails.add(LeadersDetail(user = "tersturs7891", score = 13, rank = 3))
-        listOfLeaderDetails.add(LeadersDetail(user = "tersturs2345", score = 14, rank = 4))
+        val listOfLeaderDetails = ArrayList<Leaders>()
+        listOfLeaderDetails.add(Leaders(name = "tersturs1234", score = 11, rank = 1))
+        listOfLeaderDetails.add(Leaders(name = "tersturs4567", score = 12, rank = 2))
+        listOfLeaderDetails.add(Leaders(name = "tersturs7891", score = 13, rank = 3))
+        listOfLeaderDetails.add(Leaders(name = "tersturs2345", score = 14, rank = 4))
 
         val offSet = 0
         val limit = 1000
 
         //when
-        val getLeaders = Leaders(
+        val getLeaders = LeadersWrapper(
                 results = listOfLeaderDetails,
                 count = listOfLeaderDetails.size,
                 offset = offSet,
@@ -45,14 +45,14 @@ class KWS_LeadersResponse_Test {
     fun Check_Response_Not_Valid_Leaders() {
 
         //given
-        val listOfLeaderDetails: ArrayList<LeadersDetail> = ArrayList()
+        val listOfLeaders: ArrayList<Leaders> = ArrayList()
         val offSet = 0
         val limit = 0
 
         //when
-        val getLeaders = Leaders(
-                results = listOfLeaderDetails,
-                count = listOfLeaderDetails.size,
+        val getLeaders = LeadersWrapper(
+                results = listOfLeaders,
+                count = listOfLeaders.size,
                 offset = offSet,
                 limit = limit
         )

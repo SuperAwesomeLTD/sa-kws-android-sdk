@@ -30,7 +30,7 @@ class KWS_RandomUsernameResponse_Test {
 
 
         //given
-        val randomUsername = null
+        val randomUsername = ""
 
         //when
         val getRandomUsername = RandomUsername(randomUsername = randomUsername)

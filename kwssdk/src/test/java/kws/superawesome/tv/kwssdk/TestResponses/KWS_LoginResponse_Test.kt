@@ -17,8 +17,10 @@ class KWS_LoginResponse_Test {
                 "WQiOiJzdXBlcmF3ZXNvbWVjbHViIiwic2NvcGUiOiJzc28sdXNlciIsImlhdCI6MTUxMzI0OTQ1MSwiZXhwIjox" +
                 "NTEzMzM1ODUxLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.nvY6HhRvxMv5fgVRTm1CJeRMTtso5Ex_nuDns4pMRas"
 
+        val id = 123
+
         //when
-        val loginResponse = Login(token = token)
+        val loginResponse = Login(token = token, id = id)
 
         //then
 //        assertNotNull(loginResponse)

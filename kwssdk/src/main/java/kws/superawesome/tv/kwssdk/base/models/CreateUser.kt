@@ -10,4 +10,4 @@ data class CreateUser(@SerializedName("token")
                       override val token: String,
 
                       @SerializedName("id")
-                      override val userId: Int = 0) : ILoggedUserModel
+                      override val id: Int) : ILoggedUserModel

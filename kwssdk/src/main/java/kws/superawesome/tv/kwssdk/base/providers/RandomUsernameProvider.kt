@@ -27,7 +27,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
             if (appConfigWrapper?.app != null && networkError == null) {
 
-                //get userId from configs
+                //get id from configs
                 appConfigWrapper.app.id?.let {
 
                     //Actually get random user
