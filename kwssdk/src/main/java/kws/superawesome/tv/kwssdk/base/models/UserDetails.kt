@@ -7,44 +7,43 @@ import tv.superawesome.protobufs.models.user.IUserDetailsModel
  * Created by guilherme.mota on 03/01/2018.
  */
 data class UserDetails(@SerializedName("id")
-                       override val id: Int = 0,
+                       override val id: Int,
 
                        @SerializedName("username")
-                       override val name: String? = null,
+                       override val name: String?,
 
                        @SerializedName("firstName")
-                       override val firstName: String? = null,
+                       override val firstName: String?,
 
                        @SerializedName("lastName")
-                       override val lastName: String? = null,
+                       override val lastName: String?,
 
                        @SerializedName("address")
                        override val address: Address? = null,
 
                        @SerializedName("dateOfBirth")
-                       override val dateOfBirth: String? = null,
+                       override val dateOfBirth: String?,
 
                        @SerializedName("gender")
-                       override val gender: String? = null,
+                       override val gender: String?,
 
                        @SerializedName("language")
-                       override val language: String? = null,
+                       override val language: String?,
 
                        @SerializedName("email")
-                       override val email: String? = null,
+                       override val email: String?,
 
                        @SerializedName("hasSetParentEmail")
-                       override val hasSetParentEmail: Boolean? = null,
+                       override val hasSetParentEmail: Boolean?,
 
                        @SerializedName("applicationProfile")
                        override val applicationProfile: ApplicationProfile? = null,
 
                        @SerializedName("applicationPermissions")
-                       //TODO this
                        override val applicationPermissions: Permissions? = null,
 
                        @SerializedName("points")
                        override val points: Points? = null,
 
                        @SerializedName("createdAt")
-                       override val createdAt: String? = null ) : IUserDetailsModel
+                       override val createdAt: String?) : IUserDetailsModel

@@ -3,8 +3,8 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
-import kws.superawesome.tv.kwssdk.base.models.CreateUser
-import kws.superawesome.tv.kwssdk.base.models.Login
+import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse
+import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService
 import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
 import tv.superawesome.samobilebase.network.NetworkTask
@@ -28,12 +28,12 @@ constructor(private val environment: KWSNetworkEnvironment,
                             dateOfBirth: String,
                             country: String,
                             parentEmail: String,
-                            callback: (user: CreateUser?, error: Throwable?) -> Unit) {
+                            callback: (userResponse: AuthUserResponse?, error: Throwable?) -> Unit) {
 
-        getTempAccessToken(environment = environment) { login: Login?, networkError: Throwable? ->
+        getTempAccessToken(environment = environment) { loginAuthResponse: LoginAuthResponse?, networkError: Throwable? ->
 
-            if (login?.token != null && networkError == null) {
-                val token = login.token
+            if (loginAuthResponse?.token != null && networkError == null) {
+                val token = loginAuthResponse.token
 
                 val base64req = ParseBase64Request(base64String = token)
                 val base64Task = ParseBase64Task()
@@ -63,7 +63,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
 
     private fun getTempAccessToken(environment: KWSNetworkEnvironment,
-                                    callback: (login: Login?, error: Throwable?) -> Unit) {
+                                    callback: (loginAuthResponse: LoginAuthResponse?, error: Throwable?) -> Unit) {
 
         val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
                 environment = environment,
@@ -77,8 +77,8 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 val parseRequest = ParseJsonRequest(rawString = getTempAccessTokenNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val getTemAccessResponseObject = parseTask.execute<Login>(input = parseRequest,
-                        clazz = Login::class.java)
+                val getTemAccessResponseObject = parseTask.execute<LoginAuthResponse>(input = parseRequest,
+                        clazz = LoginAuthResponse::class.java)
                 //
                 //send callback
                 val error = if (getTemAccessResponseObject != null) null else Throwable("Error - couldn't parse JWT")
@@ -101,7 +101,7 @@ constructor(private val environment: KWSNetworkEnvironment,
                                 parentEmail: String,
                                 appId: Int,
                                 token: String,
-                                callback: (createdUser: CreateUser?, error: Throwable?) -> Unit) {
+                                callback: (createdUserResponse: AuthUserResponse?, error: Throwable?) -> Unit) {
 
 
         val createUserNetworkRequest = CreateUserRequest(
@@ -121,8 +121,8 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 val parseRequest = ParseJsonRequest(rawString = createUserNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val createUserResponseObject = parseTask.execute<CreateUser>(input = parseRequest,
-                        clazz = CreateUser::class.java)
+                val createUserResponseObject = parseTask.execute<AuthUserResponse>(input = parseRequest,
+                        clazz = AuthUserResponse::class.java)
 
                 val error = if (createUserResponseObject != null) null else Throwable("Error - invalid create user")
 

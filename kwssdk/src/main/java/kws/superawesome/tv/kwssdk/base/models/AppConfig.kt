@@ -10,4 +10,4 @@ data class AppConfig(@SerializedName("id")
                      override val id: Int,
 
                      @SerializedName("name")
-                     override val name: String? = null) : IAppConfigModel
+                     override val name: String?) : IAppConfigModel

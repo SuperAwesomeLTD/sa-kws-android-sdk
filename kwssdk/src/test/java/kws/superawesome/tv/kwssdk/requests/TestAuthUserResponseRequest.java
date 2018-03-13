@@ -18,7 +18,7 @@ import tv.superawesome.samobilebase.network.NetworkMethod;
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestCreateUserRequest {
+public class TestAuthUserResponseRequest {
 
     //class to be tested
     private CreateUserRequest createUserRequest;

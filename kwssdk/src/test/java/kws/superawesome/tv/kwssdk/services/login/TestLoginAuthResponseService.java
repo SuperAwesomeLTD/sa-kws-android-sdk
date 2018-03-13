@@ -12,7 +12,7 @@ import kws.superawesome.tv.kwssdk.services.TestBaseService;
  * Created by guilherme.mota on 10/01/2018.
  */
 
-public class TestLoginService extends TestBaseService {
+public class TestLoginAuthResponseService extends TestBaseService {
 
     // class to test
     protected LoginService service;

@@ -7,13 +7,13 @@ import tv.superawesome.protobufs.models.address.IAddressModel
  * Created by guilherme.mota on 03/01/2018.
  */
 data class Address(@SerializedName("street")
-                   override val street: String? = "",
+                   override val street: String?,
 
                    @SerializedName("city")
-                   override val city: String? = "",
+                   override val city: String?,
 
                    @SerializedName("postCode")
-                   override val postCode: String? = "",
+                   override val postCode: String?,
 
                    @SerializedName("country")
-                   override val country: String? = "") : IAddressModel
+                   override val country: String?) : IAddressModel

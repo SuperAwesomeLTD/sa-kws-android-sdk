@@ -7,4 +7,4 @@ import tv.superawesome.protobufs.models.score.IHasTriggeredEventModel
  * Created by guilherme.mota on 05/01/2018.
  */
 data class HasTriggeredEvent(@SerializedName("hasTriggeredEvent")
-                             override val hasTriggeredModel: Boolean = false) : IHasTriggeredEventModel
+                             override val hasTriggeredModel: Boolean) : IHasTriggeredEventModel

@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.services
 
-import kws.superawesome.tv.kwssdk.base.models.CreateUser
+import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse
 
 /**
  * Created by guilherme.mota on 11/12/2017.
@@ -12,7 +12,7 @@ interface CreateUserService : BaseService {
                    dateOfBirth: String,
                    country: String,
                    parentEmail: String,
-                   callback: (user: CreateUser?, error: Throwable?) -> Unit
+                   callback: (userResponse: AuthUserResponse?, error: Throwable?) -> Unit
     )
 
 

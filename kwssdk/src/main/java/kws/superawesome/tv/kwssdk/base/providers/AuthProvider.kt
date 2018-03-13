@@ -6,7 +6,7 @@ import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
 import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
-import kws.superawesome.tv.kwssdk.base.models.Login
+import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
 import kws.superawesome.tv.kwssdk.base.services.AuthService
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.base.webauth.OAuthCodeTask
@@ -94,8 +94,8 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 val parseRequest = ParseJsonRequest(rawString = oAuthTokenNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val oauthResponseObject = parseTask.execute<Login>(input = parseRequest,
-                        clazz = Login::class.java)
+                val oauthResponseObject = parseTask.execute<LoginAuthResponse>(input = parseRequest,
+                        clazz = LoginAuthResponse::class.java)
 
                 val base64req = ParseBase64Request(base64String = oauthResponseObject?.token)
                 val base64Task = ParseBase64Task()

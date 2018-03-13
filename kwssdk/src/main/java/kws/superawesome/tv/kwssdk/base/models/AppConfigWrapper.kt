@@ -7,4 +7,4 @@ import tv.superawesome.protobufs.models.config.IAppConfigWrapperModel
  * Created by guilherme.mota on 29/12/2017.
  */
 data class AppConfigWrapper(@SerializedName("app")
-                            override val app: AppConfig?) : IAppConfigWrapperModel
+                            override val app: AppConfig? = null) : IAppConfigWrapperModel

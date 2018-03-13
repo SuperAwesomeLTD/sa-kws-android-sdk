@@ -21,11 +21,11 @@ import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper;
 import kws.superawesome.tv.kwssdk.base.models.AppData;
 import kws.superawesome.tv.kwssdk.base.models.Permissions;
 import kws.superawesome.tv.kwssdk.base.models.ApplicationProfile;
-import kws.superawesome.tv.kwssdk.base.models.CreateUser;
+import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse;
 import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper;
 import kws.superawesome.tv.kwssdk.base.models.Leaders;
-import kws.superawesome.tv.kwssdk.base.models.Login;
+import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse;
 import kws.superawesome.tv.kwssdk.base.models.Points;
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.models.Score;
@@ -207,9 +207,9 @@ public class KWSChildren {
 
         if (createUserService != null) {
             createUserService.createUser(username, password, dateOfBirth, country, parentEmail,
-                    new Function2<CreateUser, Throwable, Unit>() {
+                    new Function2<AuthUserResponse, Throwable, Unit>() {
                         @Override
-                        public Unit invoke(CreateUser createdUser, Throwable throwable) {
+                        public Unit invoke(AuthUserResponse createdUser, Throwable throwable) {
 
                             if (createdUser != null) {
                                 String token = createdUser.getToken();
@@ -239,12 +239,12 @@ public class KWSChildren {
         LoginService loginService = KWSSDK.get(kwsEnvironment, LoginService.class);
 
         if (loginService != null) {
-            loginService.loginUser(username, password, new Function2<Login, Throwable, Unit>() {
+            loginService.loginUser(username, password, new Function2<LoginAuthResponse, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Login login, Throwable throwable) {
+                public Unit invoke(LoginAuthResponse loginAuthResponse, Throwable throwable) {
 
-                    if (login != null) {
-                        String token = login.getToken();
+                    if (loginAuthResponse != null) {
+                        String token = loginAuthResponse.getToken();
                         KWSMetadata kwsMetadata = getMetadataFromToken(token);
                         if (kwsMetadata != null && kwsMetadata.isValid()) {
                             LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);

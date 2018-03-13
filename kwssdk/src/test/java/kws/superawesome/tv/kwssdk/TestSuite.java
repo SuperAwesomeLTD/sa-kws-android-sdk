@@ -4,13 +4,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import kws.superawesome.tv.kwssdk.requests.TestAppConfigWrapperRequest;
-import kws.superawesome.tv.kwssdk.requests.TestCreateUserRequest;
+import kws.superawesome.tv.kwssdk.requests.TestAuthUserResponseRequest;
 import kws.superawesome.tv.kwssdk.requests.TestGetAppDataWrapperRequest;
 import kws.superawesome.tv.kwssdk.requests.TestGetTempAccessTokenRequest;
 import kws.superawesome.tv.kwssdk.requests.TestHasTriggeredEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestInviteUserRequest;
 import kws.superawesome.tv.kwssdk.requests.TestLeadersWrapperRequest;
-import kws.superawesome.tv.kwssdk.requests.TestLoginRequest;
+import kws.superawesome.tv.kwssdk.requests.TestLoginAuthResponseRequest;
 import kws.superawesome.tv.kwssdk.requests.TestOAuthUserTokenRequest;
 import kws.superawesome.tv.kwssdk.requests.TestPermissionsRequest;
 import kws.superawesome.tv.kwssdk.requests.TestRandomUsernameRequest;
@@ -21,10 +21,10 @@ import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_GetAppDataWrapper;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_GetLeadersWrapper;
 import kws.superawesome.tv.kwssdk.services.app.TestAppService_SetAppDataWrapper;
-import kws.superawesome.tv.kwssdk.services.create_user.TestCreateUserService;
+import kws.superawesome.tv.kwssdk.services.create_user.TestAuthUserResponseService;
 import kws.superawesome.tv.kwssdk.services.events.TestEventsService_HasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.services.events.TestEventsService_TriggerEvent;
-import kws.superawesome.tv.kwssdk.services.login.TestLoginService_Login;
+import kws.superawesome.tv.kwssdk.services.login.TestLoginService_LoginAuthResponse;
 import kws.superawesome.tv.kwssdk.services.random_username.TestRandomUsernameService;
 import kws.superawesome.tv.kwssdk.services.user.TestUserService_GetScore;
 import kws.superawesome.tv.kwssdk.services.user.TestUserService_GetUserDetails;
@@ -38,13 +38,13 @@ import kws.superawesome.tv.kwssdk.services.user.TestUserService_RequestPermissio
 @Suite.SuiteClasses({
         //Requests
         TestAppConfigWrapperRequest.class,
-        TestCreateUserRequest.class,
+        TestAuthUserResponseRequest.class,
         TestGetAppDataWrapperRequest.class,
         TestGetTempAccessTokenRequest.class,
         TestHasTriggeredEventRequest.class,
         TestInviteUserRequest.class,
         TestLeadersWrapperRequest.class,
-        TestLoginRequest.class,
+        TestLoginAuthResponseRequest.class,
         TestPermissionsRequest.class,
         TestRandomUsernameRequest.class,
         TestScoreRequest.class,
@@ -59,11 +59,11 @@ import kws.superawesome.tv.kwssdk.services.user.TestUserService_RequestPermissio
         TestAppService_GetLeadersWrapper.class,
         TestAppService_SetAppDataWrapper.class,
 
-        //Login
-        TestLoginService_Login.class,
+        //LoginAuthResponse
+        TestLoginService_LoginAuthResponse.class,
 
         //Create User
-        TestCreateUserService.class,
+        TestAuthUserResponseService.class,
 
         //Events
         TestEventsService_TriggerEvent.class,

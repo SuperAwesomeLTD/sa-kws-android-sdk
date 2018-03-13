@@ -1,13 +1,13 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.models.Login
+import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
  * Created by guilherme.mota on 14/12/2017.
  */
-class KWS_LoginResponse_Test {
+class KWS_LoginAuthResponseResponse_Test {
 
     @Test
     fun Check_Response_Valid_Token() {
@@ -20,7 +20,7 @@ class KWS_LoginResponse_Test {
         val id = 123
 
         //when
-        val loginResponse = Login(token = token, id = id)
+        val loginResponse = LoginAuthResponse(token = token, id = id)
 
         //then
 //        assertNotNull(loginResponse)
@@ -37,7 +37,7 @@ class KWS_LoginResponse_Test {
         val token = null
 
         //when
-//        val loginResponse = Login(token)
+//        val loginResponse = LoginAuthResponse(token)
 
         //then
 //        assertNotNull(loginResponse)
