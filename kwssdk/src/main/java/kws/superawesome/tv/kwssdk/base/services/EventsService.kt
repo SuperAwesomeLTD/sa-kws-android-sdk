@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.services
 
-import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent
+import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent
 
 /**
  * Created by guilherme.mota on 04/01/2018.

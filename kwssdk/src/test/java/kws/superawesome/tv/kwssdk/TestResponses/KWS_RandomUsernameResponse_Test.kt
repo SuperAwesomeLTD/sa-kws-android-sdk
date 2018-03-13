@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.RandomUsername
+import kws.superawesome.tv.kwssdk.base.models.RandomUsername
 import org.junit.Test
 
 /**
@@ -30,7 +30,7 @@ class KWS_RandomUsernameResponse_Test {
 
 
         //given
-        val randomUsername = null
+        val randomUsername = ""
 
         //when
         val getRandomUsername = RandomUsername(randomUsername = randomUsername)

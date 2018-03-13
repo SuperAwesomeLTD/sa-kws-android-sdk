@@ -5,8 +5,8 @@ import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
-import kws.superawesome.tv.kwssdk.base.responses.Score
-import kws.superawesome.tv.kwssdk.base.responses.UserDetails
+import kws.superawesome.tv.kwssdk.base.models.Score
+import kws.superawesome.tv.kwssdk.base.models.UserDetails
 import kws.superawesome.tv.kwssdk.base.services.UserService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.responses.Score;
+import kws.superawesome.tv.kwssdk.base.models.Score;
 
 /**
  * Created by guilherme.mota on 17/01/2018.

@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.TestResponses
 
-import kws.superawesome.tv.kwssdk.base.responses.*
+import kws.superawesome.tv.kwssdk.base.models.*
 import org.junit.Test
 
 /**
@@ -12,18 +12,18 @@ class KWS_UserDetailsResponse_Test {
     fun Check_Response_Valid_User_Details() {
 
         //given
-        val id: Int? = 25
+        val id: Int = 25
         val username: String? = "coolgabriel12345"
         val firstName: String? = null
         val lastName: String? = null
-        val address: UserAddress? = null
+        val address: Address? = null
         val dateOfBirth: String? = "2011-03-22"
         val gender: String? = null
         val language: String? = null
         val email: String? = null
         val hasSetParentEmail: Boolean? = null
         val applicationProfile: ApplicationProfile? = null
-        val applicationPermissions: ApplicationPermissions? = null
+        val permissions: Permissions? = null
         val points: Points? = null
         val createdAt: String? = null
 
@@ -31,7 +31,7 @@ class KWS_UserDetailsResponse_Test {
         //when
         val getUserDetails = UserDetails(
                 id = id,
-                username = username,
+                name = username,
                 firstName = firstName,
                 lastName = lastName,
                 address = address,
@@ -41,7 +41,7 @@ class KWS_UserDetailsResponse_Test {
                 email = email,
                 hasSetParentEmail = hasSetParentEmail,
                 applicationProfile = applicationProfile,
-                applicationPermissions = applicationPermissions,
+                applicationPermissions = permissions,
                 points = points,
                 createdAt = createdAt
         )
@@ -49,7 +49,7 @@ class KWS_UserDetailsResponse_Test {
         //then
 //        assertNotNull(getUserDetails)
 //        assertNotNull(getUserDetails.id)
-//        assertNotNull(getUserDetails.username)
+//        assertNotNull(getUserDetails.name)
 //        assertNotNull(getUserDetails.dateOfBirth)
 
 
@@ -60,18 +60,18 @@ class KWS_UserDetailsResponse_Test {
 
 
         //given
-        val id: Int? = null
+        val id: Int = 0
         val username: String? = null
         val firstName: String? = null
         val lastName: String? = null
-        val address: UserAddress? = null
+        val address: Address? = null
         val dateOfBirth: String? = null
         val gender: String? = null
         val language: String? = null
         val email: String? = null
         val hasSetParentEmail: Boolean? = null
         val applicationProfile: ApplicationProfile? = null
-        val applicationPermissions: ApplicationPermissions? = null
+        val permissions: Permissions? = null
         val points: Points? = null
         val createdAt: String? = null
 
@@ -79,7 +79,7 @@ class KWS_UserDetailsResponse_Test {
         //when
         val getUserDetails = UserDetails(
                 id = id,
-                username = username,
+                name = username,
                 firstName = firstName,
                 lastName = lastName,
                 address = address,
@@ -89,14 +89,14 @@ class KWS_UserDetailsResponse_Test {
                 email = email,
                 hasSetParentEmail = hasSetParentEmail,
                 applicationProfile = applicationProfile,
-                applicationPermissions = applicationPermissions,
+                applicationPermissions = permissions,
                 points = points,
                 createdAt = createdAt
         )
         //then
 //        assertNotNull(getUserDetails)
 //        assertNull(getUserDetails.id)
-//        assertNull(getUserDetails.username)
+//        assertNull(getUserDetails.name)
 //        assertNull(getUserDetails.dateOfBirth)
 
     }

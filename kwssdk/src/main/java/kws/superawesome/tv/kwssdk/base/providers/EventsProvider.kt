@@ -3,7 +3,7 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.HasTriggeredEventRequest
 import kws.superawesome.tv.kwssdk.base.requests.TriggerEventRequest
-import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent
+import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent
 import kws.superawesome.tv.kwssdk.base.services.EventsService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest

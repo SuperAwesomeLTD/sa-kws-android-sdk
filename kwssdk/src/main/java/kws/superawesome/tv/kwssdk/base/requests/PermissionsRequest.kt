@@ -9,9 +9,9 @@ import tv.superawesome.samobilebase.network.NetworkMethod
  */
 /*internal*/
 class PermissionsRequest(environment: KWSNetworkEnvironment,
-                                  userId: Int,
-                                  token: String,
-                                  permissionsList: List<String>
+                         userId: Int,
+                         token: String,
+                         permissionsList: List<String>
 
 ) : BaseRequest(environment = environment, token = token) {
 

@@ -69,7 +69,7 @@ public class KWSApplicationProfile extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject jsonObject) {
-        username = SAJsonParser.getString(jsonObject, "username");
+        username = SAJsonParser.getString(jsonObject, "name");
         avatarId = SAJsonParser.getInt(jsonObject, "avatarId");
         customField1 = SAJsonParser.getInt(jsonObject, "customField1");
         customField2 = SAJsonParser.getInt(jsonObject, "customField2");
@@ -81,7 +81,7 @@ public class KWSApplicationProfile extends SABaseObject implements Parcelable {
     @Override
     public JSONObject writeToJson() {
         return SAJsonParser.newObject(new Object[]{
-                "username", username,
+                "name", username,
                 "avatarId", avatarId,
                 "customField1", customField1,
                 "customField2", customField2,

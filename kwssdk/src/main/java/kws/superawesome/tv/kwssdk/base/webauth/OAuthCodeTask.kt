@@ -2,7 +2,7 @@ package kws.superawesome.tv.kwssdk.base.webauth
 
 import android.util.Base64
 import android.util.Log
-import kws.superawesome.tv.kwssdk.base.models.OAuthData
+import kws.superawesome.tv.kwssdk.base.models.internal.OAuthData
 import tv.superawesome.samobilebase.Task
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest

@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                                 log += "User " + username + " created OK\n";
                                 break;
                             case InvalidUsername:
-                                log += "InvalidEmail username\n";
+                                log += "InvalidEmail name\n";
                                 break;
                             case InvalidPassword:
                                 log += "InvalidEmail password\n";
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                                 log += "InvalidEmail parent email\n";
                                 break;
                             case DuplicateUsername:
-                                log += "Duplicate username\n";
+                                log += "Duplicate name\n";
                                 break;
                             case NetworkError:
                                 log += "Network error\n";
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     public void loginUser(View v) {
 
         final String username = "guitestnumber4";
+//        final String username = "testguitest1";
         final String pwd = "testtest";
 
         KWSChildren.sdk.loginUser(this, username, pwd, new KWSChildrenLoginUserInterface() {
@@ -352,7 +353,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void triggerEvent(View v) {
-        KWSChildren.sdk.triggerEvent(this, "a7tzV7QLhlR0rS8KK98QcZgrQk3ur260", 20, new KWSChildrenTriggerEventInterface() {
+
+        String event = "8X9QneMSaxU2VzCBJI5YdxRGG7l3GOUw";
+
+        KWSChildren.sdk.triggerEvent(this, event, 20, new KWSChildrenTriggerEventInterface() {
             @Override
             public void didTriggerEvent(boolean success) {
                 log += "Triggered evt: " + success + "\n";

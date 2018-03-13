@@ -1,10 +1,10 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.models.AppConfigWrapper
+import kws.superawesome.tv.kwssdk.base.models.RandomUsername
 import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest
 import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest
-import kws.superawesome.tv.kwssdk.base.responses.AppConfig
-import kws.superawesome.tv.kwssdk.base.responses.RandomUsername
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
@@ -23,15 +23,17 @@ constructor(private val environment: KWSNetworkEnvironment,
     override fun getRandomUsername(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
 
-        getAppConfig(environment = environment) { appConfig: AppConfig?, networkError: Throwable? ->
+        getAppConfig(environment = environment) { appConfigWrapper: AppConfigWrapper?, networkError: Throwable? ->
 
-            if (appConfig?.appConfigAppObject != null && networkError == null) {
+            if (appConfigWrapper?.app != null && networkError == null) {
 
                 //get id from configs
-                val id = appConfig.appConfigAppObject.id
+                appConfigWrapper.app.id?.let {
 
-                //Actually get random user
-                fetchRandomUsernameFromBackend(environment = environment, id = id, callback = callback)
+                    //Actually get random user
+                    fetchRandomUsernameFromBackend(environment = environment, id = it, callback = callback)
+
+                }
             } else {
                 //
                 // network failure
@@ -44,7 +46,7 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
     private fun getAppConfig(environment: KWSNetworkEnvironment,
-                     callback: (appConfig: AppConfig?, error: Throwable?) -> Unit) {
+                             callback: (appConfigWrapper: AppConfigWrapper?, error: Throwable?) -> Unit) {
 
         val appConfigNetworkRequest = AppConfigRequest(
                 environment = environment,
@@ -58,8 +60,8 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 val parseRequest = ParseJsonRequest(rawString = appConfigNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val appConfigResponseObject = parseTask.execute<AppConfig>(input = parseRequest,
-                        clazz = AppConfig::class.java)
+                val appConfigResponseObject = parseTask.execute<AppConfigWrapper>(input = parseRequest,
+                        clazz = AppConfigWrapper::class.java)
 
                 //
                 // send callback
@@ -77,8 +79,8 @@ constructor(private val environment: KWSNetworkEnvironment,
 
 
     private fun fetchRandomUsernameFromBackend(environment: KWSNetworkEnvironment,
-                                       id: Int,
-                                       callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
+                                               id: Int,
+                                               callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
 
         val getRandomUsernameNetworkRequest = RandomUsernameRequest(
                 environment = environment,

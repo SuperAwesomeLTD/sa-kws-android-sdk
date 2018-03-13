@@ -16,21 +16,21 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.models.LoggedUser;
-import kws.superawesome.tv.kwssdk.base.responses.AppData;
-import kws.superawesome.tv.kwssdk.base.responses.AppDataDetails;
-import kws.superawesome.tv.kwssdk.base.responses.ApplicationPermissions;
-import kws.superawesome.tv.kwssdk.base.responses.ApplicationProfile;
-import kws.superawesome.tv.kwssdk.base.responses.CreateUser;
-import kws.superawesome.tv.kwssdk.base.responses.HasTriggeredEvent;
-import kws.superawesome.tv.kwssdk.base.responses.Leaders;
-import kws.superawesome.tv.kwssdk.base.responses.LeadersDetail;
-import kws.superawesome.tv.kwssdk.base.responses.Login;
-import kws.superawesome.tv.kwssdk.base.responses.Points;
-import kws.superawesome.tv.kwssdk.base.responses.RandomUsername;
-import kws.superawesome.tv.kwssdk.base.responses.Score;
-import kws.superawesome.tv.kwssdk.base.responses.UserAddress;
-import kws.superawesome.tv.kwssdk.base.responses.UserDetails;
+import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper;
+import kws.superawesome.tv.kwssdk.base.models.AppData;
+import kws.superawesome.tv.kwssdk.base.models.Permissions;
+import kws.superawesome.tv.kwssdk.base.models.ApplicationProfile;
+import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse;
+import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent;
+import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper;
+import kws.superawesome.tv.kwssdk.base.models.Leaders;
+import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse;
+import kws.superawesome.tv.kwssdk.base.models.Points;
+import kws.superawesome.tv.kwssdk.base.models.RandomUsername;
+import kws.superawesome.tv.kwssdk.base.models.Score;
+import kws.superawesome.tv.kwssdk.base.models.Address;
+import kws.superawesome.tv.kwssdk.base.models.UserDetails;
 import kws.superawesome.tv.kwssdk.base.services.AppService;
 import kws.superawesome.tv.kwssdk.base.services.AuthService;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
@@ -207,9 +207,9 @@ public class KWSChildren {
 
         if (createUserService != null) {
             createUserService.createUser(username, password, dateOfBirth, country, parentEmail,
-                    new Function2<CreateUser, Throwable, Unit>() {
+                    new Function2<AuthUserResponse, Throwable, Unit>() {
                         @Override
-                        public Unit invoke(CreateUser createdUser, Throwable throwable) {
+                        public Unit invoke(AuthUserResponse createdUser, Throwable throwable) {
 
                             if (createdUser != null) {
                                 String token = createdUser.getToken();
@@ -239,12 +239,12 @@ public class KWSChildren {
         LoginService loginService = KWSSDK.get(kwsEnvironment, LoginService.class);
 
         if (loginService != null) {
-            loginService.loginUser(username, password, new Function2<Login, Throwable, Unit>() {
+            loginService.loginUser(username, password, new Function2<LoginAuthResponse, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Login login, Throwable throwable) {
+                public Unit invoke(LoginAuthResponse loginAuthResponse, Throwable throwable) {
 
-                    if (login != null) {
-                        String token = login.getToken();
+                    if (loginAuthResponse != null) {
+                        String token = loginAuthResponse.getToken();
                         KWSMetadata kwsMetadata = getMetadataFromToken(token);
                         if (kwsMetadata != null && kwsMetadata.isValid()) {
                             LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
@@ -356,7 +356,7 @@ public class KWSChildren {
                         return null;
                     }
 
-                    kwsUser.username = userDetailsResponse.getUsername();
+                    kwsUser.username = userDetailsResponse.getName();
                     kwsUser.firstName = userDetailsResponse.getFirstName();
                     kwsUser.lastName = userDetailsResponse.getLastName();
                     kwsUser.dateOfBirth = userDetailsResponse.getDateOfBirth();
@@ -376,7 +376,7 @@ public class KWSChildren {
 
                     KWSApplicationProfile kwsApplicationProfile = new KWSApplicationProfile();
 
-                    kwsApplicationProfile.username = applicationProfileResponse.getUsername();
+                    kwsApplicationProfile.username = applicationProfileResponse.getName();
 
                     if (applicationProfileResponse.getAvatarId() != null) {
                         kwsApplicationProfile.avatarId = applicationProfileResponse.getAvatarId();
@@ -396,20 +396,20 @@ public class KWSChildren {
 
                 }
 
-                private KWSPermissions buildPermissions(ApplicationPermissions applicationPermissions) {
+                private KWSPermissions buildPermissions(Permissions permissions) {
 
                     KWSPermissions kwsPermissions = new KWSPermissions();
 
-                    kwsPermissions.accessAddress = applicationPermissions.getAccessAddress();
-                    kwsPermissions.accessFirstName = applicationPermissions.getAccessFirstName();
-                    kwsPermissions.accessLastName = applicationPermissions.getAccessLastName();
-                    kwsPermissions.accessEmail = applicationPermissions.getAccessEmail();
-                    kwsPermissions.accessStreetAddress = applicationPermissions.getAccessStreetAddress();
-                    kwsPermissions.accessCity = applicationPermissions.getAccessCity();
-                    kwsPermissions.accessPostalCode = applicationPermissions.getAccessPostalCode();
-                    kwsPermissions.accessCountry = applicationPermissions.getAccessCountry();
-                    kwsPermissions.sendPushNotification = applicationPermissions.getSendPushNotification();
-                    kwsPermissions.sendNewsletter = applicationPermissions.getSendNewsletter();
+                    kwsPermissions.accessAddress = permissions.getAddress();
+                    kwsPermissions.accessFirstName = permissions.getFirstName();
+                    kwsPermissions.accessLastName = permissions.getLastName();
+                    kwsPermissions.accessEmail = permissions.getEmail();
+                    kwsPermissions.accessStreetAddress = permissions.getStreetAddress();
+                    kwsPermissions.accessCity = permissions.getCity();
+                    kwsPermissions.accessPostalCode = permissions.getPostalCode();
+                    kwsPermissions.accessCountry = permissions.getCountry();
+                    kwsPermissions.sendPushNotification = permissions.getNotifications();
+                    kwsPermissions.sendNewsletter = permissions.getNewsletter();
 
                     return kwsPermissions;
 
@@ -417,20 +417,20 @@ public class KWSChildren {
 
                 private KWSPoints buildPoints(Points points) {
                     KWSPoints kwsPoints = new KWSPoints();
-                    if (points.getTotalReceived() != null) {
-                        kwsPoints.totalReceived = points.getTotalReceived();
+                    if (points.getReceived() != null) {
+                        kwsPoints.totalReceived = points.getReceived();
                     }
 
                     if (points.getTotal() != null) {
                         kwsPoints.total = points.getTotal();
                     }
 
-                    if (points.getTotalPointsReceivedInCurrentApp() != null) {
-                        kwsPoints.totalPointsReceivedInCurrentApp = points.getTotalPointsReceivedInCurrentApp();
+                    if (points.getInApp() != null) {
+                        kwsPoints.totalPointsReceivedInCurrentApp = points.getInApp();
                     }
 
-                    if (points.getAvailableBalance() != null) {
-                        kwsPoints.availableBalance = points.getAvailableBalance();
+                    if (points.getBalance() != null) {
+                        kwsPoints.availableBalance = points.getBalance();
                     }
 
                     if (points.getPending() != null) {
@@ -440,7 +440,7 @@ public class KWSChildren {
                     return kwsPoints;
                 }
 
-                private KWSAddress buildAddress(UserAddress addressResponse) {
+                private KWSAddress buildAddress(Address addressResponse) {
                     KWSAddress kwsAddress = new KWSAddress();
                     kwsAddress.street = addressResponse.getStreet();
                     kwsAddress.city = addressResponse.getCity();
@@ -459,7 +459,7 @@ public class KWSChildren {
         updateUser.execute(context, updatedUser, listener);
     }
 
-    // permissions
+    // applicationPermissions
     public void updateParentEmail(Context context, String email, KWSChildrenUpdateParentEmailInterface listener) {
         parentEmail.execute(context, email, listener);
     }
@@ -572,7 +572,7 @@ public class KWSChildren {
                 @Override
                 public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
 
-                    if (hasTriggeredEvent != null && hasTriggeredEvent.getHasTriggeredEvent()) {
+                    if (hasTriggeredEvent != null && hasTriggeredEvent.getHasTriggeredModel()) {
                         listener.didTriggerEvent(true);
                     } else {
                         listener.didTriggerEvent(false);
@@ -639,12 +639,12 @@ public class KWSChildren {
                 return;
             }
 
-            appService.getLeaders(loggedUser.metadata.appId, loggedUser.token, new Function2<Leaders, Throwable, Unit>() {
+            appService.getLeaders(loggedUser.metadata.appId, loggedUser.token, new Function2<LeadersWrapper, Throwable, Unit>() {
                 @Override
-                public Unit invoke(Leaders leaders, Throwable throwable) {
+                public Unit invoke(LeadersWrapper leadersWrapper, Throwable throwable) {
 
-                    if (leaders != null) {
-                        ArrayList<KWSLeader> listOfKWSLeader = getListOfKWSLeaders(leaders.getResults());
+                    if (leadersWrapper != null) {
+                        ArrayList<KWSLeader> listOfKWSLeader = getListOfKWSLeaders(leadersWrapper.getResults());
                         listener.didGetLeaderboard(listOfKWSLeader);
 
                     } else {
@@ -654,22 +654,22 @@ public class KWSChildren {
                     return null;
                 }
 
-                private ArrayList<KWSLeader> getListOfKWSLeaders(ArrayList<LeadersDetail> results) {
+                private ArrayList<KWSLeader> getListOfKWSLeaders(ArrayList<Leaders> results) {
 
                     ArrayList<KWSLeader> listOfKWSLeader = new ArrayList<>();
 
-                    for (LeadersDetail leadersDetail : results) {
-                        KWSLeader builtKWSLeaderObject = buildKWSLeaderObject(leadersDetail);
+                    for (Leaders leaders : results) {
+                        KWSLeader builtKWSLeaderObject = buildKWSLeaderObject(leaders);
                         listOfKWSLeader.add(builtKWSLeaderObject);
                     }
                     return listOfKWSLeader;
                 }
 
-                private KWSLeader buildKWSLeaderObject(LeadersDetail leadersDetail) {
+                private KWSLeader buildKWSLeaderObject(Leaders leaders) {
                     KWSLeader kwsLeader = new KWSLeader();
-                    kwsLeader.rank = leadersDetail.getRank();
-                    kwsLeader.score = leadersDetail.getScore();
-                    kwsLeader.user = leadersDetail.getUser();
+                    kwsLeader.rank = leaders.getRank();
+                    kwsLeader.score = leaders.getScore();
+                    kwsLeader.user = leaders.getName();
                     return kwsLeader;
                 }
             });
@@ -695,12 +695,12 @@ public class KWSChildren {
 
             appService.getAppData(loggedUser.metadata.appId,
                     loggedUser.metadata.userId,
-                    loggedUser.token, new Function2<AppData, Throwable, Unit>() {
+                    loggedUser.token, new Function2<AppDataWrapper, Throwable, Unit>() {
                         @Override
-                        public Unit invoke(AppData appData, Throwable throwable) {
+                        public Unit invoke(AppDataWrapper appDataWrapper, Throwable throwable) {
 
-                            if (appData != null) {
-                                ArrayList<KWSAppData> listOfKWSAppData = getListOfKWSAppData(appData.getResults());
+                            if (appDataWrapper != null) {
+                                ArrayList<KWSAppData> listOfKWSAppData = getListOfKWSAppData(appDataWrapper.getResults());
                                 listener.didGetAppData(listOfKWSAppData);
                             } else {
                                 listener.didGetAppData(new ArrayList<KWSAppData>());
@@ -709,21 +709,21 @@ public class KWSChildren {
                             return null;
                         }
 
-                        private ArrayList<KWSAppData> getListOfKWSAppData(ArrayList<AppDataDetails> results) {
+                        private ArrayList<KWSAppData> getListOfKWSAppData(ArrayList<AppData> results) {
                             ArrayList<KWSAppData> listOfKWSAppData = new ArrayList<>();
 
-                            for (AppDataDetails appDataDetails : results) {
-                                KWSAppData builtKWSAppDataObject = buildKWSAppDataObject(appDataDetails);
+                            for (AppData appData : results) {
+                                KWSAppData builtKWSAppDataObject = buildKWSAppDataObject(appData);
                                 listOfKWSAppData.add(builtKWSAppDataObject);
                             }
                             return listOfKWSAppData;
                         }
 
-                        private KWSAppData buildKWSAppDataObject(AppDataDetails appDataDetails) {
+                        private KWSAppData buildKWSAppDataObject(AppData appData) {
 
                             KWSAppData kwsAppData = new KWSAppData();
-                            kwsAppData.name = appDataDetails.getName();
-                            kwsAppData.value = appDataDetails.getValue();
+                            kwsAppData.name = appData.getName();
+                            kwsAppData.value = appData.getValue();
 
                             return kwsAppData;
 

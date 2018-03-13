@@ -2,7 +2,7 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
-import kws.superawesome.tv.kwssdk.base.responses.Login
+import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
 import kws.superawesome.tv.kwssdk.base.services.LoginService
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
@@ -20,7 +20,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
     override fun loginUser(username: String,
                            password: String,
-                           callback: (user: Login?, error: Throwable?) -> Unit) {
+                           callback: (user: LoginAuthResponse?, error: Throwable?) -> Unit) {
 
 
         val loginUserNetworkRequest = LoginUserRequest(
@@ -38,7 +38,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 val parseRequest = ParseJsonRequest(rawString = loginUserNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val loginResponseObject = parseTask.execute<Login>(input = parseRequest, clazz = Login::class.java)
+                val loginResponseObject = parseTask.execute<LoginAuthResponse>(input = parseRequest, clazz = LoginAuthResponse::class.java)
 
                 //
                 //send callback
