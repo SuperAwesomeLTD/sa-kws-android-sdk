@@ -189,11 +189,11 @@ public class MainActivity extends AppCompatActivity {
             public void didRegisterForRemoteNotifications(KWSChildrenRegisterForRemoteNotificationsStatus status) {
                 switch (status) {
                     case ParentDisabledNotifications: {
-                        log += "User has  no applicationPermissions (KWSChildren)\n";
+                        log += "User has  no permissions (KWSChildren)\n";
                         break;
                     }
                     case UserDisabledNotifications: {
-                        log += "User has  no applicationPermissions (System)\n";
+                        log += "User has  no permissions (System)\n";
                         break;
                     }
                     case NoParentEmail: {
