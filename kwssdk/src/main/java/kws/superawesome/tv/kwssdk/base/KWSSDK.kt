@@ -3,6 +3,10 @@ package kws.superawesome.tv.kwssdk.base
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.providers.*
 import kws.superawesome.tv.kwssdk.base.services.*
+import tv.superawesome.protobufs.features.auth.IAuthService
+import tv.superawesome.protobufs.features.scoring.IScoringService
+import tv.superawesome.protobufs.features.session.ISessionService
+import tv.superawesome.protobufs.features.user.IUserActionsService
 import tv.superawesome.samobilebase.network.NetworkTask
 
 /**
@@ -20,6 +24,7 @@ object KWSSDK {
                 EventsService::class -> EventsProvider(environment = environment, networkTask = networkTask) as T?
                 AppService::class -> AppProvider(environment = environment, networkTask = networkTask) as T?
                 AuthService::class -> AuthProvider(environment = environment, networkTask = networkTask) as T?
+                ISessionService::class -> SessionProvider(environment = environment, networkTask = networkTask) as T?
                 else -> null
             }
 
@@ -36,8 +41,10 @@ object KWSSDK {
                 RandomUsernameService::class.java -> RandomUsernameProvider(environment = environment, networkTask = networkTask) as T?
                 UserService::class.java -> UserProvider(environment = environment, networkTask = networkTask) as T?
                 EventsService::class.java -> EventsProvider(environment = environment, networkTask = networkTask) as T?
-                AppService::class.java -> AppProvider(environment = environment, networkTask = networkTask) as T?
-                AuthService::class.java -> AuthProvider(environment = environment, networkTask = networkTask) as T?
+                IScoringService::class.java -> ScoreProvider(environment = environment, networkTask = networkTask) as T?
+                IUserActionsService::class.java -> AppProvider(environment = environment, networkTask = networkTask) as T?
+                IAuthService::class.java -> AuthProvider(environment = environment, networkTask = networkTask) as T?
+                ISessionService::class.java -> SessionProvider(environment = environment, networkTask = networkTask) as T?
                 else -> null
             } as T?
 

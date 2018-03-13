@@ -42,40 +42,5 @@ constructor(private val environment: KWSNetworkEnvironment,
 
     }
 
-    override fun hasTriggeredEvent(userId: Int, eventId: Int, token: String,
-                                   callback: (hasTriggeredEvent: HasTriggeredEvent?, error: Throwable?) -> Unit) {
-
-        val hasTriggeredEventNetworkRequest = HasTriggeredEventRequest(
-                environment = environment,
-                userId = userId,
-                eventId = eventId,
-                token = token
-        )
-
-        networkTask.execute(input = hasTriggeredEventNetworkRequest) { hasTriggeredEventNetworkResponse ->
-
-            if (hasTriggeredEventNetworkResponse.response != null && hasTriggeredEventNetworkResponse.error == null) {
-
-
-                val parseRequest = ParseJsonRequest(rawString = hasTriggeredEventNetworkResponse.response)
-                val parseTask = ParseJsonTask()
-                val hasTriggeredEventObject = parseTask.execute<HasTriggeredEvent>(input = parseRequest, clazz = HasTriggeredEvent::class.java)
-
-                //
-                //send callback
-                val error = if (hasTriggeredEventObject != null) null else Throwable("Error - not valid login")
-                callback(hasTriggeredEventObject, error)
-
-            } else {
-                //
-                //network failure
-                callback(null, hasTriggeredEventNetworkResponse.error)
-            }
-
-        }
-
-
-    }
-
 
 }
