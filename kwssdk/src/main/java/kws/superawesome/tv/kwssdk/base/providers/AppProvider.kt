@@ -1,12 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
+import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper
 import kws.superawesome.tv.kwssdk.base.requests.GetAppDataRequest
 import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
 import kws.superawesome.tv.kwssdk.base.requests.SetAppDataRequest
-import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
-import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper
 import kws.superawesome.tv.kwssdk.base.services.AppService
+import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel
+import tv.superawesome.protobufs.models.score.ILeaderWrapperModel
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
@@ -20,7 +22,7 @@ internal class AppProvider
 constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : AppService {
 
-    override fun getLeaders(appId: Int, token: String, callback: (leadersWrapper: LeadersWrapper?, error: Throwable?) -> Unit) {
+    override fun getLeaders(appId: Int, token: String, callback: (leadersWrapper: ILeaderWrapperModel?, error: Throwable?) -> Unit) {
 
         val getLeadersNetworkRequest = LeadersRequest(
                 environment = environment,
@@ -76,7 +78,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
     }
 
-    override fun getAppData(appId: Int, userId: Int, token: String, callback: (appDataWrapper: AppDataWrapper?, error: Throwable?) -> Unit) {
+    override fun getAppData(appId: Int, userId: Int, token: String, callback: (appDataWrapper: IAppDataWrapperModel?, error: Throwable?) -> Unit) {
 
 
         val getAppDataNetworkRequest = GetAppDataRequest(

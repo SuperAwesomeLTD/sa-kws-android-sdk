@@ -4,13 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
-import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
 import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
-import kws.superawesome.tv.kwssdk.base.services.AuthService
+import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
+import kws.superawesome.tv.kwssdk.base.models.internal.TokenData
+import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.base.webauth.OAuthCodeTask
-import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
+import tv.superawesome.protobufs.features.auth.ISingleSignOnService
+import tv.superawesome.protobufs.models.auth.ILoggedUserModel
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Request
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
@@ -24,16 +25,15 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 internal class AuthProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : AuthService {
-    override fun authUser(singleSignOnUrl: String,
-                          parent: Activity,
-                          callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
+            private val networkTask: NetworkTask = NetworkTask()) : ISingleSignOnService {
 
+
+    override fun signOn(url: String, parent: Activity, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
         val oAuthCodeGenerator = OAuthCodeTask()
         val oAuthDataClass = oAuthCodeGenerator.execute()
 
         getAuthCode(environment = environment,
-                singleSignOnUrl = singleSignOnUrl,
+                singleSignOnUrl = url,
                 parent = parent, codeChallenge = oAuthDataClass.codeChallenge,
                 codeChallengeMethod = oAuthDataClass.codeChallengeMethod) { authCode: String?, networkError: Throwable? ->
 
@@ -50,6 +50,7 @@ constructor(private val environment: KWSNetworkEnvironment,
 
         }
     }
+
 
     private fun getAuthCode(environment: KWSNetworkEnvironment, singleSignOnUrl: String,
                             parent: Activity,
@@ -103,19 +104,19 @@ constructor(private val environment: KWSNetworkEnvironment,
 
                 val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
                 val parseJsonTask = ParseJsonTask()
-                val metadata = parseJsonTask.execute(input = parseJsonReq, clazz = KWSMetadata::class.java)
+                val tokenData = parseJsonTask.execute(input = parseJsonReq, clazz = TokenData::class.java)
 
 
-                val error = if (metadata != null && metadata.isValid) null else Throwable("Error - invalid oauth user")
+                val error = if (tokenData != null) null else Throwable("Error - invalid oauth user")
 
+                val userId = tokenData?.userId
 
                 val loggedUser = if (error == null
-                        && metadata != null
-                        && metadata.isValid
+                        && tokenData != null
                         && oauthResponseObject != null
                         && oauthResponseObject.token != null) {
 
-                    LoggedUser(token = oauthResponseObject.token, kwsMetaData = metadata)
+                    LoggedUser(token = oauthResponseObject.token, tokenData = tokenData, id = userId!!)
 
                 } else {
                     null
@@ -135,5 +136,6 @@ constructor(private val environment: KWSNetworkEnvironment,
 
 
     }
+
 
 }

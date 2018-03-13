@@ -16,21 +16,21 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
-import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper;
+import kws.superawesome.tv.kwssdk.base.models.Address;
 import kws.superawesome.tv.kwssdk.base.models.AppData;
-import kws.superawesome.tv.kwssdk.base.models.Permissions;
+import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper;
 import kws.superawesome.tv.kwssdk.base.models.ApplicationProfile;
 import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse;
 import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent;
-import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper;
 import kws.superawesome.tv.kwssdk.base.models.Leaders;
+import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper;
 import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse;
+import kws.superawesome.tv.kwssdk.base.models.Permissions;
 import kws.superawesome.tv.kwssdk.base.models.Points;
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.models.Score;
-import kws.superawesome.tv.kwssdk.base.models.Address;
 import kws.superawesome.tv.kwssdk.base.models.UserDetails;
+import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
 import kws.superawesome.tv.kwssdk.base.services.AppService;
 import kws.superawesome.tv.kwssdk.base.services.AuthService;
 import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
@@ -86,6 +86,7 @@ import kws.superawesome.tv.kwssdk.services.kws.user.KWSUpdateUser;
 import tv.superawesome.lib.sajsonparser.SAJsonParser;
 import tv.superawesome.lib.sautils.SAAlert;
 import tv.superawesome.lib.sautils.SAAlertInterface;
+import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Request;
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Task;
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest;
@@ -215,7 +216,7 @@ public class KWSChildren {
                                 String token = createdUser.getToken();
                                 KWSMetadata kwsMetadata = getMetadataFromToken(token);
                                 if (kwsMetadata != null && kwsMetadata.isValid()) {
-                                    LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
+                                    LoggedUser loggedUser = new LoggedUser(token, kwsMetadata.userId, kwsMetadata);
                                     setLoggedUser(loggedUser);
                                     listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
                                 } else {
@@ -223,7 +224,7 @@ public class KWSChildren {
                                 }
                             } else {
                                 listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
-                                if(throwable != null){
+                                if (throwable != null) {
                                     Log.d("SA", throwable.toString());
                                 }
                             }
@@ -247,7 +248,7 @@ public class KWSChildren {
                         String token = loginAuthResponse.getToken();
                         KWSMetadata kwsMetadata = getMetadataFromToken(token);
                         if (kwsMetadata != null && kwsMetadata.isValid()) {
-                            LoggedUser loggedUser = new LoggedUser(token, kwsMetadata);
+                            LoggedUser loggedUser = new LoggedUser(token, kwsMetadata.userId, kwsMetadata);
                             setLoggedUser(loggedUser);
                             listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
                         } else {
@@ -271,9 +272,9 @@ public class KWSChildren {
         AuthService authService = KWSSDK.get(kwsEnvironment, AuthService.class);
 
         if (authService != null) {
-            authService.authUser(singleSignOnUrl, parent, new Function2<LoggedUser, Throwable, Unit>() {
+            authService.authUser(singleSignOnUrl, parent, new Function2<ILoggedUserModel, Throwable, Unit>() {
                 @Override
-                public Unit invoke(LoggedUser loggedUser, Throwable throwable) {
+                public Unit invoke(ILoggedUserModel loggedUser, Throwable throwable) {
 
                     if (loggedUser != null && throwable == null) {
                         setLoggedUser(loggedUser);

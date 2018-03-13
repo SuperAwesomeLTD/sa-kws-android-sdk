@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.services
 
-import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
-import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper
+import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel
+import tv.superawesome.protobufs.models.score.ILeaderWrapperModel
 
 /**
  * Created by guilherme.mota on 05/01/2018.
@@ -11,13 +11,13 @@ interface AppService : BaseService {
 
     fun getLeaders(appId: Int,
                    token: String,
-                   callback: (leadersWrapper: LeadersWrapper?, error: Throwable?) -> Unit)
+                   callback: (leadersWrapper: ILeaderWrapperModel?, error: Throwable?) -> Unit)
 
 
     fun getAppData(appId: Int,
                    userId: Int,
                    token: String,
-                   callback: (appDataWrapper: AppDataWrapper?, error: Throwable?) -> Unit)
+                   callback: (appDataWrapper: IAppDataWrapperModel?, error: Throwable?) -> Unit)
 
 
     fun setAppData(appId: Int,

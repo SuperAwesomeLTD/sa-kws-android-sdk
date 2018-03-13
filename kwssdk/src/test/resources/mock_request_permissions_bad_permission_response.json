@@ -3,7 +3,7 @@
   "codeMeaning": "validation",
   "errorMessage": "child \"permissions\" fails because [\"permissions\" at position 0 fails because [\"0\" must be one of [accessEmail, accessAddress, accessFirstName, accessLastName, sendPushNotification, sendNewsletter, enterCompetitions]]]",
   "invalid": {
-    "permissions.0": {
+    "permissions": {
       "code": 7,
       "codeMeaning": "invalidValue",
       "errorMessage": "\"0\" must be one of [accessEmail, accessAddress, accessFirstName, accessLastName, sendPushNotification, sendNewsletter, enterCompetitions]"
