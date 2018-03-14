@@ -21,10 +21,10 @@ import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.services.odlServices.app.TestAppService_GetAppDataWrapper;
 import kws.superawesome.tv.kwssdk.services.odlServices.app.TestAppService_GetLeadersWrapper;
 import kws.superawesome.tv.kwssdk.services.odlServices.app.TestAppService_SetAppDataWrapper;
-import kws.superawesome.tv.kwssdk.services.odlServices.create_user.TestAuthUserResponseService;
+import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_CreateUser;
 import kws.superawesome.tv.kwssdk.services.odlServices.events.TestEventsService_HasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.services.odlServices.events.TestEventsService_TriggerEvent;
-import kws.superawesome.tv.kwssdk.services.odlServices.login.TestLoginService_LoginAuthResponse;
+import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_Login;
 import kws.superawesome.tv.kwssdk.services.odlServices.random_username.TestRandomUsernameService;
 import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_GetScore;
 import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_GetUserDetails;
@@ -60,10 +60,10 @@ import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_Requ
         TestAppService_SetAppDataWrapper.class,
 
         //LoginAuthResponse
-        TestLoginService_LoginAuthResponse.class,
+        TestAuthService_Login.class,
 
         //Create User
-        TestAuthUserResponseService.class,
+        TestAuthService_CreateUser.class,
 
         //Events
         TestEventsService_TriggerEvent.class,

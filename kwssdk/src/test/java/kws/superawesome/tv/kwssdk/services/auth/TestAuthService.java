@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.odlServices.login;
+package kws.superawesome.tv.kwssdk.services.auth;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,15 +7,16 @@ import org.junit.Test;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
+import tv.superawesome.protobufs.features.auth.IAuthService;
 
 /**
  * Created by guilherme.mota on 10/01/2018.
  */
 
-public class TestLoginAuthResponseService extends TestBaseService {
+public class TestAuthService extends TestBaseService {
 
     // class to test
-    protected LoginService service;
+    protected IAuthService service;
 
     //given
     protected String goodUsername = "good_username";
@@ -34,7 +35,9 @@ public class TestLoginAuthResponseService extends TestBaseService {
 
         //then
         // init class to test
-        service = KWSSDK.get(environment, LoginService.class, task);
+        KWSSDK factory = new KWSSDK(environment);
+        service = factory.getService(IAuthService.class);
+
     }
 
 

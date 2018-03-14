@@ -168,7 +168,23 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
     override fun triggerEvent(eventId: String, points: Int, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val triggerEventNetworkRequest = TriggerEventRequest(
+                environment = environment,
+                points = points,
+                userId = userId,
+                token = token,
+                eventToken = token
+        )
+
+        networkTask.execute(input = triggerEventNetworkRequest) { triggerEventNetworkResponse ->
+
+            //TODO trigger event callback
+            //
+            // send callback
+//            callback((triggerEventNetworkResponse.status == 200 || triggerEventNetworkResponse.status == 204)
+//                    && triggerEventNetworkResponse.error == null, triggerEventNetworkResponse.error)
+
+        }
     }
 
 

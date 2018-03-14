@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.odlServices.login;
+package kws.superawesome.tv.kwssdk.services.auth;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse;
  * Created by guilherme.mota on 17/01/2018.
  */
 
-public class TestLoginService_LoginAuthResponse extends TestLoginAuthResponseService {
+public class TestAuthService_Login extends TestAuthService {
 
     @Test
     public void testLoginProviderLoginOK() throws Throwable {

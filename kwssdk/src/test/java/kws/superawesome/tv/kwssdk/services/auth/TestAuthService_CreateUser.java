@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.odlServices.create_user;
+package kws.superawesome.tv.kwssdk.services.auth;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -17,7 +17,7 @@ import kws.superawesome.tv.kwssdk.services.TestBaseService;
  * Created by guilherme.mota on 15/01/2018.
  */
 
-public class TestAuthUserResponseService extends TestBaseService {
+public class TestAuthService_CreateUser extends TestBaseService {
 
     //class to test
     protected CreateUserService service;
