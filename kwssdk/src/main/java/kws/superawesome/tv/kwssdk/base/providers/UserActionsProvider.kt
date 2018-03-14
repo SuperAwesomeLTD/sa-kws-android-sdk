@@ -3,9 +3,7 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
 import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent
-import kws.superawesome.tv.kwssdk.base.requests.GetAppDataRequest
-import kws.superawesome.tv.kwssdk.base.requests.HasTriggeredEventRequest
-import kws.superawesome.tv.kwssdk.base.requests.SetAppDataRequest
+import kws.superawesome.tv.kwssdk.base.requests.*
 import tv.superawesome.protobufs.features.user.IUserActionsService
 import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel
 import tv.superawesome.protobufs.models.score.IHasTriggeredEventModel
@@ -17,7 +15,7 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  * Created by guilherme.mota on 05/01/2018.
  */
 @PublishedApi
-internal class AppProvider
+internal class UserActionsProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : IUserActionsService {
@@ -90,11 +88,62 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
     override fun inviteUser(email: String, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        val inviteUserNetworkRequest = InviteUserRequest(
+                environment = environment,
+                userId = userId,
+                token = token,
+                emailAddress = email
+        )
+
+        networkTask.execute(input = inviteUserNetworkRequest) { inviteUserNetworkResponse ->
+
+
+            //TODO
+
+
+            //
+            //send callback
+//            callback((inviteUserNetworkResponse.status == 200 || inviteUserNetworkResponse.status == 204)
+//                    && inviteUserNetworkResponse.error == null, inviteUserNetworkResponse.error)
+
+        }
     }
 
     override fun requestPermissions(permissions: List<String>, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val requestPermissionsNetworkRequest = PermissionsRequest(
+                environment = environment,
+                userId = userId,
+                token = token,
+                permissionsList = permissions
+        )
+
+        networkTask.execute(input = requestPermissionsNetworkRequest) { requestPermissionsNetworkResponse ->
+
+            if (requestPermissionsNetworkResponse.response != null && requestPermissionsNetworkResponse.error == null) {
+
+                //
+                //send callback
+                if (requestPermissionsNetworkResponse.status == 200
+                        || requestPermissionsNetworkResponse.status == 204) {
+                    callback(null)
+                } else {
+                    //
+                    // we have a response, but something else went wrong
+                    val payload = requestPermissionsNetworkResponse.response
+                    val message = if (payload != null) payload else "Unknown network error"
+                    val error = Throwable(message)
+                    callback( error)
+                }
+
+            } else {
+                //
+                // network failure
+                callback(requestPermissionsNetworkResponse.error)
+            }
+
+
+        }
     }
 
     override fun setAppData(value: Int, key: String, userId: Int, appId: Int, token: String, callback: (error: Throwable?) -> Unit) {
@@ -103,8 +152,8 @@ constructor(private val environment: KWSNetworkEnvironment,
                 environment = environment,
                 appId = appId,
                 userId = userId,
-                numericValue = value,
-                nameValue = key,
+                value = value,
+                key = key,
                 token = token
         )
 

@@ -1,16 +1,13 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse
 import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
-import kws.superawesome.tv.kwssdk.base.models.internal.TokenData
-import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
-import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
-import kws.superawesome.tv.kwssdk.base.webauth.OAuthCodeTask
-import tv.superawesome.protobufs.features.auth.ISingleSignOnService
+import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
+import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
+import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
+import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata
+import tv.superawesome.protobufs.features.auth.IAuthService
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Request
@@ -19,122 +16,162 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
- * Created by guilherme.mota on 26/01/2018.
+ * Created by guilherme.mota on 12/12/2017.
  */
 @PublishedApi
 internal class AuthProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : ISingleSignOnService {
+            private val networkTask: NetworkTask = NetworkTask()) : IAuthService {
 
-
-    override fun signOn(url: String, parent: Activity, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
-        val oAuthCodeGenerator = OAuthCodeTask()
-        val oAuthDataClass = oAuthCodeGenerator.execute()
-
-        getAuthCode(environment = environment,
-                singleSignOnUrl = url,
-                parent = parent, codeChallenge = oAuthDataClass.codeChallenge,
-                codeChallengeMethod = oAuthDataClass.codeChallengeMethod) { authCode: String?, networkError: Throwable? ->
-
-            if (authCode != null && !authCode.isEmpty()) {
-
-                getAccessToken(environment = environment, authCode = authCode, codeVerifier = oAuthDataClass.codeVerifier, callback = callback)
-
-            } else {
-                //
-                //network failure
-                callback(null, networkError)
-            }
-
-
-        }
-    }
-
-
-    private fun getAuthCode(environment: KWSNetworkEnvironment, singleSignOnUrl: String,
-                            parent: Activity,
-                            codeChallenge: String,
-                            codeChallengeMethod: String,
-                            callback: (String?, Throwable?) -> Unit) {
-
-        // TODO("Maybe replace this with a custom Request object")
-        val endpoint = "oauth"
-        val clientId = environment.appID
-        val packageName = parent.packageName
-        val url = "$singleSignOnUrl$endpoint?clientId=$clientId&codeChallenge=$codeChallenge&codeChallengeMethod=$codeChallengeMethod&redirectUri=$packageName://"
-        val uri = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        parent.startActivity(intent)
-
-        // TODO("Again, somewhat hacky here! But don't have a proper solution yet")
-        KWSWebAuthResponse.callback = { code ->
-
-
-            val error = if (!code.isNullOrEmpty()) null else Throwable("Error - invalid code")
-            //
-            //send callback
-            callback(code, error)
-        }
-    }
-
-    private fun getAccessToken(environment: KWSNetworkEnvironment, authCode: String,
-                               codeVerifier: String, callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
-
-        val oAuthTokenNetworkRequest = OAuthUserTokenRequest(
+    override fun loginUser(username: String, password: String, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
+        val loginUserNetworkRequest = LoginUserRequest(
                 environment = environment,
+                username = username,
+                password = password,
                 clientID = environment.appID,
-                authCode = authCode,
-                codeVerifier = codeVerifier,
-                clientSecret = environment.mobileKey
-        )
+                clientSecret = environment.mobileKey)
 
-        networkTask.execute(input = oAuthTokenNetworkRequest) { oAuthTokenNetworkResponse ->
+        networkTask.execute(input = loginUserNetworkRequest) { loginUserNetworkResponse ->
 
-            if (oAuthTokenNetworkResponse.response != null && oAuthTokenNetworkResponse.error == null) {
+            //
+            // network success case
+            if (loginUserNetworkResponse.response != null && loginUserNetworkResponse.error == null) {
 
-                val parseRequest = ParseJsonRequest(rawString = oAuthTokenNetworkResponse.response)
+                val parseRequest = ParseJsonRequest(rawString = loginUserNetworkResponse.response)
                 val parseTask = ParseJsonTask()
-                val oauthResponseObject = parseTask.execute<LoginAuthResponse>(input = parseRequest,
-                        clazz = LoginAuthResponse::class.java)
+                val loginResponseObject = parseTask.execute<LoginAuthResponse>(input = parseRequest, clazz = LoginAuthResponse::class.java)
 
-                val base64req = ParseBase64Request(base64String = oauthResponseObject?.token)
+                //
+                //send callback
+                val error = if (loginResponseObject != null) null else Throwable("Error - not valid login")
+                callback(loginResponseObject, error)
+
+            }
+            //
+            // network failure
+            else {
+                callback(null, loginUserNetworkResponse.error)
+            }
+        }
+    }
+
+    override fun createUser(username: String, password: String, timeZone: String?, dataOfBirth: String?, country: String?, parentEmail: String?, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
+
+        getTempAccessToken(environment = environment) { loginAuthResponse: LoginAuthResponse?, networkError: Throwable? ->
+
+            if (loginAuthResponse?.token != null && networkError == null) {
+                val token = loginAuthResponse.token
+
+                val base64req = ParseBase64Request(base64String = token)
                 val base64Task = ParseBase64Task()
                 val metadataJson = base64Task.execute(input = base64req)
 
                 val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
                 val parseJsonTask = ParseJsonTask()
-                val tokenData = parseJsonTask.execute(input = parseJsonReq, clazz = TokenData::class.java)
+                val metadata = parseJsonTask.execute(input = parseJsonReq, clazz = KWSMetadata::class.java)
 
+                if (metadata != null) {
 
-                val error = if (tokenData != null) null else Throwable("Error - invalid oauth user")
+                    val appId = metadata.appId
 
-                val userId = tokenData?.userId
+                    if (dataOfBirth != null && country != null && parentEmail != null) {
 
-                val loggedUser = if (error == null
-                        && tokenData != null
-                        && oauthResponseObject != null
-                        && oauthResponseObject.token != null) {
+                        //Creation of user with temp access token
+                        doUserCreation(environment = environment, username = username, password = password,
+                                dateOfBirth = dataOfBirth, country = country, parentEmail = parentEmail,
+                                appId = appId, token = token, callback = callback)
 
-                    LoggedUser(token = oauthResponseObject.token, tokenData = tokenData, id = userId!!)
-
+                    } else {
+                        callback(null, Throwable("Error with fields being null"))
+                    }
                 } else {
-                    null
+                    callback(null, Throwable("Error getting the metadata"))
                 }
-
-                //
-                //send callback
-                callback(loggedUser, error)
-
             } else {
                 //
-                //network error
-                callback(null, oAuthTokenNetworkResponse.error)
+                // network failure
+                callback(null, networkError)
             }
 
         }
+    }
 
 
+    private fun getTempAccessToken(environment: KWSNetworkEnvironment,
+                                   callback: (loginAuthResponse: LoginAuthResponse?, error: Throwable?) -> Unit) {
+
+        val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
+                environment = environment,
+                clientID = environment.appID,
+                clientSecret = environment.mobileKey)
+
+        networkTask.execute(input = getTempAccessTokenNetworkRequest) { getTempAccessTokenNetworkResponse ->
+
+            // network success case
+            if (getTempAccessTokenNetworkResponse.response != null && getTempAccessTokenNetworkResponse.error == null) {
+
+                val parseRequest = ParseJsonRequest(rawString = getTempAccessTokenNetworkResponse.response)
+                val parseTask = ParseJsonTask()
+                val getTemAccessResponseObject = parseTask.execute<LoginAuthResponse>(input = parseRequest,
+                        clazz = LoginAuthResponse::class.java)
+                //
+                //send callback
+                val error = if (getTemAccessResponseObject != null) null else Throwable("Error - couldn't parse JWT")
+                callback(getTemAccessResponseObject, error)
+
+            }
+            //
+            // network failure
+            else {
+                callback(null, getTempAccessTokenNetworkResponse.error)
+            }
+        }
+    }
+
+    private fun doUserCreation(environment: KWSNetworkEnvironment,
+                               username: String,
+                               password: String,
+                               dateOfBirth: String,
+                               country: String,
+                               parentEmail: String,
+                               appId: Int,
+                               token: String,
+                               callback: (createdUserResponse: AuthUserResponse?, error: Throwable?) -> Unit) {
+
+
+        val createUserNetworkRequest = CreateUserRequest(
+                environment = environment,
+                username = username,
+                password = password,
+                dateOfBirth = dateOfBirth,
+                country = country,
+                parentEmail = parentEmail,
+                token = token,
+                appID = appId)
+
+        networkTask.execute(input = createUserNetworkRequest) { createUserNetworkResponse ->
+
+            // network success case
+            if (createUserNetworkResponse.response != null && createUserNetworkResponse.error == null) {
+
+                val parseRequest = ParseJsonRequest(rawString = createUserNetworkResponse.response)
+                val parseTask = ParseJsonTask()
+                val createUserResponseObject = parseTask.execute<AuthUserResponse>(input = parseRequest,
+                        clazz = AuthUserResponse::class.java)
+
+                val error = if (createUserResponseObject != null) null else Throwable("Error - invalid create user")
+
+                //
+                //send callback
+                callback(createUserResponseObject, error)
+
+            } else {
+                //
+                // network failure
+                callback(null, createUserNetworkResponse.error)
+            }
+        }
     }
 
 

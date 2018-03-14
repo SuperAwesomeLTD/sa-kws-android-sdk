@@ -1,25 +1,23 @@
-package kws.superawesome.tv.kwssdk.services.app;
+package kws.superawesome.tv.kwssdk.services.odlServices.events;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.services.AppService;
+import kws.superawesome.tv.kwssdk.base.services.EventsService;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 
 /**
  * Created by guilherme.mota on 15/01/2018.
  */
 
-public class TestAppService extends TestBaseService {
+public class TestEventsService extends TestBaseService {
 
     //class to test
-    protected AppService service;
+    protected EventsService service;
 
-    protected int goodAppId = 2;
-    protected int badAppId = 0;
-
+    //given
     protected int goodUserId = 25;
     protected int badUserId = 0;
 
@@ -35,8 +33,7 @@ public class TestAppService extends TestBaseService {
 
         //when
         // init class to test
-        service = KWSSDK.get(environment, AppService.class, task);
-
+        service = KWSSDK.get(environment, EventsService.class, task);
 
     }
 

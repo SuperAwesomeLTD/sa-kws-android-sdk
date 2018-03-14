@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.create_user;
+package kws.superawesome.tv.kwssdk.services.odlServices.create_user;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;

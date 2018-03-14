@@ -5,7 +5,9 @@ import kws.superawesome.tv.kwssdk.base.models.AppConfigWrapper
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername
 import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest
 import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest
-import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService
+import tv.superawesome.protobufs.features.auth.IUsernameService
+import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel
+import tv.superawesome.protobufs.models.usernames.IVerifiedUsernameModel
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
@@ -14,15 +16,12 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  * Created by guilherme.mota on 29/12/2017.
  */
 @PublishedApi
-internal class RandomUsernameProvider
+internal class UsernameProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : RandomUsernameService {
+            private val networkTask: NetworkTask = NetworkTask()) : IUsernameService {
 
-
-    override fun getRandomUsername(callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
-
-
+    override fun getRandomUsername(callback: (username: IRandomUsernameModel?, error: Throwable?) -> Unit) {
         getAppConfig(environment = environment) { appConfigWrapper: AppConfigWrapper?, networkError: Throwable? ->
 
             if (appConfigWrapper?.app != null && networkError == null) {
@@ -111,6 +110,12 @@ constructor(private val environment: KWSNetworkEnvironment,
 
         }
 
+
     }
+
+    override fun verifyUsername(username: String, callback: (validation: IVerifiedUsernameModel?, error: Throwable?) -> Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }

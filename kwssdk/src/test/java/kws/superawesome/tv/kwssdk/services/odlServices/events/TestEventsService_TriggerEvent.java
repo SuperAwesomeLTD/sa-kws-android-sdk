@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.events;
+package kws.superawesome.tv.kwssdk.services.odlServices.events;
 
 import org.junit.Assert;
 import org.junit.Test;

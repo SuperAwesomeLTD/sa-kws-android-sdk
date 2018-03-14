@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.user;
+package kws.superawesome.tv.kwssdk.services.odlServices.user;
 
 
 import junit.framework.Assert;

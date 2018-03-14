@@ -8,6 +8,8 @@ import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
 import kws.superawesome.tv.kwssdk.base.models.Score
 import kws.superawesome.tv.kwssdk.base.models.UserDetails
 import kws.superawesome.tv.kwssdk.base.services.UserService
+import tv.superawesome.protobufs.features.user.IUserService
+import tv.superawesome.protobufs.models.user.IUserDetailsModel
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
@@ -19,10 +21,10 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 internal class UserProvider
 @JvmOverloads
 constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : UserService {
+            private val networkTask: NetworkTask = NetworkTask()) : IUserService {
 
-    override fun getUserDetails(userId: Int, token: String, callback: (userDetailsDetails: UserDetails?, error: Throwable?) -> Unit) {
 
+    override fun getUser(userId: Int, token: String, callback: (user: IUserDetailsModel?, error: Throwable?) -> Unit) {
         val getUserDetailsNetworkRequest = UserDetailsRequest(
                 environment = environment,
                 userId = userId,
@@ -51,100 +53,12 @@ constructor(private val environment: KWSNetworkEnvironment,
         }
     }
 
-    override fun inviteUser(email: String, userId: Int, token: String, callback: (success: Boolean?, error: Throwable?) -> Unit) {
-
-        val inviteUserNetworkRequest = InviteUserRequest(
-                environment = environment,
-                userId = userId,
-                token = token,
-                emailAddress = email
-        )
-
-        networkTask.execute(input = inviteUserNetworkRequest) { inviteUserNetworkResponse ->
-
-            //
-            //send callback
-            callback((inviteUserNetworkResponse.status == 200 || inviteUserNetworkResponse.status == 204)
-                    && inviteUserNetworkResponse.error == null, inviteUserNetworkResponse.error)
-
-        }
+    override fun updateUser(details: IUserDetailsModel, token: String, callback: (error: Throwable?) -> Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
-    override fun getScore(appId: Int, token: String, callback: (score: Score?, error: Throwable?) -> Unit) {
 
-
-        val getUserScoreNetworkRequest = UserScoreRequest(
-                environment = environment,
-                appId = appId,
-                token = token
-        )
-
-        networkTask.execute(input = getUserScoreNetworkRequest) { getUserScoreNetworkResponse ->
-
-
-            if (getUserScoreNetworkResponse.response != null && getUserScoreNetworkResponse.error == null) {
-                val parseRequest = ParseJsonRequest(rawString = getUserScoreNetworkResponse.response)
-                val parseTask = ParseJsonTask()
-                val getScoreResponseObject = parseTask.execute<Score>(input = parseRequest,
-                        clazz = Score::class.java)
-
-                //
-                //send callback
-                val error = if (getScoreResponseObject == null) Throwable("Error getting user score") else null;
-                callback(getScoreResponseObject, error)
-
-            } else {
-                //
-                // network failure
-
-                callback(null, getUserScoreNetworkResponse.error)
-            }
-        }
-
-
-    }
-
-
-    override fun requestPermissions(userId: Int, token: String, permissionsList: List<String>, callback: (success: Boolean, error: Throwable?) -> Unit) {
-
-
-        val requestPermissionsNetworkRequest = PermissionsRequest(
-                environment = environment,
-                userId = userId,
-                token = token,
-                permissionsList = permissionsList
-        )
-
-        networkTask.execute(input = requestPermissionsNetworkRequest) { requestPermissionsNetworkResponse ->
-
-            if (requestPermissionsNetworkResponse.response != null && requestPermissionsNetworkResponse.error == null) {
-
-                //
-                //send callback
-                if (requestPermissionsNetworkResponse.status == 200
-                        || requestPermissionsNetworkResponse.status == 204) {
-                    callback(true, null)
-                } else {
-                    //
-                    // we have a response, but something else went wrong
-                    val payload = requestPermissionsNetworkResponse.response
-                    val message = if (payload != null) payload else "Unknown network error"
-                    val error = Throwable(message)
-                    callback(false, error)
-                }
-
-            } else {
-                //
-                // network failure
-                callback(false, requestPermissionsNetworkResponse.error)
-            }
-
-
-        }
-
-
-    }
 
 }
 

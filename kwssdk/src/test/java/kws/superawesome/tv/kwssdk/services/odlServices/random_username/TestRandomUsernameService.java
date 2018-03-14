@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.random_username;
+package kws.superawesome.tv.kwssdk.services.odlServices.random_username;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;

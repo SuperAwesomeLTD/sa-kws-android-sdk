@@ -10,8 +10,8 @@ import tv.superawesome.samobilebase.network.NetworkMethod
 class SetAppDataRequest(environment: KWSNetworkEnvironment,
                         appId: Int,
                         userId: Int,
-                        nameValue: String,
-                        numericValue: Int,
+                        value: Int,
+                        key: String,
                         token: String
 ) : BaseRequest(environment = environment, token = token) {
 
@@ -21,8 +21,8 @@ class SetAppDataRequest(environment: KWSNetworkEnvironment,
     override val method: NetworkMethod = NetworkMethod.POST
 
     override val body: Map<String, Any>? = mapOf(
-            "name" to nameValue,
-            "value" to numericValue
+            "name" to key,
+            "value" to value
     )
 
 

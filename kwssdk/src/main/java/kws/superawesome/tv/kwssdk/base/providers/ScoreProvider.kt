@@ -2,7 +2,9 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper
+import kws.superawesome.tv.kwssdk.base.models.Score
 import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
+import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
 import tv.superawesome.protobufs.features.scoring.IScoringService
 import tv.superawesome.protobufs.models.score.ILeaderWrapperModel
 import tv.superawesome.protobufs.models.score.IScoreModel
@@ -58,7 +60,34 @@ constructor(private val environment: KWSNetworkEnvironment,
     }
 
     override fun getScore(appId: Int, token: String, callback: (score: IScoreModel?, error: Throwable?) -> Unit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        val getUserScoreNetworkRequest = UserScoreRequest(
+                environment = environment,
+                appId = appId,
+                token = token
+        )
+
+        networkTask.execute(input = getUserScoreNetworkRequest) { getUserScoreNetworkResponse ->
+
+
+            if (getUserScoreNetworkResponse.response != null && getUserScoreNetworkResponse.error == null) {
+                val parseRequest = ParseJsonRequest(rawString = getUserScoreNetworkResponse.response)
+                val parseTask = ParseJsonTask()
+                val getScoreResponseObject = parseTask.execute<Score>(input = parseRequest,
+                        clazz = Score::class.java)
+
+                //
+                //send callback
+                val error = if (getScoreResponseObject == null) Throwable("Error getting user score") else null;
+                callback(getScoreResponseObject, error)
+
+            } else {
+                //
+                // network failure
+
+                callback(null, getUserScoreNetworkResponse.error)
+            }
+        }
     }
 
 

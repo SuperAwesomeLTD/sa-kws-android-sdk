@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.login;
+package kws.superawesome.tv.kwssdk.services.odlServices.login;
 
 import org.junit.Assert;
 import org.junit.Test;
