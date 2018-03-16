@@ -36,25 +36,22 @@ constructor(private val environment: KWSNetworkEnvironment,
                 IConfigService::class -> ConfigProvider(environment = environment, networkTask = networkTask)
                 else -> null
             } as S?
+
+
+    @Suppress("UNCHECKED_CAST")
+    fun <S : IService> get(type: Class<S>): S? =
+            when (type) {
+                IAuthService::class.java -> AuthProvider(environment = environment, networkTask = networkTask)
+                IScoringService::class.java -> ScoreProvider(environment = environment, networkTask = networkTask)
+                IUserActionsService::class.java -> UserActionsProvider(environment = environment, networkTask = networkTask)
+                ISingleSignOnService::class.java -> SingleSignOnProvider(environment = environment, networkTask = networkTask)
+                ISessionService::class.java -> SessionProvider(environment = environment, networkTask = networkTask)
+                IUsernameService::class.java -> UsernameProvider(environment = environment, networkTask = networkTask)
+                IUserService::class.java -> UserProvider(environment = environment, networkTask = networkTask)
+                IConfigService::class.java -> ConfigProvider(environment = environment, networkTask = networkTask)
+                else -> null
+
+            } as S?
+
+
 }
-
-
-//    @Suppress("UNCHECKED_CAST")
-//    @JvmStatic
-//    @JvmOverloads
-//    fun <T : BaseService> get(environment: KWSNetworkEnvironment,
-//                              clazz: Class<T>,
-//                              networkTask: NetworkTask = NetworkTask()): T? =
-//            when (clazz) {
-//                IAuthService::class.java -> AuthProvider(environment = environment, networkTask = networkTask) as T?
-//                IScoringService::class.java -> ScoreProvider(environment = environment, networkTask = networkTask) as T?
-//                IUserActionsService::class.java -> UserActionsProvider(environment = environment, networkTask = networkTask) as T?
-//                ISingleSignOnService::class.java -> SingleSignOnProvider(environment = environment, networkTask = networkTask) as T?
-//                ISessionService::class.java -> SessionProvider(environment = environment, networkTask = networkTask) as T?
-//                IUsernameService::class.java -> UsernameProvider(environment = environment, networkTask = networkTask) as T?
-//                IUserService::class.java -> UserProvider(environment = environment, networkTask = networkTask) as T?
-//                IConfigService::class.java -> ConfigProvider(environment = environment, networkTask = networkTask) as T?
-//
-//                else -> null
-//            } as T?
-//}

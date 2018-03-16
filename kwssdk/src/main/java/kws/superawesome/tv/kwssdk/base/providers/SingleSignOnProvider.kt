@@ -5,11 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
+import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
 import kws.superawesome.tv.kwssdk.base.models.internal.TokenData
 import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.base.webauth.OAuthCodeTask
+import org.json.JSONException
 import tv.superawesome.protobufs.features.auth.ISingleSignOnService
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel
 import tv.superawesome.samobilebase.network.NetworkTask
@@ -24,8 +26,9 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 @PublishedApi
 internal class SingleSignOnProvider
 @JvmOverloads
-constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : ISingleSignOnService {
+constructor(override val environment: KWSNetworkEnvironment,
+            override val networkTask: NetworkTask = NetworkTask())
+    : Provider(environment = environment, networkTask = networkTask), ISingleSignOnService {
 
 
     override fun signOn(url: String, parent: Activity, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
@@ -89,47 +92,61 @@ constructor(private val environment: KWSNetworkEnvironment,
                 clientSecret = environment.mobileKey
         )
 
-        networkTask.execute(input = oAuthTokenNetworkRequest) { oAuthTokenNetworkResponse ->
+        networkTask.execute(input = oAuthTokenNetworkRequest) { payload ->
 
-            if (oAuthTokenNetworkResponse.response != null && oAuthTokenNetworkResponse.error == null) {
+            if (payload.success && payload.response != null) {
 
-                val parseRequest = ParseJsonRequest(rawString = oAuthTokenNetworkResponse.response)
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
-                val oauthResponseObject = parseTask.execute<LoginAuthResponse>(input = parseRequest,
+                val result = parseTask.execute<LoginAuthResponse>(input = parseRequest,
                         clazz = LoginAuthResponse::class.java)
 
-                val base64req = ParseBase64Request(base64String = oauthResponseObject?.token)
-                val base64Task = ParseBase64Task()
-                val metadataJson = base64Task.execute(input = base64req)
+                if (result != null) {
 
-                val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
-                val parseJsonTask = ParseJsonTask()
-                val tokenData = parseJsonTask.execute(input = parseJsonReq, clazz = TokenData::class.java)
+                    val base64req = ParseBase64Request(base64String = result?.token)
+                    val base64Task = ParseBase64Task()
+                    val metadataJson = base64Task.execute(input = base64req)
+
+                    val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
+                    val parseJsonTask = ParseJsonTask()
+                    val tokenData = parseJsonTask.execute(input = parseJsonReq, clazz = TokenData::class.java)
 
 
-                val error = if (tokenData != null) null else Throwable("Error - invalid oauth user")
+                    val error = if (tokenData != null) null else JSONException(TokenData::class.java.toString())
 
-                val userId = tokenData?.userId
+                    val userId = tokenData?.userId
 
-                val loggedUser = if (error == null
-                        && tokenData != null
-                        && oauthResponseObject != null
-                        && oauthResponseObject.token != null) {
+                    val loggedUser = if (error == null
+                            && tokenData != null
+                            && result != null
+                            && result.token != null) {
 
-                    LoggedUser(token = oauthResponseObject.token, tokenData = tokenData, id = userId!!)
+                        LoggedUser(token = result.token, tokenData = tokenData, id = userId!!)
 
+                    } else {
+                        null
+                    }
+
+                    //
+                    //send callback
+                    callback(loggedUser, error)
                 } else {
-                    null
+                    val error = JSONException(LoginAuthResponse::class.java.toString())
+                    callback(null, error)
+
                 }
-
-                //
-                //send callback
-                callback(loggedUser, error)
-
-            } else {
-                //
-                //network error
-                callback(null, oAuthTokenNetworkResponse.error)
+            }
+            //
+            // network failure
+            else if (payload.error != null) {
+                val error = super.parseServerError(serverError = payload.error)
+                callback(null, error)
+            }
+            //
+            // unknown error
+            else {
+                val error = SDKException()
+                callback(null, error)
             }
 
         }

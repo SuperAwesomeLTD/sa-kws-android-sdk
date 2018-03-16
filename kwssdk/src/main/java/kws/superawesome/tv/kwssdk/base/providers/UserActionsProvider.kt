@@ -3,10 +3,13 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
 import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent
+import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.requests.*
+import org.json.JSONException
 import tv.superawesome.protobufs.features.user.IUserActionsService
 import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel
 import tv.superawesome.protobufs.models.score.IHasTriggeredEventModel
+import tv.superawesome.samobilebase.network.NetworkRequest
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
@@ -17,8 +20,9 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 @PublishedApi
 internal class UserActionsProvider
 @JvmOverloads
-constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : IUserActionsService {
+constructor(override val environment: KWSNetworkEnvironment,
+            override val networkTask: NetworkTask = NetworkTask())
+    : Provider(environment = environment, networkTask = networkTask), IUserActionsService {
 
 
     override fun getAppData(userId: Int, appId: Int, token: String, callback: (appData: IAppDataWrapperModel?, error: Throwable?) -> Unit?) {
@@ -30,25 +34,33 @@ constructor(private val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = getAppDataNetworkRequest) { getAppDataNetworkResponse ->
+        networkTask.execute(input = getAppDataNetworkRequest) { payload ->
 
-            if (getAppDataNetworkResponse.response != null && getAppDataNetworkResponse.error == null) {
+            if (payload.success && payload.response != null) {
 
-                val parseRequest = ParseJsonRequest(rawString = getAppDataNetworkResponse.response)
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
-                val getAppDataResponseObject = parseTask.execute<AppDataWrapper>(input = parseRequest,
+                val result = parseTask.execute<AppDataWrapper>(input = parseRequest,
                         clazz = AppDataWrapper::class.java)
 
                 //
                 // send callback
-                val error = if (getAppDataResponseObject == null) Throwable("Error getting app data") else null
-                callback(getAppDataResponseObject, error)
+                val error = if (result != null) null else JSONException(AppDataWrapper::class.java.toString())
+                callback(result, error)
 
 
-            } else {
-                //
-                //network failure
-                callback(null, getAppDataNetworkResponse.error)
+            }
+            //
+            // network failure
+            else if (payload.error != null) {
+                val error = super.parseServerError(serverError = payload.error)
+                callback(null, error)
+            }
+            //
+            // unknown error
+            else {
+                val error = SDKException()
+                callback(null, error)
             }
 
 
@@ -64,24 +76,32 @@ constructor(private val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = hasTriggeredEventNetworkRequest) { hasTriggeredEventNetworkResponse ->
+        networkTask.execute(input = hasTriggeredEventNetworkRequest) { payload ->
 
-            if (hasTriggeredEventNetworkResponse.response != null && hasTriggeredEventNetworkResponse.error == null) {
+            if (payload.success && payload.response != null) {
 
 
-                val parseRequest = ParseJsonRequest(rawString = hasTriggeredEventNetworkResponse.response)
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
-                val hasTriggeredEventObject = parseTask.execute<HasTriggeredEvent>(input = parseRequest, clazz = HasTriggeredEvent::class.java)
+                val result = parseTask.execute<HasTriggeredEvent>(input = parseRequest, clazz = HasTriggeredEvent::class.java)
 
                 //
                 //send callback
-                val error = if (hasTriggeredEventObject != null) null else Throwable("Error - not valid login")
-                callback(hasTriggeredEventObject, error)
+                val error = if (result != null) null else JSONException(HasTriggeredEvent::class.java.toString())
+                callback(result, error)
 
-            } else {
-                //
-                //network failure
-                callback(null, hasTriggeredEventNetworkResponse.error)
+            }
+            //
+            // network failure
+            else if (payload.error != null) {
+                val error = super.parseServerError(serverError = payload.error)
+                callback(null, error)
+            }
+            //
+            // unknown error
+            else {
+                val error = SDKException()
+                callback(null, error)
             }
 
         }
@@ -96,18 +116,7 @@ constructor(private val environment: KWSNetworkEnvironment,
                 emailAddress = email
         )
 
-        networkTask.execute(input = inviteUserNetworkRequest) { inviteUserNetworkResponse ->
-
-
-            //TODO
-
-
-            //
-            //send callback
-//            callback((inviteUserNetworkResponse.status == 200 || inviteUserNetworkResponse.status == 204)
-//                    && inviteUserNetworkResponse.error == null, inviteUserNetworkResponse.error)
-
-        }
+        handleNetworkResponse(request = inviteUserNetworkRequest, callback = callback)
     }
 
     override fun requestPermissions(permissions: List<String>, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
@@ -118,32 +127,7 @@ constructor(private val environment: KWSNetworkEnvironment,
                 permissionsList = permissions
         )
 
-        networkTask.execute(input = requestPermissionsNetworkRequest) { requestPermissionsNetworkResponse ->
-
-            if (requestPermissionsNetworkResponse.response != null && requestPermissionsNetworkResponse.error == null) {
-
-                //
-                //send callback
-                if (requestPermissionsNetworkResponse.status == 200
-                        || requestPermissionsNetworkResponse.status == 204) {
-                    callback(null)
-                } else {
-                    //
-                    // we have a response, but something else went wrong
-                    val payload = requestPermissionsNetworkResponse.response
-                    val message = if (payload != null) payload else "Unknown network error"
-                    val error = Throwable(message)
-                    callback( error)
-                }
-
-            } else {
-                //
-                // network failure
-                callback(requestPermissionsNetworkResponse.error)
-            }
-
-
-        }
+        handleNetworkResponse(request = requestPermissionsNetworkRequest, callback = callback)
     }
 
     override fun setAppData(value: Int, key: String, userId: Int, appId: Int, token: String, callback: (error: Throwable?) -> Unit) {
@@ -157,14 +141,7 @@ constructor(private val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = setAppDataNetworkRequest) { setAppDataNetworkResponse ->
-
-
-            //TODO CALLBACK
-//            callback((setAppDataNetworkResponse.status == 200 || setAppDataNetworkResponse.status == 204)
-//                    && setAppDataNetworkResponse.error == null, setAppDataNetworkResponse.error)
-
-        }
+        handleNetworkResponse(request = setAppDataNetworkRequest, callback = callback)
     }
 
     override fun triggerEvent(eventId: String, points: Int, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
@@ -176,16 +153,31 @@ constructor(private val environment: KWSNetworkEnvironment,
                 eventToken = token
         )
 
-        networkTask.execute(input = triggerEventNetworkRequest) { triggerEventNetworkResponse ->
-
-            //TODO trigger event callback
-            //
-            // send callback
-//            callback((triggerEventNetworkResponse.status == 200 || triggerEventNetworkResponse.status == 204)
-//                    && triggerEventNetworkResponse.error == null, triggerEventNetworkResponse.error)
-
-        }
+        handleNetworkResponse(request = triggerEventNetworkRequest, callback = callback)
     }
 
+
+    private fun handleNetworkResponse(request: NetworkRequest,
+                                      callback: (error: Throwable?) -> Unit) {
+
+        networkTask.execute(input = request) { payload ->
+
+            val serverError = super.parseServerError(serverError = payload.error)
+
+            // network success cae
+            if (payload.status == 200 && serverError == null) {
+                callback(null)
+            }
+            // server error case
+            else if (serverError != null) {
+                callback(serverError)
+            }
+            // unknown error case
+            else {
+                val error = SDKException()
+                callback(error)
+            }
+        }
+    }
 
 }

@@ -1,13 +1,10 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.requests.InviteUserRequest
-import kws.superawesome.tv.kwssdk.base.requests.PermissionsRequest
-import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
-import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
-import kws.superawesome.tv.kwssdk.base.models.Score
+import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.models.UserDetails
-import kws.superawesome.tv.kwssdk.base.services.UserService
+import kws.superawesome.tv.kwssdk.base.requests.UserDetailsRequest
+import org.json.JSONException
 import tv.superawesome.protobufs.features.user.IUserService
 import tv.superawesome.protobufs.models.user.IUserDetailsModel
 import tv.superawesome.samobilebase.network.NetworkTask
@@ -20,8 +17,9 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 @PublishedApi
 internal class UserProvider
 @JvmOverloads
-constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : IUserService {
+constructor(override val environment: KWSNetworkEnvironment,
+            override val networkTask: NetworkTask = NetworkTask())
+    : Provider(environment = environment, networkTask = networkTask), IUserService {
 
 
     override fun getUser(userId: Int, token: String, callback: (user: IUserDetailsModel?, error: Throwable?) -> Unit) {
@@ -31,23 +29,30 @@ constructor(private val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = getUserDetailsNetworkRequest) { getUserDetailsNetworkResponse ->
+        networkTask.execute(input = getUserDetailsNetworkRequest) { payload ->
 
             // network success case
-            if (getUserDetailsNetworkResponse.response != null && getUserDetailsNetworkResponse.error == null) {
-                val parseRequest = ParseJsonRequest(rawString = getUserDetailsNetworkResponse.response)
+            if (payload.success && payload.response != null) {
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
-                val getUserDetailsResponseObject = parseTask.execute<UserDetails>(input = parseRequest,
+                val result = parseTask.execute<UserDetails>(input = parseRequest,
                         clazz = UserDetails::class.java)
 
-                val error = if (getUserDetailsResponseObject == null) Throwable("Error getting user details") else null;
-                callback(getUserDetailsResponseObject, error)
+                val error = if (result != null) null else JSONException(UserDetails::class.java.toString())
+                callback(result, error)
 
             }
             //
             // network failure
+            else if (payload.error != null) {
+                val error = super.parseServerError(serverError = payload.error)
+                callback(null, error)
+            }
+            //
+            // unknown error
             else {
-                callback(null, getUserDetailsNetworkResponse.error)
+                val error = SDKException()
+                callback(null, error)
             }
 
         }
@@ -56,8 +61,6 @@ constructor(private val environment: KWSNetworkEnvironment,
     override fun updateUser(details: IUserDetailsModel, token: String, callback: (error: Throwable?) -> Unit) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-
 
 
 }

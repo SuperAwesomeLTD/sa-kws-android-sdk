@@ -2,9 +2,11 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper
+import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.models.Score
 import kws.superawesome.tv.kwssdk.base.requests.LeadersRequest
 import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest
+import org.json.JSONException
 import tv.superawesome.protobufs.features.scoring.IScoringService
 import tv.superawesome.protobufs.models.score.ILeaderWrapperModel
 import tv.superawesome.protobufs.models.score.IScoreModel
@@ -20,8 +22,9 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 @PublishedApi
 internal class ScoreProvider
 @JvmOverloads
-constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : IScoringService {
+constructor(override val environment: KWSNetworkEnvironment,
+            override val networkTask: NetworkTask = NetworkTask())
+    : Provider(environment = environment, networkTask = networkTask), IScoringService {
 
 
     override fun getLeaderboard(appId: Int, token: String, callback: (leaderboard: ILeaderWrapperModel?, error: Throwable?) -> Unit) {
@@ -32,26 +35,33 @@ constructor(private val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = getLeadersNetworkRequest) { getLeadersNetworkResponse ->
+        networkTask.execute(input = getLeadersNetworkRequest) { payload ->
 
             //
             // network success case
-            if (getLeadersNetworkResponse.response != null && getLeadersNetworkResponse.error == null) {
-                val parseRequest = ParseJsonRequest(rawString = getLeadersNetworkResponse.response)
+            if (payload.success && payload.response != null) {
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
-                val getLeadersResponseObject = parseTask.execute<LeadersWrapper>(input = parseRequest,
+                val result = parseTask.execute<LeadersWrapper>(input = parseRequest,
                         clazz = LeadersWrapper::class.java)
 
                 //
                 // send callback
-                val error = if (getLeadersResponseObject != null) null else Throwable("Error getting leader details")
-                callback(getLeadersResponseObject, error)
+                val error = if (result != null) null else JSONException(LeadersWrapper::class.java.toString())
+                callback(result, error)
 
             }
             //
             // network failure
+            else if (payload.error != null) {
+                val error = super.parseServerError(serverError = payload.error)
+                callback(null, error)
+            }
+            //
+            // unknown error
             else {
-                callback(null, getLeadersNetworkResponse.error)
+                val error = SDKException()
+                callback(null, error)
             }
 
         }
@@ -67,25 +77,32 @@ constructor(private val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = getUserScoreNetworkRequest) { getUserScoreNetworkResponse ->
+        networkTask.execute(input = getUserScoreNetworkRequest) { payload ->
 
 
-            if (getUserScoreNetworkResponse.response != null && getUserScoreNetworkResponse.error == null) {
-                val parseRequest = ParseJsonRequest(rawString = getUserScoreNetworkResponse.response)
+            if (payload.success && payload.response != null) {
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
-                val getScoreResponseObject = parseTask.execute<Score>(input = parseRequest,
+                val result = parseTask.execute<Score>(input = parseRequest,
                         clazz = Score::class.java)
 
                 //
                 //send callback
-                val error = if (getScoreResponseObject == null) Throwable("Error getting user score") else null;
-                callback(getScoreResponseObject, error)
+                val error = if (result != null) null else JSONException(Score::class.java.toString())
+                callback(result, error)
 
-            } else {
-                //
-                // network failure
-
-                callback(null, getUserScoreNetworkResponse.error)
+            }
+            //
+            // network failure
+            else if (payload.error != null) {
+                val error = super.parseServerError(serverError = payload.error)
+                callback(null, error)
+            }
+            //
+            // unknown error
+            else {
+                val error = Throwable("Unknown error")
+                callback(null, error)
             }
         }
     }

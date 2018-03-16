@@ -45,5 +45,11 @@ public enum KWSChildrenRegisterForRemoteNotificationsStatus {
         public String toString() {
             return "Success";
         }
+    },
+    NoValidUser{
+        @Override
+        public String toString() {
+            return "No valid User";
+        }
     }
 }

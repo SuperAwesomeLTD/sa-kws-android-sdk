@@ -17,13 +17,11 @@ import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse;
-import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse;
 import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.models.internal.TokenData;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.oauth.KWSLoggedUser;
-import kws.superawesome.tv.kwssdk.models.oauth.KWSMetadata;
 import kws.superawesome.tv.kwssdk.models.user.KWSAddress;
 import kws.superawesome.tv.kwssdk.models.user.KWSApplicationProfile;
 import kws.superawesome.tv.kwssdk.models.user.KWSPermissions;
@@ -72,6 +70,7 @@ import tv.superawesome.protobufs.features.auth.IAuthService;
 import tv.superawesome.protobufs.features.auth.ISingleSignOnService;
 import tv.superawesome.protobufs.features.auth.IUsernameService;
 import tv.superawesome.protobufs.features.scoring.IScoringService;
+import tv.superawesome.protobufs.features.session.ISessionService;
 import tv.superawesome.protobufs.features.user.IUserActionsService;
 import tv.superawesome.protobufs.features.user.IUserService;
 import tv.superawesome.protobufs.models.address.IAddressModel;
@@ -99,6 +98,9 @@ public class KWSChildren {
 
     // singleton instance
     public static KWSChildren sdk = new KWSChildren();
+    public static String TAG = "SA";
+
+    public String kNoLoggedUserMsg = "No valid user logged in/cached.";
 
     // setup variables
     private String kwsApiUrl;
@@ -202,23 +204,23 @@ public class KWSChildren {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     // user creation, auth & logout
-    public void createUser(Context context, String username, String password, String dateOfBirth, String country, String parentEmail, final KWSChildrenCreateUserInterface listener) {
+    public void createUser(final Context context, String username, String password, String dateOfBirth, String country, String parentEmail, final KWSChildrenCreateUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IAuthService authService = factory.getService(IAuthService.class);
+        IAuthService authService = factory.get(IAuthService.class);
 
         if (authService != null) {
-            authService.createUser(username, password, dateOfBirth, country, parentEmail,
-                    new Function2<AuthUserResponse, Throwable, Unit>() {
+            authService.createUser(username, password, null, dateOfBirth, country, parentEmail,
+                    new Function2<ILoggedUserModel, Throwable, Unit>() {
                         @Override
-                        public Unit invoke(AuthUserResponse createdUser, Throwable throwable) {
+                        public Unit invoke(ILoggedUserModel createdUser, Throwable throwable) {
 
                             if (createdUser != null) {
                                 String token = createdUser.getToken();
-                                KWSMetadata kwsMetadata = getMetadataFromToken(token);
-                                if (kwsMetadata != null && kwsMetadata.isValid()) {
-                                    LoggedUser loggedUser = new LoggedUser(token, kwsMetadata, kwsMetadata.userId);
-                                    setLoggedUser(loggedUser);
+                                TokenData tokenData = getMetadataFromToken(token);
+                                if (tokenData != null) {
+                                    LoggedUser loggedUser = new LoggedUser(token, tokenData, tokenData.getUserId());
+                                    setLoggedUser(loggedUser, context);
                                     listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
                                 } else {
                                     listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
@@ -226,7 +228,7 @@ public class KWSChildren {
                             } else {
                                 listener.didCreateUser(KWSChildrenCreateUserStatus.InvalidOperation);
                                 if (throwable != null) {
-                                    Log.d("SA", throwable.toString());
+                                    Log.d(TAG, throwable.toString());
                                 }
                             }
                             return null;
@@ -236,22 +238,22 @@ public class KWSChildren {
 
     }
 
-    public void loginUser(Context context, String username, String password, final KWSChildrenLoginUserInterface listener) {
+    public void loginUser(final Context context, String username, String password, final KWSChildrenLoginUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IAuthService authService = factory.getService(IAuthService.class);
+        IAuthService authService = factory.get(IAuthService.class);
 
         if (authService != null) {
-            authService.loginUser(username, password, new Function2<LoginAuthResponse, Throwable, Unit>() {
+            authService.loginUser(username, password, new Function2<ILoggedUserModel, Throwable, Unit>() {
                 @Override
-                public Unit invoke(LoginAuthResponse loginAuthResponse, Throwable throwable) {
+                public Unit invoke(ILoggedUserModel loginAuthResponse, Throwable throwable) {
 
                     if (loginAuthResponse != null) {
                         String token = loginAuthResponse.getToken();
-                        KWSMetadata kwsMetadata = getMetadataFromToken(token);
-                        if (kwsMetadata != null && kwsMetadata.isValid()) {
-                            LoggedUser loggedUser = new LoggedUser(token, kwsMetadata.userId, kwsMetadata);
-                            setLoggedUser(loggedUser);
+                        TokenData tokenData = getMetadataFromToken(token);
+                        if (tokenData != null) {
+                            LoggedUser loggedUser = new LoggedUser(token, tokenData, tokenData.getUserId());
+                            setLoggedUser(loggedUser, context);
                             listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
                         } else {
                             listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
@@ -259,7 +261,7 @@ public class KWSChildren {
                     } else {
                         listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
                         if (throwable != null) {
-                            Log.d("SA", throwable.toString());
+                            Log.d(TAG, throwable.toString());
                         }
                     }
 
@@ -269,10 +271,10 @@ public class KWSChildren {
         }
     }
 
-    public void authWithSingleSignOnUrl(String singleSignOnUrl, Activity parent, final KWSChildrenLoginUserInterface listener) {
+    public void authWithSingleSignOnUrl(final Context context, String singleSignOnUrl, Activity parent, final KWSChildrenLoginUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        ISingleSignOnService singleSignOnService = factory.getService(ISingleSignOnService.class);
+        ISingleSignOnService singleSignOnService = factory.get(ISingleSignOnService.class);
 
         if (singleSignOnService != null) {
             singleSignOnService.signOn(singleSignOnUrl, parent, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -280,7 +282,7 @@ public class KWSChildren {
                 public Unit invoke(ILoggedUserModel loggedUser, Throwable throwable) {
 
                     if (loggedUser != null && throwable == null) {
-                        setLoggedUser(loggedUser);
+                        setLoggedUser(loggedUser, context);
                         listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
                     } else {
                         listener.didLoginUser(KWSChildrenLoginUserStatus.InvalidCredentials);
@@ -294,6 +296,12 @@ public class KWSChildren {
     }
 
     public void logoutUser(Context context) {
+
+        /**New way*/
+        LoggedUser emptyUser = new LoggedUser("", new TokenData(), 0);
+        setLoggedUser(emptyUser, context);
+
+        /**Here for legacy**/
         // get preferences
         preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
         this.loggedUser = null;
@@ -305,38 +313,45 @@ public class KWSChildren {
     // user random name
     public void getRandomUsername(Context context, final KWSChildrenGetRandomUsernameInterface listener) {
 
-        KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUsernameService usernameService = factory.getService(IUsernameService.class);
 
-        if (usernameService != null) {
-            usernameService.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
-                @Override
-                public Unit invoke(IRandomUsernameModel randomUsername, Throwable throwable) {
-                    if (randomUsername != null && throwable == null) {
-                        listener.didGetRandomUsername(randomUsername.getRandomUsername());
-                    } else {
-                        listener.didGetRandomUsername(null);
-                    }
-                    return null;
+        KWSSDK factory = new KWSSDK(kwsEnvironment);
+        IUsernameService usernameService = factory.get(IUsernameService.class);
+
+        usernameService.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
+            @Override
+            public Unit invoke(IRandomUsernameModel randomUsername, Throwable throwable) {
+
+                if (randomUsername != null) {
+                    listener.didGetRandomUsername(randomUsername.getRandomUsername());
+                } else {
+                    listener.didGetRandomUsername(null);
+
                 }
-            });
-        }
+
+                return null;
+            }
+        });
+
     }
+
 
     // user details
     public void getUser(Context context, final KWSChildrenGetUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUserService userService = factory.getService(IUserService.class);
+        IUserService userService = factory.get(IUserService.class);
 
         if (userService != null) {
 
-            if (loggedUser == null || loggedUser.metadata == null) {
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
                 listener.didGetUser(null);
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
-            userService.getUser(loggedUser.metadata.userId, loggedUser.token, new Function2<IUserDetailsModel, Throwable, Unit>() {
+            userService.getUser(loggedUser.getTokenData().getUserId(), loggedUser.getToken(), new Function2<IUserDetailsModel, Throwable, Unit>() {
                 @Override
                 public Unit invoke(IUserDetailsModel userDetailsResponse, Throwable throwable) {
                     if (userDetailsResponse != null) {
@@ -357,7 +372,7 @@ public class KWSChildren {
                     KWSUser kwsUser = new KWSUser();
 
                     if (userDetailsResponse.getId() != null) {
-                        kwsUser.id = (int) userDetailsResponse.getId();
+                        kwsUser.id = (Integer) userDetailsResponse.getId();
                     } else {
                         return null;
                     }
@@ -473,18 +488,22 @@ public class KWSChildren {
     public void requestPermission(Context context, KWSChildrenPermissionType[] requestedPermissions, final KWSChildrenRequestPermissionInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
 
         if (userActionsService != null) {
 
-            if (loggedUser == null || loggedUser.metadata == null) {
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+
                 listener.didRequestPermission(KWSChildrenRequestPermissionStatus.NetworkError);
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
             List<String> listOfPermissions = getListOfPermissions(requestedPermissions);
 
-            userActionsService.requestPermissions(listOfPermissions, loggedUser.metadata.userId, loggedUser.token, new Function1<Throwable, Unit>() {
+            userActionsService.requestPermissions(listOfPermissions, loggedUser.getTokenData().getUserId(), loggedUser.getToken(), new Function1<Throwable, Unit>() {
                 @Override
                 public Unit invoke(Throwable throwable) {
 
@@ -518,15 +537,20 @@ public class KWSChildren {
     public void inviteUser(Context context, String emailAddress, final KWSChildrenInviteUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
 
         if (userActionsService != null) {
-            if (loggedUser == null || loggedUser.metadata == null) {
+
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+
                 listener.didInviteUser(false);
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
-            userActionsService.inviteUser(emailAddress, loggedUser.metadata.userId, loggedUser.token, new Function1<Throwable, Unit>() {
+            userActionsService.inviteUser(emailAddress, loggedUser.getTokenData().getUserId(), loggedUser.getToken(), new Function1<Throwable, Unit>() {
                 @Override
                 public Unit invoke(Throwable throwable) {
                     if (throwable == null) {
@@ -546,15 +570,20 @@ public class KWSChildren {
     public void triggerEvent(Context context, String token, int points, final KWSChildrenTriggerEventInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
 
         if (userActionsService != null) {
-            if (loggedUser == null || loggedUser.metadata == null) {
+
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+
                 listener.didTriggerEvent(false);
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
-            userActionsService.triggerEvent(token, points, loggedUser.metadata.userId, loggedUser.token, new Function1<Throwable, Unit>() {
+            userActionsService.triggerEvent(token, points, loggedUser.getTokenData().getUserId(), loggedUser.getToken(), new Function1<Throwable, Unit>() {
                 @Override
                 public Unit invoke(Throwable throwable) {
                     if (throwable == null) {
@@ -573,16 +602,20 @@ public class KWSChildren {
     public void hasTriggeredEvent(Context context, int eventId, final KWSChildrenHasTriggeredEventInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
 
         if (userActionsService != null) {
 
-            if (loggedUser == null || loggedUser.metadata == null) {
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+
                 listener.didTriggerEvent(false);
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
-            userActionsService.hasTriggeredEvent(loggedUser.metadata.userId, eventId, loggedUser.token, new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
+            userActionsService.hasTriggeredEvent(loggedUser.getTokenData().getUserId(), eventId, loggedUser.getToken(), new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
                 @Override
                 public Unit invoke(IHasTriggeredEventModel hasTriggeredEvent, Throwable throwable) {
 
@@ -604,17 +637,20 @@ public class KWSChildren {
     public void getScore(Context context, final KWSChildrenGetScoreInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IScoringService scoringService = factory.getService(IScoringService.class);
+        IScoringService scoringService = factory.get(IScoringService.class);
 
         if (scoringService != null) {
 
-            if (loggedUser == null || loggedUser.metadata == null) {
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+
                 listener.didGetScore(null);
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
-
-            scoringService.getScore(loggedUser.metadata.appId, loggedUser.token, new Function2<IScoreModel, Throwable, Unit>() {
+            scoringService.getScore(loggedUser.getTokenData().getAppId(), loggedUser.getToken(), new Function2<IScoreModel, Throwable, Unit>() {
                 @Override
                 public Unit invoke(IScoreModel score, Throwable throwable) {
 
@@ -646,16 +682,21 @@ public class KWSChildren {
     public void getLeaderboard(Context context, final KWSChildrenGetLeaderboardInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IScoringService scoringService = factory.getService(IScoringService.class);
+        IScoringService scoringService = factory.get(IScoringService.class);
 
         if (scoringService != null) {
 
-            if (loggedUser == null || loggedUser.metadata == null) {
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+
                 listener.didGetLeaderboard(new ArrayList<KWSLeader>());
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
-            scoringService.getLeaderboard(loggedUser.metadata.appId, loggedUser.token, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
+
+            scoringService.getLeaderboard(loggedUser.getTokenData().getAppId(), loggedUser.getToken(), new Function2<ILeaderWrapperModel, Throwable, Unit>() {
                 @Override
                 public Unit invoke(ILeaderWrapperModel leadersWrapper, Throwable throwable) {
 
@@ -700,18 +741,22 @@ public class KWSChildren {
     public void getAppData(Context context, final KWSChildrenGetAppDataInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
 
         if (userActionsService != null) {
 
-            if (loggedUser == null || loggedUser.metadata == null) {
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+
                 listener.didGetAppData(new ArrayList<KWSAppData>());
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
-            userActionsService.getAppData(loggedUser.metadata.appId,
-                    loggedUser.metadata.userId,
-                    loggedUser.token, new Function2<IAppDataWrapperModel, Throwable, Unit>() {
+            userActionsService.getAppData(loggedUser.getTokenData().getAppId(),
+                    loggedUser.getTokenData().getUserId(),
+                    loggedUser.getToken(), new Function2<IAppDataWrapperModel, Throwable, Unit>() {
                         @Override
                         public Unit invoke(IAppDataWrapperModel appDataWrapper, Throwable throwable) {
 
@@ -753,21 +798,24 @@ public class KWSChildren {
     public void setAppData(Context context, int value, String name, final KWSChildrenSetAppDataInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
 
         if (userActionsService != null) {
 
-            if (loggedUser == null || loggedUser.metadata == null) {
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
                 listener.didSetAppData(false);
+                Log.d(TAG, kNoLoggedUserMsg);
                 return;
             }
 
             userActionsService.setAppData(
                     value,
                     name,
-                    loggedUser.metadata.appId,
-                    loggedUser.metadata.userId,
-                    loggedUser.token, new Function1<Throwable, Unit>() {
+                    loggedUser.getTokenData().getAppId(),
+                    loggedUser.getTokenData().getUserId(),
+                    loggedUser.getToken(), new Function1<Throwable, Unit>() {
                         @Override
                         public Unit invoke(Throwable throwable) {
 
@@ -786,13 +834,30 @@ public class KWSChildren {
 
     // handle remote notifications
 
-    public void registerForRemoteNotifications(Context context, final KWSChildrenRegisterForRemoteNotificationsInterface listener) {
+    public void registerForRemoteNotifications(final Context context, final KWSChildrenRegisterForRemoteNotificationsInterface listener) {
+
+        final LoggedUser loggedUser = getLoggedUser(context);
+
+        if (loggedUser == null) {
+
+            Log.d(TAG, kNoLoggedUserMsg);
+            listener.didRegisterForRemoteNotifications(KWSChildrenRegisterForRemoteNotificationsStatus.NoValidUser);
+            return;
+        }
+
         notificationProcess.register(context, new KWSChildrenRegisterForRemoteNotificationsInterface() {
             @Override
             public void didRegisterForRemoteNotifications(KWSChildrenRegisterForRemoteNotificationsStatus status) {
+
+                LoggedUser loggedUser = getLoggedUser(context);
+
                 if (status == KWSChildrenRegisterForRemoteNotificationsStatus.Success && loggedUser != null) {
-                    loggedUser.setIsRegisteredForNotifications(true);
+                    loggedUser.setRegisteredForRM(true);
+                    Log.d(TAG, "User registered for RM.");
+                } else {
+                    Log.d(TAG, "Something went wrong...user not registered for RM.");
                 }
+
                 if (listener != null) {
                     listener.didRegisterForRemoteNotifications(status);
                 }
@@ -800,13 +865,34 @@ public class KWSChildren {
         });
     }
 
-    public void unregisterForRemoteNotifications(Context context, final KWSChildrenUnregisterForRemoteNotificationsInterface listener) {
+    public void unregisterForRemoteNotifications(final Context context, final KWSChildrenUnregisterForRemoteNotificationsInterface listener) {
+
+        final LoggedUser loggedUser = getLoggedUser(context);
+
+        if (loggedUser == null) {
+
+            Log.d(TAG, kNoLoggedUserMsg);
+            listener.didUnregisterForRemoteNotifications(false);
+            return;
+        }
+
         notificationProcess.unregister(context, new KWSChildrenUnregisterForRemoteNotificationsInterface() {
             @Override
             public void didUnregisterForRemoteNotifications(boolean unregistered) {
-                if (unregistered && loggedUser != null && loggedUser.isRegisteredForNotifications()) {
-                    loggedUser.setIsRegisteredForNotifications(false);
+
+                LoggedUser loggedUser = getLoggedUser(context);
+
+                if (unregistered && loggedUser != null && loggedUser.getRegisteredForRM()) {
+
+                    loggedUser.setRegisteredForRM(false);
+
+                    Log.d(TAG, "User found and UNREGISTERED for RM!");
+
+                } else {
+
+                    Log.d(TAG, "Something went wrong...");
                 }
+
                 if (listener != null) {
                     listener.didUnregisterForRemoteNotifications(unregistered);
                 }
@@ -814,13 +900,33 @@ public class KWSChildren {
         });
     }
 
-    public void isRegisteredForRemoteNotifications(Context context, final KWSChildrenIsRegisteredForRemoteNotificationsInterface listener) {
+    public void isRegisteredForRemoteNotifications(final Context context, final KWSChildrenIsRegisteredForRemoteNotificationsInterface listener) {
+
+        LoggedUser loggedUser = getLoggedUser(context);
+
+        if (loggedUser == null) {
+
+            Log.d(TAG, kNoLoggedUserMsg);
+            listener.isRegisteredForRemoteNotifications(false);
+            return;
+        }
+
         notificationProcess.isRegistered(context, new KWSChildrenIsRegisteredForRemoteNotificationsInterface() {
             @Override
             public void isRegisteredForRemoteNotifications(boolean registered) {
+
+                LoggedUser loggedUser = getLoggedUser(context);
+
                 if (loggedUser != null) {
-                    loggedUser.setIsRegisteredForNotifications(registered);
+
+                    loggedUser.setRegisteredForRM(registered);
+                    setLoggedUser(loggedUser, context);
+
+                    Log.d(TAG, "User found and registered for RM!");
+                } else {
+                    Log.d(TAG, kNoLoggedUserMsg);
                 }
+
                 if (listener != null) {
                     listener.isRegisteredForRemoteNotifications(registered);
                 }
@@ -888,27 +994,37 @@ public class KWSChildren {
         }
     }
 
-    public void setLoggedUser(LoggedUser loggedUser) {
-        // assign the logged user
-        this.loggedUser = new KWSLoggedUser();
-        this.loggedUser.token = loggedUser.getToken();
-        this.loggedUser.metadata = loggedUser.getKwsMetaData();
+    public LoggedUser getLoggedUser(final Context context) {
 
-        // save in preferences
-        if (preferences != null) {
+        KWSSDK factory = new KWSSDK(kwsEnvironment);
+        ISessionService sessionService = factory.get(ISessionService.class);
 
-            preferences.edit().putString(LOGGED_USER_KEY, this.loggedUser.writeToJson().toString()).apply();
+        if (sessionService != null) {
+            return (LoggedUser) sessionService.getCurrentUser(context);
+        } else {
+            return null;
+        }
+
+    }
+
+    public void setLoggedUser(ILoggedUserModel loggedUser, Context context) {
+
+        KWSSDK factory = new KWSSDK(kwsEnvironment);
+        ISessionService sessionService = factory.get(ISessionService.class);
+
+        if (sessionService != null) {
+            sessionService.saveLoggedUser(context, loggedUser);
         }
     }
 
-    private KWSMetadata getMetadataFromToken(String token) {
+    private TokenData getMetadataFromToken(String token) {
         ParseBase64Request base64req = new ParseBase64Request(token);
         ParseBase64Task base64Task = new ParseBase64Task();
         String metadataJson = base64Task.execute(base64req);
 
         ParseJsonRequest parseJsonReq = new ParseJsonRequest(metadataJson);
         ParseJsonTask parseJsonTask = new ParseJsonTask();
-        return parseJsonTask.execute(parseJsonReq, KWSMetadata.class);
+        return parseJsonTask.execute(parseJsonReq, TokenData.class);
     }
 
 }

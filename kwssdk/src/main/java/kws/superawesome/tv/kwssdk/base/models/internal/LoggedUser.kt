@@ -10,4 +10,7 @@ data class LoggedUser(override val token: String,
 
                       val tokenData: TokenData,
 
-                      override val id: Int) : ILoggedUserModel
+                      override val id: Int) : ILoggedUserModel {
+
+    var registeredForRM: Boolean = false
+}

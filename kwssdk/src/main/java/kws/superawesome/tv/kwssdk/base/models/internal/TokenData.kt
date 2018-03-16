@@ -7,13 +7,22 @@ import com.google.gson.annotations.SerializedName
  */
 /*internal*/
 data class TokenData(@SerializedName("userId")
-                              val userId: Int? = 0,
+                     val userId: Int? = 0,
 
-                              @SerializedName("iss")
-                              val iss: String? = null,
+                     @SerializedName("appId")
+                     val appId: Int? = 0,
 
-                              @SerializedName("iat")
-                              val iat: Long? = 0,
+                     @SerializedName("clientId")
+                     val clientId: String? = null,
 
-                              @SerializedName("exp")
-                              val exp: Long? = 0)
+                     @SerializedName("scope")
+                     val scope: String? = null,
+
+                     @SerializedName("iss")
+                     val iss: String? = null,
+
+                     @SerializedName("iat")
+                     val iat: Long? = 0,
+
+                     @SerializedName("exp")
+                     val exp: Long? = 0)

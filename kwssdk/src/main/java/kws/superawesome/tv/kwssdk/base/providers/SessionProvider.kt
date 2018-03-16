@@ -26,7 +26,8 @@ internal class SessionProvider
 constructor(private val kDB_NAME: String = "KWS_DB",
             private val kUSER_TOKEN_KEY:String = "KWS_USER_TOKEN",
             override val environment: KWSNetworkEnvironment,
-            override val networkTask: NetworkTask = NetworkTask()) : Provider(environment = environment), ISessionService{
+            override val networkTask: NetworkTask = NetworkTask())
+    : Provider(environment = environment), ISessionService{
 
     override fun isUserLoggedIn(context: Context): Boolean = getCurrentUser(context) != null
 

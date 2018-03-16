@@ -1,16 +1,15 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.models.AppConfigWrapper
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername
-import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest
+import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest
 import tv.superawesome.protobufs.features.auth.IUsernameService
+import tv.superawesome.protobufs.models.config.IAppConfigWrapperModel
+import tv.superawesome.protobufs.models.config.IConfigModel
 import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel
 import tv.superawesome.protobufs.models.usernames.IVerifiedUsernameModel
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 29/12/2017.
@@ -18,20 +17,25 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 @PublishedApi
 internal class UsernameProvider
 @JvmOverloads
-constructor(private val environment: KWSNetworkEnvironment,
-            private val networkTask: NetworkTask = NetworkTask()) : IUsernameService {
+constructor(override val environment: KWSNetworkEnvironment,
+            override val networkTask: NetworkTask = NetworkTask(),
+            private val configProvider: ConfigProvider = ConfigProvider(environment, networkTask))
+    : Provider(environment = environment, networkTask = networkTask), IUsernameService {
 
     override fun getRandomUsername(callback: (username: IRandomUsernameModel?, error: Throwable?) -> Unit) {
-        getAppConfig(environment = environment) { appConfigWrapper: AppConfigWrapper?, networkError: Throwable? ->
 
-            if (appConfigWrapper?.app != null && networkError == null) {
+        configProvider.getConfig { appConfigWrapper: IConfigModel?, networkError: Throwable? ->
+
+            if (networkError == null) {
 
                 //get id from configs
-                appConfigWrapper.app.id?.let {
+                (appConfigWrapper as IAppConfigWrapperModel).app?.id?.let {
 
                     //Actually get random user
                     fetchRandomUsernameFromBackend(environment = environment, id = it, callback = callback)
 
+                } ?: run {
+                    callback(null, networkError)
                 }
             } else {
                 //
@@ -40,42 +44,7 @@ constructor(private val environment: KWSNetworkEnvironment,
             }
 
         }
-
-
     }
-
-    private fun getAppConfig(environment: KWSNetworkEnvironment,
-                             callback: (appConfigWrapper: AppConfigWrapper?, error: Throwable?) -> Unit) {
-
-        val appConfigNetworkRequest = AppConfigRequest(
-                environment = environment,
-                clientID = environment.appID
-        )
-
-        networkTask.execute(input = appConfigNetworkRequest) { appConfigNetworkResponse ->
-
-            // network success case
-            if (appConfigNetworkResponse.response != null && appConfigNetworkResponse.error == null) {
-
-                val parseRequest = ParseJsonRequest(rawString = appConfigNetworkResponse.response)
-                val parseTask = ParseJsonTask()
-                val appConfigResponseObject = parseTask.execute<AppConfigWrapper>(input = parseRequest,
-                        clazz = AppConfigWrapper::class.java)
-
-                //
-                // send callback
-                val error = if (appConfigResponseObject != null) null else Throwable("Error - not found valid app config")
-                callback(appConfigResponseObject, error)
-
-            }
-            //
-            // network failure
-            else {
-                callback(null, appConfigNetworkResponse.error)
-            }
-        }
-    }
-
 
     private fun fetchRandomUsernameFromBackend(environment: KWSNetworkEnvironment,
                                                id: Int,
@@ -85,11 +54,11 @@ constructor(private val environment: KWSNetworkEnvironment,
                 environment = environment,
                 appID = id)
 
-        networkTask.execute(input = getRandomUsernameNetworkRequest) { getRandomUsernameNetworkResponse ->
+        networkTask.execute(input = getRandomUsernameNetworkRequest) { payload ->
 
-            val responseString = getRandomUsernameNetworkResponse.response
+            val responseString = payload.response
 
-            if (responseString != null && getRandomUsernameNetworkResponse.error == null) {
+            if (payload.success && responseString != null) {
 
                 val randomUserName = responseString.replace("\"", "")
 
@@ -102,10 +71,18 @@ constructor(private val environment: KWSNetworkEnvironment,
                 }
 
 
-            } else {
-                //
-                //network failure
-                callback(null, getRandomUsernameNetworkResponse.error)
+            }
+            //
+            // network failure
+            else if (payload.error != null) {
+                val error = super.parseServerError(serverError = payload.error)
+                callback(null, error)
+            }
+            //
+            // unknown error
+            else {
+                val error = SDKException()
+                callback(null, error)
             }
 
         }
