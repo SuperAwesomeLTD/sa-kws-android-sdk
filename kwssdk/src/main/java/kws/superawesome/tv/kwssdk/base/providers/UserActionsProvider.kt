@@ -147,10 +147,10 @@ constructor(override val environment: KWSNetworkEnvironment,
     override fun triggerEvent(eventId: String, points: Int, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
         val triggerEventNetworkRequest = TriggerEventRequest(
                 environment = environment,
+                eventId = eventId,
                 points = points,
                 userId = userId,
-                token = token,
-                eventToken = token
+                token = token
         )
 
         handleNetworkResponse(request = triggerEventNetworkRequest, callback = callback)
@@ -165,7 +165,7 @@ constructor(override val environment: KWSNetworkEnvironment,
             val serverError = super.parseServerError(serverError = payload.error)
 
             // network success cae
-            if (payload.status == 200 && serverError == null) {
+            if (payload.success && serverError == null) {
                 callback(null)
             }
             // server error case

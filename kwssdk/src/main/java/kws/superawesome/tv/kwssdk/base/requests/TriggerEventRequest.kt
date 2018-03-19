@@ -8,10 +8,10 @@ import tv.superawesome.samobilebase.network.NetworkMethod
  */
 /*internal*/
 class TriggerEventRequest(environment: KWSNetworkEnvironment,
-                                   points: Int,
-                                   userId: Int,
-                                   token: String,
-                                   eventToken: String
+                          eventId: String,
+                          points: Int,
+                          userId: Int,
+                          token: String
 
 ) : BaseRequest(environment = environment, token = token) {
 
@@ -22,6 +22,6 @@ class TriggerEventRequest(environment: KWSNetworkEnvironment,
 
     override val body: Map<String, Any>? = mapOf(
             "points" to points,
-            "token" to eventToken)
+            "token" to eventId)
 
 }

@@ -26,7 +26,7 @@ public class TestTriggerEventRequest {
     //mocks
     private KWSNetworkEnvironment environment;
     private int userId, points;
-    private String endpoint, token, eventToken;
+    private String endpoint, token, eventId;
     private NetworkMethod method;
 
     @Before
@@ -40,15 +40,15 @@ public class TestTriggerEventRequest {
         endpoint = "v1/users/" + userId + "/trigger-event";
         method = NetworkMethod.POST;
         token = "__mock_token__";
-        eventToken = "__mock_eventToken__";
+        eventId = "__mock_eventID__";
 
         //when
         triggerEventRequest = new TriggerEventRequest(
                 environment,
+                eventId,
                 points,
                 userId,
-                token,
-                eventToken
+                token
         );
     }
 
@@ -59,7 +59,7 @@ public class TestTriggerEventRequest {
         Assert.assertTrue(userId > -1);
         Assert.assertTrue(points > -1);
         Assert.assertNotNull(token);
-        Assert.assertNotNull(eventToken);
+        Assert.assertNotNull(eventId);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
@@ -98,7 +98,7 @@ public class TestTriggerEventRequest {
         Assert.assertTrue(body.containsKey("points"));
         Assert.assertTrue(body.containsKey("token"));
         Assert.assertEquals(points, body.get("points"));
-        Assert.assertEquals(eventToken, body.get("token"));
+        Assert.assertEquals(eventId, body.get("token"));
     }
 
     @Test

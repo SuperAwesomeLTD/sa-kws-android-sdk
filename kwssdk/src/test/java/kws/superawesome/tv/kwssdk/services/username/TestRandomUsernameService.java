@@ -73,8 +73,8 @@ public class TestRandomUsernameService extends TestBaseService {
             }
         };
 
-        KWSSDK factory = new KWSSDK(goodNetworkEnvironment);
-        service = factory.getService(IUsernameService.class);
+        KWSSDK factory = new KWSSDK(goodNetworkEnvironment, task);
+        service = factory.get(IUsernameService.class);
 
         service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override
@@ -114,8 +114,8 @@ public class TestRandomUsernameService extends TestBaseService {
             }
         };
 
-        KWSSDK factory = new KWSSDK(badNetworkEnvironment);
-        service = factory.getService(IUsernameService.class);
+        KWSSDK factory = new KWSSDK(badNetworkEnvironment, task);
+        service = factory.get(IUsernameService.class);
 
         service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override

@@ -102,8 +102,8 @@ public class TestAuthService_CreateUser extends TestAuthService {
             }
         };
 
-        KWSSDK factory = new KWSSDK(badEnvironment);
-        service = factory.getService(IAuthService.class);
+        KWSSDK factory = new KWSSDK(badEnvironment, task);
+        service = factory.get(IAuthService.class);
 
         service.createUser(goodUsername, goodPassword, timezone, goodDOB, goodCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
