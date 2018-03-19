@@ -30,6 +30,7 @@ constructor(override val environment: KWSNetworkEnvironment,
     : Provider(environment = environment, networkTask = networkTask), IAuthService {
 
     override fun loginUser(username: String, password: String, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
+
         val loginUserNetworkRequest = LoginUserRequest(
                 environment = environment,
                 username = username,

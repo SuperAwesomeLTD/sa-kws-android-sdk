@@ -35,8 +35,8 @@ public class TestAuthService extends TestBaseService {
 
         //then
         // init class to test
-        KWSSDK factory = new KWSSDK(environment);
-        service = factory.getService(IAuthService.class);
+        KWSSDK factory = new KWSSDK(environment, task);
+        service = factory.get(IAuthService.class);
 
     }
 

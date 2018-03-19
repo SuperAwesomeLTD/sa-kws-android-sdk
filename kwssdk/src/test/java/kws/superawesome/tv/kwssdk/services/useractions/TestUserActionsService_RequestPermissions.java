@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.odlServices.user;
+package kws.superawesome.tv.kwssdk.services.useractions;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function2;
+import kotlin.jvm.functions.Function1;
 
 /**
  * Created by guilherme.mota on 17/01/2018.
  */
 
-public class TestUserService_RequestPermissions extends TestUserService {
+public class TestUserActionsService_RequestPermissions extends TestUserActionsService {
 
     //for Request Permissions
 
@@ -22,11 +22,10 @@ public class TestUserService_RequestPermissions extends TestUserService {
         List<String> listOfPermissions = new ArrayList<>();
         listOfPermissions.add(goodPermissionString);
 
-        service.requestPermissions(goodUserId, goodMockedToken, listOfPermissions, new Function2<Boolean, Throwable, Unit>() {
+        service.requestPermissions(listOfPermissions, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
-            public Unit invoke(Boolean aSuccess, Throwable throwable) {
+            public Unit invoke(Throwable throwable) {
 
-                Assert.assertTrue(aSuccess);
                 Assert.assertNull(throwable);
 
                 return null;
@@ -40,11 +39,10 @@ public class TestUserService_RequestPermissions extends TestUserService {
         List<String> listOfPermissions = new ArrayList<>();
         listOfPermissions.add(badPermissionString);
 
-        service.requestPermissions(goodUserId, goodMockedToken, listOfPermissions, new Function2<Boolean, Throwable, Unit>() {
+        service.requestPermissions(listOfPermissions, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
-            public Unit invoke(Boolean aSuccess, Throwable throwable) {
+            public Unit invoke(Throwable throwable) {
 
-                Assert.assertFalse(aSuccess);
                 Assert.assertNotNull(throwable);
 
                 return null;
@@ -57,11 +55,10 @@ public class TestUserService_RequestPermissions extends TestUserService {
     public void testUserServiceRequestPermissionBadUserId() {
         List<String> listOfPermissions = new ArrayList<>();
 
-        service.requestPermissions(badUserId, goodMockedToken, listOfPermissions, new Function2<Boolean, Throwable, Unit>() {
+        service.requestPermissions(listOfPermissions, badUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
-            public Unit invoke(Boolean aSuccess, Throwable throwable) {
+            public Unit invoke(Throwable throwable) {
 
-                Assert.assertFalse(aSuccess);
                 Assert.assertNotNull(throwable);
 
                 return null;

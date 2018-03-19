@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.odlServices.app;
+package kws.superawesome.tv.kwssdk.services.scoring;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,21 +6,23 @@ import org.junit.Test;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService;
+import tv.superawesome.protobufs.models.score.ILeaderWrapperModel;
 
 /**
  * Created by guilherme.mota on 17/01/2018.
  */
 
-public class TestAppService_GetLeadersWrapper extends TestAppService {
+public class TestScoringService_GetLeaderboard extends TestScoringService {
 
     //
     //Get LeadersWrapper
     @Test
     public void testAppServiceGetLeadersOK() {
 
-        service.getLeaders(goodAppId, goodMockedToken, new Function2<LeadersWrapper, Throwable, Unit>() {
+        service.getLeaderboard(goodAppId, goodMockedToken, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(LeadersWrapper leadersWrapper, Throwable throwable) {
+            public Unit invoke(ILeaderWrapperModel leadersWrapper, Throwable throwable) {
 
 
                 Assert.assertNotNull(leadersWrapper.getResults());
@@ -34,9 +36,9 @@ public class TestAppService_GetLeadersWrapper extends TestAppService {
 
     @Test
     public void testAppServiceGetLeadersBadAppIdResponse() {
-        service.getLeaders(badAppId, goodMockedToken, new Function2<LeadersWrapper, Throwable, Unit>() {
+        service.getLeaderboard(badAppId, goodMockedToken, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(LeadersWrapper leadersWrapper, Throwable throwable) {
+            public Unit invoke(ILeaderWrapperModel leadersWrapper, Throwable throwable) {
 
                 Assert.assertNull(leadersWrapper);
                 Assert.assertNotNull(throwable);
@@ -49,9 +51,10 @@ public class TestAppService_GetLeadersWrapper extends TestAppService {
 
     @Test(expected = NumberFormatException.class)
     public void testAppServiceGetLeadersAppIdException() throws Throwable {
-        service.getLeaders(Integer.valueOf("badAppId"), goodMockedToken, new Function2<LeadersWrapper, Throwable, Unit>() {
+
+        service.getLeaderboard(Integer.valueOf("badAppId"), goodMockedToken, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(LeadersWrapper leadersWrapper, Throwable throwable) {
+            public Unit invoke(ILeaderWrapperModel leadersWrapper, Throwable throwable) {
 
                 //todo is this needed when expecting an exception?
                 Assert.assertNull(leadersWrapper);
@@ -66,9 +69,9 @@ public class TestAppService_GetLeadersWrapper extends TestAppService {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAppServiceGetLeadersFailNullToken() throws Throwable {
-        service.getLeaders(goodAppId, null, new Function2<LeadersWrapper, Throwable, Unit>() {
+        service.getLeaderboard(goodAppId, null, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(LeadersWrapper leadersWrapper, Throwable throwable) {
+            public Unit invoke(ILeaderWrapperModel leadersWrapper, Throwable throwable) {
 
                 //todo is this needed when expecting an exception?
                 Assert.assertNull(leadersWrapper);

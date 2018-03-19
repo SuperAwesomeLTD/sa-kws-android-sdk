@@ -18,18 +18,18 @@ import kws.superawesome.tv.kwssdk.requests.TestScoreRequest;
 import kws.superawesome.tv.kwssdk.requests.TestSetAppDataWrapperRequest;
 import kws.superawesome.tv.kwssdk.requests.TestTriggerEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
-import kws.superawesome.tv.kwssdk.services.odlServices.app.TestAppService_GetAppDataWrapper;
-import kws.superawesome.tv.kwssdk.services.odlServices.app.TestAppService_GetLeadersWrapper;
-import kws.superawesome.tv.kwssdk.services.odlServices.app.TestAppService_SetAppDataWrapper;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_GetAppData;
+import kws.superawesome.tv.kwssdk.services.scoring.TestScoringService_GetLeaderboard;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_SetAppData;
 import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_CreateUser;
-import kws.superawesome.tv.kwssdk.services.odlServices.events.TestEventsService_HasTriggeredEvent;
-import kws.superawesome.tv.kwssdk.services.odlServices.events.TestEventsService_TriggerEvent;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_HasTriggeredEvent;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_TriggerEvent;
 import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_Login;
-import kws.superawesome.tv.kwssdk.services.odlServices.random_username.TestRandomUsernameService;
-import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_GetScore;
-import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_GetUserDetails;
-import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_InviteUser;
-import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_RequestPermissions;
+import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
+import kws.superawesome.tv.kwssdk.services.scoring.TestScoringService_GetScore;
+import kws.superawesome.tv.kwssdk.services.user.TestUserService_GetUserDetails;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_InviteUser;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_RequestPermissions;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
@@ -54,29 +54,32 @@ import kws.superawesome.tv.kwssdk.services.odlServices.user.TestUserService_Requ
         TestOAuthUserTokenRequest.class,
 
         //Services
-        //App
-        TestAppService_GetAppDataWrapper.class,
-        TestAppService_GetLeadersWrapper.class,
-        TestAppService_SetAppDataWrapper.class,
 
-        //LoginAuthResponse
+        //Auth
         TestAuthService_Login.class,
-
-        //Create User
         TestAuthService_CreateUser.class,
 
-        //Events
-        TestEventsService_TriggerEvent.class,
-        TestEventsService_HasTriggeredEvent.class,
+        //Scoring
+        TestScoringService_GetLeaderboard.class,
+        TestScoringService_GetScore.class,
 
-        //Random Username
-        TestRandomUsernameService.class,
+        //Session
+
 
         //User
-        TestUserService_GetScore.class,
         TestUserService_GetUserDetails.class,
-        TestUserService_InviteUser.class,
-        TestUserService_RequestPermissions.class
+
+        //User Actions
+        TestUserActionsService_GetAppData.class,
+        TestUserActionsService_SetAppData.class,
+        TestUserActionsService_TriggerEvent.class,
+        TestUserActionsService_HasTriggeredEvent.class,
+        TestUserActionsService_InviteUser.class,
+        TestUserActionsService_RequestPermissions.class,
+
+        //Username
+        TestRandomUsernameService.class
+
 
 
 })

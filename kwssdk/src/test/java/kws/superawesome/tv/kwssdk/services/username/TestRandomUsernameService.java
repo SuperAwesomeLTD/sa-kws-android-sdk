@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.odlServices.random_username;
+package kws.superawesome.tv.kwssdk.services.username;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -12,6 +12,8 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername;
 import kws.superawesome.tv.kwssdk.base.services.RandomUsernameService;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
+import tv.superawesome.protobufs.features.auth.IUsernameService;
+import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel;
 
 /**
  * Created by guilherme.mota on 16/01/2018.
@@ -20,7 +22,7 @@ import kws.superawesome.tv.kwssdk.services.TestBaseService;
 public class TestRandomUsernameService extends TestBaseService {
 
     //class to test
-    protected RandomUsernameService service;
+    protected IUsernameService service;
 
     private String goodClientId = "good_client_id";
     private String badClientId = "bad_client_id";
@@ -35,7 +37,8 @@ public class TestRandomUsernameService extends TestBaseService {
 
         //then
         // init class to test
-        service = KWSSDK.get(environment, RandomUsernameService.class, task);
+        KWSSDK factory = new KWSSDK(environment, task);
+        service = factory.get(IUsernameService.class);
 
 
     }
@@ -70,10 +73,12 @@ public class TestRandomUsernameService extends TestBaseService {
             }
         };
 
-        service = KWSSDK.get(goodNetworkEnvironment, RandomUsernameService.class, task);
-        service.getRandomUsername(new Function2<RandomUsername, Throwable, Unit>() {
+        KWSSDK factory = new KWSSDK(goodNetworkEnvironment);
+        service = factory.getService(IUsernameService.class);
+
+        service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(RandomUsername randomUsername, Throwable throwable) {
+            public Unit invoke(IRandomUsernameModel randomUsername, Throwable throwable) {
 
                 Assert.assertNotNull(randomUsername);
                 Assert.assertNull(throwable);
@@ -109,10 +114,12 @@ public class TestRandomUsernameService extends TestBaseService {
             }
         };
 
-        service = KWSSDK.get(badNetworkEnvironment, RandomUsernameService.class, task);
-        service.getRandomUsername(new Function2<RandomUsername, Throwable, Unit>() {
+        KWSSDK factory = new KWSSDK(badNetworkEnvironment);
+        service = factory.getService(IUsernameService.class);
+
+        service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(RandomUsername randomUsername, Throwable throwable) {
+            public Unit invoke(IRandomUsernameModel randomUsername, Throwable throwable) {
 
                 Assert.assertNull(randomUsername);
                 Assert.assertNotNull(throwable);

@@ -9,18 +9,14 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse;
-import kws.superawesome.tv.kwssdk.base.services.CreateUserService;
-import kws.superawesome.tv.kwssdk.services.TestBaseService;
+import tv.superawesome.protobufs.features.auth.IAuthService;
+import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
 
 /**
  * Created by guilherme.mota on 15/01/2018.
  */
 
-public class TestAuthService_CreateUser extends TestBaseService {
-
-    //class to test
-    protected CreateUserService service;
+public class TestAuthService_CreateUser extends TestAuthService {
 
     //given
     protected String goodMockedToken = "good_token";
@@ -28,6 +24,8 @@ public class TestAuthService_CreateUser extends TestBaseService {
 
     protected int goodAppId = 2;
     protected int badAppId = 0;
+
+    private String timezone = null;
 
     private String goodUsername = "testuser123";
     private String badUsername = "bad_username";
@@ -54,10 +52,6 @@ public class TestAuthService_CreateUser extends TestBaseService {
         //extended method from Base
         super.setup();
 
-        //when
-        // init class to test
-        service = KWSSDK.get(environment, CreateUserService.class, task);
-
 
     }
 
@@ -70,12 +64,12 @@ public class TestAuthService_CreateUser extends TestBaseService {
     @Test
     public void testCreateUserServiceOK() {
 
-        service.createUser(goodUsername, goodPassword, goodDOB, goodCountry,
-                goodParentEmail, new Function2<AuthUserResponse, Throwable, Unit>() {
+        service.createUser(goodUsername, goodPassword, timezone, goodDOB, goodCountry,
+                goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
                     @Override
-                    public Unit invoke(AuthUserResponse authUserResponse, Throwable throwable) {
+                    public Unit invoke(ILoggedUserModel loggedUserModel, Throwable throwable) {
 
-                        Assert.assertNotNull(authUserResponse);
+                        Assert.assertNotNull(loggedUserModel);
                         Assert.assertNull(throwable);
 
 
@@ -108,13 +102,15 @@ public class TestAuthService_CreateUser extends TestBaseService {
             }
         };
 
-        service = KWSSDK.get(badEnvironment, CreateUserService.class, task);
-        service.createUser(goodUsername, goodPassword, goodDOB, goodCountry,
-                goodParentEmail, new Function2<AuthUserResponse, Throwable, Unit>() {
-                    @Override
-                    public Unit invoke(AuthUserResponse authUserResponse, Throwable throwable) {
+        KWSSDK factory = new KWSSDK(badEnvironment);
+        service = factory.getService(IAuthService.class);
 
-                        Assert.assertNull(authUserResponse);
+        service.createUser(goodUsername, goodPassword, timezone, goodDOB, goodCountry,
+                goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
+                    @Override
+                    public Unit invoke(ILoggedUserModel loggedUserModel, Throwable throwable) {
+
+                        Assert.assertNull(loggedUserModel);
                         Assert.assertNotNull(throwable);
 
 
@@ -127,12 +123,12 @@ public class TestAuthService_CreateUser extends TestBaseService {
     @Test
     public void testCreateUserServiceBadUsername() {
 
-        service.createUser(badUsername, goodPassword, goodDOB, goodCountry,
-                goodParentEmail, new Function2<AuthUserResponse, Throwable, Unit>() {
+        service.createUser(badUsername, goodPassword, timezone, goodDOB, goodCountry,
+                goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
                     @Override
-                    public Unit invoke(AuthUserResponse authUserResponse, Throwable throwable) {
+                    public Unit invoke(ILoggedUserModel loggedUserModel, Throwable throwable) {
 
-                        Assert.assertNull(authUserResponse);
+                        Assert.assertNull(loggedUserModel);
                         Assert.assertNotNull(throwable);
 
 
@@ -145,12 +141,12 @@ public class TestAuthService_CreateUser extends TestBaseService {
     @Test
     public void testCreateUserServiceBadPassword() {
 
-        service.createUser(goodUsername, badPassword, goodDOB, goodCountry,
-                goodParentEmail, new Function2<AuthUserResponse, Throwable, Unit>() {
+        service.createUser(goodUsername, badPassword, timezone, goodDOB, goodCountry,
+                goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
                     @Override
-                    public Unit invoke(AuthUserResponse authUserResponse, Throwable throwable) {
+                    public Unit invoke(ILoggedUserModel loggedUserModel, Throwable throwable) {
 
-                        Assert.assertNull(authUserResponse);
+                        Assert.assertNull(loggedUserModel);
                         Assert.assertNotNull(throwable);
 
 
@@ -163,12 +159,12 @@ public class TestAuthService_CreateUser extends TestBaseService {
     @Test
     public void testCreateUserServiceBadDOB() {
 
-        service.createUser(goodUsername, goodPassword, badDOB, goodCountry,
-                goodParentEmail, new Function2<AuthUserResponse, Throwable, Unit>() {
+        service.createUser(goodUsername, goodPassword, timezone, badDOB, goodCountry,
+                goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
                     @Override
-                    public Unit invoke(AuthUserResponse authUserResponse, Throwable throwable) {
+                    public Unit invoke(ILoggedUserModel loggedUserModel, Throwable throwable) {
 
-                        Assert.assertNull(authUserResponse);
+                        Assert.assertNull(loggedUserModel);
                         Assert.assertNotNull(throwable);
 
 
@@ -181,12 +177,12 @@ public class TestAuthService_CreateUser extends TestBaseService {
     @Test
     public void testCreateUserServiceBadCountry() {
 
-        service.createUser(goodUsername, goodPassword, goodDOB, badCountry,
-                goodParentEmail, new Function2<AuthUserResponse, Throwable, Unit>() {
+        service.createUser(goodUsername, goodPassword, timezone, goodDOB, badCountry,
+                goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
                     @Override
-                    public Unit invoke(AuthUserResponse authUserResponse, Throwable throwable) {
+                    public Unit invoke(ILoggedUserModel loggedUserModel, Throwable throwable) {
 
-                        Assert.assertNull(authUserResponse);
+                        Assert.assertNull(loggedUserModel);
                         Assert.assertNotNull(throwable);
 
 
@@ -200,12 +196,12 @@ public class TestAuthService_CreateUser extends TestBaseService {
     @Test
     public void testCreateUserServiceBadParentEmail() {
 
-        service.createUser(goodUsername, goodPassword, goodDOB, badCountry,
-                badParentEmail, new Function2<AuthUserResponse, Throwable, Unit>() {
+        service.createUser(goodUsername, goodPassword, timezone, goodDOB, badCountry,
+                badParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
                     @Override
-                    public Unit invoke(AuthUserResponse authUserResponse, Throwable throwable) {
+                    public Unit invoke(ILoggedUserModel loggedUserModel, Throwable throwable) {
 
-                        Assert.assertNull(authUserResponse);
+                        Assert.assertNull(loggedUserModel);
                         Assert.assertNotNull(throwable);
 
 

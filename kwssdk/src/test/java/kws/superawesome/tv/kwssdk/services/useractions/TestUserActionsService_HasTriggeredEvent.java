@@ -1,17 +1,17 @@
-package kws.superawesome.tv.kwssdk.services.odlServices.events;
+package kws.superawesome.tv.kwssdk.services.useractions;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent;
+import tv.superawesome.protobufs.models.score.IHasTriggeredEventModel;
 
 /**
  * Created by guilherme.mota on 17/01/2018.
  */
 
-public class TestEventsService_HasTriggeredEvent extends TestEventsService {
+public class TestUserActionsService_HasTriggeredEvent extends TestUserActionsService {
 
     private int goodEventId = 10;
     private int badEventId = 1;
@@ -21,9 +21,9 @@ public class TestEventsService_HasTriggeredEvent extends TestEventsService {
     @Test
     public void testEventsServiceHasTriggeredEventOK() {
 
-        service.hasTriggeredEvent(goodUserId, goodEventId, goodMockedToken, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+        service.hasTriggeredEvent(goodEventId, goodUserId, goodMockedToken, new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+            public Unit invoke(IHasTriggeredEventModel hasTriggeredEvent, Throwable throwable) {
 
                 Assert.assertNotNull(hasTriggeredEvent);
                 Assert.assertNull(throwable);
@@ -37,9 +37,9 @@ public class TestEventsService_HasTriggeredEvent extends TestEventsService {
     @Test
     public void testEventsServiceHasTriggeredEventBadUserId() {
 
-        service.hasTriggeredEvent(badUserId, goodEventId, goodMockedToken, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+        service.hasTriggeredEvent(goodEventId, badUserId, goodMockedToken, new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+            public Unit invoke(IHasTriggeredEventModel hasTriggeredEvent, Throwable throwable) {
 
                 Assert.assertNull(hasTriggeredEvent);
                 Assert.assertNotNull(throwable);
@@ -53,9 +53,9 @@ public class TestEventsService_HasTriggeredEvent extends TestEventsService {
     @Test
     public void testEventsServiceHasTriggeredEventBadEventId() {
 
-        service.hasTriggeredEvent(goodUserId, badEventId, goodMockedToken, new Function2<HasTriggeredEvent, Throwable, Unit>() {
+        service.hasTriggeredEvent(badEventId, goodUserId, goodMockedToken, new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(HasTriggeredEvent hasTriggeredEvent, Throwable throwable) {
+            public Unit invoke(IHasTriggeredEventModel hasTriggeredEvent, Throwable throwable) {
 
                 Assert.assertNull(hasTriggeredEvent);
                 Assert.assertNotNull(throwable);
