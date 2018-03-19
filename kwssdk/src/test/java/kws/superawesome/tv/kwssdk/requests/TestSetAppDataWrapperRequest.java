@@ -25,8 +25,8 @@ public class TestSetAppDataWrapperRequest {
 
     //mocks
     private KWSNetworkEnvironment environment;
-    private int appId, userId, numericValue;
-    private String nameValue, endpoint, token;
+    private int appId, userId, value;
+    private String key, endpoint, token;
     private NetworkMethod method;
 
     @Before
@@ -38,8 +38,8 @@ public class TestSetAppDataWrapperRequest {
         //given
         appId = 1;
         userId = 1;
-        nameValue = "__mock_nameValue__";
-        numericValue = 1;
+        key = "__mock_nameValue__";
+        value = 1;
         endpoint = "v1/apps/" + appId + "/users/" + userId + "/app-data/set";
         method = NetworkMethod.POST;
         token = "__mock_token__";
@@ -49,8 +49,8 @@ public class TestSetAppDataWrapperRequest {
                 environment,
                 appId,
                 userId,
-                nameValue,
-                numericValue,
+                value,
+                key,
                 token
         );
 
@@ -62,8 +62,8 @@ public class TestSetAppDataWrapperRequest {
 
         Assert.assertTrue(appId > -1);
         Assert.assertTrue(userId > -1);
-        Assert.assertTrue(numericValue > -1);
-        Assert.assertNotNull(nameValue);
+        Assert.assertTrue(value > -1);
+        Assert.assertNotNull(key);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
         Assert.assertNotNull(token);
@@ -103,8 +103,8 @@ public class TestSetAppDataWrapperRequest {
         Assert.assertEquals(body.size(), 2);
         Assert.assertTrue(body.containsKey("name"));
         Assert.assertTrue(body.containsKey("value"));
-        Assert.assertEquals(nameValue, body.get("name"));
-        Assert.assertEquals(numericValue, body.get("value"));
+        Assert.assertEquals(key, body.get("name"));
+        Assert.assertEquals(value, body.get("value"));
 
     }
 

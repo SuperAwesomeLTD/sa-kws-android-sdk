@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.user;
+package kws.superawesome.tv.kwssdk.services.useractions;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -6,18 +6,17 @@ import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
-import tv.superawesome.protobufs.features.user.IUserService;
+import tv.superawesome.protobufs.features.user.IUserActionsService;
 
 /**
- * Created by guilherme.mota on 16/01/2018.
+ * Created by guilherme.mota on 15/01/2018.
  */
 
-public class TestUserService extends TestBaseService {
+public class TestUserActionsService extends TestBaseService {
 
-    // class to test
-    protected IUserService service;
+    //class to test
+    protected IUserActionsService service;
 
-    //given
     protected int goodAppId = 2;
     protected int badAppId = 0;
 
@@ -25,6 +24,13 @@ public class TestUserService extends TestBaseService {
     protected int badUserId = 0;
 
     protected String goodMockedToken = "good_token";
+
+    protected String goodEmail = "good_email";
+
+    protected String badEmail = "bad_email";
+
+    protected String goodPermissionString = "good_permission";
+    protected String badPermissionString = "bad_permission";
 
     @Override
     @Before
@@ -34,19 +40,19 @@ public class TestUserService extends TestBaseService {
         super.setup();
 
 
-        //then
+        //when
         // init class to test
         // init class to test
         KWSSDK factory = new KWSSDK(environment, task);
-        service = factory.get(IUserService.class);
+        service = factory.get(IUserActionsService.class);
 
 
     }
+
 
     @Test
     public void testServiceToNotBeNull() {
         Assert.assertNotNull(service);
     }
-
 
 }

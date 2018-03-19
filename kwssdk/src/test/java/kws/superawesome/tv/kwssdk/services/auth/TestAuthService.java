@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.services.user;
+package kws.superawesome.tv.kwssdk.services.auth;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -6,25 +6,23 @@ import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
-import tv.superawesome.protobufs.features.user.IUserService;
+import tv.superawesome.protobufs.features.auth.IAuthService;
 
 /**
- * Created by guilherme.mota on 16/01/2018.
+ * Created by guilherme.mota on 10/01/2018.
  */
 
-public class TestUserService extends TestBaseService {
+public class TestAuthService extends TestBaseService {
 
     // class to test
-    protected IUserService service;
+    protected IAuthService service;
 
     //given
-    protected int goodAppId = 2;
-    protected int badAppId = 0;
+    protected String goodUsername = "good_username";
+    protected String badUsername = "bad_username";
 
-    protected int goodUserId = 25;
-    protected int badUserId = 0;
-
-    protected String goodMockedToken = "good_token";
+    protected String goodPassword = "good_password";
+    protected String badPassword = "bad_password";
 
     @Override
     @Before
@@ -36,17 +34,15 @@ public class TestUserService extends TestBaseService {
 
         //then
         // init class to test
-        // init class to test
         KWSSDK factory = new KWSSDK(environment, task);
-        service = factory.get(IUserService.class);
-
+        service = factory.get(IAuthService.class);
 
     }
+
 
     @Test
     public void testServiceToNotBeNull() {
         Assert.assertNotNull(service);
     }
-
 
 }

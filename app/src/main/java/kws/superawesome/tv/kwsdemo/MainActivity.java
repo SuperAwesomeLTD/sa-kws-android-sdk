@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (status) {
                     case Success:
                         log += "Auth as " + username + "w/ pwd as: " + pwd + "\n";
-                        Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson() + "");
+                        Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser(MainActivity.this).getTokenData().toString());
                         break;
                     case NetworkError:
                         log += "Network error authing\n";
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         String singleSignOnUrl = "https://club.demo.superawesome.tv/";
 
-        KWSChildren.sdk.authWithSingleSignOnUrl(singleSignOnUrl, this, new KWSChildrenLoginUserInterface() {
+        KWSChildren.sdk.authWithSingleSignOnUrl(this, singleSignOnUrl, this, new KWSChildrenLoginUserInterface() {
             @Override
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 log += "Web View Authentication status is " + status + "\n";
@@ -162,15 +162,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void generateRandomName(View v) {
+
         KWSChildren.sdk.getRandomUsername(this, new KWSChildrenGetRandomUsernameInterface() {
             @Override
             public void didGetRandomUsername(String name) {
 
-                if(name != null){
+                if (name != null) {
                     log += "Random name " + name + "\n";
                     logView.setText(log);
                     Log.d("SuperAwesome", name);
-                }else{
+                } else {
                     log += "Invalid Random name. (null)  \n";
                     logView.setText(log);
                     Log.d("SuperAwesome", "Random name is (null)");
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         log += "Trying to registerForRemoteNotifications user\n";
         logView.setText(log);
 
+        //TODO update to new GET LOGGED USER
 
         KWSChildren.sdk.registerForRemoteNotificationsWithPopup(this, new KWSChildrenRegisterForRemoteNotificationsInterface() {
             @Override
@@ -253,6 +255,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void unregisterAction(View v) {
+
+        //TODO update to new GET LOGGED USER
+
         log += "Trying to unregisterForRemoteNotifications user\n";
         logView.setText(log);
         KWSChildren.sdk.unregisterForRemoteNotifications(this, new KWSChildrenUnregisterForRemoteNotificationsInterface() {
@@ -269,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkRegisteredAction(View v) {
+
+        //TODO needs to update to use the new GET LOGGED USER
 
         log += "Checking if user is registered or not\n";
         logView.setText(log);
@@ -393,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkEvent(View v) {
-        final int eventId = 10;
+        final int eventId = 802;
         KWSChildren.sdk.hasTriggeredEvent(this, eventId, new KWSChildrenHasTriggeredEventInterface() {
             @Override
             public void didTriggerEvent(Boolean triggered) {
@@ -407,13 +414,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void setAppData(View v) {
 
-        final int value = 33;
-        final String name = "new_val";
+        final int value = 36;
+        final String key = "test_val";
 
-        KWSChildren.sdk.setAppData(this, value, "new_val", new KWSChildrenSetAppDataInterface() {
+        KWSChildren.sdk.setAppData(this, value, key, new KWSChildrenSetAppDataInterface() {
             @Override
             public void didSetAppData(boolean success) {
-                log += "Set " + name + " = " + value + " with " + success + "\n";
+                log += "Set " + key + " = " + value + " with " + success + "\n";
                 logView.setText(log);
                 Log.d("SuperAwesome ", String.valueOf(success));
             }

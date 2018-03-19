@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.models.UserDetails;
+import tv.superawesome.protobufs.models.user.IUserDetailsModel;
 
 /**
  * Created by guilherme.mota on 17/01/2018.
@@ -21,14 +21,14 @@ public class TestUserService_GetUserDetails extends TestUserService {
     @Test
     public void testUserServiceGetUserDetailsOK() {
 
-        service.getUserDetails(goodUserId, goodMockedToken, new Function2<UserDetails, Throwable, Unit>() {
+        service.getUser(goodUserId, goodMockedToken, new Function2<IUserDetailsModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(UserDetails userDetails, Throwable throwable) {
+            public Unit invoke(IUserDetailsModel userDetails, Throwable throwable) {
 
                 Assert.assertNotNull(userDetails);
                 Assert.assertNull(throwable);
 
-                Assert.assertEquals(25, (int) userDetails.getId());
+                Assert.assertEquals((Integer) 25, (Integer) userDetails.getId());
                 Assert.assertEquals("username", userDetails.getName());
                 Assert.assertEquals("first_name", userDetails.getFirstName());
                 Assert.assertEquals("last_name", userDetails.getLastName());
@@ -80,9 +80,9 @@ public class TestUserService_GetUserDetails extends TestUserService {
     @Test
     public void testUserServiceGetUserDetailsBadUserId() {
 
-        service.getUserDetails(badUserId, goodMockedToken, new Function2<UserDetails, Throwable, Unit>() {
+        service.getUser(badUserId, goodMockedToken, new Function2<IUserDetailsModel, Throwable, Unit>() {
             @Override
-            public Unit invoke(UserDetails userDetails, Throwable throwable) {
+            public Unit invoke(IUserDetailsModel userDetails, Throwable throwable) {
 
                 Assert.assertNull(userDetails);
                 Assert.assertNotNull(throwable);
