@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.services.LoginService;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 import tv.superawesome.protobufs.features.auth.IAuthService;
 
