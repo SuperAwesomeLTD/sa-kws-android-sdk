@@ -18,18 +18,21 @@ import kws.superawesome.tv.kwssdk.requests.TestScoreRequest;
 import kws.superawesome.tv.kwssdk.requests.TestSetAppDataWrapperRequest;
 import kws.superawesome.tv.kwssdk.requests.TestTriggerEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
-import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_GetAppData;
-import kws.superawesome.tv.kwssdk.services.scoring.TestScoringService_GetLeaderboard;
-import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_SetAppData;
 import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_CreateUser;
-import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_HasTriggeredEvent;
-import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_TriggerEvent;
 import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_Login;
-import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
+import kws.superawesome.tv.kwssdk.services.scoring.TestScoringService_GetLeaderboard;
 import kws.superawesome.tv.kwssdk.services.scoring.TestScoringService_GetScore;
+import kws.superawesome.tv.kwssdk.services.session.TestSessionService_GetCurrentUser;
+import kws.superawesome.tv.kwssdk.services.session.TestSessionService_IsUserLoggedIn;
+import kws.superawesome.tv.kwssdk.services.session.TestSessionService_SaveLoggedUser;
 import kws.superawesome.tv.kwssdk.services.user.TestUserService_GetUserDetails;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_GetAppData;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_HasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_InviteUser;
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_RequestPermissions;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_SetAppData;
+import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_TriggerEvent;
+import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
@@ -64,7 +67,9 @@ import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_Re
         TestScoringService_GetScore.class,
 
         //Session
-
+        TestSessionService_GetCurrentUser.class,
+        TestSessionService_IsUserLoggedIn.class,
+        TestSessionService_SaveLoggedUser.class,
 
         //User
         TestUserService_GetUserDetails.class,
@@ -79,7 +84,6 @@ import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_Re
 
         //Username
         TestRandomUsernameService.class
-
 
 
 })
