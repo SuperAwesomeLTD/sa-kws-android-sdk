@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkEvent(View v) {
-        final int eventId = 10;
+        final int eventId = 802;
         KWSChildren.sdk.hasTriggeredEvent(this, eventId, new KWSChildrenHasTriggeredEventInterface() {
             @Override
             public void didTriggerEvent(Boolean triggered) {
@@ -414,13 +414,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void setAppData(View v) {
 
-        final int value = 33;
-        final String name = "new_val";
+        final int value = 36;
+        final String key = "test_val";
 
-        KWSChildren.sdk.setAppData(this, value, "new_val", new KWSChildrenSetAppDataInterface() {
+        KWSChildren.sdk.setAppData(this, value, key, new KWSChildrenSetAppDataInterface() {
             @Override
             public void didSetAppData(boolean success) {
-                log += "Set " + name + " = " + value + " with " + success + "\n";
+                log += "Set " + key + " = " + value + " with " + success + "\n";
                 logView.setText(log);
                 Log.d("SuperAwesome ", String.valueOf(success));
             }

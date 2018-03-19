@@ -317,20 +317,24 @@ public class KWSChildren {
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUsernameService usernameService = factory.get(IUsernameService.class);
 
-        usernameService.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
-            @Override
-            public Unit invoke(IRandomUsernameModel randomUsername, Throwable throwable) {
+        if (usernameService != null) {
 
-                if (randomUsername != null) {
-                    listener.didGetRandomUsername(randomUsername.getRandomUsername());
-                } else {
-                    listener.didGetRandomUsername(null);
+            usernameService.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
+                @Override
+                public Unit invoke(IRandomUsernameModel randomUsername, Throwable throwable) {
 
+                    if (randomUsername != null) {
+                        listener.didGetRandomUsername(randomUsername.getRandomUsername());
+                    } else {
+                        listener.didGetRandomUsername(null);
+
+                    }
+
+                    return null;
                 }
+            });
 
-                return null;
-            }
-        });
+        }
 
     }
 
@@ -615,7 +619,7 @@ public class KWSChildren {
                 return;
             }
 
-            userActionsService.hasTriggeredEvent(loggedUser.getTokenData().getUserId(), eventId, loggedUser.getToken(), new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
+            userActionsService.hasTriggeredEvent(eventId, loggedUser.getTokenData().getUserId(), loggedUser.getToken(), new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
                 @Override
                 public Unit invoke(IHasTriggeredEventModel hasTriggeredEvent, Throwable throwable) {
 
@@ -754,8 +758,9 @@ public class KWSChildren {
                 return;
             }
 
-            userActionsService.getAppData(loggedUser.getTokenData().getAppId(),
+            userActionsService.getAppData(
                     loggedUser.getTokenData().getUserId(),
+                    loggedUser.getTokenData().getAppId(),
                     loggedUser.getToken(), new Function2<IAppDataWrapperModel, Throwable, Unit>() {
                         @Override
                         public Unit invoke(IAppDataWrapperModel appDataWrapper, Throwable throwable) {
@@ -813,8 +818,8 @@ public class KWSChildren {
             userActionsService.setAppData(
                     value,
                     name,
-                    loggedUser.getTokenData().getAppId(),
                     loggedUser.getTokenData().getUserId(),
+                    loggedUser.getTokenData().getAppId(),
                     loggedUser.getToken(), new Function1<Throwable, Unit>() {
                         @Override
                         public Unit invoke(Throwable throwable) {
