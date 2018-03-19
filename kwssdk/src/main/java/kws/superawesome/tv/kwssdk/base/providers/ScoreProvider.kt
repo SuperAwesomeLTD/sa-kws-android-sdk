@@ -40,15 +40,24 @@ constructor(override val environment: KWSNetworkEnvironment,
             //
             // network success case
             if (payload.success && payload.response != null) {
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
+
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<LeadersWrapper>(input = parseRequest,
                         clazz = LeadersWrapper::class.java)
 
-                //
-                // send callback
-                val error = if (result != null) null else JSONException(LeadersWrapper::class.java.toString())
-                callback(result, error)
+                //parse error
+                if (result == null) {
+
+                    val error = JSONException(LeadersWrapper::class.java.toString())
+                    callback(null, error)
+
+                } else {
+
+                    //send callback
+                    callback(result, null)
+
+                }
 
             }
             //
@@ -81,15 +90,24 @@ constructor(override val environment: KWSNetworkEnvironment,
 
 
             if (payload.success && payload.response != null) {
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
+
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<Score>(input = parseRequest,
                         clazz = Score::class.java)
 
-                //
-                //send callback
-                val error = if (result != null) null else JSONException(Score::class.java.toString())
-                callback(result, error)
+                //parse error
+                if (result == null) {
+
+                    val error = JSONException(Score::class.java.toString())
+                    callback(null, error)
+
+                } else {
+
+                    //send callback
+                    callback(result, null)
+
+                }
 
             }
             //

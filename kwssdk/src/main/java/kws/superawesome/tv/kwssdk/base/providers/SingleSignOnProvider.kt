@@ -101,38 +101,39 @@ constructor(override val environment: KWSNetworkEnvironment,
                 val result = parseTask.execute<LoginAuthResponse>(input = parseRequest,
                         clazz = LoginAuthResponse::class.java)
 
-                if (result != null) {
+                //parse error
+                if (result == null) {
 
-                    val base64req = ParseBase64Request(base64String = result?.token)
-                    val base64Task = ParseBase64Task()
-                    val metadataJson = base64Task.execute(input = base64req)
-
-                    val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
-                    val parseJsonTask = ParseJsonTask()
-                    val tokenData = parseJsonTask.execute(input = parseJsonReq, clazz = TokenData::class.java)
-
-
-                    val error = if (tokenData != null) null else JSONException(TokenData::class.java.toString())
-
-                    val userId = tokenData?.userId
-
-                    val loggedUser = if (error == null
-                            && tokenData != null
-                            && result != null
-                            && result.token != null) {
-
-                        LoggedUser(token = result.token, tokenData = tokenData, id = userId!!)
-
-                    } else {
-                        null
-                    }
-
-                    //
-                    //send callback
-                    callback(loggedUser, error)
-                } else {
                     val error = JSONException(LoginAuthResponse::class.java.toString())
                     callback(null, error)
+
+                } else {
+
+                    val base64Task = ParseBase64Task()
+                    val base64req = ParseBase64Request(base64String = result?.token)
+                    val metadataJson = base64Task.execute(input = base64req)
+
+                    val parseJsonTask = ParseJsonTask()
+                    val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
+                    val tokenData = parseJsonTask.execute(input = parseJsonReq, clazz = TokenData::class.java)
+
+                    //parse error
+                    if (tokenData == null) {
+
+                        val error = JSONException(TokenData::class.java.toString())
+                        callback(null, error)
+
+                    } else {
+
+                        if (tokenData.userId != null) {
+
+                            val loggedUser = LoggedUser(token = result.token, tokenData = tokenData, id = tokenData.userId)
+                            callback(loggedUser, null)
+
+                        }
+
+                    }
+
 
                 }
             }

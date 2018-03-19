@@ -4,6 +4,7 @@ import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername
 import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest
+import org.json.JSONException
 import tv.superawesome.protobufs.features.auth.IUsernameService
 import tv.superawesome.protobufs.models.config.IAppConfigWrapperModel
 import tv.superawesome.protobufs.models.config.IConfigModel
@@ -28,15 +29,26 @@ constructor(override val environment: KWSNetworkEnvironment,
 
             if (networkError == null) {
 
-                //get id from configs
-                (appConfigWrapper as IAppConfigWrapperModel).app?.id?.let {
 
-                    //Actually get random user
-                    fetchRandomUsernameFromBackend(environment = environment, id = it, callback = callback)
+                when (appConfigWrapper) {
+                    is IAppConfigWrapperModel -> {
 
-                } ?: run {
-                    callback(null, networkError)
+                        appConfigWrapper.app?.id?.let {
+
+                            fetchRandomUsernameFromBackend(environment = environment, id = it, callback = callback)
+
+                        } ?: run {
+
+                            callback(null, SDKException())
+
+                        }
+                    }
+                    else -> {
+                        val error = JSONException(IAppConfigWrapperModel::class.java.toString())
+                        callback(null, error)
+                    }
                 }
+
             } else {
                 //
                 // network failure

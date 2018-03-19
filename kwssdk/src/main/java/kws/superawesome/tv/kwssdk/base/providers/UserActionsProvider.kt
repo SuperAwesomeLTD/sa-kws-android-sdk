@@ -38,16 +38,23 @@ constructor(override val environment: KWSNetworkEnvironment,
 
             if (payload.success && payload.response != null) {
 
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<AppDataWrapper>(input = parseRequest,
                         clazz = AppDataWrapper::class.java)
 
-                //
-                // send callback
-                val error = if (result != null) null else JSONException(AppDataWrapper::class.java.toString())
-                callback(result, error)
+                //parse error
+                if (result == null) {
 
+                    val error = JSONException(AppDataWrapper::class.java.toString())
+                    callback(null, error)
+
+                } else {
+
+                    //send callback
+                    callback(result, null)
+
+                }
 
             }
             //
@@ -78,17 +85,25 @@ constructor(override val environment: KWSNetworkEnvironment,
 
         networkTask.execute(input = hasTriggeredEventNetworkRequest) { payload ->
 
-            if (payload.success && payload.response != null) {
+            if ((payload.status == 200 || payload.status == 204) && payload.response != null) {
 
 
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<HasTriggeredEvent>(input = parseRequest, clazz = HasTriggeredEvent::class.java)
 
-                //
-                //send callback
-                val error = if (result != null) null else JSONException(HasTriggeredEvent::class.java.toString())
-                callback(result, error)
+                //parse error
+                if (result == null) {
+
+                    val error = JSONException(HasTriggeredEvent::class.java.toString())
+                    callback(null, error)
+
+                } else {
+
+                    //send callback
+                    callback(result, null)
+
+                }
 
             }
             //
@@ -165,7 +180,7 @@ constructor(override val environment: KWSNetworkEnvironment,
             val serverError = super.parseServerError(serverError = payload.error)
 
             // network success cae
-            if (payload.success && serverError == null) {
+            if ((payload.status == 200 || payload.status == 204) && serverError == null) {
                 callback(null)
             }
             // server error case

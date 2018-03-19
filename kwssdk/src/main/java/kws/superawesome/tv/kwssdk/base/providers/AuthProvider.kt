@@ -44,14 +44,23 @@ constructor(override val environment: KWSNetworkEnvironment,
             // network success case
             if (payload.success && payload.response != null) {
 
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<LoginAuthResponse>(input = parseRequest, clazz = LoginAuthResponse::class.java)
 
-                //
-                //full success case
-                val error = if (result != null) null else JSONException(LoginAuthResponse::class.java.toString())
-                callback(result, error)
+                //parse error
+                if (result == null) {
+
+                    val error = JSONException(LoginAuthResponse::class.java.toString())
+                    callback(null, error)
+
+                } else {
+
+                    //send callback
+                    callback(result, null)
+
+                }
+
 
             }
             //
@@ -78,12 +87,12 @@ constructor(override val environment: KWSNetworkEnvironment,
             if (loginAuthResponse?.token != null && networkError == null) {
                 val token = loginAuthResponse.token
 
-                val base64req = ParseBase64Request(base64String = token)
                 val base64Task = ParseBase64Task()
+                val base64req = ParseBase64Request(base64String = token)
                 val metadataJson = base64Task.execute(input = base64req)
 
-                val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
                 val parseJsonTask = ParseJsonTask()
+                val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
                 val metadata = parseJsonTask.execute<TokenData>(input = parseJsonReq, clazz = TokenData::class.java)
 
                 if (metadata?.appId != null) {
@@ -98,7 +107,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                                 appId = appId, token = token, callback = callback)
 
                     } else {
-                        callback(null, Throwable("Error with fields being null"))
+                        callback(null, SDKException())
                     }
                 } else {
                     val error = JSONException(TokenData::class.java.toString())
@@ -139,16 +148,24 @@ constructor(override val environment: KWSNetworkEnvironment,
             // network success case
             if (payload.success && payload.response != null) {
 
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<AuthUserResponse>(input = parseRequest,
                         clazz = AuthUserResponse::class.java)
 
-                val error = if (result != null) null else JSONException(AuthUserResponse::class.java.toString())
+                //parse error
+                if (result == null) {
 
-                //
-                //send callback
-                callback(result, error)
+                    val error = JSONException(AuthUserResponse::class.java.toString())
+                    callback(null, error)
+
+                } else {
+
+                    //send callback
+                    callback(result, null)
+
+                }
+
 
             } else if (payload.error != null) {
                 //

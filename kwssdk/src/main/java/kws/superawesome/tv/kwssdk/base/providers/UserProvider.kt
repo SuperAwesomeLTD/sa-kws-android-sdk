@@ -33,13 +33,25 @@ constructor(override val environment: KWSNetworkEnvironment,
 
             // network success case
             if (payload.success && payload.response != null) {
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
+
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<UserDetails>(input = parseRequest,
                         clazz = UserDetails::class.java)
 
-                val error = if (result != null) null else JSONException(UserDetails::class.java.toString())
-                callback(result, error)
+
+                //parse error
+                if (result == null) {
+
+                    val error = JSONException(UserDetails::class.java.toString())
+                    callback(null, error)
+
+                } else {
+
+                    //send callback
+                    callback(result, null)
+
+                }
 
             }
             //

@@ -890,6 +890,7 @@ public class KWSChildren {
                 if (unregistered && loggedUser != null && loggedUser.getRegisteredForRM()) {
 
                     loggedUser.setRegisteredForRM(false);
+                    setLoggedUser(loggedUser, context);
 
                     Log.d(TAG, "User found and UNREGISTERED for RM!");
 

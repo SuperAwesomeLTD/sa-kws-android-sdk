@@ -5,7 +5,7 @@ import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
 import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.providers.Provider
 import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
-import kws.superawesome.tv.kwssdk.base.services.internal.TempTokenService
+import org.json.JSONException
 import tv.superawesome.samobilebase.network.NetworkTask
 import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
@@ -18,9 +18,9 @@ internal class TempTokenProvider
 @JvmOverloads
 constructor(override val environment: KWSNetworkEnvironment,
             override val networkTask: NetworkTask = NetworkTask())
-    : Provider(environment = environment, networkTask = networkTask), TempTokenService {
+    : Provider(environment = environment, networkTask = networkTask) {
 
-    override fun getTempAccessToken(callback: (loginAuthResponse: LoginAuthResponse?, error: Throwable?) -> Unit) {
+    fun getTempAccessToken(callback: (loginAuthResponse: LoginAuthResponse?, error: Throwable?) -> Unit) {
 
         val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
                 environment = environment,
@@ -32,25 +32,33 @@ constructor(override val environment: KWSNetworkEnvironment,
             // network success case
             if (payload.success && payload.response != null) {
 
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val parseTask = ParseJsonTask()
+                val parseRequest = ParseJsonRequest(rawString = payload.response)
                 val result = parseTask.execute<LoginAuthResponse>(input = parseRequest,
                         clazz = LoginAuthResponse::class.java)
-                //
-                //send callback
-                val error = if (result != null) null else Throwable("Error - couldn't parse JWT")
-                callback(result, error)
+
+                //parse error
+                if (result == null) {
+
+                    val error = JSONException(LoginAuthResponse::class.java.toString())
+                    callback(null, error)
+
+                } else {
+                    //send callback
+                    callback(result, null)
+
+                }
 
             }
             //
             // network failure
-            else if(payload.error != null){
+            else if (payload.error != null) {
                 val error = super.parseServerError(serverError = payload.error)
                 callback(null, error)
             }
             //
             // unknown error
-            else{
+            else {
                 val error = SDKException()
                 callback(null, error)
             }
