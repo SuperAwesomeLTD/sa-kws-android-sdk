@@ -2,9 +2,9 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.models.error.ErrorWrapper
 import tv.superawesome.protobufs.IService
-import tv.superawesome.samobilebase.network.NetworkEnvironment
+import tv.superawesome.samobilebase.Result
+import tv.superawesome.samobilebase.network.INetworkEnvironment
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
@@ -12,14 +12,23 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
  */
 @PublishedApi
 abstract internal class
-Provider(protected open val environment: NetworkEnvironment,
+Provider(protected open val environment: INetworkEnvironment,
          protected open val networkTask: NetworkTask = NetworkTask()) : IService {
 
-    protected fun parseServerError(serverError: Throwable?): Throwable? {
-        val message = serverError?.message
-        val parseTask = ParseJsonTask()
-        val parseRequest = ParseJsonRequest(rawString = message)
-        val parsedError = parseTask.execute(input = parseRequest, clazz = ErrorWrapper::class.java)
-        return parsedError ?: serverError
+    protected fun parseServerError (error: Throwable): Throwable {
+        if (error.message != null) {
+            val json = ParseJsonTask(type = ErrorWrapper::class.java)
+            val serverError = json.execute(input = error.message!!)
+            when (serverError) {
+                is Result.success -> {
+                    return serverError.value
+                }
+                is Result.error -> {
+                    return error
+                }
+            }
+        } else {
+            return error
+        }
     }
 }

@@ -1,16 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.requests
 
-import tv.superawesome.samobilebase.network.NetworkEnvironment
-import tv.superawesome.samobilebase.network.NetworkMethod
-import tv.superawesome.samobilebase.network.NetworkRequest
+import tv.superawesome.samobilebase.network.*
 
 
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
 /*internal*/
-abstract class BaseRequest(override val environment: NetworkEnvironment,
-                                    val token: String? = null) : NetworkRequest {
+abstract class BaseRequest(override val environment: INetworkEnvironment,
+                                    val token: String? = null) : INetworkRequest {
 
     override val headers: Map<String, String>?
         get() {

@@ -10,6 +10,7 @@ import tv.superawesome.protobufs.models.config.IAppConfigWrapperModel
 import tv.superawesome.protobufs.models.config.IConfigModel
 import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel
 import tv.superawesome.protobufs.models.usernames.IVerifiedUsernameModel
+import tv.superawesome.samobilebase.Result
 import tv.superawesome.samobilebase.network.NetworkTask
 
 /**
@@ -28,7 +29,6 @@ constructor(override val environment: KWSNetworkEnvironment,
         configProvider.getConfig { appConfigWrapper: IConfigModel?, networkError: Throwable? ->
 
             if (networkError == null) {
-
 
                 when (appConfigWrapper) {
                     is IAppConfigWrapperModel -> {
@@ -66,40 +66,33 @@ constructor(override val environment: KWSNetworkEnvironment,
                 environment = environment,
                 appID = id)
 
-        networkTask.execute(input = getRandomUsernameNetworkRequest) { payload ->
+        val future = networkTask.execute(input = getRandomUsernameNetworkRequest)
 
-            val responseString = payload.response
+        future.onResult { networkResult ->
 
-            if (payload.success && responseString != null) {
+            when (networkResult) {
+                is Result.success -> {
 
-                val randomUserName = responseString.replace("\"", "")
+                    val responseString = networkResult.value
 
-                //
-                // send callback
-                if (randomUserName != null) {
-                    callback(RandomUsername(randomUserName), null)
-                } else {
-                    callback(RandomUsername(responseString), null)
+                    val randomUserName = responseString.replace("\"", "")
+
+                    //
+                    // send callback
+                    if (randomUserName != null) {
+                        callback(RandomUsername(randomUserName), null)
+                    } else {
+                        callback(RandomUsername(responseString), null)
+                    }
+
+                }
+                is Result.error -> {
+                    val serverError = parseServerError(error = networkResult.error)
+                    callback(null, serverError)
                 }
 
-
             }
-            //
-            // network failure
-            else if (payload.error != null) {
-                val error = super.parseServerError(serverError = payload.error)
-                callback(null, error)
-            }
-            //
-            // unknown error
-            else {
-                val error = SDKException()
-                callback(null, error)
-            }
-
         }
-
-
     }
 
     override fun verifyUsername(username: String, callback: (validation: IVerifiedUsernameModel?, error: Throwable?) -> Unit) {

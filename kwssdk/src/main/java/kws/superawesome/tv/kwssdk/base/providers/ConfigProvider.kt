@@ -2,13 +2,11 @@ package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.AppConfigWrapper
-import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest
-import org.json.JSONException
 import tv.superawesome.protobufs.features.config.IConfigService
 import tv.superawesome.protobufs.models.config.IConfigModel
+import tv.superawesome.samobilebase.Result
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
@@ -28,43 +26,25 @@ constructor(override val environment: KWSNetworkEnvironment,
                 clientID = environment.appID
         )
 
-        networkTask.execute(input = appConfigNetworkRequest) { payload ->
+        val future = networkTask.execute(input = appConfigNetworkRequest)
 
-            // network success case
-            if (payload.success && payload.response != null) {
+        future.onResult { networkResult ->
 
-                val parseTask = ParseJsonTask()
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
-                val result = parseTask.execute<AppConfigWrapper>(input = parseRequest,
-                        clazz = AppConfigWrapper::class.java)
+            val parse = ParseJsonTask(type = AppConfigWrapper::class.java)
+            val result = networkResult.then(parse::execute)
 
-                //parse error
-                if (result == null) {
+            when (result) {
 
-                    val error = JSONException(AppConfigWrapper::class.java.toString())
-                    callback(null, error)
+                is Result.success -> {
+                    callback(result.value, null)
+                }
 
-                } else {
-
-                    //send callback
-                    callback(result, null)
-
+                is Result.error -> {
+                    val serverError = parseServerError(error = result.error)
+                    callback(null, serverError)
                 }
 
             }
-            //
-            // network failure
-            else if (payload.error != null) {
-                val error = super.parseServerError(serverError = payload.error)
-                callback(null, error)
-            }
-            //
-            // unknown error
-            else {
-                val error = SDKException()
-                callback(null, error)
-            }
-
         }
     }
 

@@ -3,7 +3,7 @@ package kws.superawesome.tv.kwssdk.base.webauth
 import android.util.Base64
 import android.util.Log
 import kws.superawesome.tv.kwssdk.base.models.internal.OAuthData
-import tv.superawesome.samobilebase.Task
+import tv.superawesome.samobilebase.ITask
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -13,25 +13,24 @@ import java.security.SecureRandom
 /**
  * Created by guilherme.mota on 24/01/2018.
  */
-class OAuthCodeTask : Task<Any?, OAuthData> {
+class OAuthCodeTask : ITask<Any?, OAuthData> {
 
     private val TAG = OAuthCodeTask::class.java.simpleName
 
     enum class OAuthEncoding(encoding: String) {
-        UsASCII ("US-ASCII")
+        UsASCII("US-ASCII")
     }
 
-    enum class OAuthDigest(digest: String){
-        Sha256 ("SHA-256")
+    enum class OAuthDigest(digest: String) {
+        Sha256("SHA-256")
     }
 
-    enum class OAuthChallenge(challenge: String){
-        S256 ("S256"),
-        Plain ("plain")
+    enum class OAuthChallenge(challenge: String) {
+        S256("S256"),
+        Plain("plain")
     }
 
-
-    fun execute(): OAuthData {
+    override fun execute(input: Any?): OAuthData {
         val codeVerifier = generateCodeVerifier()
         val codeChallenge = generateCodeChallenge(codeVerifier)
         val codeChallengeMethod = OAuthChallenge.S256.toString()
@@ -41,7 +40,6 @@ class OAuthCodeTask : Task<Any?, OAuthData> {
                 codeVerifier = codeVerifier,
                 codeChallengeMethod = codeChallengeMethod)
     }
-
 
     private fun getBase64String(source: ByteArray): String {
         return Base64.encodeToString(source, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
@@ -87,7 +85,6 @@ class OAuthCodeTask : Task<Any?, OAuthData> {
         val signature = getSHA256(input)
         return getBase64String(signature)
     }
-
 
 
 }
