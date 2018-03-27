@@ -22,7 +22,7 @@ data class UserDetails(@SerializedName("id")
                        override val address: Address? = null,
 
                        @SerializedName("dateOfBirth")
-                       override val dateOfBirth: String?,
+                       override val dateOfBirth: String,
 
                        @SerializedName("gender")
                        override val gender: String?,
@@ -46,4 +46,4 @@ data class UserDetails(@SerializedName("id")
                        override val points: Points? = null,
 
                        @SerializedName("createdAt")
-                       override val createdAt: String?) : IUserDetailsModel
+                       override val createdAt: String) : IUserDetailsModel

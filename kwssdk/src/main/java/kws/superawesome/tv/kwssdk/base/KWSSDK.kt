@@ -33,7 +33,6 @@ constructor(private val environment: KWSNetworkEnvironment,
                 ISessionService::class -> SessionProvider(environment = environment, networkTask = networkTask)
                 IUsernameService::class -> UsernameProvider(environment = environment, networkTask = networkTask)
                 IUserService::class -> UserProvider(environment = environment, networkTask = networkTask)
-                IConfigService::class -> ConfigProvider(environment = environment, networkTask = networkTask)
                 else -> null
             } as S?
 
@@ -48,7 +47,6 @@ constructor(private val environment: KWSNetworkEnvironment,
                 ISessionService::class.java -> SessionProvider(environment = environment, networkTask = networkTask)
                 IUsernameService::class.java -> UsernameProvider(environment = environment, networkTask = networkTask)
                 IUserService::class.java -> UserProvider(environment = environment, networkTask = networkTask)
-                IConfigService::class.java -> ConfigProvider(environment = environment, networkTask = networkTask)
                 else -> null
 
             } as S?

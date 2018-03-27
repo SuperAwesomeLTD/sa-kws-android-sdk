@@ -1,17 +1,16 @@
 package kws.superawesome.tv.kwssdk.base.providers
 
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.models.AppConfigWrapper
 import kws.superawesome.tv.kwssdk.base.models.RandomUsername
-import kws.superawesome.tv.kwssdk.base.models.SDKException
+import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest
 import kws.superawesome.tv.kwssdk.base.requests.RandomUsernameRequest
-import org.json.JSONException
 import tv.superawesome.protobufs.features.auth.IUsernameService
-import tv.superawesome.protobufs.models.config.IAppConfigWrapperModel
-import tv.superawesome.protobufs.models.config.IConfigModel
 import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel
 import tv.superawesome.protobufs.models.usernames.IVerifiedUsernameModel
 import tv.superawesome.samobilebase.Result
 import tv.superawesome.samobilebase.network.NetworkTask
+import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 29/12/2017.
@@ -20,39 +19,35 @@ import tv.superawesome.samobilebase.network.NetworkTask
 internal class UsernameProvider
 @JvmOverloads
 constructor(override val environment: KWSNetworkEnvironment,
-            override val networkTask: NetworkTask = NetworkTask(),
-            private val configProvider: ConfigProvider = ConfigProvider(environment, networkTask))
+            override val networkTask: NetworkTask = NetworkTask())
     : Provider(environment = environment, networkTask = networkTask), IUsernameService {
 
     override fun getRandomUsername(callback: (username: IRandomUsernameModel?, error: Throwable?) -> Unit) {
 
-        configProvider.getConfig { appConfigWrapper: IConfigModel?, networkError: Throwable? ->
+        val appConfigNetworkRequest = AppConfigRequest(
+                environment = environment,
+                clientID = environment.appID
+        )
 
-            if (networkError == null) {
+        val parseTask = ParseJsonTask(AppConfigWrapper::class.java)
+        val future = networkTask.execute(input = appConfigNetworkRequest).map { result -> result.then(parseTask::execute) }
 
-                when (appConfigWrapper) {
-                    is IAppConfigWrapperModel -> {
+        future.onResult { networkResult ->
 
-                        appConfigWrapper.app?.id?.let {
+            when (networkResult) {
 
-                            fetchRandomUsernameFromBackend(environment = environment, id = it, callback = callback)
+                is Result.success -> {
 
-                        } ?: run {
-
-                            callback(null, SDKException())
-
-                        }
-                    }
-                    else -> {
-                        val error = JSONException(IAppConfigWrapperModel::class.java.toString())
-                        callback(null, error)
+                    networkResult.value.app?.id?.let {
+                        fetchRandomUsernameFromBackend(environment = environment, id = it, callback = callback)
                     }
                 }
 
-            } else {
-                //
-                // network failure
-                callback(null, networkError)
+                is Result.error -> {
+                    val serverError = parseServerError(error = networkResult.error)
+                    callback(null, serverError)
+                }
+
             }
 
         }

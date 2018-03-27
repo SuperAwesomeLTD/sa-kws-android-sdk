@@ -33,21 +33,18 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
+
+        val parseTask = ParseJsonTask(type = LeadersWrapper::class.java)
         val future = networkTask.execute(input = getLeadersNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(type = LeadersWrapper::class.java)
-            val result = networkResult.then(parse::execute)
+            when (networkResult) {
 
-            when (result) {
-
-                is Result.success -> {
-                    callback(result.value, null)
-                }
-
+                is Result.success -> callback(networkResult.value, null)
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
 
@@ -63,23 +60,20 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
+        val parseTask = ParseJsonTask(type = Score::class.java)
         val future = networkTask.execute(input = getUserScoreNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(type = Score::class.java)
-            val result = networkResult.then(parse::execute)
+            when (networkResult) {
 
-            when (result) {
-
-                is Result.success -> {
-                    callback(result.value, null)
-                }
-
+                is Result.success -> callback(networkResult.value, null)
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
+
             }
         }
     }

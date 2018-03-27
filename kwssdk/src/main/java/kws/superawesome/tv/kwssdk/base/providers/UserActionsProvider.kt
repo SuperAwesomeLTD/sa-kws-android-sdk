@@ -32,21 +32,16 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        val future = networkTask.execute(input = getAppDataNetworkRequest)
+        val parseTask = ParseJsonTask(type = AppDataWrapper::class.java)
+        val future = networkTask.execute(input = getAppDataNetworkRequest).map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(type = AppDataWrapper::class.java)
-            val result = networkResult.then(parse::execute)
+            when (networkResult) {
 
-            when (result) {
-
-                is Result.success -> {
-                    callback(result.value, null)
-                }
-
+                is Result.success -> callback(networkResult.value, null)
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
 
@@ -63,21 +58,18 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
+
+        val parseTask = ParseJsonTask(type = HasTriggeredEvent::class.java)
         val future = networkTask.execute(input = hasTriggeredEventNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(type = HasTriggeredEvent::class.java)
-            val result = networkResult.then(parse::execute)
+            when (networkResult) {
 
-            when (result) {
-
-                is Result.success -> {
-                    callback(result.value, null)
-                }
-
+                is Result.success -> callback(networkResult.value, null)
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
             }
@@ -141,11 +133,13 @@ constructor(override val environment: KWSNetworkEnvironment,
         future.onResult { networkResult ->
 
             when (networkResult) {
+
                 is Result.success -> callback(null)
                 is Result.error -> {
                     val serverError = parseServerError(error = networkResult.error)
                     callback(serverError)
                 }
+
             }
         }
     }

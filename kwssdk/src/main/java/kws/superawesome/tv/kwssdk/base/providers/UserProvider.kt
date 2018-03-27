@@ -27,23 +27,20 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
+        val parseTask = ParseJsonTask(type = UserDetails::class.java)
         val future = networkTask.execute(input = getUserDetailsNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(type = UserDetails::class.java)
-            val result = networkResult.then(parse::execute)
+            when (networkResult) {
 
-            when (result) {
-
-                is Result.success -> {
-                    callback(result.value, null)
-                }
-
+                is Result.success -> callback(networkResult.value, null)
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
+
             }
         }
     }

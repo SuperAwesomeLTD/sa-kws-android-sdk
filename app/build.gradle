@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "kws.superawesome.tv.kwsdemo"
         minSdkVersion 14
@@ -46,7 +46,7 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-messaging:11.6.2'
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Tests
     androidTestImplementation 'com.android.support.test:testing-support-lib:0.1'
@@ -60,10 +60,10 @@ dependencies {
     def mockito_version = 'latest.release'
 
     // For local unit tests on your development machine
-    testCompile "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
 
     // For instrumentation tests on Android devices and emulators
-    androidTestCompile "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
 
 
 }

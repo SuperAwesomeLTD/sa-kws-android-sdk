@@ -90,17 +90,16 @@ constructor(override val environment: KWSNetworkEnvironment,
                 clientSecret = environment.mobileKey
         )
 
+        val parseTask = ParseJsonTask(type = LoginAuthResponse::class.java)
         val future = networkTask.execute(input = oAuthTokenNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(type = LoginAuthResponse::class.java)
-            val result = networkResult.then(parse::execute)
-
-            when (result) {
+            when (networkResult) {
 
                 is Result.success -> {
-                    val token = result.value.token
+                    val token = networkResult.value.token
 
                     val base64task = ParseBase64Task()
                     val parse2 = ParseJsonTask(type = TokenData::class.java)
@@ -111,11 +110,7 @@ constructor(override val environment: KWSNetworkEnvironment,
 
                             tokenResult.value.userId?.let {
 
-                                val user = LoggedUser(
-                                        token = token,
-                                        tokenData = tokenResult.value,
-                                        id = it)
-
+                                val user = LoggedUser(token = token, tokenData = tokenResult.value, id = it)
                                 callback(user, null)
 
                             } ?: run {
@@ -130,12 +125,10 @@ constructor(override val environment: KWSNetworkEnvironment,
                             callback(null, serverError)
                         }
                     }
-
-
                 }
 
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
             }

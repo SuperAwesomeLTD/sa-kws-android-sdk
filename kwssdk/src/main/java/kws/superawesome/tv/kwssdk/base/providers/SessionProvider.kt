@@ -47,13 +47,10 @@ constructor(private val kDB_NAME: String = "KWS_DB",
         return when (result) {
             is Result.success -> {
                 when (token) {
+
                     is Result.success -> {
                         result.value.userId?.let {
-                            LoggedUser(
-                                    token = token.value,
-                                    tokenData = result.value,
-                                    id = it
-                            )
+                            LoggedUser(token = token.value, tokenData = result.value, id = it)
                         }
                     }
                     is Result.error -> null

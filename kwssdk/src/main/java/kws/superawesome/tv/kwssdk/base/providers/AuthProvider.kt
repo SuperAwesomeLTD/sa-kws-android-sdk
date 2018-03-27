@@ -3,12 +3,10 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.AuthUserResponse
 import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse
-import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.models.internal.TokenData
-import kws.superawesome.tv.kwssdk.base.providers.internal.TempTokenProvider
 import kws.superawesome.tv.kwssdk.base.requests.CreateUserRequest
 import kws.superawesome.tv.kwssdk.base.requests.LoginUserRequest
-import org.json.JSONException
+import kws.superawesome.tv.kwssdk.base.requests.TempAccessTokenRequest
 import tv.superawesome.protobufs.features.auth.IAuthService
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel
 import tv.superawesome.samobilebase.Result
@@ -23,9 +21,7 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 internal class AuthProvider
 @JvmOverloads
 constructor(override val environment: KWSNetworkEnvironment,
-            override val networkTask: NetworkTask = NetworkTask(),
-            private val tempTokenProvider: TempTokenProvider = TempTokenProvider(
-                    environment = environment, networkTask = networkTask))
+            override val networkTask: NetworkTask = NetworkTask())
     : Provider(environment = environment, networkTask = networkTask), IAuthService {
 
     override fun loginUser(username: String, password: String, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
@@ -37,21 +33,20 @@ constructor(override val environment: KWSNetworkEnvironment,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
 
+        val parseTask = ParseJsonTask(type = LoginAuthResponse::class.java)
         val future = networkTask.execute(input = loginUserNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(type = LoginAuthResponse::class.java)
-            val result = networkResult.then(parse::execute)
+            when (networkResult) {
 
-            when (result) {
-                is Result.success -> {
-                    callback(result.value, null)
-                }
+                is Result.success -> callback(networkResult.value, null)
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
+
             }
         }
     }
@@ -60,48 +55,59 @@ constructor(override val environment: KWSNetworkEnvironment,
                             dateOfBirth: String?, country: String?, parentEmail: String?,
                             callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
 
-        tempTokenProvider.getTempAccessToken { loginAuthResponse: LoginAuthResponse?, networkError: Throwable? ->
 
-            if (loginAuthResponse?.token != null && networkError == null) {
-                val token = loginAuthResponse.token
+        val dobValue = dateOfBirth ?: ""
+        val countryValue = country ?: ""
+        val parentEmailValue = parentEmail ?: ""
 
-                val base64task = ParseBase64Task()
-                val parse = ParseJsonTask(type = TokenData::class.java)
-                val tokenResult = base64task.execute(input = token).then(parse::execute)
+        val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
+                environment = environment,
+                clientID = environment.appID,
+                clientSecret = environment.mobileKey)
 
-                when (tokenResult) {
+        val parseTask = ParseJsonTask(LoginAuthResponse::class.java)
+        val future = networkTask
+                .execute(input = getTempAccessTokenNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
-                    is Result.success -> {
 
-                        tokenResult.value.appId?.let {
+        future.onResult { networkResult ->
 
-                            if (dateOfBirth != null && country != null && parentEmail != null) {
+            when (networkResult) {
 
-                                //Creation of user with temp access token
-                                doUserCreation(environment = environment, username = username, password = password,
-                                        dateOfBirth = dateOfBirth, country = country, parentEmail = parentEmail,
-                                        appId = it, token = token, callback = callback)
+                is Result.success -> {
 
-                            } else {
-                                callback(null, SDKException())
-                            }
-                        } ?: run{
-                            callback(null, SDKException())
+                    val token = networkResult.value.token
+
+                    val base64task = ParseBase64Task()
+                    val parseTask2 = ParseJsonTask(type = TokenData::class.java)
+                    val tokenResult = base64task.execute(input = networkResult.value.token).then(parseTask2::execute)
+
+                    when (tokenResult) {
+
+                        is Result.success -> {
+
+                            doUserCreation(environment = environment, username = username, password = password,
+                                    dateOfBirth = dobValue, country = countryValue, parentEmail = parentEmailValue,
+                                    appId = tokenResult.value.appId, token = token, callback = callback)
+
                         }
-                    }
 
-                    is Result.error -> {
-                        val serverError = parseServerError(error = tokenResult.error)
-                        callback(null, serverError)
+                        is Result.error -> {
+                            val serverError = parseServerError(error = tokenResult.error)
+                            callback(null, serverError)
+                        }
+
                     }
 
                 }
-            } else {
-                //
-                // network failure
-                callback(null, networkError)
-            }
 
+                is Result.error -> {
+                    val serverError = parseServerError(error = networkResult.error)
+                    callback(null, serverError)
+                }
+
+            }
         }
     }
 
@@ -126,21 +132,17 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token,
                 appID = appId)
 
+        val parseTask = ParseJsonTask(AuthUserResponse::class.java)
         val future = networkTask.execute(input = createUserNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
         future.onResult { networkResult ->
 
-            val parse = ParseJsonTask(AuthUserResponse::class.java)
-            val result = networkResult.then(parse::execute)
+            when (networkResult) {
 
-            when (result) {
-
-                is Result.success -> {
-                    callback(result.value, null)
-                }
-
+                is Result.success -> callback(networkResult.value, null)
                 is Result.error -> {
-                    val serverError = parseServerError(error = result.error)
+                    val serverError = parseServerError(error = networkResult.error)
                     callback(null, serverError)
                 }
 
