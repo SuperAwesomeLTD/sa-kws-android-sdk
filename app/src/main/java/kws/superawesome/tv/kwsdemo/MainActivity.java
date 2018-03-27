@@ -11,6 +11,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
+import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.models.internal.TokenData;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -126,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (status) {
                     case Success:
                         log += "Auth as " + username + "w/ pwd as: " + pwd + "\n";
-                        Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser(MainActivity.this).getTokenData().toString());
                         break;
                     case NetworkError:
                         log += "Network error authing\n";

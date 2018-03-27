@@ -6,10 +6,9 @@ import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser
 import kws.superawesome.tv.kwssdk.base.models.internal.TokenData
 import tv.superawesome.protobufs.features.session.ISessionService
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel
+import tv.superawesome.samobilebase.Result
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsebase64.ParseBase64Request
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
-import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 import tv.superawesome.samobilebase.readdb.ReadDbRequest
 import tv.superawesome.samobilebase.readdb.ReadDbTask
@@ -24,10 +23,10 @@ import tv.superawesome.samobilebase.writedb.WriteDbTask
 internal class SessionProvider
 @JvmOverloads
 constructor(private val kDB_NAME: String = "KWS_DB",
-            private val kUSER_TOKEN_KEY:String = "KWS_USER_TOKEN",
+            private val kUSER_TOKEN_KEY: String = "KWS_USER_TOKEN",
             override val environment: KWSNetworkEnvironment,
             override val networkTask: NetworkTask = NetworkTask())
-    : Provider(environment = environment), ISessionService{
+    : Provider(environment = environment), ISessionService {
 
     override fun isUserLoggedIn(context: Context): Boolean = getCurrentUser(context) != null
 
@@ -36,24 +35,28 @@ constructor(private val kDB_NAME: String = "KWS_DB",
 
         val sharedPreferences = context.getSharedPreferences(kDB_NAME, Context.MODE_PRIVATE)
 
-        val dbRequest = ReadDbRequest(preferences = sharedPreferences, key = kUSER_TOKEN_KEY)
-        val dbTask = ReadDbTask()
-        val token = dbTask.execute<String>(input = dbRequest, clazz = String::class.java)
-
-        val base64Request = ParseBase64Request(base64String = token)
+        val dbTask = ReadDbTask<String>()
         val base64Task = ParseBase64Task()
-        val jsonToken = base64Task.execute(input = base64Request)
+        val jsonTask = ParseJsonTask(type = TokenData::class.java)
 
-        val jsonRequest = ParseJsonRequest(rawString = jsonToken)
-        val jsonTask = ParseJsonTask()
-        val tokenData = jsonTask.execute<TokenData>(input = jsonRequest, clazz = TokenData::class.java)
+        val dbRequest = ReadDbRequest(preferences = sharedPreferences, key = kUSER_TOKEN_KEY)
 
-        val userId = tokenData?.userId
+        val token = dbTask.execute(input = dbRequest)
+        val result = token.then(base64Task::execute).then(jsonTask::execute)
 
-        return try {
-            LoggedUser(token = token!!, tokenData = tokenData!!, id = userId!!)
-        } catch (e: Exception) {
-            null
+        return when (result) {
+            is Result.success -> {
+                when (token) {
+
+                    is Result.success -> {
+                        result.value.userId?.let {
+                            LoggedUser(token = token.value, tokenData = result.value, id = it)
+                        }
+                    }
+                    is Result.error -> null
+                }
+            }
+            is Result.error -> null
         }
     }
 
@@ -63,13 +66,14 @@ constructor(private val kDB_NAME: String = "KWS_DB",
         val sharedPreferences = context.getSharedPreferences(kDB_NAME, Context.MODE_PRIVATE)
 
         val token = user.token
-        val dbRequest = WriteDbRequest(preferences = sharedPreferences, key = kUSER_TOKEN_KEY, value = token)
-        val dbTask = WriteDbTask()
+        val request = WriteDbRequest(preferences = sharedPreferences, key = kUSER_TOKEN_KEY, value = token)
+        val task = WriteDbTask()
 
-        return try {
-            dbTask.execute(input = dbRequest)
-        } catch (e: IllegalArgumentException) {
-            false
+        val result = task.execute(input = request)
+
+        return when (result) {
+            is Result.success -> true
+            is Result.error -> false
         }
     }
 }

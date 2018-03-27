@@ -10,7 +10,7 @@ data class TokenData(@SerializedName("userId")
                      val userId: Int? = 0,
 
                      @SerializedName("appId")
-                     val appId: Int? = 0,
+                     val appId: Int = 0,
 
                      @SerializedName("clientId")
                      val clientId: String? = null,

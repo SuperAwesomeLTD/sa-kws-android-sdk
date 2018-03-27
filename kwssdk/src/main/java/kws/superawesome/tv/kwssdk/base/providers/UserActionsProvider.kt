@@ -3,15 +3,13 @@ package kws.superawesome.tv.kwssdk.base.providers
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.models.AppDataWrapper
 import kws.superawesome.tv.kwssdk.base.models.HasTriggeredEvent
-import kws.superawesome.tv.kwssdk.base.models.SDKException
 import kws.superawesome.tv.kwssdk.base.requests.*
-import org.json.JSONException
 import tv.superawesome.protobufs.features.user.IUserActionsService
 import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel
 import tv.superawesome.protobufs.models.score.IHasTriggeredEventModel
-import tv.superawesome.samobilebase.network.NetworkRequest
+import tv.superawesome.samobilebase.Result
+import tv.superawesome.samobilebase.network.INetworkRequest
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
@@ -34,43 +32,20 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = getAppDataNetworkRequest) { payload ->
+        val parseTask = ParseJsonTask(type = AppDataWrapper::class.java)
+        val future = networkTask.execute(input = getAppDataNetworkRequest).map { result -> result.then(parseTask::execute) }
 
-            if (payload.success && payload.response != null) {
+        future.onResult { networkResult ->
 
-                val parseTask = ParseJsonTask()
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
-                val result = parseTask.execute<AppDataWrapper>(input = parseRequest,
-                        clazz = AppDataWrapper::class.java)
+            when (networkResult) {
 
-                //parse error
-                if (result == null) {
-
-                    val error = JSONException(AppDataWrapper::class.java.toString())
-                    callback(null, error)
-
-                } else {
-
-                    //send callback
-                    callback(result, null)
-
+                is Result.success -> callback(networkResult.value, null)
+                is Result.error -> {
+                    val serverError = parseServerError(error = networkResult.error)
+                    callback(null, serverError)
                 }
 
             }
-            //
-            // network failure
-            else if (payload.error != null) {
-                val error = super.parseServerError(serverError = payload.error)
-                callback(null, error)
-            }
-            //
-            // unknown error
-            else {
-                val error = SDKException()
-                callback(null, error)
-            }
-
-
         }
     }
 
@@ -83,42 +58,21 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        networkTask.execute(input = hasTriggeredEventNetworkRequest) { payload ->
 
-            if ((payload.status == 200 || payload.status == 204) && payload.response != null) {
+        val parseTask = ParseJsonTask(type = HasTriggeredEvent::class.java)
+        val future = networkTask.execute(input = hasTriggeredEventNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
+        future.onResult { networkResult ->
 
-                val parseTask = ParseJsonTask()
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
-                val result = parseTask.execute<HasTriggeredEvent>(input = parseRequest, clazz = HasTriggeredEvent::class.java)
+            when (networkResult) {
 
-                //parse error
-                if (result == null) {
-
-                    val error = JSONException(HasTriggeredEvent::class.java.toString())
-                    callback(null, error)
-
-                } else {
-
-                    //send callback
-                    callback(result, null)
-
+                is Result.success -> callback(networkResult.value, null)
+                is Result.error -> {
+                    val serverError = parseServerError(error = networkResult.error)
+                    callback(null, serverError)
                 }
-
             }
-            //
-            // network failure
-            else if (payload.error != null) {
-                val error = super.parseServerError(serverError = payload.error)
-                callback(null, error)
-            }
-            //
-            // unknown error
-            else {
-                val error = SDKException()
-                callback(null, error)
-            }
-
         }
     }
 
@@ -172,25 +126,20 @@ constructor(override val environment: KWSNetworkEnvironment,
     }
 
 
-    private fun handleNetworkResponse(request: NetworkRequest,
+    private fun handleNetworkResponse(request: INetworkRequest,
                                       callback: (error: Throwable?) -> Unit) {
 
-        networkTask.execute(input = request) { payload ->
+        val future = networkTask.execute(input = request)
+        future.onResult { networkResult ->
 
-            val serverError = super.parseServerError(serverError = payload.error)
+            when (networkResult) {
 
-            // network success cae
-            if ((payload.status == 200 || payload.status == 204) && serverError == null) {
-                callback(null)
-            }
-            // server error case
-            else if (serverError != null) {
-                callback(serverError)
-            }
-            // unknown error case
-            else {
-                val error = SDKException()
-                callback(error)
+                is Result.success -> callback(null)
+                is Result.error -> {
+                    val serverError = parseServerError(error = networkResult.error)
+                    callback(serverError)
+                }
+
             }
         }
     }

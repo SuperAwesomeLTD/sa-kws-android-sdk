@@ -11,13 +11,11 @@ import kws.superawesome.tv.kwssdk.base.models.internal.TokenData
 import kws.superawesome.tv.kwssdk.base.requests.OAuthUserTokenRequest
 import kws.superawesome.tv.kwssdk.base.webauth.KWSWebAuthResponse
 import kws.superawesome.tv.kwssdk.base.webauth.OAuthCodeTask
-import org.json.JSONException
 import tv.superawesome.protobufs.features.auth.ISingleSignOnService
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel
+import tv.superawesome.samobilebase.Result
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsebase64.ParseBase64Request
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
-import tv.superawesome.samobilebase.parsejson.ParseJsonRequest
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
@@ -33,7 +31,7 @@ constructor(override val environment: KWSNetworkEnvironment,
 
     override fun signOn(url: String, parent: Activity, callback: (user: ILoggedUserModel?, error: Throwable?) -> Unit) {
         val oAuthCodeGenerator = OAuthCodeTask()
-        val oAuthDataClass = oAuthCodeGenerator.execute()
+        val oAuthDataClass = oAuthCodeGenerator.execute(Any())
 
         getAuthCode(environment = environment,
                 singleSignOnUrl = url,
@@ -92,68 +90,51 @@ constructor(override val environment: KWSNetworkEnvironment,
                 clientSecret = environment.mobileKey
         )
 
-        networkTask.execute(input = oAuthTokenNetworkRequest) { payload ->
+        val parseTask = ParseJsonTask(type = LoginAuthResponse::class.java)
+        val future = networkTask.execute(input = oAuthTokenNetworkRequest)
+                .map { result -> result.then(parseTask::execute) }
 
-            if (payload.success && payload.response != null) {
+        future.onResult { networkResult ->
 
-                val parseRequest = ParseJsonRequest(rawString = payload.response)
-                val parseTask = ParseJsonTask()
-                val result = parseTask.execute<LoginAuthResponse>(input = parseRequest,
-                        clazz = LoginAuthResponse::class.java)
+            when (networkResult) {
 
-                //parse error
-                if (result == null) {
+                is Result.success -> {
+                    val token = networkResult.value.token
 
-                    val error = JSONException(LoginAuthResponse::class.java.toString())
-                    callback(null, error)
+                    val base64task = ParseBase64Task()
+                    val parse2 = ParseJsonTask(type = TokenData::class.java)
+                    val tokenResult = base64task.execute(input = token).then(parse2::execute)
 
-                } else {
+                    when (tokenResult) {
+                        is Result.success -> {
 
-                    val base64Task = ParseBase64Task()
-                    val base64req = ParseBase64Request(base64String = result?.token)
-                    val metadataJson = base64Task.execute(input = base64req)
+                            tokenResult.value.userId?.let {
 
-                    val parseJsonTask = ParseJsonTask()
-                    val parseJsonReq = ParseJsonRequest(rawString = metadataJson)
-                    val tokenData = parseJsonTask.execute(input = parseJsonReq, clazz = TokenData::class.java)
+                                val user = LoggedUser(token = token, tokenData = tokenResult.value, id = it)
+                                callback(user, null)
 
-                    //parse error
-                    if (tokenData == null) {
+                            } ?: run {
 
-                        val error = JSONException(TokenData::class.java.toString())
-                        callback(null, error)
+                                callback(null, SDKException())
 
-                    } else {
-
-                        if (tokenData.userId != null) {
-
-                            val loggedUser = LoggedUser(token = result.token, tokenData = tokenData, id = tokenData.userId)
-                            callback(loggedUser, null)
+                            }
 
                         }
-
+                        is Result.error -> {
+                            val serverError = parseServerError(error = tokenResult.error)
+                            callback(null, serverError)
+                        }
                     }
-
-
                 }
-            }
-            //
-            // network failure
-            else if (payload.error != null) {
-                val error = super.parseServerError(serverError = payload.error)
-                callback(null, error)
-            }
-            //
-            // unknown error
-            else {
-                val error = SDKException()
-                callback(null, error)
+
+                is Result.error -> {
+                    val serverError = parseServerError(error = networkResult.error)
+                    callback(null, serverError)
+                }
             }
 
         }
 
-
     }
-
 
 }

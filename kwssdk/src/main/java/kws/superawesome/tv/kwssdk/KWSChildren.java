@@ -16,6 +16,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
+import kws.superawesome.tv.kwssdk.base.UtilsHelper;
 import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
 import kws.superawesome.tv.kwssdk.base.models.internal.TokenData;
@@ -86,10 +87,6 @@ import tv.superawesome.protobufs.models.score.IScoreModel;
 import tv.superawesome.protobufs.models.user.IApplicationProfileModel;
 import tv.superawesome.protobufs.models.user.IUserDetailsModel;
 import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel;
-import tv.superawesome.samobilebase.parsebase64.ParseBase64Request;
-import tv.superawesome.samobilebase.parsebase64.ParseBase64Task;
-import tv.superawesome.samobilebase.parsejson.ParseJsonRequest;
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
 
 /**
  * Created by gabriel.coman on 23/05/16.
@@ -1024,13 +1021,8 @@ public class KWSChildren {
     }
 
     private TokenData getMetadataFromToken(String token) {
-        ParseBase64Request base64req = new ParseBase64Request(token);
-        ParseBase64Task base64Task = new ParseBase64Task();
-        String metadataJson = base64Task.execute(base64req);
 
-        ParseJsonRequest parseJsonReq = new ParseJsonRequest(metadataJson);
-        ParseJsonTask parseJsonTask = new ParseJsonTask();
-        return parseJsonTask.execute(parseJsonReq, TokenData.class);
+        return UtilsHelper.getMetadataFromToken(token);
     }
 
 }
