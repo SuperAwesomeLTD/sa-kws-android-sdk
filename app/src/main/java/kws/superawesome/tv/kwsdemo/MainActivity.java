@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
 import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
@@ -39,6 +42,7 @@ import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenHasTriggeredEven
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenTriggerEventInterface;
 import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenGetUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenInviteUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenUpdateUserInterface;
 import tv.superawesome.lib.sautils.SAUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -310,6 +314,40 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    public void updateUserDetails(View view) {
+
+        HashMap<String, Object> details = new HashMap<>();
+
+        details.put("firstName", "John");
+        details.put("lastName", "Droid");
+
+        HashMap<String, Object> addressMap = new HashMap<>();
+        addressMap.put("street","Number Two");
+        addressMap.put("city","London");
+        addressMap.put("postCode","xyz");
+        addressMap.put("country","GB");
+        details.put("address", addressMap);
+
+        log += "Updating User details\n";
+        logView.setText(log);
+        KWSChildren.sdk.updateUser(this, details, new KWSChildrenUpdateUserInterface(){
+
+            @Override
+            public void didUpdateUser(boolean updated) {
+
+                if (updated) {
+                    Log.d("SuperAwesome", "User successfully updated!");
+                    log += "Success in updating user details!\n";
+                } else {
+                    log += "Updated user failed...!\n";
+                }
+                logView.setText(log);
+            }
+        });
+
     }
 
     public void getLeaderboard(View v) {

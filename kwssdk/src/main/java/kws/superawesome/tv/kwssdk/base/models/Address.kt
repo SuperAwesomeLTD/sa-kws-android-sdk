@@ -16,4 +16,10 @@ data class Address(@SerializedName("street")
                    override val postCode: String?,
 
                    @SerializedName("country")
-                   override val country: String?) : IAddressModel
+                   override val country: String?,
+
+                   @SerializedName("countryCode")
+                   override val countryCode: String?,
+
+                   @SerializedName("countryName")
+                   override val countryName: String?) : IAddressModel

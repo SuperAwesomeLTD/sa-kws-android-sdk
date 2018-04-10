@@ -76,6 +76,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="35dp">
+
+        <Button
+            android:id="@+id/GetUser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Get User Details"
+            android:onClick="getUserDetails"/>
+
+        <Button
+            android:id="@+id/UpdateUser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Update User"
+            android:onClick="updateUserDetails"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="35dp"
         android:orientation="horizontal">
 
@@ -86,13 +109,6 @@
             android:layout_weight="1"
             android:text="Check if registered"
             android:onClick="checkRegisteredAction"/>
-        <Button
-            android:id="@+id/GetUser"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Get User Details"
-            android:onClick="getUserDetails"/>
 
     </LinearLayout>
 

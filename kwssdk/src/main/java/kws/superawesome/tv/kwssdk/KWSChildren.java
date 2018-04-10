@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -477,8 +478,37 @@ public class KWSChildren {
 
     }
 
-    public void updateUser(Context context, KWSUser updatedUser, KWSChildrenUpdateUserInterface listener) {
-        updateUser.execute(context, updatedUser, listener);
+    public void updateUser(Context context, Map<String, Object> details, final KWSChildrenUpdateUserInterface listener) {
+
+        //updateUser.execute(context, updatedUser, listener);
+
+        KWSSDK factory = new KWSSDK(kwsEnvironment);
+        IUserService userService = factory.get(IUserService.class);
+
+        if (userService != null) {
+
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+                listener.didUpdateUser(false);
+                Log.d(TAG, kNoLoggedUserMsg);
+                return;
+            }
+
+            userService.updateUser(details, loggedUser.getToken(), new Function1<Throwable, Unit>() {
+                @Override
+                public Unit invoke(Throwable throwable) {
+
+                    if (throwable == null) {
+                        listener.didUpdateUser(true);
+                    } else {
+                        listener.didUpdateUser(false);
+                    }
+
+                    return null;
+                }
+            });
+        }
     }
 
     // applicationPermissions
