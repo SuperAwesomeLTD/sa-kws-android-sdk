@@ -495,7 +495,7 @@ public class KWSChildren {
                 return;
             }
 
-            userService.updateUser(details, loggedUser.getToken(), new Function1<Throwable, Unit>() {
+            userService.updateUser(details, loggedUser.getId(), loggedUser.getToken(), new Function1<Throwable, Unit>() {
                 @Override
                 public Unit invoke(Throwable throwable) {
 

@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
-import kotlin.jvm.functions.Function2;
 
 public class TestUserService_UpdateUserDetails extends TestUserService {
 
@@ -18,8 +17,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
     public void testUserServiceGetUserDetailsBadUserId() {
 
         //TODO needs fixing when protobufs update
-
-       /** service.updateUser(details, badUserId, goodMockedToken, new Function1<Throwable, Unit>() {
+        service.updateUser(details, badUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
             public Unit invoke(Throwable throwable) {
 
@@ -27,7 +25,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
 
                 return null;
             }
-        });*/
+        });
 
     }
 

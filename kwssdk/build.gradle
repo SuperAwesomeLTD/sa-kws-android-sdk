@@ -92,7 +92,7 @@ dependencies {
     implementation 'tv.superawesome.samobilebase:samobilebase:2.1.1'
 
     // SuperAwesome Protobufs
-    implementation 'tv.superawesome.protobufs:protobufs:1.4.2'
+    implementation 'tv.superawesome.protobufs:protobufs:1.4.3'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

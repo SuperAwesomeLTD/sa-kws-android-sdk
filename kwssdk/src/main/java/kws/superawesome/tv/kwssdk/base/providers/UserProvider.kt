@@ -45,11 +45,7 @@ constructor(override val environment: KWSNetworkEnvironment,
         }
     }
 
-    override fun updateUser(details: Map<String, Any>, token: String, callback: (error: Throwable?) -> Unit) {
-        //TODO this is to be removed, the one bellow when protobufs update is the real deal.
-    }
-
-    /*override */ fun updateUser(details: Map<String, Any>, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
+    override fun updateUser(details: Map<String, Any>, userId: Int, token: String, callback: (error: Throwable?) -> Unit) {
 
         val updateUserDetailsNetworkRequest = UpdateUserDetailsRequest(
                 environment = environment,
