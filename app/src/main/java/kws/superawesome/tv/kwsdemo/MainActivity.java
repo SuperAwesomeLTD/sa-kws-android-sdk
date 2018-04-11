@@ -8,14 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
-import kws.superawesome.tv.kwssdk.base.models.internal.TokenData;
+import kws.superawesome.tv.kwssdk.base.models.Address;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
         final String pwd = "testtest";
 
-        final String parentEmail = "guilherme.mota@superawesome.tv";
+        final String parentEmail = "mobile.dev.test@superawesome.tv";
 
         KWSChildren.sdk.createUser(this, username, pwd,
                 "2011-03-02",
@@ -122,8 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginUser(View v) {
 
-        final String username = "guitestnumber4";
-//        final String username = "testguitest1";
+        final String username = "randomtestuser123";
         final String pwd = "testtest";
 
         KWSChildren.sdk.loginUser(this, username, pwd, new KWSChildrenLoginUserInterface() {
@@ -324,16 +320,27 @@ public class MainActivity extends AppCompatActivity {
         details.put("firstName", "John");
         details.put("lastName", "Droid");
 
-        HashMap<String, Object> addressMap = new HashMap<>();
-        addressMap.put("street","Number Two");
-        addressMap.put("city","London");
-        addressMap.put("postCode","xyz");
-        addressMap.put("country","GB");
-        details.put("address", addressMap);
+//        HashMap<String, Object> addressMap = new HashMap<>();
+//
+//        addressMap.put("street", "Number Two");
+//        addressMap.put("city", "London");
+//        addressMap.put("postCode", "xyz");
+//        addressMap.put("country", "GB");
+
+        String street = "Number Two";
+        String city = "London";
+        String postCode = "xyz";
+        String country = "United Kingdom";
+        String countryCode = "GB";
+        String countryName = "United Kingdom";
+        Address address = new Address(street, city, postCode, country, countryCode, countryName);
+
+        details.put("address", address);
+
 
         log += "Updating User details\n";
         logView.setText(log);
-        KWSChildren.sdk.updateUser(this, details, new KWSChildrenUpdateUserInterface(){
+        KWSChildren.sdk.updateUser(this, details, new KWSChildrenUpdateUserInterface() {
 
             @Override
             public void didUpdateUser(boolean updated) {
@@ -426,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inviteUser(View v) {
-        final String email = "guilherme.mota+9@superawesome.tv";
+        final String email = "mobile.dev.test+1@superawesome.tv";
         KWSChildren.sdk.inviteUser(this, email, new KWSChildrenInviteUserInterface() {
             @Override
             public void didInviteUser(boolean success) {

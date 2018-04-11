@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenSetAppDataInte
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSGetAppData;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSSetAppData;
 import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailInterface;
+import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailStatus;
 import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmail;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionInterface;
@@ -480,8 +482,6 @@ public class KWSChildren {
 
     public void updateUser(Context context, Map<String, Object> details, final KWSChildrenUpdateUserInterface listener) {
 
-        //updateUser.execute(context, updatedUser, listener);
-
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserService userService = factory.get(IUserService.class);
 
@@ -512,8 +512,38 @@ public class KWSChildren {
     }
 
     // applicationPermissions
-    public void updateParentEmail(Context context, String email, KWSChildrenUpdateParentEmailInterface listener) {
-        parentEmail.execute(context, email, listener);
+    public void updateParentEmail(Context context, String email, final KWSChildrenUpdateParentEmailInterface listener) {
+
+        HashMap<String, Object> details = new HashMap<>();
+        details.put("parentEmail", email);
+
+        KWSSDK factory = new KWSSDK(kwsEnvironment);
+        IUserService userService = factory.get(IUserService.class);
+
+        if (userService != null) {
+
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+                listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.NetworkError);
+                Log.d(TAG, kNoLoggedUserMsg);
+                return;
+            }
+
+            userService.updateUser(details, loggedUser.getId(), loggedUser.getToken(), new Function1<Throwable, Unit>() {
+                @Override
+                public Unit invoke(Throwable throwable) {
+
+                    if (throwable == null) {
+                        listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.Success);
+                    } else {
+                        listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.NetworkError);
+                    }
+
+                    return null;
+                }
+            });
+        }
     }
 
     public void requestPermission(Context context, KWSChildrenPermissionType[] requestedPermissions, final KWSChildrenRequestPermissionInterface listener) {
