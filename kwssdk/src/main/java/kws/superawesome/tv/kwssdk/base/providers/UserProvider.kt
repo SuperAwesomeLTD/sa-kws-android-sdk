@@ -53,7 +53,9 @@ constructor(override val environment: KWSNetworkEnvironment,
                 userId = userId,
                 token = token)
 
-        val future = networkTask.execute(input = updateUserDetailsNetworkRequest)
+
+        val networkTask2 = NetworkTask()
+        val future = networkTask2.execute(input = updateUserDetailsNetworkRequest)
         future.onResult { networkResult ->
 
             when (networkResult) {
@@ -67,6 +69,3 @@ constructor(override val environment: KWSNetworkEnvironment,
         }
     }
 }
-
-
-

@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
-import kws.superawesome.tv.kwssdk.base.models.Address;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -320,22 +322,16 @@ public class MainActivity extends AppCompatActivity {
         details.put("firstName", "John");
         details.put("lastName", "Droid");
 
-//        HashMap<String, Object> addressMap = new HashMap<>();
-//
-//        addressMap.put("street", "Number Two");
-//        addressMap.put("city", "London");
-//        addressMap.put("postCode", "xyz");
-//        addressMap.put("country", "GB");
-
-        String street = "Number Two";
-        String city = "London";
-        String postCode = "xyz";
-        String country = "United Kingdom";
-        String countryCode = "GB";
-        String countryName = "United Kingdom";
-        Address address = new Address(street, city, postCode, country, countryCode, countryName);
-
-        details.put("address", address);
+        JSONObject addressObj = new JSONObject();
+        try {
+            addressObj.put("street", "Number Two");
+            addressObj.put("city", "London");
+            addressObj.put("postCode", "xyz");
+            addressObj.put("country", "GB");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        details.put("address", addressObj);
 
 
         log += "Updating User details\n";
@@ -378,7 +374,6 @@ public class MainActivity extends AppCompatActivity {
     public void requestPermissions(View v) {
         KWSChildren.sdk.requestPermission(this, new KWSChildrenPermissionType[]{
                 KWSChildrenPermissionType.AccessAddress,
-                KWSChildrenPermissionType.AccessFirstName
         }, new KWSChildrenRequestPermissionInterface() {
             @Override
             public void didRequestPermission(KWSChildrenRequestPermissionStatus status) {

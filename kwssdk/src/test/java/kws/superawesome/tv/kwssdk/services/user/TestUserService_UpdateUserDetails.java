@@ -2,6 +2,8 @@ package kws.superawesome.tv.kwssdk.services.user;
 
 import junit.framework.Assert;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -19,12 +21,16 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
         details.put("firstName", "John");
         details.put("lastName", "Droid");
 
-        HashMap<String, Object> addressMap = new HashMap<>();
-        addressMap.put("street","Number Two");
-        addressMap.put("city","London");
-        addressMap.put("postCode","xyz");
-        addressMap.put("country","GB");
-        details.put("address", addressMap);
+        JSONObject addressObj = new JSONObject();
+        try {
+            addressObj.put("street", "Number Two");
+            addressObj.put("city", "London");
+            addressObj.put("postCode", "xyz");
+            addressObj.put("country", "GB");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        details.put("address", addressObj);
 
 
         service.updateUser(details, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
