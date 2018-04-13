@@ -392,6 +392,8 @@ public class KWSChildren {
                     kwsUser.points = buildPoints(userDetailsResponse.getPoints());
                     kwsUser.applicationPermissions = buildPermissions(userDetailsResponse.getApplicationPermissions());
                     kwsUser.applicationProfile = buildProfile(userDetailsResponse.getApplicationProfile());
+                    kwsUser.consentAgeForCountry = userDetailsResponse.getConsentAgeForCountry();
+                    kwsUser.isMinor = userDetailsResponse.isMinor();
 
                     return kwsUser;
                 }
