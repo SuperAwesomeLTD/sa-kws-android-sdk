@@ -46,4 +46,10 @@ data class UserDetails(@SerializedName("id")
                        override val points: Points? = null,
 
                        @SerializedName("createdAt")
-                       override val createdAt: String) : IUserDetailsModel
+                       override val createdAt: String,
+
+                       @SerializedName("consentAgeForCountry")
+                       override val consentAgeForCountry: Int,
+
+                       @SerializedName("isMinor")
+                       override val isMinor: Boolean) : IUserDetailsModel

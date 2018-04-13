@@ -1,6 +1,7 @@
 package kws.superawesome.tv.kwsdemo;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -8,11 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
 
 import kws.superawesome.tv.kwssdk.KWSChildren;
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
-import kws.superawesome.tv.kwssdk.base.models.internal.TokenData;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
 import kws.superawesome.tv.kwssdk.models.user.KWSScore;
@@ -39,9 +42,12 @@ import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenHasTriggeredEven
 import kws.superawesome.tv.kwssdk.services.kws.score.KWSChildrenTriggerEventInterface;
 import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenGetUserInterface;
 import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenInviteUserInterface;
+import kws.superawesome.tv.kwssdk.services.kws.user.KWSChildrenUpdateUserInterface;
 import tv.superawesome.lib.sautils.SAUtils;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static String TAG = MainActivity.class.getCanonicalName() + " SuperAwesome ->";
 
     // view
     private TextView logView = null;
@@ -70,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
         final String pwd = "testtest";
 
-        final String parentEmail = "guilherme.mota@superawesome.tv";
+        final String parentEmail = "mobile.dev.test@superawesome.tv";
 
         KWSChildren.sdk.createUser(this, username, pwd,
                 "2011-03-02",
@@ -111,15 +117,14 @@ public class MainActivity extends AppCompatActivity {
 
                         logView.setText(log);
 
-                        Log.d("SuperAwesome", status.toString());
+                        Log.d(TAG, status.toString());
                     }
                 });
     }
 
     public void loginUser(View v) {
 
-        final String username = "guitestnumber4";
-//        final String username = "testguitest1";
+        final String username = "randomtestuser123";
         final String pwd = "testtest";
 
         KWSChildren.sdk.loginUser(this, username, pwd, new KWSChildrenLoginUserInterface() {
@@ -136,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         log += "Invalid Email credentials\n";
                         break;
                 }
-                Log.d("SuperAwesome", status.toString());
+                Log.d(TAG, status.toString());
                 logView.setText(log);
             }
         });
@@ -153,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             public void didLoginUser(KWSChildrenLoginUserStatus status) {
                 log += "Web View Authentication status is " + status + "\n";
                 logView.setText(log);
-                Log.d("SuperAwesome", status.toString());
+                Log.d(TAG, status.toString());
             }
         });
     }
@@ -171,11 +176,11 @@ public class MainActivity extends AppCompatActivity {
                 if (name != null) {
                     log += "Random name " + name + "\n";
                     logView.setText(log);
-                    Log.d("SuperAwesome", name);
+                    Log.d(TAG, name);
                 } else {
                     log += "Invalid Random name. (null)  \n";
                     logView.setText(log);
-                    Log.d("SuperAwesome", "Random name is (null)");
+                    Log.d(TAG, "Random name is (null)");
                 }
             }
         });
@@ -250,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                     log += "SuperAwesome Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
-                Log.d("SuperAwesome", status.toString());
+                Log.d(TAG, status.toString());
             }
         });
     }
@@ -266,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
             public void didUnregisterForRemoteNotifications(boolean unregistered) {
                 log += unregistered ? "User is un-registered\n" : "Network error unsubscribing Firebase token to KWSChildren\n";
                 if (KWSChildren.sdk.getLoggedUser() != null) {
-                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson().toString());
+                    Log.d(TAG, KWSChildren.sdk.getLoggedUser().writeToJson().toString());
                     log += "SuperAwesome Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
@@ -285,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
             public void isRegisteredForRemoteNotifications(boolean registered) {
                 log += registered ? "User is already registered\n" : "User is not registered\n";
                 if (KWSChildren.sdk.getLoggedUser() != null) {
-                    Log.d("SuperAwesome", KWSChildren.sdk.getLoggedUser().writeToJson().toString());
+                    Log.d(TAG, KWSChildren.sdk.getLoggedUser().writeToJson().toString());
                     log += "SuperAwesome Local user is " + KWSChildren.sdk.getLoggedUser().isRegisteredForNotifications() + "\n";
                 }
                 logView.setText(log);
@@ -301,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void didGetUser(KWSUser user) {
                 if (user != null) {
-                    Log.d("SuperAwesome", user.writeToJson().toString() + "");
+                    Log.d(TAG, user.writeToJson().toString() + "");
                     log += "Got user details for " + user.username + "\n";
                     logView.setText(log);
                 } else {
@@ -310,6 +315,45 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    public void updateUserDetails(@NonNull View view) {
+
+        HashMap<String, Object> details = new HashMap<>();
+
+        details.put("firstName", "John");
+        details.put("lastName", "Droid");
+
+        JSONObject addressObj = new JSONObject();
+        try {
+            addressObj.put("street", "Number Two");
+            addressObj.put("city", "London");
+            addressObj.put("postCode", "xyz");
+            addressObj.put("country", "GB");
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception: "+ Log.getStackTraceString(e));
+        }
+        details.put("address", addressObj);
+
+
+        log += "Updating User details\n";
+        logView.setText(log);
+        KWSChildren.sdk.updateUser(this, details, new KWSChildrenUpdateUserInterface() {
+
+            @Override
+            public void didUpdateUser(boolean updated) {
+
+                if (updated) {
+                    Log.d(TAG, "User successfully updated!");
+                    log += "Success in updating user details!\n";
+                } else {
+                    log += "Updating user failed...!\n";
+                }
+                logView.setText(log);
+            }
+        });
+
     }
 
     public void getLeaderboard(View v) {
@@ -323,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                     logString.append(item.writeToJson().toString()).append(", ");
                 }
                 if (logString.length() != 0) {
-                    Log.d("SuperAwesome", logString + "");
+                    Log.d(TAG, logString + "");
                 }
                 logView.setText(log);
             }
@@ -333,7 +377,6 @@ public class MainActivity extends AppCompatActivity {
     public void requestPermissions(View v) {
         KWSChildren.sdk.requestPermission(this, new KWSChildrenPermissionType[]{
                 KWSChildrenPermissionType.AccessAddress,
-                KWSChildrenPermissionType.AccessFirstName
         }, new KWSChildrenRequestPermissionInterface() {
             @Override
             public void didRequestPermission(KWSChildrenRequestPermissionStatus status) {
@@ -353,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 logView.setText(log);
-                Log.d("SuperAwesome", status.toString());
+                Log.d(TAG, status.toString());
             }
         });
 
@@ -369,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
             public void didTriggerEvent(boolean success) {
                 log += "Triggered evt: " + success + "\n";
                 logView.setText(log);
-                Log.d("SuperAwesome ", String.valueOf(success));
+                Log.d(TAG, String.valueOf(success));
             }
         });
     }
@@ -381,20 +424,20 @@ public class MainActivity extends AppCompatActivity {
                 log += score != null ? "Rank: " + score.rank + " Score: " + score.score + "\n" : "Could not get score\n";
                 logView.setText(log);
                 if (score != null) {
-                    Log.d("SuperAwesome ", score.writeToJson().toString());
+                    Log.d(TAG, score.writeToJson().toString());
                 }
             }
         });
     }
 
     public void inviteUser(View v) {
-        final String email = "guilherme.mota+9@superawesome.tv";
+        final String email = "mobile.dev.test+1@superawesome.tv";
         KWSChildren.sdk.inviteUser(this, email, new KWSChildrenInviteUserInterface() {
             @Override
             public void didInviteUser(boolean success) {
                 log += "Invited " + email + " " + success + "\n";
                 logView.setText(log);
-                Log.d("SuperAwesome ", String.valueOf(success));
+                Log.d(TAG, String.valueOf(success));
             }
         });
 
@@ -407,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
             public void didTriggerEvent(Boolean triggered) {
                 log += "Event " + String.valueOf(eventId) + " is : " + triggered + "\n";
                 logView.setText(log);
-                Log.d("SuperAwesome ", String.valueOf(triggered));
+                Log.d(TAG, String.valueOf(triggered));
             }
         });
 
@@ -423,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
             public void didSetAppData(boolean success) {
                 log += "Set " + key + " = " + value + " with " + success + "\n";
                 logView.setText(log);
-                Log.d("SuperAwesome ", String.valueOf(success));
+                Log.d(TAG, String.valueOf(success));
             }
         });
     }
@@ -443,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 logView.setText(log);
-                Log.d("SuperAwesome ", logHelp);
+                Log.d(TAG, logHelp);
             }
         });
     }

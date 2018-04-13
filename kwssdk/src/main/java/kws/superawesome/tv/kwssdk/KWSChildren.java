@@ -10,7 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -44,6 +46,7 @@ import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSChildrenSetAppDataInte
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSGetAppData;
 import kws.superawesome.tv.kwssdk.services.kws.appdata.KWSSetAppData;
 import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailInterface;
+import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSChildrenUpdateParentEmailStatus;
 import kws.superawesome.tv.kwssdk.services.kws.parentemail.KWSParentEmail;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenPermissionType;
 import kws.superawesome.tv.kwssdk.services.kws.permissions.KWSChildrenRequestPermissionInterface;
@@ -201,7 +204,7 @@ public class KWSChildren {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     // user creation, auth & logout
-    public void createUser(final Context context, String username, String password, String dateOfBirth, String country, String parentEmail, final KWSChildrenCreateUserInterface listener) {
+    public void createUser(final Context context, String username, String password, String dateOfBirth, String country, String parentEmail, @NotNull final KWSChildrenCreateUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IAuthService authService = factory.get(IAuthService.class);
@@ -235,7 +238,7 @@ public class KWSChildren {
 
     }
 
-    public void loginUser(final Context context, String username, String password, final KWSChildrenLoginUserInterface listener) {
+    public void loginUser(final Context context, String username, String password, @NotNull final KWSChildrenLoginUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IAuthService authService = factory.get(IAuthService.class);
@@ -268,7 +271,7 @@ public class KWSChildren {
         }
     }
 
-    public void authWithSingleSignOnUrl(final Context context, String singleSignOnUrl, Activity parent, final KWSChildrenLoginUserInterface listener) {
+    public void authWithSingleSignOnUrl(final Context context, String singleSignOnUrl, Activity parent, @NotNull final KWSChildrenLoginUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         ISingleSignOnService singleSignOnService = factory.get(ISingleSignOnService.class);
@@ -308,7 +311,7 @@ public class KWSChildren {
     }
 
     // user random name
-    public void getRandomUsername(Context context, final KWSChildrenGetRandomUsernameInterface listener) {
+    public void getRandomUsername(Context context, @NotNull final KWSChildrenGetRandomUsernameInterface listener) {
 
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
@@ -337,7 +340,7 @@ public class KWSChildren {
 
 
     // user details
-    public void getUser(Context context, final KWSChildrenGetUserInterface listener) {
+    public void getUser(Context context, @NotNull final KWSChildrenGetUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserService userService = factory.get(IUserService.class);
@@ -477,16 +480,73 @@ public class KWSChildren {
 
     }
 
-    public void updateUser(Context context, KWSUser updatedUser, KWSChildrenUpdateUserInterface listener) {
-        updateUser.execute(context, updatedUser, listener);
+    public void updateUser(Context context, Map<String, Object> details, @NotNull final KWSChildrenUpdateUserInterface listener) {
+
+        KWSSDK factory = new KWSSDK(kwsEnvironment);
+        IUserService userService = factory.get(IUserService.class);
+
+        if (userService != null) {
+
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+                listener.didUpdateUser(false);
+                Log.d(TAG, kNoLoggedUserMsg);
+                return;
+            }
+
+            userService.updateUser(details, loggedUser.getId(), loggedUser.getToken(), new Function1<Throwable, Unit>() {
+                @Override
+                public Unit invoke(Throwable throwable) {
+
+                    if (throwable == null) {
+                        listener.didUpdateUser(true);
+                    } else {
+                        listener.didUpdateUser(false);
+                    }
+
+                    return null;
+                }
+            });
+        }
     }
 
     // applicationPermissions
-    public void updateParentEmail(Context context, String email, KWSChildrenUpdateParentEmailInterface listener) {
-        parentEmail.execute(context, email, listener);
+    public void updateParentEmail(Context context, String email, @NotNull final KWSChildrenUpdateParentEmailInterface listener) {
+
+        HashMap<String, Object> details = new HashMap<>();
+        details.put("parentEmail", email);
+
+        KWSSDK factory = new KWSSDK(kwsEnvironment);
+        IUserService userService = factory.get(IUserService.class);
+
+        if (userService != null) {
+
+            final LoggedUser loggedUser = getLoggedUser(context);
+
+            if (loggedUser == null) {
+                listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.NetworkError);
+                Log.d(TAG, kNoLoggedUserMsg);
+                return;
+            }
+
+            userService.updateUser(details, loggedUser.getId(), loggedUser.getToken(), new Function1<Throwable, Unit>() {
+                @Override
+                public Unit invoke(Throwable throwable) {
+
+                    if (throwable == null) {
+                        listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.Success);
+                    } else {
+                        listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.NetworkError);
+                    }
+
+                    return null;
+                }
+            });
+        }
     }
 
-    public void requestPermission(Context context, KWSChildrenPermissionType[] requestedPermissions, final KWSChildrenRequestPermissionInterface listener) {
+    public void requestPermission(Context context, KWSChildrenPermissionType[] requestedPermissions, @NotNull final KWSChildrenRequestPermissionInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserActionsService userActionsService = factory.get(IUserActionsService.class);
@@ -535,7 +595,7 @@ public class KWSChildren {
     }
 
     // invite another user
-    public void inviteUser(Context context, String emailAddress, final KWSChildrenInviteUserInterface listener) {
+    public void inviteUser(Context context, String emailAddress, @NotNull final KWSChildrenInviteUserInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserActionsService userActionsService = factory.get(IUserActionsService.class);
@@ -568,7 +628,7 @@ public class KWSChildren {
 
     // events, points, leader boards
 
-    public void triggerEvent(Context context, String token, int points, final KWSChildrenTriggerEventInterface listener) {
+    public void triggerEvent(Context context, String token, int points, @NotNull final KWSChildrenTriggerEventInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserActionsService userActionsService = factory.get(IUserActionsService.class);
@@ -600,7 +660,7 @@ public class KWSChildren {
 
     }
 
-    public void hasTriggeredEvent(Context context, int eventId, final KWSChildrenHasTriggeredEventInterface listener) {
+    public void hasTriggeredEvent(Context context, int eventId, @NotNull final KWSChildrenHasTriggeredEventInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserActionsService userActionsService = factory.get(IUserActionsService.class);
@@ -635,7 +695,7 @@ public class KWSChildren {
 
     }
 
-    public void getScore(Context context, final KWSChildrenGetScoreInterface listener) {
+    public void getScore(Context context, @NotNull final KWSChildrenGetScoreInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IScoringService scoringService = factory.get(IScoringService.class);
@@ -680,7 +740,7 @@ public class KWSChildren {
 
     }
 
-    public void getLeaderboard(Context context, final KWSChildrenGetLeaderboardInterface listener) {
+    public void getLeaderboard(Context context, @NotNull final KWSChildrenGetLeaderboardInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IScoringService scoringService = factory.get(IScoringService.class);
@@ -739,7 +799,7 @@ public class KWSChildren {
 
     // app data
 
-    public void getAppData(Context context, final KWSChildrenGetAppDataInterface listener) {
+    public void getAppData(Context context, @NotNull final KWSChildrenGetAppDataInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserActionsService userActionsService = factory.get(IUserActionsService.class);
@@ -797,7 +857,7 @@ public class KWSChildren {
 
     }
 
-    public void setAppData(Context context, int value, String name, final KWSChildrenSetAppDataInterface listener) {
+    public void setAppData(Context context, int value, String name, @NotNull final KWSChildrenSetAppDataInterface listener) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         IUserActionsService userActionsService = factory.get(IUserActionsService.class);
@@ -836,7 +896,7 @@ public class KWSChildren {
 
     // handle remote notifications
 
-    public void registerForRemoteNotifications(final Context context, final KWSChildrenRegisterForRemoteNotificationsInterface listener) {
+    public void registerForRemoteNotifications(final Context context, @NotNull final KWSChildrenRegisterForRemoteNotificationsInterface listener) {
 
         final LoggedUser loggedUser = getLoggedUser(context);
 
@@ -867,7 +927,7 @@ public class KWSChildren {
         });
     }
 
-    public void unregisterForRemoteNotifications(final Context context, final KWSChildrenUnregisterForRemoteNotificationsInterface listener) {
+    public void unregisterForRemoteNotifications(final Context context, @NotNull final KWSChildrenUnregisterForRemoteNotificationsInterface listener) {
 
         final LoggedUser loggedUser = getLoggedUser(context);
 
@@ -903,7 +963,7 @@ public class KWSChildren {
         });
     }
 
-    public void isRegisteredForRemoteNotifications(final Context context, final KWSChildrenIsRegisteredForRemoteNotificationsInterface listener) {
+    public void isRegisteredForRemoteNotifications(final Context context, @NotNull final KWSChildrenIsRegisteredForRemoteNotificationsInterface listener) {
 
         LoggedUser loggedUser = getLoggedUser(context);
 
@@ -941,7 +1001,7 @@ public class KWSChildren {
     // Aux helper functions
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void registerForRemoteNotificationsWithPopup(final Context context, final KWSChildrenRegisterForRemoteNotificationsInterface listener) {
+    public void registerForRemoteNotificationsWithPopup(final Context context, @NotNull final KWSChildrenRegisterForRemoteNotificationsInterface listener) {
         SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
             @Override
             public void saDidClickOnAlertButton(int button, String s) {
@@ -952,7 +1012,7 @@ public class KWSChildren {
         });
     }
 
-    public void updateParentEmailWithPopup(final Context context, final KWSChildrenUpdateParentEmailInterface listener) {
+    public void updateParentEmailWithPopup(final Context context, @NotNull final KWSChildrenUpdateParentEmailInterface listener) {
         SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWSChildren you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
             @Override
             public void saDidClickOnAlertButton(int button, String email) {

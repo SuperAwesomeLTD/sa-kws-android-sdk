@@ -26,6 +26,7 @@ import kws.superawesome.tv.kwssdk.services.session.TestSessionService_GetCurrent
 import kws.superawesome.tv.kwssdk.services.session.TestSessionService_IsUserLoggedIn;
 import kws.superawesome.tv.kwssdk.services.session.TestSessionService_SaveLoggedUser;
 import kws.superawesome.tv.kwssdk.services.user.TestUserService_GetUserDetails;
+import kws.superawesome.tv.kwssdk.services.user.TestUserService_UpdateUserDetails;
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_GetAppData;
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_HasTriggeredEvent;
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_InviteUser;
@@ -73,6 +74,7 @@ import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
 
         //User
         TestUserService_GetUserDetails.class,
+        TestUserService_UpdateUserDetails.class,
 
         //User Actions
         TestUserActionsService_GetAppData.class,

@@ -1,5 +1,8 @@
 package kws.superawesome.tv.kwssdk.services;
 
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,6 +10,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -197,6 +201,56 @@ class MockKWSServer extends MockAbstractWebServer {
 
             case "GET /v1/users/25 HTTP/1.1": {
                 return responseFromResource("mock_get_user_details_success_response.json");
+            }
+
+            //
+            //update user
+            case "PUT /v1/users/0 HTTP/1.1": {
+                return responseFromResource("mock_generic_forbidden_response.json", 404);
+            }
+            case "PUT /v1/users/25 HTTP/1.1": {
+                body = request.getBody().readUtf8();
+                try {
+                    String bodyForJSON = body;
+                    JSONObject bodyJson = new JSONObject(bodyForJSON);
+
+                    HashMap<String, Object> requestMap = new HashMap<>();
+                    Gson gson = new Gson();
+                    requestMap = (HashMap<String, Object>) gson.fromJson(bodyForJSON, requestMap.getClass());
+
+                    /*add other validations and fixtures
+                        - firstName not being empty
+                        - lastName not being empty
+                     */
+
+                    if (requestMap.get("address") != null) {
+                        //if we have an address declared
+                        LinkedTreeMap<String, Object> addressDetails = (LinkedTreeMap<String, Object>) requestMap.get("address");
+                        if (addressDetails != null &&
+                                (addressDetails.get("street") == null || addressDetails.get("street").equals(""))
+                                || (addressDetails.get("city") == null || addressDetails.get("city").equals(""))
+                                || (addressDetails.get("postCode") == null || addressDetails.get("postCode").equals(""))
+                                || (addressDetails.get("country") == null || addressDetails.get("country").equals(""))) {
+                            return responseFromResource("mock_update_user_details_address_fails_response.json", 400);
+                        }
+                    }
+
+                    String parentEmail = (String) requestMap.get("parentEmail");
+                    if (parentEmail != null) {
+                        //if there's a parent email
+                        if (parentEmail.isEmpty()) {
+                            return responseFromResource("mock_update_user_parent_email_invalid_email_response.json", 400);
+                        } else if (parentEmail.equals("already_set")) {
+                            return responseFromResource("mock_update_user_parent_email_already_set_response.json", 403);
+                        }
+                    }
+
+                    //if all goes well, response empty with 204
+                    return responseFromResource("mock_generic_empty_response.json", 204);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             //
