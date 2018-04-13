@@ -26,6 +26,8 @@ public class KWSUser extends SABaseObject implements Parcelable {
     public KWSPoints points;
     public KWSPermissions applicationPermissions;
     public KWSApplicationProfile applicationProfile;
+    public int consentAgeForCountry;
+    public Boolean isMinor;
 
     // normal
     public KWSUser() {
@@ -52,6 +54,8 @@ public class KWSUser extends SABaseObject implements Parcelable {
         points = in.readParcelable(KWSPoints.class.getClassLoader());
         applicationPermissions = in.readParcelable(KWSPermissions.class.getClassLoader());
         applicationProfile = in.readParcelable(KWSApplicationProfile.class.getClassLoader());
+        consentAgeForCountry = in.readInt();
+        isMinor = in.readByte() != 0;
     }
 
     public static final Creator<KWSUser> CREATOR = new Creator<KWSUser>() {
@@ -86,6 +90,8 @@ public class KWSUser extends SABaseObject implements Parcelable {
         dest.writeParcelable(points, flags);
         dest.writeParcelable(applicationPermissions, flags);
         dest.writeParcelable(applicationProfile, flags);
+        dest.writeInt(consentAgeForCountry);
+        dest.writeByte((byte) (isMinor ? 1 : 0));
     }
 
     @Override
@@ -103,6 +109,8 @@ public class KWSUser extends SABaseObject implements Parcelable {
         points = new KWSPoints(SAJsonParser.getJsonObject(json, "points"));
         applicationPermissions = new KWSPermissions(SAJsonParser.getJsonObject(json, "applicationPermissions"));
         applicationProfile = new KWSApplicationProfile(SAJsonParser.getJsonObject(json, "applicationProfile"));
+        consentAgeForCountry = SAJsonParser.getInt(json, "consentAgeForCountry");
+        isMinor = SAJsonParser.getBoolean(json, "isMinor");
     }
 
     @Override
@@ -120,7 +128,9 @@ public class KWSUser extends SABaseObject implements Parcelable {
                 "address", address != null ? address.writeToJson() : null,
                 "points", points != null ? points.writeToJson() : null,
                 "applicationPermissions", applicationPermissions != null ? applicationPermissions.writeToJson() : null,
-                "applicationProfile", applicationProfile != null ? applicationProfile.writeToJson() : null
+                "applicationProfile", applicationProfile != null ? applicationProfile.writeToJson() : null,
+                "consentAgeForCountry", applicationProfile != null ? applicationProfile.writeToJson() : null,
+                "isMinor", applicationProfile != null ? applicationProfile.writeToJson() : null
         });
     }
 

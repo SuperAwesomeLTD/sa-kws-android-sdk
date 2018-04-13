@@ -71,6 +71,9 @@ public class TestUserService_GetUserDetails extends TestUserService {
                 Assert.assertEquals((int) userDetails.getPoints().getBalance(), 600);
                 Assert.assertEquals((int) userDetails.getPoints().getPending(), 1);
 
+                Assert.assertEquals(userDetails.getConsentAgeForCountry(), 13);
+                Assert.assertTrue(userDetails.isMinor());
+
                 return null;
             }
         });
