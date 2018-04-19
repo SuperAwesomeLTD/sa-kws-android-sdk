@@ -6,11 +6,11 @@ import tv.superawesome.protobufs.models.auth.ILoggedUserModel
  * Created by guilherme.mota on 08/12/2017.
  */
 /*internal*/
-data class LoggedUser(override val token: String,
+data class LoggedUserModel(override val token: String,
 
-                      val tokenData: TokenData,
+                           val tokenData: TokenData,
 
-                      override val id: Int) : ILoggedUserModel {
+                           override val id: Int) : ILoggedUserModel {
 
     var registeredForRM: Boolean = false
 }

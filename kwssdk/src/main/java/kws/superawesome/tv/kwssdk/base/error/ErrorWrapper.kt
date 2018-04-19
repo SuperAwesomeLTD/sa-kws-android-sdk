@@ -16,9 +16,9 @@ class ErrorWrapper(@SerializedName("code")
                    override val message: String?,
 
                    @SerializedName("invalid")
-                   override val invalid: InvalidTypeError?,
+                   override val invalid: InvalidTypeErrorModel?,
 
-                   @SerializedName("Error")
+                   @SerializedName("ErrorModel")
                    override val error: String?,
 
                    @SerializedName("ErrorCode")

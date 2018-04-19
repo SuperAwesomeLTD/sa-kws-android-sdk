@@ -16,5 +16,5 @@ data class AppDataWrapper(@SerializedName("count")
                           override val limit: Int,
 
                           @SerializedName("results")
-                          override val results: ArrayList<AppData>) : IAppDataWrapperModel
+                          override val results: ArrayList<AppDataModel>) : IAppDataWrapperModel
 

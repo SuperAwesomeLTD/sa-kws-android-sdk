@@ -1,8 +1,8 @@
 package kws.superawesome.tv.kwssdk.base.authentication
 
 import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.authentication.models.AuthUserResponse
-import kws.superawesome.tv.kwssdk.base.authentication.models.LoginAuthResponse
+import kws.superawesome.tv.kwssdk.base.authentication.models.AuthUserResponseModel
+import kws.superawesome.tv.kwssdk.base.authentication.models.LoginAuthResponseModel
 import kws.superawesome.tv.kwssdk.base.internal.TokenData
 import kws.superawesome.tv.kwssdk.base.BaseService
 import kws.superawesome.tv.kwssdk.base.authentication.requests.CreateUserRequest
@@ -34,7 +34,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
 
-        val parseTask = ParseJsonTask(type = LoginAuthResponse::class.java)
+        val parseTask = ParseJsonTask(type = LoginAuthResponseModel::class.java)
         val future = networkTask.execute(input = loginUserNetworkRequest)
                 .map { result -> result.then(parseTask::execute) }
 
@@ -66,7 +66,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                 clientID = environment.appID,
                 clientSecret = environment.mobileKey)
 
-        val parseTask = ParseJsonTask(LoginAuthResponse::class.java)
+        val parseTask = ParseJsonTask(LoginAuthResponseModel::class.java)
         val future = networkTask
                 .execute(input = getTempAccessTokenNetworkRequest)
                 .map { result -> result.then(parseTask::execute) }
@@ -120,7 +120,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                                parentEmail: String,
                                appId: Int,
                                token: String,
-                               callback: (createdUserResponse: AuthUserResponse?, error: Throwable?) -> Unit) {
+                               callback: (createdUserResponseModel: AuthUserResponseModel?, error: Throwable?) -> Unit) {
 
 
         val createUserNetworkRequest = CreateUserRequest(
@@ -133,7 +133,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token,
                 appID = appId)
 
-        val parseTask = ParseJsonTask(AuthUserResponse::class.java)
+        val parseTask = ParseJsonTask(AuthUserResponseModel::class.java)
         val future = networkTask.execute(input = createUserNetworkRequest)
                 .map { result -> result.then(parseTask::execute) }
 

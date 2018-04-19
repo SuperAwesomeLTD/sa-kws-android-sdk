@@ -20,7 +20,7 @@ import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
 import kws.superawesome.tv.kwssdk.base.UtilsHelper;
 import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.internal.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel;
 import kws.superawesome.tv.kwssdk.base.internal.TokenData;
 import kws.superawesome.tv.kwssdk.models.appdata.KWSAppData;
 import kws.superawesome.tv.kwssdk.models.leaderboard.KWSLeader;
@@ -219,7 +219,7 @@ public class KWSChildren {
                                 String token = createdUser.getToken();
                                 TokenData tokenData = getMetadataFromToken(token);
                                 if (tokenData != null) {
-                                    LoggedUser loggedUser = new LoggedUser(token, tokenData, tokenData.getUserId());
+                                    LoggedUserModel loggedUser = new LoggedUserModel(token, tokenData, tokenData.getUserId());
                                     setLoggedUser(loggedUser, context);
                                     listener.didCreateUser(KWSChildrenCreateUserStatus.Success);
                                 } else {
@@ -252,7 +252,7 @@ public class KWSChildren {
                         String token = loginAuthResponse.getToken();
                         TokenData tokenData = getMetadataFromToken(token);
                         if (tokenData != null) {
-                            LoggedUser loggedUser = new LoggedUser(token, tokenData, tokenData.getUserId());
+                            LoggedUserModel loggedUser = new LoggedUserModel(token, tokenData, tokenData.getUserId());
                             setLoggedUser(loggedUser, context);
                             listener.didLoginUser(KWSChildrenLoginUserStatus.Success);
                         } else {
@@ -298,7 +298,7 @@ public class KWSChildren {
     public void logoutUser(Context context) {
 
         /**New way*/
-        LoggedUser emptyUser = new LoggedUser("", new TokenData(), 0);
+        LoggedUserModel emptyUser = new LoggedUserModel("", new TokenData(), 0);
         setLoggedUser(emptyUser, context);
 
         /**Here for legacy**/
@@ -347,7 +347,7 @@ public class KWSChildren {
 
         if (userService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
                 listener.didGetUser(null);
@@ -489,7 +489,7 @@ public class KWSChildren {
 
         if (userService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
                 listener.didUpdateUser(false);
@@ -524,7 +524,7 @@ public class KWSChildren {
 
         if (userService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
                 listener.didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus.NetworkError);
@@ -555,7 +555,7 @@ public class KWSChildren {
 
         if (userActionsService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
 
@@ -604,7 +604,7 @@ public class KWSChildren {
 
         if (userActionsService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
 
@@ -637,7 +637,7 @@ public class KWSChildren {
 
         if (userActionsService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
 
@@ -669,7 +669,7 @@ public class KWSChildren {
 
         if (userActionsService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
 
@@ -704,7 +704,7 @@ public class KWSChildren {
 
         if (scoringService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
 
@@ -749,7 +749,7 @@ public class KWSChildren {
 
         if (scoringService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
 
@@ -808,7 +808,7 @@ public class KWSChildren {
 
         if (userActionsService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
 
@@ -866,7 +866,7 @@ public class KWSChildren {
 
         if (userActionsService != null) {
 
-            final LoggedUser loggedUser = getLoggedUser(context);
+            final LoggedUserModel loggedUser = getLoggedUser(context);
 
             if (loggedUser == null) {
                 listener.didSetAppData(false);
@@ -900,7 +900,7 @@ public class KWSChildren {
 
     public void registerForRemoteNotifications(final Context context, @NotNull final KWSChildrenRegisterForRemoteNotificationsInterface listener) {
 
-        final LoggedUser loggedUser = getLoggedUser(context);
+        final LoggedUserModel loggedUser = getLoggedUser(context);
 
         if (loggedUser == null) {
 
@@ -913,7 +913,7 @@ public class KWSChildren {
             @Override
             public void didRegisterForRemoteNotifications(KWSChildrenRegisterForRemoteNotificationsStatus status) {
 
-                LoggedUser loggedUser = getLoggedUser(context);
+                LoggedUserModel loggedUser = getLoggedUser(context);
 
                 if (status == KWSChildrenRegisterForRemoteNotificationsStatus.Success && loggedUser != null) {
                     loggedUser.setRegisteredForRM(true);
@@ -931,7 +931,7 @@ public class KWSChildren {
 
     public void unregisterForRemoteNotifications(final Context context, @NotNull final KWSChildrenUnregisterForRemoteNotificationsInterface listener) {
 
-        final LoggedUser loggedUser = getLoggedUser(context);
+        final LoggedUserModel loggedUser = getLoggedUser(context);
 
         if (loggedUser == null) {
 
@@ -944,7 +944,7 @@ public class KWSChildren {
             @Override
             public void didUnregisterForRemoteNotifications(boolean unregistered) {
 
-                LoggedUser loggedUser = getLoggedUser(context);
+                LoggedUserModel loggedUser = getLoggedUser(context);
 
                 if (unregistered && loggedUser != null && loggedUser.getRegisteredForRM()) {
 
@@ -967,7 +967,7 @@ public class KWSChildren {
 
     public void isRegisteredForRemoteNotifications(final Context context, @NotNull final KWSChildrenIsRegisteredForRemoteNotificationsInterface listener) {
 
-        LoggedUser loggedUser = getLoggedUser(context);
+        LoggedUserModel loggedUser = getLoggedUser(context);
 
         if (loggedUser == null) {
 
@@ -980,7 +980,7 @@ public class KWSChildren {
             @Override
             public void isRegisteredForRemoteNotifications(boolean registered) {
 
-                LoggedUser loggedUser = getLoggedUser(context);
+                LoggedUserModel loggedUser = getLoggedUser(context);
 
                 if (loggedUser != null) {
 
@@ -1059,13 +1059,13 @@ public class KWSChildren {
         }
     }
 
-    public LoggedUser getLoggedUser(final Context context) {
+    public LoggedUserModel getLoggedUser(final Context context) {
 
         KWSSDK factory = new KWSSDK(kwsEnvironment);
         ISessionService sessionService = factory.get(ISessionService.class);
 
         if (sessionService != null) {
-            return (LoggedUser) sessionService.getCurrentUser(context);
+            return (LoggedUserModel) sessionService.getCurrentUser(context);
         } else {
             return null;
         }

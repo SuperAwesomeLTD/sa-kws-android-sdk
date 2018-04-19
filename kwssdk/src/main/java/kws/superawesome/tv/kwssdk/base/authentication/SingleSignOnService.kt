@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.authentication.models.LoginAuthResponse
+import kws.superawesome.tv.kwssdk.base.authentication.models.LoginAuthResponseModel
 import kws.superawesome.tv.kwssdk.base.internal.SDKException
-import kws.superawesome.tv.kwssdk.base.internal.LoggedUser
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
 import kws.superawesome.tv.kwssdk.base.internal.TokenData
 import kws.superawesome.tv.kwssdk.base.BaseService
 import kws.superawesome.tv.kwssdk.base.authentication.requests.OAuthUserTokenRequest
@@ -73,7 +73,7 @@ constructor(override val environment: KWSNetworkEnvironment,
         KWSWebAuthResponse.callback = { code ->
 
 
-            val error = if (!code.isNullOrEmpty()) null else Throwable("Error - invalid code")
+            val error = if (!code.isNullOrEmpty()) null else Throwable("ErrorModel - invalid code")
             //
             //send callback
             callback(code, error)
@@ -81,7 +81,7 @@ constructor(override val environment: KWSNetworkEnvironment,
     }
 
     private fun getAccessToken(environment: KWSNetworkEnvironment, authCode: String,
-                               codeVerifier: String, callback: (user: LoggedUser?, error: Throwable?) -> Unit) {
+                               codeVerifier: String, callback: (user: LoggedUserModel?, error: Throwable?) -> Unit) {
 
         val oAuthTokenNetworkRequest = OAuthUserTokenRequest(
                 environment = environment,
@@ -91,7 +91,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                 clientSecret = environment.mobileKey
         )
 
-        val parseTask = ParseJsonTask(type = LoginAuthResponse::class.java)
+        val parseTask = ParseJsonTask(type = LoginAuthResponseModel::class.java)
         val future = networkTask.execute(input = oAuthTokenNetworkRequest)
                 .map { result -> result.then(parseTask::execute) }
 
@@ -111,7 +111,7 @@ constructor(override val environment: KWSNetworkEnvironment,
 
                             tokenResult.value.userId?.let {
 
-                                val user = LoggedUser(token = token, tokenData = tokenResult.value, id = it)
+                                val user = LoggedUserModel(token = token, tokenData = tokenResult.value, id = it)
                                 callback(user, null)
 
                             } ?: run {

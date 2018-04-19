@@ -5,7 +5,7 @@ import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.app_data.models.AppDataWrapper
 import kws.superawesome.tv.kwssdk.base.app_data.requests.GetAppDataRequest
 import kws.superawesome.tv.kwssdk.base.app_data.requests.SetAppDataRequest
-import kws.superawesome.tv.kwssdk.base.events.models.HasTriggeredEvent
+import kws.superawesome.tv.kwssdk.base.events.models.HasTriggeredEventModel
 import kws.superawesome.tv.kwssdk.base.events.requests.HasTriggeredEventRequest
 import kws.superawesome.tv.kwssdk.base.events.requests.TriggerEventRequest
 import kws.superawesome.tv.kwssdk.base.invite_user.InviteUserRequest
@@ -65,7 +65,7 @@ constructor(override val environment: KWSNetworkEnvironment,
         )
 
 
-        val parseTask = ParseJsonTask(type = HasTriggeredEvent::class.java)
+        val parseTask = ParseJsonTask(type = HasTriggeredEventModel::class.java)
         val future = networkTask.execute(input = hasTriggeredEventNetworkRequest)
                 .map { result -> result.then(parseTask::execute) }
 

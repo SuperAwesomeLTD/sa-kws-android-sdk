@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.internal.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel;
 import kws.superawesome.tv.kwssdk.base.internal.TokenData;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 import tv.superawesome.protobufs.features.session.ISessionService;
@@ -53,7 +53,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
         when(prefs.edit()).thenReturn(editor);
         when(editor.commit()).thenReturn(true);
 
-        LoggedUser user = new LoggedUser(token, new TokenData(), 0);
+        LoggedUserModel user = new LoggedUserModel(token, new TokenData(), 0);
 
         // then
         boolean success = service.saveLoggedUser(context, user);
@@ -99,7 +99,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
         when(prefs.edit()).thenReturn(editor);
         when(editor.commit()).thenReturn(true);
 
-        LoggedUser user = new LoggedUser(token, tokenData, userId);
+        LoggedUserModel user = new LoggedUserModel(token, tokenData, userId);
 
         // then
         boolean success = service.saveLoggedUser(context, user);

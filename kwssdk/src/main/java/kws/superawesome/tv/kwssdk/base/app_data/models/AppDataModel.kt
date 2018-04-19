@@ -6,8 +6,8 @@ import tv.superawesome.protobufs.models.appdata.IAppDataModel
 /**
  * Created by guilherme.mota on 08/01/2018.
  */
-data class AppData(@SerializedName("name")
-                   override val name: String,
+data class AppDataModel(@SerializedName("name")
+                        override val name: String,
 
-                   @SerializedName("value")
-                   override  val value: Int) : IAppDataModel
+                        @SerializedName("value")
+                        override val value: Int) : IAppDataModel

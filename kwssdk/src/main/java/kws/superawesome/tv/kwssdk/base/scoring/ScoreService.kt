@@ -3,7 +3,7 @@ package kws.superawesome.tv.kwssdk.base.scoring
 import kws.superawesome.tv.kwssdk.base.BaseService
 import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.scoring.models.LeadersWrapper
-import kws.superawesome.tv.kwssdk.base.scoring.models.Score
+import kws.superawesome.tv.kwssdk.base.scoring.models.ScoreModel
 import kws.superawesome.tv.kwssdk.base.scoring.requests.LeadersRequest
 import kws.superawesome.tv.kwssdk.base.scoring.requests.ScoreRequest
 import tv.superawesome.protobufs.features.scoring.IScoringService
@@ -61,7 +61,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        val parseTask = ParseJsonTask(type = Score::class.java)
+        val parseTask = ParseJsonTask(type = ScoreModel::class.java)
         val future = networkTask.execute(input = getUserScoreNetworkRequest)
                 .map { result -> result.then(parseTask::execute) }
 

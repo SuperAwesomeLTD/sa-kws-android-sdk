@@ -6,17 +6,17 @@ import tv.superawesome.protobufs.models.score.IPointsModel
 /**
  * Created by guilherme.mota on 03/01/2018.
  */
-data class Points(@SerializedName("pending")
+data class PointsModel(@SerializedName("pending")
                   override val pending: Int? = 0,
 
-                  @SerializedName("totalReceived")
+                       @SerializedName("totalReceived")
                   override val received: Int? = 0,
 
-                  @SerializedName("total")
+                       @SerializedName("total")
                   override val total: Int? = 0,
 
-                  @SerializedName("availableBalance")
+                       @SerializedName("availableBalance")
                   override val balance: Int? = 0,
 
-                  @SerializedName("totalPointsReceivedInCurrentApp")
+                       @SerializedName("totalPointsReceivedInCurrentApp")
                   override val inApp: Int? = 0 ) : IPointsModel

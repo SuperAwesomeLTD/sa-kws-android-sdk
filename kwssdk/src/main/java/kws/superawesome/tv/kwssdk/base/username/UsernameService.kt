@@ -4,7 +4,7 @@ import kws.superawesome.tv.kwssdk.base.BaseService
 import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.app_config.models.AppConfigWrapper
 import kws.superawesome.tv.kwssdk.base.app_config.requests.AppConfigRequest
-import kws.superawesome.tv.kwssdk.base.username.models.RandomUsername
+import kws.superawesome.tv.kwssdk.base.username.models.RandomUsernameModel
 import kws.superawesome.tv.kwssdk.base.username.requests.RandomUsernameRequest
 import tv.superawesome.protobufs.features.auth.IUsernameService
 import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel
@@ -56,7 +56,7 @@ constructor(override val environment: KWSNetworkEnvironment,
 
     private fun fetchRandomUsernameFromBackend(environment: KWSNetworkEnvironment,
                                                id: Int,
-                                               callback: (randomUser: RandomUsername?, error: Throwable?) -> Unit) {
+                                               callback: (randomUser: RandomUsernameModel?, error: Throwable?) -> Unit) {
 
         val getRandomUsernameNetworkRequest = RandomUsernameRequest(
                 environment = environment,
@@ -76,9 +76,9 @@ constructor(override val environment: KWSNetworkEnvironment,
                     //
                     // send callback
                     if (randomUserName != null) {
-                        callback(RandomUsername(randomUserName), null)
+                        callback(RandomUsernameModel(randomUserName), null)
                     } else {
-                        callback(RandomUsername(responseString), null)
+                        callback(RandomUsernameModel(responseString), null)
                     }
 
                 }

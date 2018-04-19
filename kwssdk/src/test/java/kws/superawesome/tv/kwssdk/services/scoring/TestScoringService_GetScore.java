@@ -14,7 +14,7 @@ import tv.superawesome.protobufs.models.score.IScoreModel;
 public class TestScoringService_GetScore extends TestScoringService {
 
 
-    //for Get Score
+    //for Get ScoreModel
     @Test
     public void testUserServiceGetScoreOK() {
 

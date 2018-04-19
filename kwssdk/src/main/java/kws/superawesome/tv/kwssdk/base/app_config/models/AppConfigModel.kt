@@ -6,8 +6,8 @@ import tv.superawesome.protobufs.models.config.IAppConfigModel
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
-data class AppConfig(@SerializedName("id")
-                     override val id: Int,
+data class AppConfigModel(@SerializedName("id")
+                          override val id: Int,
 
-                     @SerializedName("name")
-                     override val name: String) : IAppConfigModel
+                          @SerializedName("name")
+                          override val name: String) : IAppConfigModel

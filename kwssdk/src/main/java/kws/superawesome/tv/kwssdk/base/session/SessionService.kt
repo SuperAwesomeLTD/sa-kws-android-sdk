@@ -3,7 +3,7 @@ package kws.superawesome.tv.kwssdk.base.session
 import android.content.Context
 import kws.superawesome.tv.kwssdk.base.BaseService
 import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.internal.LoggedUser
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
 import kws.superawesome.tv.kwssdk.base.internal.TokenData
 import tv.superawesome.protobufs.features.session.ISessionService
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel
@@ -51,7 +51,7 @@ constructor(private val kDB_NAME: String = "KWS_DB",
 
                     is Result.success -> {
                         result.value.userId?.let {
-                            LoggedUser(token = token.value, tokenData = result.value, id = it)
+                            LoggedUserModel(token = token.value, tokenData = result.value, id = it)
                         }
                     }
                     is Result.error -> null

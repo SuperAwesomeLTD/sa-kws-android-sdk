@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
         KWSChildren.sdk.getScore(this, new KWSChildrenGetScoreInterface() {
             @Override
             public void didGetScore(KWSScore score) {
-                log += score != null ? "Rank: " + score.rank + " Score: " + score.score + "\n" : "Could not get score\n";
+                log += score != null ? "Rank: " + score.rank + " ScoreModel: " + score.score + "\n" : "Could not get score\n";
                 logView.setText(log);
                 if (score != null) {
                     Log.d(TAG, score.writeToJson().toString());

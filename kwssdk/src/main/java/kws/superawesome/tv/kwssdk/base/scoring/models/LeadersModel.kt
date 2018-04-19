@@ -6,11 +6,11 @@ import tv.superawesome.protobufs.models.score.ILeaderModel
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
-data class Leaders(@SerializedName("user")
+data class LeadersModel(@SerializedName("user")
                    override val name: String,
 
-                   @SerializedName("score")
+                        @SerializedName("score")
                    override val score: Int,
 
-                   @SerializedName("rank")
+                        @SerializedName("rank")
                    override val rank: Int) : ILeaderModel

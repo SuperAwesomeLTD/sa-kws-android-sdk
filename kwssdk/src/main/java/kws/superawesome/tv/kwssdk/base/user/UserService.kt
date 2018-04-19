@@ -2,7 +2,7 @@ package kws.superawesome.tv.kwssdk.base.user
 
 import kws.superawesome.tv.kwssdk.base.BaseService
 import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.user.models.UserDetails
+import kws.superawesome.tv.kwssdk.base.user.models.UserDetailsModel
 import kws.superawesome.tv.kwssdk.base.user.requests.UpdateUserDetailsRequest
 import kws.superawesome.tv.kwssdk.base.user.requests.GetUserDetailsRequest
 import tv.superawesome.protobufs.features.user.IUserService
@@ -28,7 +28,7 @@ constructor(override val environment: KWSNetworkEnvironment,
                 token = token
         )
 
-        val parseTask = ParseJsonTask(type = UserDetails::class.java)
+        val parseTask = ParseJsonTask(type = UserDetailsModel::class.java)
         val future = networkTask.execute(input = getUserDetailsNetworkRequest)
                 .map { result -> result.then(parseTask::execute) }
 
