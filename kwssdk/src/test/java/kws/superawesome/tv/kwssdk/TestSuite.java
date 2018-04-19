@@ -3,19 +3,19 @@ package kws.superawesome.tv.kwssdk;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import kws.superawesome.tv.kwssdk.requests.TestAppConfigWrapperRequest;
+import kws.superawesome.tv.kwssdk.requests.TestAppConfigRequest;
 import kws.superawesome.tv.kwssdk.requests.TestAuthUserResponseRequest;
-import kws.superawesome.tv.kwssdk.requests.TestGetAppDataWrapperRequest;
+import kws.superawesome.tv.kwssdk.requests.TestGetAppDataRequest;
 import kws.superawesome.tv.kwssdk.requests.TestGetTempAccessTokenRequest;
 import kws.superawesome.tv.kwssdk.requests.TestHasTriggeredEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestInviteUserRequest;
-import kws.superawesome.tv.kwssdk.requests.TestLeadersWrapperRequest;
+import kws.superawesome.tv.kwssdk.requests.TestLeadersRequest;
 import kws.superawesome.tv.kwssdk.requests.TestLoginAuthResponseRequest;
 import kws.superawesome.tv.kwssdk.requests.TestOAuthUserTokenRequest;
 import kws.superawesome.tv.kwssdk.requests.TestPermissionsRequest;
 import kws.superawesome.tv.kwssdk.requests.TestRandomUsernameRequest;
 import kws.superawesome.tv.kwssdk.requests.TestScoreRequest;
-import kws.superawesome.tv.kwssdk.requests.TestSetAppDataWrapperRequest;
+import kws.superawesome.tv.kwssdk.requests.TestSetAppDataRequest;
 import kws.superawesome.tv.kwssdk.requests.TestTriggerEventRequest;
 import kws.superawesome.tv.kwssdk.requests.TestGetUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_CreateUser;
@@ -41,18 +41,18 @@ import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         //Requests
-        TestAppConfigWrapperRequest.class,
+        TestAppConfigRequest.class,
         TestAuthUserResponseRequest.class,
-        TestGetAppDataWrapperRequest.class,
+        TestGetAppDataRequest.class,
         TestGetTempAccessTokenRequest.class,
         TestHasTriggeredEventRequest.class,
         TestInviteUserRequest.class,
-        TestLeadersWrapperRequest.class,
+        TestLeadersRequest.class,
         TestLoginAuthResponseRequest.class,
         TestPermissionsRequest.class,
         TestRandomUsernameRequest.class,
         TestScoreRequest.class,
-        TestSetAppDataWrapperRequest.class,
+        TestSetAppDataRequest.class,
         TestTriggerEventRequest.class,
         TestGetUserDetailsRequest.class,
         TestOAuthUserTokenRequest.class,

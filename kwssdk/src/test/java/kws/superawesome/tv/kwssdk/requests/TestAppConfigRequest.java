@@ -16,7 +16,7 @@ import tv.superawesome.samobilebase.network.NetworkMethod;
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestAppConfigWrapperRequest {
+public class TestAppConfigRequest {
 
     //class to be tested
     private AppConfigRequest appConfigRequest;
@@ -27,8 +27,8 @@ public class TestAppConfigWrapperRequest {
     private String endpoint;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_App_Config_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -42,53 +42,21 @@ public class TestAppConfigWrapperRequest {
                 environment,
                 clientID);
 
-    }
-
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertNotNull(clientID);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-    }
-
-
-    @Test
-    public final void testRequest() {
         Assert.assertNotNull(appConfigRequest);
-
-    }
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(appConfigRequest.getEnvironment());
 
-    }
-
-    @Test
-    public void testMethod() {
         Assert.assertEquals(method, appConfigRequest.getMethod());
-    }
-
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, appConfigRequest.getEndpoint());
-    }
 
-
-    @Test
-    public void testBody() {
         Map<String, Object> body = appConfigRequest.getBody();
 
         Assert.assertNull(body);
-    }
 
-
-    @Test
-    public void testHeader() {
         Map<String, String> header = appConfigRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -96,21 +64,13 @@ public class TestAppConfigWrapperRequest {
         Assert.assertTrue(header.containsKey("Content-Type"));
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
-    }
 
-    @Test
-    public void testQuery() {
         Map<String, Object> query = appConfigRequest.getQuery();
 
         Assert.assertNotNull(query);
         Assert.assertEquals(query.size(), 1);
         Assert.assertTrue(query.containsKey("oauthClientId"));
-    }
 
-    @Test
-    public void testFormEncodedURLs() {
         Assert.assertFalse(appConfigRequest.getFormEncodeUrls());
     }
-
-
 }

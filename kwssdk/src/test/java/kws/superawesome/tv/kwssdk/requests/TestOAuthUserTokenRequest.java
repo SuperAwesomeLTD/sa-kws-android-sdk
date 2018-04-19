@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.requests;
 import junit.framework.Assert;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -28,8 +27,8 @@ public class TestOAuthUserTokenRequest {
     private String clientId, authCode, codeVerifier, clientSecret, endpoint;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_OAuthUserToken_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -50,12 +49,7 @@ public class TestOAuthUserTokenRequest {
                 clientSecret
         );
 
-
-    }
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertNotNull(clientId);
         Assert.assertNotNull(authCode);
         Assert.assertNotNull(codeVerifier);
@@ -63,35 +57,14 @@ public class TestOAuthUserTokenRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-    }
-
-
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(oAuthUserTokenRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(oAuthUserTokenRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, oAuthUserTokenRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, oAuthUserTokenRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = oAuthUserTokenRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -108,10 +81,6 @@ public class TestOAuthUserTokenRequest {
         Assert.assertEquals(clientSecret, body.get("client_secret"));
         Assert.assertEquals(codeVerifier, body.get("code_verifier"));
 
-    }
-
-    @Test
-    public final void testHeader() {
         Map<String, String> header = oAuthUserTokenRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -120,17 +89,10 @@ public class TestOAuthUserTokenRequest {
         Assert.assertEquals("application/x-www-form-urlencoded", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
 
-    }
-
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = oAuthUserTokenRequest.getQuery();
 
         Assert.assertNull(query);
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertTrue(oAuthUserTokenRequest.getFormEncodeUrls());
     }
 

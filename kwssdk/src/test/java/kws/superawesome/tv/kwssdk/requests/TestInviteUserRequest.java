@@ -28,8 +28,8 @@ public class TestInviteUserRequest {
     private String endpoint, token, emailAddress;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_InviteUser_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -49,45 +49,20 @@ public class TestInviteUserRequest {
                 token
         );
 
-    }
-
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertTrue(userId > -1);
         Assert.assertNotNull(token);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-    }
-
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(inviteUserRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(inviteUserRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, inviteUserRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, inviteUserRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = inviteUserRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -95,11 +70,6 @@ public class TestInviteUserRequest {
         Assert.assertTrue(body.containsKey("email"));
         Assert.assertEquals(emailAddress, body.get("email"));
 
-
-    }
-
-    @Test
-    public final void testHeader() {
         Map<String, String> header = inviteUserRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -109,17 +79,10 @@ public class TestInviteUserRequest {
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
 
-    }
-
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = inviteUserRequest.getQuery();
 
         Assert.assertNull(query);
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertFalse(inviteUserRequest.getFormEncodeUrls());
     }
 
@@ -128,6 +91,4 @@ public class TestInviteUserRequest {
         environment = null;
         inviteUserRequest = null;
     }
-
-
 }

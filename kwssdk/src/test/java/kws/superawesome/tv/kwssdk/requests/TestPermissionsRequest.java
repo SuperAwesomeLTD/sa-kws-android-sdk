@@ -4,7 +4,6 @@ import junit.framework.Assert;
 
 import org.json.JSONArray;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -22,19 +21,18 @@ import tv.superawesome.samobilebase.network.NetworkMethod;
 
 public class TestPermissionsRequest {
 
-
     //class to be tested
     private PermissionsRequest permissionsRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
     private int userId;
-    private String endpoint,token;
+    private String endpoint, token;
     private NetworkMethod method;
     private List<String> permissionsList;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_Permissions_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -57,48 +55,21 @@ public class TestPermissionsRequest {
                 permissionsList
         );
 
-
-    }
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertTrue(userId > -1);
         Assert.assertNotNull(token);
         Assert.assertNotNull(permissionsList);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-    }
-
-
-
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(permissionsRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(permissionsRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, permissionsRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, permissionsRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = permissionsRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -106,10 +77,6 @@ public class TestPermissionsRequest {
         Assert.assertTrue(body.containsKey("permissions"));
         Assert.assertEquals(new JSONArray(permissionsList).toString(), body.get("permissions").toString());
 
-    }
-
-    @Test
-    public final void testHeader() {
         Map<String, String> header = permissionsRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -119,17 +86,10 @@ public class TestPermissionsRequest {
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
 
-    }
-
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = permissionsRequest.getQuery();
 
         Assert.assertNull(query);
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertFalse(permissionsRequest.getFormEncodeUrls());
     }
 
@@ -138,6 +98,4 @@ public class TestPermissionsRequest {
         environment = null;
         permissionsRequest = null;
     }
-
-
 }

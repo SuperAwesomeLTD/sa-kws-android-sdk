@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.requests;
 import junit.framework.Assert;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -17,7 +16,7 @@ import tv.superawesome.samobilebase.network.NetworkMethod;
  * Created by guilherme.mota on 09/01/2018.
  */
 
-public class TestSetAppDataWrapperRequest {
+public class TestSetAppDataRequest {
 
 
     //class to be tested
@@ -29,8 +28,8 @@ public class TestSetAppDataWrapperRequest {
     private String key, endpoint, token;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_SetAppData_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -54,12 +53,7 @@ public class TestSetAppDataWrapperRequest {
                 token
         );
 
-    }
-
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertTrue(appId > -1);
         Assert.assertTrue(userId > -1);
         Assert.assertTrue(value > -1);
@@ -68,35 +62,14 @@ public class TestSetAppDataWrapperRequest {
         Assert.assertNotNull(method);
         Assert.assertNotNull(token);
 
-    }
-
-
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(setAppDataRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(setAppDataRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, setAppDataRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, setAppDataRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = setAppDataRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -106,10 +79,6 @@ public class TestSetAppDataWrapperRequest {
         Assert.assertEquals(key, body.get("name"));
         Assert.assertEquals(value, body.get("value"));
 
-    }
-
-    @Test
-    public final void testHeader() {
         Map<String, String> header = setAppDataRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -118,17 +87,11 @@ public class TestSetAppDataWrapperRequest {
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
-    }
 
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = setAppDataRequest.getQuery();
 
         Assert.assertNull(query);
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertFalse(setAppDataRequest.getFormEncodeUrls());
     }
 

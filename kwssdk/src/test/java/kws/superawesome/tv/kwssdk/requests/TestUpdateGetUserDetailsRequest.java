@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.requests;
 import junit.framework.Assert;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -16,7 +15,6 @@ import tv.superawesome.samobilebase.network.NetworkMethod;
 
 public class TestUpdateGetUserDetailsRequest {
 
-
     //class to be tested
     private UpdateUserDetailsRequest updateUserDetailsRequest;
 
@@ -27,11 +25,10 @@ public class TestUpdateGetUserDetailsRequest {
     private HashMap<String, Object> details;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_UpdateGetUserDetails_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
-
 
         //given
         userId = 1;
@@ -50,54 +47,25 @@ public class TestUpdateGetUserDetailsRequest {
                 details,
                 userId,
                 token);
-
-    }
-
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertTrue(userId > -1);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
         Assert.assertNotNull(token);
-    }
 
-
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(updateUserDetailsRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(updateUserDetailsRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, updateUserDetailsRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, updateUserDetailsRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = updateUserDetailsRequest.getBody();
 
         Assert.assertNotNull(body);
         Assert.assertEquals(body.size(), details.size());
-    }
 
-    @Test
-    public final void testHeader() {
         Map<String, String> header = updateUserDetailsRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -106,17 +74,11 @@ public class TestUpdateGetUserDetailsRequest {
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
-    }
 
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = updateUserDetailsRequest.getQuery();
 
         Assert.assertNull(query);
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertFalse(updateUserDetailsRequest.getFormEncodeUrls());
     }
 

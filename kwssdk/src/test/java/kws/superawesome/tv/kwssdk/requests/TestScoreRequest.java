@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.requests;
 import junit.framework.Assert;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -28,8 +27,8 @@ public class TestScoreRequest {
     private String endpoint, token;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_ScoreRequest_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -46,50 +45,23 @@ public class TestScoreRequest {
                 token
         );
 
-    }
-
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertTrue(appId > -1);
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
-    }
 
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(scoreRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(scoreRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, scoreRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, scoreRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = scoreRequest.getBody();
 
         Assert.assertNull(body);
-    }
 
-    @Test
-    public final void testHeader() {
         Map<String, String> header = scoreRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -99,20 +71,10 @@ public class TestScoreRequest {
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
 
-
-    }
-
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = scoreRequest.getQuery();
 
         Assert.assertNull(query);
 
-
-    }
-
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertFalse(scoreRequest.getFormEncodeUrls());
     }
 

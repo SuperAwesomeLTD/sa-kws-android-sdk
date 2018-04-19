@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.requests;
 import junit.framework.Assert;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -29,8 +28,8 @@ public class TestAuthUserResponseRequest {
     private int appID;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_AuthUser_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -57,11 +56,7 @@ public class TestAuthUserResponseRequest {
                 token
         );
 
-    }
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertNotNull(username);
         Assert.assertNotNull(password);
         Assert.assertNotNull(dateOfBirth);
@@ -72,34 +67,13 @@ public class TestAuthUserResponseRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-    }
-
-
-    @Test
-    public final void testRequest() {
         Assert.assertNotNull(createUserRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(createUserRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, createUserRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, createUserRequest.getEndpoint());
-    }
-
-
-    @Test
-    public final void testBody() {
 
         Map<String, Object> body = createUserRequest.getBody();
 
@@ -118,10 +92,6 @@ public class TestAuthUserResponseRequest {
         Assert.assertEquals(parentEmail, body.get("parentEmail"));
         Assert.assertEquals(true, body.get("authenticate"));
 
-    }
-
-    @Test
-    public final void testHeader() {
         Map<String, String> header = createUserRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -129,20 +99,14 @@ public class TestAuthUserResponseRequest {
         Assert.assertTrue(header.containsKey("Content-Type"));
         Assert.assertEquals("application/json", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
-    }
 
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = createUserRequest.getQuery();
 
         Assert.assertNotNull(query);
         Assert.assertEquals(query.size(), 1);
         Assert.assertTrue(query.containsKey("access_token"));
         Assert.assertEquals(token, query.get("access_token"));
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertFalse(createUserRequest.getFormEncodeUrls());
     }
 
@@ -151,6 +115,4 @@ public class TestAuthUserResponseRequest {
         environment = null;
         createUserRequest = null;
     }
-
-
 }

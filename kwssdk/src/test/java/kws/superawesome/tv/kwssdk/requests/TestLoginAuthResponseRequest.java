@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.requests;
 import junit.framework.Assert;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -28,8 +27,8 @@ public class TestLoginAuthResponseRequest {
     private String username, password, clientId, clientSecret, endpoint;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_LoginAuthResponse_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -50,12 +49,7 @@ public class TestLoginAuthResponseRequest {
                 clientSecret
         );
 
-
-    }
-
-    @Test
-    public void testConstants() {
-
+        //then
         Assert.assertNotNull(username);
         Assert.assertNotNull(password);
         Assert.assertNotNull(clientId);
@@ -63,35 +57,14 @@ public class TestLoginAuthResponseRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-    }
-
-
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(loginUserRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(loginUserRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, loginUserRequest.getMethod());
-    }
 
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, loginUserRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = loginUserRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -108,10 +81,6 @@ public class TestLoginAuthResponseRequest {
         Assert.assertEquals(clientId, body.get("client_id"));
         Assert.assertEquals(clientSecret, body.get("client_secret"));
 
-    }
-
-    @Test
-    public final void testHeader() {
         Map<String, String> header = loginUserRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -120,17 +89,10 @@ public class TestLoginAuthResponseRequest {
         Assert.assertEquals("application/x-www-form-urlencoded", header.get("Content-Type"));
         Assert.assertFalse(header.containsKey("Authorization"));
 
-    }
-
-    @Test
-    public final void testQuery() {
         Map<String, Object> query = loginUserRequest.getQuery();
 
         Assert.assertNull(query);
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertTrue(loginUserRequest.getFormEncodeUrls());
     }
 
@@ -139,6 +101,4 @@ public class TestLoginAuthResponseRequest {
         environment = null;
         loginUserRequest = null;
     }
-
-
 }
