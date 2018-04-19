@@ -8,7 +8,7 @@ import org.junit.Test;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
 import tv.superawesome.protobufs.features.auth.IAuthService;
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
 

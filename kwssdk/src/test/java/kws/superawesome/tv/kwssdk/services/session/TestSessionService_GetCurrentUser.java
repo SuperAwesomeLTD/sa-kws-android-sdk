@@ -10,7 +10,6 @@ import org.junit.Test;
 import java.util.HashMap;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 import tv.superawesome.protobufs.features.session.ISessionService;
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel;

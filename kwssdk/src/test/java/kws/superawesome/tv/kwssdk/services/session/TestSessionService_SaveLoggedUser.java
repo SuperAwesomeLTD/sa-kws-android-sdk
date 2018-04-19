@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
-import kws.superawesome.tv.kwssdk.base.models.internal.TokenData;
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUser;
+import kws.superawesome.tv.kwssdk.base.internal.TokenData;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 import tv.superawesome.protobufs.features.session.ISessionService;
 

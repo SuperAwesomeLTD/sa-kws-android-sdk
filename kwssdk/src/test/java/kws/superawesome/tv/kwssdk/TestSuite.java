@@ -17,7 +17,7 @@ import kws.superawesome.tv.kwssdk.requests.TestRandomUsernameRequest;
 import kws.superawesome.tv.kwssdk.requests.TestScoreRequest;
 import kws.superawesome.tv.kwssdk.requests.TestSetAppDataWrapperRequest;
 import kws.superawesome.tv.kwssdk.requests.TestTriggerEventRequest;
-import kws.superawesome.tv.kwssdk.requests.TestUserDetailsRequest;
+import kws.superawesome.tv.kwssdk.requests.TestGetUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_CreateUser;
 import kws.superawesome.tv.kwssdk.services.auth.TestAuthService_Login;
 import kws.superawesome.tv.kwssdk.services.scoring.TestScoringService_GetLeaderboard;
@@ -54,7 +54,7 @@ import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
         TestScoreRequest.class,
         TestSetAppDataWrapperRequest.class,
         TestTriggerEventRequest.class,
-        TestUserDetailsRequest.class,
+        TestGetUserDetailsRequest.class,
         TestOAuthUserTokenRequest.class,
 
         //Services

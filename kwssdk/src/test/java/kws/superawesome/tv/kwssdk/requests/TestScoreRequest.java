@@ -9,8 +9,8 @@ import org.mockito.Mockito;
 
 import java.util.Map;
 
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.UserScoreRequest;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.scoring.requests.ScoreRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
@@ -20,7 +20,7 @@ import tv.superawesome.samobilebase.network.NetworkMethod;
 public class TestScoreRequest {
 
     //class to be tested
-    private UserScoreRequest userScoreRequest;
+    private ScoreRequest scoreRequest;
 
     //mocks
     private KWSNetworkEnvironment environment;
@@ -40,7 +40,7 @@ public class TestScoreRequest {
         token = "__mock_token__";
 
         //when
-        userScoreRequest = new UserScoreRequest(
+        scoreRequest = new ScoreRequest(
                 environment,
                 appId,
                 token
@@ -60,37 +60,37 @@ public class TestScoreRequest {
     @Test
     public final void testRequest() {
         //then
-        Assert.assertNotNull(userScoreRequest);
+        Assert.assertNotNull(scoreRequest);
     }
 
 
     @Test
     public final void testRequestEnvironment() {
-        Assert.assertNotNull(userScoreRequest.getEnvironment());
+        Assert.assertNotNull(scoreRequest.getEnvironment());
     }
 
     @Test
     public final void testMethod() {
-        Assert.assertEquals(method, userScoreRequest.getMethod());
+        Assert.assertEquals(method, scoreRequest.getMethod());
     }
 
 
     @Test
     public final void testEndpoint() {
-        Assert.assertEquals(endpoint, userScoreRequest.getEndpoint());
+        Assert.assertEquals(endpoint, scoreRequest.getEndpoint());
     }
 
 
     @Test
     public final void testBody() {
-        Map<String, Object> body = userScoreRequest.getBody();
+        Map<String, Object> body = scoreRequest.getBody();
 
         Assert.assertNull(body);
     }
 
     @Test
     public final void testHeader() {
-        Map<String, String> header = userScoreRequest.getHeaders();
+        Map<String, String> header = scoreRequest.getHeaders();
 
         Assert.assertNotNull(header);
         Assert.assertEquals(header.size(), 2);
@@ -104,7 +104,7 @@ public class TestScoreRequest {
 
     @Test
     public final void testQuery() {
-        Map<String, Object> query = userScoreRequest.getQuery();
+        Map<String, Object> query = scoreRequest.getQuery();
 
         Assert.assertNull(query);
 
@@ -113,13 +113,13 @@ public class TestScoreRequest {
 
     @Test
     public final void testFormEncodedURLs() {
-        Assert.assertFalse(userScoreRequest.getFormEncodeUrls());
+        Assert.assertFalse(scoreRequest.getFormEncodeUrls());
     }
 
     @After
     public void unSetup() throws Throwable {
         environment = null;
-        userScoreRequest = null;
+        scoreRequest = null;
     }
 
 }

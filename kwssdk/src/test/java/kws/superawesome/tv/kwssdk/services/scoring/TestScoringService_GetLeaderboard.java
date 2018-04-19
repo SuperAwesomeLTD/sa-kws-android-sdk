@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.models.LeadersWrapper;
-import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService;
 import tv.superawesome.protobufs.models.score.ILeaderWrapperModel;
 
 /**

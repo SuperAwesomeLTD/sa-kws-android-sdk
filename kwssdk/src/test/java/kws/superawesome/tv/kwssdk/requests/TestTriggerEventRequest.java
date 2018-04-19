@@ -9,8 +9,8 @@ import org.mockito.Mockito;
 
 import java.util.Map;
 
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.TriggerEventRequest;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.events.requests.TriggerEventRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**

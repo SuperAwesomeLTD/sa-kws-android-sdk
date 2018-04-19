@@ -8,8 +8,8 @@ import org.mockito.Mockito;
 
 import java.util.Map;
 
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.AppConfigRequest;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.app_config.requests.AppConfigRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**

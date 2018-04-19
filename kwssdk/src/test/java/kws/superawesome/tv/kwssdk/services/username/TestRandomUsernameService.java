@@ -8,7 +8,7 @@ import org.junit.Test;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 import tv.superawesome.protobufs.features.auth.IUsernameService;
 import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel;

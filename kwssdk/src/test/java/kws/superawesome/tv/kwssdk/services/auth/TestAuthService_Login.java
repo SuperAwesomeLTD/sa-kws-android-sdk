@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kws.superawesome.tv.kwssdk.base.models.LoginAuthResponse;
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
 
 /**

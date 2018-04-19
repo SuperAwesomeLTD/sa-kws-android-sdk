@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base
 
-import kws.superawesome.tv.kwssdk.base.models.internal.TokenData
+import kws.superawesome.tv.kwssdk.base.internal.TokenData
 import tv.superawesome.samobilebase.Result
 import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask
