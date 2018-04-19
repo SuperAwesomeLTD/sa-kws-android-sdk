@@ -34,7 +34,7 @@ class MockKWSServer extends MockAbstractWebServer {
                 return responseFromResource("mock_get_leaders_success_response.json");
             }
             case "GET /v1/apps/0/leaders HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
 
             //
@@ -58,9 +58,11 @@ class MockKWSServer extends MockAbstractWebServer {
                 }
             }
             case "POST /v1/apps/0/users/25/app-data/set HTTP/1.1":
-            case "POST /v1/apps/0/users/0/app-data/set HTTP/1.1":
+            case "POST /v1/apps/0/users/0/app-data/set HTTP/1.1":{
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
+            }
             case "POST /v1/apps/2/users/0/app-data/set HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_this_user_response.json", 403);
             }
             //
             //for getting app data
@@ -68,9 +70,12 @@ class MockKWSServer extends MockAbstractWebServer {
                 return responseFromResource("mock_get_app_data_success_response.json");
             }
             case "GET /v1/apps/0/users/25/app-data HTTP/1.1":
-            case "GET /v1/apps/0/users/0/app-data HTTP/1.1":
+            case "GET /v1/apps/0/users/0/app-data HTTP/1.1":{
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
+
+            }
             case "GET /v1/apps/2/users/0/app-data HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_this_user_response.json", 403);
             }
             //
             // for create user
@@ -79,7 +84,7 @@ class MockKWSServer extends MockAbstractWebServer {
                 return responseFromResource("mock_create_user_bad_token_response.json", 401);
             }
             case "POST /v1/apps/0/users?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxNjAzMzIxMCwiZXhwIjoxNTE2MTE5NjEwLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.eER6Y3IqRy6Vrged9TURSbYTUnJAX90816V3XrWzrJQ HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
             case "POST /v1/apps/2/users?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxNjAzMzIxMCwiZXhwIjoxNTE2MTE5NjEwLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.eER6Y3IqRy6Vrged9TURSbYTUnJAX90816V3XrWzrJQ HTTP/1.1": {
                 body = request.getBody().readUtf8();
@@ -93,7 +98,7 @@ class MockKWSServer extends MockAbstractWebServer {
                     String parentEmail = bodyJson.getString("parentEmail");
 
                     if (username == null || username.isEmpty() || username.length() < 3 || username.equals("bad_username"))
-                        return responseFromResource("mock_create_user_bad_username_response.json", 400);
+                        return responseFromResource("mock_create_user_bad_username_response.json.json", 400);
                     if (password == null || password.isEmpty() || password.length() < 8 || password.equals("bad_password"))
                         return responseFromResource("mock_create_user_bad_password_response.json", 400);
                     if (dateOfBirth == null || dateOfBirth.isEmpty() || dateOfBirth.equals("bad_dob"))
@@ -136,7 +141,7 @@ class MockKWSServer extends MockAbstractWebServer {
             //
             // trigger events
             case "POST /v1/users/0/trigger-event HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
             case "POST /v1/users/25/trigger-event HTTP/1.1": {
                 body = request.getBody().readUtf8();
@@ -158,7 +163,7 @@ class MockKWSServer extends MockAbstractWebServer {
             //
             // has triggered events
             case "POST /v1/users/0/has-triggered-event HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
             case "POST /v1/users/25/has-triggered-event HTTP/1.1": {
                 body = request.getBody().readUtf8();
@@ -196,7 +201,7 @@ class MockKWSServer extends MockAbstractWebServer {
             //
             // get user details
             case "GET /v1/users/0 HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 404);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 404);
             }
 
             case "GET /v1/users/25 HTTP/1.1": {
@@ -206,7 +211,7 @@ class MockKWSServer extends MockAbstractWebServer {
             //
             //update user
             case "PUT /v1/users/0 HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 404);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 404);
             }
             case "PUT /v1/users/25 HTTP/1.1": {
                 body = request.getBody().readUtf8();
@@ -256,7 +261,7 @@ class MockKWSServer extends MockAbstractWebServer {
             //
             // invite user
             case "POST /v1/users/0/invite-user HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
             case "POST /v1/users/25/invite-user HTTP/1.1": {
                 body = request.getBody().readUtf8();
@@ -277,7 +282,7 @@ class MockKWSServer extends MockAbstractWebServer {
             //
             // get user score
             case "GET /v1/apps/0/score HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
             case "GET /v1/apps/2/score HTTP/1.1": {
                 return responseFromResource("mock_get_user_score_success_response.json");
@@ -285,7 +290,7 @@ class MockKWSServer extends MockAbstractWebServer {
             //
             // request permissions
             case "POST /v1/users/0/request-permissions HTTP/1.1": {
-                return responseFromResource("mock_generic_forbidden_response.json", 403);
+                return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
             case "POST /v1/users/25/request-permissions HTTP/1.1": {
                 body = request.getBody().readUtf8();

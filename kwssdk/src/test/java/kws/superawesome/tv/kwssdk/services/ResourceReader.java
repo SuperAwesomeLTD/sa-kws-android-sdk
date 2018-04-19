@@ -14,7 +14,7 @@ public class ResourceReader {
     private static String kCHARSET = "UTF-8";
     private static String kDELIMITER = "\\A";
 
-    static String readResource(@NotNull String name) {
+    public static String readResource(@NotNull String name) {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(name);
         return convertStreamToString(in);
     }

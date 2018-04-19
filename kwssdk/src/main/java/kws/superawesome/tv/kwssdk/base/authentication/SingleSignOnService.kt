@@ -73,7 +73,7 @@ constructor(override val environment: KWSNetworkEnvironment,
         KWSWebAuthResponse.callback = { code ->
 
 
-            val error = if (!code.isNullOrEmpty()) null else Throwable("ErrorModel - invalid code")
+            val error = if (!code.isNullOrEmpty()) null else Throwable("Error - invalid code")
             //
             //send callback
             callback(code, error)
