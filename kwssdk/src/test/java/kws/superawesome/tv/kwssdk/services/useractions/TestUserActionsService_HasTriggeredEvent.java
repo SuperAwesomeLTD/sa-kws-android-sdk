@@ -19,7 +19,7 @@ public class TestUserActionsService_HasTriggeredEvent extends TestUserActionsSer
     //
     // Has Triggered Event
     @Test
-    public void testEventsServiceHasTriggeredEventOK() {
+    public void test_UserActionsService_HasTriggeredEvent_OK() {
 
         service.hasTriggeredEvent(goodEventId, goodUserId, goodMockedToken, new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
             @Override
@@ -35,7 +35,7 @@ public class TestUserActionsService_HasTriggeredEvent extends TestUserActionsSer
     }
 
     @Test
-    public void testEventsServiceHasTriggeredEventBadUserId() {
+    public void test_UserActionsService_HasTriggeredEvent_Bad_User_Id() {
 
         service.hasTriggeredEvent(goodEventId, badUserId, goodMockedToken, new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
             @Override
@@ -51,7 +51,7 @@ public class TestUserActionsService_HasTriggeredEvent extends TestUserActionsSer
     }
 
     @Test
-    public void testEventsServiceHasTriggeredEventBadEventId() {
+    public void tes_UserActionsService_HasTriggeredEvent_Bad_Event_Id() {
 
         service.hasTriggeredEvent(badEventId, goodUserId, goodMockedToken, new Function2<IHasTriggeredEventModel, Throwable, Unit>() {
             @Override

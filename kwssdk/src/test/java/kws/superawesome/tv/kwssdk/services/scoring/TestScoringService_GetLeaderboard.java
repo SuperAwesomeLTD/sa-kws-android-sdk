@@ -16,7 +16,7 @@ public class TestScoringService_GetLeaderboard extends TestScoringService {
     //
     //Get LeadersWrapper
     @Test
-    public void testAppServiceGetLeadersOK() {
+    public void test_ScoringService_Get_Leaders_OK() {
 
         service.getLeaderboard(goodAppId, goodMockedToken, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
@@ -33,7 +33,7 @@ public class TestScoringService_GetLeaderboard extends TestScoringService {
     }
 
     @Test
-    public void testAppServiceGetLeadersBadAppIdResponse() {
+    public void test_ScoringService_GetLeaders_Bad_App_Id_Response() {
         service.getLeaderboard(badAppId, goodMockedToken, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
             public Unit invoke(ILeaderWrapperModel leadersWrapper, Throwable throwable) {
@@ -48,7 +48,7 @@ public class TestScoringService_GetLeaderboard extends TestScoringService {
     }
 
     @Test(expected = NumberFormatException.class)
-    public void testAppServiceGetLeadersAppIdException() throws Throwable {
+    public void test_ScoringService_GetLeaders_App_Id_Exception() throws Throwable {
 
         service.getLeaderboard(Integer.valueOf("badAppId"), goodMockedToken, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
@@ -66,7 +66,7 @@ public class TestScoringService_GetLeaderboard extends TestScoringService {
 
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAppServiceGetLeadersFailNullToken() throws Throwable {
+    public void test_ScoringService_GetLeaders_Fail_NullToken() throws Throwable {
         service.getLeaderboard(goodAppId, null, new Function2<ILeaderWrapperModel, Throwable, Unit>() {
             @Override
             public Unit invoke(ILeaderWrapperModel leadersWrapper, Throwable throwable) {

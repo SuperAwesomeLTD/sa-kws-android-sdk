@@ -17,7 +17,7 @@ import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel;
  * Created by guilherme.mota on 16/01/2018.
  */
 
-public class TestRandomUsernameService extends TestBaseService {
+public class TestUsernameService_RandomUsername extends TestBaseService {
 
     //class to test
     protected IUsernameService service;
@@ -38,18 +38,16 @@ public class TestRandomUsernameService extends TestBaseService {
         KWSSDK factory = new KWSSDK(environment, task);
         service = factory.get(IUsernameService.class);
 
-
     }
 
-
     @Test
-    public void testServiceToNotBeNull() {
+    public void test_UsernameService_Service_ToNot_BeNull() {
         Assert.assertNotNull(service);
     }
 
 
     @Test
-    public void testServiceRandomUsernameOK() {
+    public void test_UsernameService_RandomUsername_OK() {
 
         KWSNetworkEnvironment goodNetworkEnvironment = new KWSNetworkEnvironment() {
             @NotNull
@@ -89,7 +87,7 @@ public class TestRandomUsernameService extends TestBaseService {
     }
 
     @Test
-    public void testServiceRandomUsernameBadEnvironment() {
+    public void test_UsernameService_RandomUsername_BadEnvironment() {
 
 
         KWSNetworkEnvironment badNetworkEnvironment = new KWSNetworkEnvironment() {
@@ -127,5 +125,4 @@ public class TestRandomUsernameService extends TestBaseService {
         });
 
     }
-
 }

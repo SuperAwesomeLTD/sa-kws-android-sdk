@@ -14,7 +14,7 @@ import kotlin.jvm.functions.Function1;
 public class TestUserService_UpdateUserDetails extends TestUserService {
 
     @Test
-    public void testUserServiceSetUserDetailsOK() {
+    public void test_UserService_SetUserDetails_OK() {
 
         HashMap<String, Object> details = new HashMap<>();
 
@@ -44,7 +44,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
     }
 
     @Test
-    public void testUserServiceSetUserDetailsBadUserId() {
+    public void test_UserService_SetUserDetails_BadUserId() {
 
         HashMap<String, Object> details = new HashMap<>();
 
@@ -62,7 +62,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
     }
 
     @Test
-    public void testUserServiceSetUserDetailsBadAddressResponse() {
+    public void test_UserService_SetUserDetails_BadAddressResponse() {
 
         HashMap<String, Object> details = new HashMap<>();
 
@@ -86,7 +86,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
     }
 
     @Test
-    public void testUserServiceSetUserDetailsParentEmailOK() {
+    public void test_UserService_SetUserDetails_ParentEmailOK() {
 
         HashMap<String, Object> details = new HashMap<>();
 
@@ -103,7 +103,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
     }
 
     @Test
-    public void testUserServiceSetUserDetailsParentInvalidResponse() {
+    public void test_UserService_SetUserDetails_ParentInvalidResponse() {
 
         HashMap<String, Object> details = new HashMap<>();
 
@@ -120,7 +120,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
     }
 
     @Test
-    public void testUserServiceSetUserDetailsParentAlreadySetResponse() {
+    public void test_UserService_SetUserDetails_Parent_Already_Set_Response() {
 
         HashMap<String, Object> details = new HashMap<>();
 
@@ -135,5 +135,4 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
             }
         });
     }
-
 }

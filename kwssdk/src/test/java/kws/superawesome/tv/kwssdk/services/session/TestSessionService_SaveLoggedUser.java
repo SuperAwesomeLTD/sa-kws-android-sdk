@@ -36,7 +36,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_ToNotBeNull() {
+    public void test_SessionService_ToNotBeNull() {
         Assert.assertNotNull(service);
     }
 
@@ -61,7 +61,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testSessionService_SaveLoggedUser_NullUser() throws Exception {
+    public void test_SessionService_SaveLoggedUser_NullUser() throws Exception {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -78,7 +78,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_SaveLoggedUser_OK() {
+    public void test_SessionService_SaveLoggedUser_OK() {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);

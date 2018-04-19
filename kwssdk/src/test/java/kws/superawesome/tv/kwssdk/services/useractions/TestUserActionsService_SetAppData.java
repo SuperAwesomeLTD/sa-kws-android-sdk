@@ -21,7 +21,7 @@ public class TestUserActionsService_SetAppData extends TestUserActionsService {
     //
     //Set App Data
     @Test
-    public void testAppServiceSetAppDataOK() {
+    public void test_UserActionsService_SetAppData_OK() {
 
         service.setAppData(value, goodKey, goodUserId, goodAppId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -32,12 +32,10 @@ public class TestUserActionsService_SetAppData extends TestUserActionsService {
                 return null;
             }
         });
-
-
     }
 
     @Test
-    public void testAppServiceSetAppDataEmptyNameValue() {
+    public void test_UserActionsService_SetAppData_Empty_Name_Value() {
 
         service.setAppData(value, badKey, goodUserId, goodAppId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -52,7 +50,7 @@ public class TestUserActionsService_SetAppData extends TestUserActionsService {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAppServiceSetAppDataNullNameValue() {
+    public void test_UserActionsService_SetAppData_Null_Name_Value() {
 
         service.setAppData(value, null, goodUserId, goodAppId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -67,7 +65,7 @@ public class TestUserActionsService_SetAppData extends TestUserActionsService {
     }
 
     @Test
-    public void testAppServiceSetAppDataBadAppID() {
+    public void test_UserActionsService_SetAppData_Bad_App_ID() {
 
         service.setAppData(value, goodKey, goodUserId, badAppId, goodMockedToken, new Function1<Throwable, Unit>() {
 
@@ -79,11 +77,10 @@ public class TestUserActionsService_SetAppData extends TestUserActionsService {
                 return null;
             }
         });
-
     }
 
     @Test
-    public void testAppServiceSetAppDataBadUserId() {
+    public void test_UserActionsService_SetAppData_Bad_User_Id() {
 
         service.setAppData(value, goodKey, badUserId, badAppId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -94,7 +91,5 @@ public class TestUserActionsService_SetAppData extends TestUserActionsService {
                 return null;
             }
         });
-
     }
-
 }

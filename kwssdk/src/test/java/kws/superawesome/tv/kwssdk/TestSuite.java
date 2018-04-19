@@ -33,7 +33,7 @@ import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_In
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_RequestPermissions;
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_SetAppData;
 import kws.superawesome.tv.kwssdk.services.useractions.TestUserActionsService_TriggerEvent;
-import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
+import kws.superawesome.tv.kwssdk.services.username.TestUsernameService_RandomUsername;
 
 /**
  * Created by guilherme.mota on 09/01/2018.
@@ -85,7 +85,7 @@ import kws.superawesome.tv.kwssdk.services.username.TestRandomUsernameService;
         TestUserActionsService_RequestPermissions.class,
 
         //Username
-        TestRandomUsernameService.class
+        TestUsernameService_RandomUsername.class
 
 
 })

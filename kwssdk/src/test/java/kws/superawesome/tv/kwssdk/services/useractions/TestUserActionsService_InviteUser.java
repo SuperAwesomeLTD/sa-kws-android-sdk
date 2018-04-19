@@ -15,7 +15,7 @@ public class TestUserActionsService_InviteUser extends TestUserActionsService {
 
     //for Invite User
     @Test
-    public void testUserServiceInviteUserOK() {
+    public void test_UserActionsService_InviteUser_OK() {
 
         service.inviteUser(goodEmail, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -30,7 +30,7 @@ public class TestUserActionsService_InviteUser extends TestUserActionsService {
     }
 
     @Test
-    public void testUserServiceInviteUserBadEmptyEmail() {
+    public void test_UserActionsService_InviteUser_Bad_Empty_Email() {
         service.inviteUser("", goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
             public Unit invoke(Throwable throwable) {
@@ -43,7 +43,7 @@ public class TestUserActionsService_InviteUser extends TestUserActionsService {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUserServiceInviteUserBadNullEmail() {
+    public void test_UserActionsService_InviteUser_Bad_Null_Email() {
         service.inviteUser(null, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
             public Unit invoke(Throwable throwable) {
@@ -56,7 +56,7 @@ public class TestUserActionsService_InviteUser extends TestUserActionsService {
     }
 
     @Test
-    public void testUserServiceInviteUserBadEmail() {
+    public void test__UserActionsService_Invite_User_Bad_Email() {
 
         service.inviteUser(badEmail, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -71,7 +71,7 @@ public class TestUserActionsService_InviteUser extends TestUserActionsService {
     }
 
     @Test
-    public void testUserServiceInviteUserBadUserId() {
+    public void test_UserActionsService_InviteUser_Bad_User_Id() {
 
         service.inviteUser(goodEmail, badUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override

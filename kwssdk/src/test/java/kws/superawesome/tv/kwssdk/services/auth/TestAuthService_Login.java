@@ -14,7 +14,7 @@ import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
 public class TestAuthService_Login extends TestAuthService {
 
     @Test
-    public void testLoginProviderLoginOK() throws Throwable {
+    public void test_AuthService_LoginProvider_LoginOK() throws Throwable {
         // when
         service.loginUser(goodUsername, goodPassword, new Function2<ILoggedUserModel, Throwable, Unit>() {
             @Override
@@ -30,7 +30,7 @@ public class TestAuthService_Login extends TestAuthService {
     }
 
     @Test
-    public void testLoginProviderLoginBadUsername() throws Throwable {
+    public void test_AuthService_LoginProvider_Login_BadUsername() throws Throwable {
         // when
         service.loginUser(badUsername, goodPassword, new Function2<ILoggedUserModel, Throwable, Unit>() {
             @Override
@@ -45,7 +45,7 @@ public class TestAuthService_Login extends TestAuthService {
     }
 
     @Test
-    public void testLoginProviderLoginBadPassword() throws Throwable {
+    public void test_AuthService_LoginProvider_Login_BadPassword() throws Throwable {
         // when
         service.loginUser(goodUsername, badPassword, new Function2<ILoggedUserModel, Throwable, Unit>() {
             @Override
@@ -61,7 +61,7 @@ public class TestAuthService_Login extends TestAuthService {
 
 
     @Test(expected = IllegalArgumentException.class)
-    public void testLoginProviderLoginFailNullUsername() throws Throwable {
+    public void test_AuthService_LoginProvider_Login_Fail_Null_Username() throws Throwable {
         // when
         service.loginUser(null, goodPassword, new Function2<ILoggedUserModel, Throwable, Unit>() {
             @Override
@@ -77,7 +77,7 @@ public class TestAuthService_Login extends TestAuthService {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testLoginProviderLoginFailNullPassword() throws Throwable {
+    public void test_AuthService_Login_Provider_Login_Fail_Null_Password() throws Throwable {
         // when
         service.loginUser(goodUsername, null, new Function2<ILoggedUserModel, Throwable, Unit>() {
             @Override
@@ -94,7 +94,7 @@ public class TestAuthService_Login extends TestAuthService {
 
 
     @Test
-    public void testLoginProviderLoginFailEmptyUsername() throws Throwable {
+    public void test_AuthService_LoginProvider_Login_Fail_Empty_Username() throws Throwable {
         // when
         service.loginUser("", goodPassword, new Function2<ILoggedUserModel, Throwable, Unit>() {
             @Override
@@ -109,7 +109,7 @@ public class TestAuthService_Login extends TestAuthService {
     }
 
     @Test
-    public void testLoginProviderLoginFailEmptyPassword() throws Throwable {
+    public void test_AuthService_LoginProvider_Login_Fail_Empty_Password() throws Throwable {
         // when
         service.loginUser(goodUsername, "", new Function2<ILoggedUserModel, Throwable, Unit>() {
             @Override

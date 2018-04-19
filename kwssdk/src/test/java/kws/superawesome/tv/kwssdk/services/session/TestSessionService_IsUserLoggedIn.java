@@ -36,12 +36,12 @@ public class TestSessionService_IsUserLoggedIn extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_ToNotBeNull () {
+    public void test_SessionService_ToNotBeNull () {
         Assert.assertNotNull(service);
     }
 
     @Test
-    public void testSessionService_IsUserLoggedIn_WithInvalidSession () {
+    public void test_SessionService_IsUserLoggedIn_WithInvalidSession () {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -57,7 +57,7 @@ public class TestSessionService_IsUserLoggedIn extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_IsUserLoggedIn_WithoutPreviousSession () {
+    public void test_SessionService_IsUserLoggedIn_WithoutPreviousSession () {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -72,7 +72,7 @@ public class TestSessionService_IsUserLoggedIn extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_IsUserLoggedIn_WithPreviousSession () {
+    public void test_SessionService_IsUserLoggedIn_WithPreviousSession () {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);

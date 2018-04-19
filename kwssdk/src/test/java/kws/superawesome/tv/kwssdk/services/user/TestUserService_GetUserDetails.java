@@ -19,7 +19,7 @@ public class TestUserService_GetUserDetails extends TestUserService {
     //for User Details
 
     @Test
-    public void testUserServiceGetUserDetailsOK() {
+    public void test_UserService_GetUserDetails_OK() {
 
         service.getUser(goodUserId, goodMockedToken, new Function2<IUserDetailsModel, Throwable, Unit>() {
             @Override
@@ -81,7 +81,7 @@ public class TestUserService_GetUserDetails extends TestUserService {
     }
 
     @Test
-    public void testUserServiceGetUserDetailsBadUserId() {
+    public void test_UserService_GetUserDetails_BadUserId() {
 
         service.getUser(badUserId, goodMockedToken, new Function2<IUserDetailsModel, Throwable, Unit>() {
             @Override
