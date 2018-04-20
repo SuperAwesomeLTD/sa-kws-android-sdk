@@ -1,14 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.app_config.requests
 
-import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.BaseRequest
+import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.AbstractRequest
 
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
 /*internal*/
-class AppConfigRequest(environment: KWSNetworkEnvironment, clientID: String)
-    : BaseRequest(environment = environment) {
+class AppConfigRequest(environment: NetworkEnvironment, clientID: String)
+    : AbstractRequest(environment = environment) {
 
     override val endpoint: String = "v1/apps/config"
 

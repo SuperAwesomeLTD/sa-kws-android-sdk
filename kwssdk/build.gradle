@@ -38,7 +38,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "KWSSDK"
+        name = "ComplianceSDK"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]

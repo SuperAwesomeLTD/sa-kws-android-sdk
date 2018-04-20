@@ -1,14 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.username.requests
 
-import kws.superawesome.tv.kwssdk.base.BaseRequest
-import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.AbstractRequest
+import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 
 /**
  * Created by guilherme.mota on 29/12/2017.
  */
 /*internal*/
-class RandomUsernameRequest(environment: KWSNetworkEnvironment, appID: Int)
-    : BaseRequest(environment = environment) {
+class RandomUsernameRequest(environment: NetworkEnvironment, appID: Int)
+    : AbstractRequest(environment = environment) {
 
     override val endpoint: String = "v2/apps/$appID/random-display-name"
 

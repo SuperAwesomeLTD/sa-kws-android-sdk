@@ -1,19 +1,19 @@
 package kws.superawesome.tv.kwssdk.base.authentication.requests
 
-import kws.superawesome.tv.kwssdk.base.BaseRequest
-import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.AbstractRequest
+import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import tv.superawesome.samobilebase.network.NetworkMethod
 
 /**
  * Created by guilherme.mota on 08/12/2017.
  */
 /*internal*/
-class LoginUserRequest(environment: KWSNetworkEnvironment,
+class LoginUserRequest(environment: NetworkEnvironment,
                        username: String,
                        password: String,
                        clientID: String,
                        clientSecret: String
-) : BaseRequest(environment = environment) {
+) : AbstractRequest(environment = environment) {
 
     override val headers: Map<String, String> = mapOf("Content-Type" to "application/x-www-form-urlencoded")
 

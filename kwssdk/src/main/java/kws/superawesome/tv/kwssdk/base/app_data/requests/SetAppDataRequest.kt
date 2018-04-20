@@ -1,20 +1,20 @@
 package kws.superawesome.tv.kwssdk.base.app_data.requests
 
-import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.BaseRequest
+import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.AbstractRequest
 import tv.superawesome.samobilebase.network.NetworkMethod
 
 /**
  * Created by guilherme.mota on 08/01/2018.
  */
 /*internal*/
-class SetAppDataRequest(environment: KWSNetworkEnvironment,
+class SetAppDataRequest(environment: NetworkEnvironment,
                         appId: Int,
                         userId: Int,
                         value: Int,
                         key: String,
                         token: String
-) : BaseRequest(environment = environment, token = token) {
+) : AbstractRequest(environment = environment, token = token) {
 
 
     override val endpoint: String = "v1/apps/$appId/users/$userId/app-data/set"
