@@ -38,6 +38,7 @@ import kws.superawesome.tv.kwssdk.session.services.TestSessionService_IsUserLogg
 import kws.superawesome.tv.kwssdk.session.services.TestSessionService_SaveLoggedUser;
 import kws.superawesome.tv.kwssdk.temp_access_token.requests.TestGetTempAccessTokenRequest;
 import kws.superawesome.tv.kwssdk.user.models.TestGetUserDetailsMapping;
+import kws.superawesome.tv.kwssdk.user.models.TestUpdateUserDetailsMapping;
 import kws.superawesome.tv.kwssdk.user.requests.TestGetUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.user.requests.TestUpdateGetUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.user.services.TestUserService;
@@ -60,7 +61,10 @@ import kws.superawesome.tv.kwssdk.username.requests.TestRandomUsernameRequest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 
-        //REQUESTS
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // REQUESTS
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
         TestAppConfigRequest.class,
         TestCreateUserRequest.class,
         TestGetAppDataRequest.class,
@@ -78,7 +82,10 @@ import kws.superawesome.tv.kwssdk.username.requests.TestRandomUsernameRequest;
         TestOAuthUserTokenRequest.class,
         TestUpdateGetUserDetailsRequest.class,
 
-        //SERVICES
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // SERVICES
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
         //Auth
         TestAuthService.class,
         TestAuthService_Login.class,
@@ -111,7 +118,10 @@ import kws.superawesome.tv.kwssdk.username.requests.TestRandomUsernameRequest;
         //Username
         TestUsernameService_RandomUsername.class,
 
-        //MODELS
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // MODELS
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
         //App Config
         TestAppConfigMapping.class,
 
@@ -133,6 +143,7 @@ import kws.superawesome.tv.kwssdk.username.requests.TestRandomUsernameRequest;
 
         //User
         TestGetUserDetailsMapping.class,
+        TestUpdateUserDetailsMapping.class,
 
         //Permissions
         TestPermissionsMapping.class,
