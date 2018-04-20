@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.permissions
 
-import kws.superawesome.tv.kwssdk.base.common.AbstractRequest
+import kws.superawesome.tv.kwssdk.base.common.requests.AbstractRequest
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import org.json.JSONArray
 import tv.superawesome.samobilebase.network.NetworkMethod

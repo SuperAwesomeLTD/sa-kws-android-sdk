@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.user.requests
 
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.common.AbstractRequest
+import kws.superawesome.tv.kwssdk.base.common.requests.AbstractRequest
 import tv.superawesome.samobilebase.network.NetworkMethod
 
 class UpdateUserDetailsRequest (environment: NetworkEnvironment,

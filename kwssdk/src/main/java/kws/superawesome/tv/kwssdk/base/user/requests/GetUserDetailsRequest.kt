@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.user.requests
 
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.common.AbstractRequest
+import kws.superawesome.tv.kwssdk.base.common.requests.AbstractRequest
 
 /**
  * Created by guilherme.mota on 03/01/2018.

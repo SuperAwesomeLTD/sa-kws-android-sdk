@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.session.services
 
 import android.content.Context
-import kws.superawesome.tv.kwssdk.base.common.AbstractService
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
 import kws.superawesome.tv.kwssdk.base.internal.TokenData

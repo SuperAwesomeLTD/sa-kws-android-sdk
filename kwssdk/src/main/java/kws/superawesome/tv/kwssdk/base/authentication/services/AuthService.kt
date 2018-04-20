@@ -4,10 +4,10 @@ import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.authentication.models.AuthUserResponseModel
 import kws.superawesome.tv.kwssdk.base.authentication.models.LoginAuthResponseModel
 import kws.superawesome.tv.kwssdk.base.internal.TokenData
-import kws.superawesome.tv.kwssdk.base.common.AbstractService
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.authentication.requests.CreateUserRequest
 import kws.superawesome.tv.kwssdk.base.authentication.requests.LoginUserRequest
-import kws.superawesome.tv.kwssdk.base.temp_access_token.requests.TempAccessTokenRequest
+import kws.superawesome.tv.kwssdk.base.authentication.requests.TempAccessTokenRequest
 import tv.superawesome.protobufs.features.auth.IAuthService
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel
 import tv.superawesome.samobilebase.Result

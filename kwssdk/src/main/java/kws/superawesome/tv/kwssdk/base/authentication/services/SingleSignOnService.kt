@@ -8,7 +8,7 @@ import kws.superawesome.tv.kwssdk.base.authentication.models.LoginAuthResponseMo
 import kws.superawesome.tv.kwssdk.base.internal.SDKException
 import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
 import kws.superawesome.tv.kwssdk.base.internal.TokenData
-import kws.superawesome.tv.kwssdk.base.common.AbstractService
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.authentication.requests.OAuthUserTokenRequest
 import kws.superawesome.tv.kwssdk.base.authentication.web_auth.WebAuthController
 import kws.superawesome.tv.kwssdk.base.authentication.web_auth.OAuthCodeTask

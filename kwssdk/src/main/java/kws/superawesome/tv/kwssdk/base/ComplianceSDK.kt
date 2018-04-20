@@ -5,7 +5,7 @@ import kws.superawesome.tv.kwssdk.base.authentication.services.SingleSignOnServi
 import kws.superawesome.tv.kwssdk.base.scoring.services.ScoreService
 import kws.superawesome.tv.kwssdk.base.session.services.SessionService
 import kws.superawesome.tv.kwssdk.base.user.services.UserService
-import kws.superawesome.tv.kwssdk.base.user_actions.services.UserActionsService
+import kws.superawesome.tv.kwssdk.base.actions.services.UserActionsService
 import kws.superawesome.tv.kwssdk.base.username.services.UsernameService
 import tv.superawesome.protobufs.IAbstractFactory
 import tv.superawesome.protobufs.IService

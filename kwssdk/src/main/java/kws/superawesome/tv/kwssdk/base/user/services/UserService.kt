@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.user.services
 
-import kws.superawesome.tv.kwssdk.base.common.AbstractService
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.user.models.UserDetailsModel
 import kws.superawesome.tv.kwssdk.base.user.requests.UpdateUserDetailsRequest
