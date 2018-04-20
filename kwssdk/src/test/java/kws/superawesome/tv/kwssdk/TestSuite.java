@@ -3,19 +3,30 @@ package kws.superawesome.tv.kwssdk;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import kws.superawesome.tv.kwssdk.authentication.services.TestAuthService_CreateUser;
-import kws.superawesome.tv.kwssdk.authentication.services.TestAuthService_Login;
+import kws.superawesome.tv.kwssdk.app_config.models.TestAppConfigMapping;
 import kws.superawesome.tv.kwssdk.app_config.requests.TestAppConfigRequest;
-import kws.superawesome.tv.kwssdk.authentication.requests.TestCreateUserRequest;
+import kws.superawesome.tv.kwssdk.app_data.models.TestGetAppDataMapping;
+import kws.superawesome.tv.kwssdk.app_data.models.TestSetAppDataMapping;
 import kws.superawesome.tv.kwssdk.app_data.requests.TestGetAppDataRequest;
-import kws.superawesome.tv.kwssdk.temp_access_token.requests.TestGetTempAccessTokenRequest;
-import kws.superawesome.tv.kwssdk.events.requests.TestHasTriggeredEventRequest;
-import kws.superawesome.tv.kwssdk.invite_user.requests.TestInviteUserRequest;
+import kws.superawesome.tv.kwssdk.app_data.requests.TestSetAppDataRequest;
+import kws.superawesome.tv.kwssdk.authentication.models.TestAuthUserResponseModel;
+import kws.superawesome.tv.kwssdk.authentication.models.TestLoginAuthResponseModel;
+import kws.superawesome.tv.kwssdk.authentication.requests.TestCreateUserRequest;
 import kws.superawesome.tv.kwssdk.authentication.requests.TestLoginRequest;
 import kws.superawesome.tv.kwssdk.authentication.requests.TestOAuthUserTokenRequest;
-import kws.superawesome.tv.kwssdk.permissions.requests.TestPermissionsRequest;
-import kws.superawesome.tv.kwssdk.app_data.requests.TestSetAppDataRequest;
+import kws.superawesome.tv.kwssdk.authentication.services.TestAuthService_CreateUser;
+import kws.superawesome.tv.kwssdk.authentication.services.TestAuthService_Login;
+import kws.superawesome.tv.kwssdk.error.models.TestErrorMapping;
+import kws.superawesome.tv.kwssdk.events.models.TestHasTriggeredEventMapping;
+import kws.superawesome.tv.kwssdk.events.models.TestTriggerEventMapping;
+import kws.superawesome.tv.kwssdk.events.requests.TestHasTriggeredEventRequest;
 import kws.superawesome.tv.kwssdk.events.requests.TestTriggerEventRequest;
+import kws.superawesome.tv.kwssdk.invite_user.models.TestInviteUserMapping;
+import kws.superawesome.tv.kwssdk.invite_user.requests.TestInviteUserRequest;
+import kws.superawesome.tv.kwssdk.permissions.models.TestPermissionsMapping;
+import kws.superawesome.tv.kwssdk.permissions.requests.TestPermissionsRequest;
+import kws.superawesome.tv.kwssdk.scoring.models.TestLeadersMapping;
+import kws.superawesome.tv.kwssdk.scoring.models.TestScoreMapping;
 import kws.superawesome.tv.kwssdk.scoring.requests.TestLeadersRequest;
 import kws.superawesome.tv.kwssdk.scoring.requests.TestScoreRequest;
 import kws.superawesome.tv.kwssdk.scoring.services.TestScoringService_GetLeaderboard;
@@ -23,6 +34,8 @@ import kws.superawesome.tv.kwssdk.scoring.services.TestScoringService_GetScore;
 import kws.superawesome.tv.kwssdk.session.services.TestSessionService_GetCurrentUser;
 import kws.superawesome.tv.kwssdk.session.services.TestSessionService_IsUserLoggedIn;
 import kws.superawesome.tv.kwssdk.session.services.TestSessionService_SaveLoggedUser;
+import kws.superawesome.tv.kwssdk.temp_access_token.requests.TestGetTempAccessTokenRequest;
+import kws.superawesome.tv.kwssdk.user.models.TestGetUserDetailsMapping;
 import kws.superawesome.tv.kwssdk.user.requests.TestGetUserDetailsRequest;
 import kws.superawesome.tv.kwssdk.user.services.TestUserService_GetUserDetails;
 import kws.superawesome.tv.kwssdk.user.services.TestUserService_UpdateUserDetails;
@@ -40,7 +53,7 @@ import kws.superawesome.tv.kwssdk.username.requests.TestRandomUsernameRequest;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        //Requests
+        //REQUESTS
         TestAppConfigRequest.class,
         TestCreateUserRequest.class,
         TestGetAppDataRequest.class,
@@ -57,7 +70,7 @@ import kws.superawesome.tv.kwssdk.username.requests.TestRandomUsernameRequest;
         TestGetUserDetailsRequest.class,
         TestOAuthUserTokenRequest.class,
 
-        //Services
+        //SERVICE
 
         //Auth
         TestAuthService_Login.class,
@@ -85,7 +98,40 @@ import kws.superawesome.tv.kwssdk.username.requests.TestRandomUsernameRequest;
         TestUserActionsService_RequestPermissions.class,
 
         //Username
-        TestUsernameService_RandomUsername.class
+        TestUsernameService_RandomUsername.class,
+
+        //MODELS
+
+        //App Config
+        TestAppConfigMapping.class,
+
+        //App Data
+        TestSetAppDataMapping.class,
+        TestGetAppDataMapping.class,
+
+        //Authentication
+        TestAuthUserResponseModel.class,
+        TestLoginAuthResponseModel.class,
+
+        //Scoring
+        TestLeadersMapping.class,
+        TestScoreMapping.class,
+
+        //Events
+        TestHasTriggeredEventMapping.class,
+        TestTriggerEventMapping.class,
+
+        //User
+        TestGetUserDetailsMapping.class,
+
+        //Permissions
+        TestPermissionsMapping.class,
+
+        //Invite User
+        TestInviteUserMapping.class,
+
+        //Error
+        TestErrorMapping.class
 
 
 })

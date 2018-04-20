@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.ResourceReader;
-import kws.superawesome.tv.kwssdk.base.app_config.models.AppConfigModel;
 import kws.superawesome.tv.kwssdk.base.app_config.models.AppConfigWrapperModel;
 import kws.superawesome.tv.kwssdk.base.error.ErrorWrapperModel;
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
@@ -12,15 +11,15 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
 public class TestAppConfigMapping {
 
     @Test
-    public void test_AppConfig_Mapping_ResponseSuccess() {
+    public void test_AppConfig_Mapping_Success_Response() {
 
         String json = ResourceReader.readResource("mock_get_app_config_success_response.json");
         AppConfigWrapperModel appConfigWrapper = (AppConfigWrapperModel) new ParseJsonTask(AppConfigWrapperModel.class).execute(json).take();
 
         Assert.assertNotNull(appConfigWrapper);
         Assert.assertNotNull(appConfigWrapper.getApp());
-        Assert.assertEquals(appConfigWrapper.getApp().getId(),2);
-        Assert.assertEquals(appConfigWrapper.getApp().getName(),"good_name");
+        Assert.assertEquals(appConfigWrapper.getApp().getId(), 2);
+        Assert.assertEquals(appConfigWrapper.getApp().getName(), "good_name");
     }
 
     @Test
@@ -38,8 +37,8 @@ public class TestAppConfigMapping {
         Assert.assertNotNull(errorWrapper.getInvalid());
         Assert.assertNotNull(errorWrapper.getInvalid().getOauthClientId());
         Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getCode(), (Integer) 6);
-        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getCodeMeaning(),"missing");
-        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getMessage(),"\"oauthClientId\" is required");
+        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getCodeMeaning(), "missing");
+        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getMessage(), "\"oauthClientId\" is required");
     }
 
     @Test
@@ -57,14 +56,14 @@ public class TestAppConfigMapping {
         Assert.assertNotNull(errorWrapper.getInvalid());
         Assert.assertNotNull(errorWrapper.getInvalid().getOauthClientId());
         Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getCode(), (Integer) 7);
-        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getCodeMeaning(),"invalidValue");
-        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getMessage(),"\"oauthClientId\" is not allowed to be empty");
+        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getCodeMeaning(), "invalidValue");
+        Assert.assertEquals(errorWrapper.getInvalid().getOauthClientId().getMessage(), "\"oauthClientId\" is not allowed to be empty");
     }
 
     @Test
     public void test_AppConfig_Mapping_App_Not_Found() {
 
-        String json = ResourceReader.readResource("mock_get_app_app_not_found_response.json");
+        String json = ResourceReader.readResource("mock_get_app_config_app_not_found_response.json");
         ErrorWrapperModel errorWrapper = (ErrorWrapperModel) new ParseJsonTask(ErrorWrapperModel.class).execute(json).take();
 
         Assert.assertNotNull(errorWrapper);

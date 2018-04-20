@@ -81,7 +81,7 @@ class MockServer extends MockAbstractWebServer {
             // for create user
             case "POST /v1/apps/2/users?access_token=bad_token HTTP/1.1":
             case "POST /v1/apps/0/users?access_token=bad_token HTTP/1.1": {
-                return responseFromResource("mock_create_user_bad_token_response.json", 401);
+                return responseFromResource("mock_generic_invalid_token_response.json", 401);
             }
             case "POST /v1/apps/0/users?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBJZCI6MiwiY2xpZW50SWQiOiJzdGFuLXRlc3QiLCJzY29wZSI6Im1vYmlsZUFwcCIsImlhdCI6MTUxNjAzMzIxMCwiZXhwIjoxNTE2MTE5NjEwLCJpc3MiOiJzdXBlcmF3ZXNvbWUifQ.eER6Y3IqRy6Vrged9TURSbYTUnJAX90816V3XrWzrJQ HTTP/1.1": {
                 return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
@@ -98,7 +98,7 @@ class MockServer extends MockAbstractWebServer {
                     String parentEmail = bodyJson.getString("parentEmail");
 
                     if (username == null || username.isEmpty() || username.length() < 3 || username.equals("bad_username"))
-                        return responseFromResource("mock_create_user_bad_username_response.json.json", 400);
+                        return responseFromResource("mock_create_user_bad_username_response.json", 400);
                     if (password == null || password.isEmpty() || password.length() < 8 || password.equals("bad_password"))
                         return responseFromResource("mock_create_user_bad_password_response.json", 400);
                     if (dateOfBirth == null || dateOfBirth.isEmpty() || dateOfBirth.equals("bad_dob"))

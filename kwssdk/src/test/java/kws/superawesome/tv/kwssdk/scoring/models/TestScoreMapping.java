@@ -11,7 +11,7 @@ import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
 public class TestScoreMapping {
 
     @Test
-    public void test_Scoring_GetScore_Mapping_ResponseSuccess() {
+    public void test_Scoring_GetScore_Mapping_Success_Response() {
 
         String json = ResourceReader.readResource("mock_get_user_score_success_response.json");
         ScoreModel scoreResponse = (ScoreModel) new ParseJsonTask(ScoreModel.class).execute(json).take();

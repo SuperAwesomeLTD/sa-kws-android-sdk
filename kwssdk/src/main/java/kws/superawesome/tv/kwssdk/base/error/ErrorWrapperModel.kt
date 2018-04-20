@@ -7,19 +7,19 @@ import tv.superawesome.protobufs.models.error.IErrorWrapperModel
  * Created by guilherme.mota on 13/03/2018.
  */
 class ErrorWrapperModel(@SerializedName("code")
-                   override val code: Int?,
+                        override val code: Int?,
 
                         @SerializedName("codeMeaning")
-                   override val codeMeaning: String?,
+                        override val codeMeaning: String?,
 
                         @SerializedName("errorMessage")
-                   override val message: String?,
+                        override val message: String?,
 
                         @SerializedName("invalid")
-                   override val invalid: InvalidTypeErrorModel?,
+                        override val invalid: InvalidTypeErrorModel?,
 
                         @SerializedName("Error")
-                   override val error: String?,
+                        override val error: String?,
 
                         @SerializedName("ErrorCode")
-                   override val errorCode: String?) : Throwable(), IErrorWrapperModel
+                        override val errorCode: String?) : Throwable(), IErrorWrapperModel
