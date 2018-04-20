@@ -32,8 +32,8 @@ public class TestSessionService_GetCurrentUser extends TestBaseService {
     @Before
     public void setup() throws Throwable {
         super.setup();
-        ComplianceSDK factory = new ComplianceSDK(environment, task);
-        service = factory.get(ISessionService.class);
+        ComplianceSDK sdk = new ComplianceSDK(environment, task);
+        service = sdk.get(ISessionService.class);
     }
 
     @Test

@@ -35,8 +35,8 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
 
         //then
         // init class to test
-        ComplianceSDK factory = new ComplianceSDK(environment, task);
-        service = factory.get(IUsernameService.class);
+        ComplianceSDK sdk = new ComplianceSDK(environment, task);
+        service = sdk.get(IUsernameService.class);
 
     }
 
@@ -69,8 +69,8 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
             }
         };
 
-        ComplianceSDK factory = new ComplianceSDK(goodNetworkEnvironment, task);
-        service = factory.get(IUsernameService.class);
+        ComplianceSDK sdk = new ComplianceSDK(goodNetworkEnvironment, task);
+        service = sdk.get(IUsernameService.class);
 
         service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override
@@ -110,8 +110,8 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
             }
         };
 
-        ComplianceSDK factory = new ComplianceSDK(badNetworkEnvironment, task);
-        service = factory.get(IUsernameService.class);
+        ComplianceSDK sdk = new ComplianceSDK(badNetworkEnvironment, task);
+        service = sdk.get(IUsernameService.class);
 
         service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override

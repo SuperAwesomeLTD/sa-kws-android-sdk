@@ -38,8 +38,8 @@ public class TestUserService extends TestBaseService {
         //then
         // init class to test
         // init class to test
-        ComplianceSDK factory = new ComplianceSDK(environment, task);
-        service = factory.get(IUserService.class);
+        ComplianceSDK sdk = new ComplianceSDK(environment, task);
+        service = sdk.get(IUserService.class);
 
 
     }

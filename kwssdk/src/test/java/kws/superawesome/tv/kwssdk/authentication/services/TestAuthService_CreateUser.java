@@ -102,8 +102,8 @@ public class TestAuthService_CreateUser extends TestAuthService {
             }
         };
 
-        ComplianceSDK factory = new ComplianceSDK(badEnvironment, task);
-        service = factory.get(IAuthService.class);
+        ComplianceSDK sdk = new ComplianceSDK(badEnvironment, task);
+        service = sdk.get(IAuthService.class);
 
         service.createUser(goodUsername, goodPassword, timezone, goodDOB, goodCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {

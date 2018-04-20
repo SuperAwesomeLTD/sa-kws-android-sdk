@@ -39,12 +39,10 @@ public class TestUserActionsService extends TestBaseService {
         //extended method from Base
         super.setup();
 
-
         //when
         // init class to test
-        // init class to test
-        ComplianceSDK factory = new ComplianceSDK(environment, task);
-        service = factory.get(IUserActionsService.class);
+        ComplianceSDK sdk = new ComplianceSDK(environment, task);
+        service = sdk.get(IUserActionsService.class);
 
 
     }
