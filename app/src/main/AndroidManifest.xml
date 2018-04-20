@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="kws.superawesome.tv.kwssdk.base.web_auth.KWSWebAuthResponse"
+            android:name="kws.superawesome.tv.kwssdk.base.authentication.web_auth.WebAuthController"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>

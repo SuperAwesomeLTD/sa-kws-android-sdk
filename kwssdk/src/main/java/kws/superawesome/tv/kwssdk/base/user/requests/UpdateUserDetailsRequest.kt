@@ -1,14 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.user.requests
 
-import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.BaseRequest
+import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.requests.AbstractRequest
 import tv.superawesome.samobilebase.network.NetworkMethod
 
-class UpdateUserDetailsRequest (environment: KWSNetworkEnvironment,
+class UpdateUserDetailsRequest (environment: NetworkEnvironment,
                                 userDetailsMap: Map<String, Any>,
                                 userId: Int,
                                 token: String
-) : BaseRequest(environment = environment, token = token) {
+) : AbstractRequest(environment = environment, token = token) {
 
 
     override val endpoint: String = "v1/users/$userId"

@@ -7,34 +7,34 @@ import tv.superawesome.protobufs.models.error.IInvalidTypeErrorWrapperModel
  * Created by guilherme.mota on 13/03/2018.
  */
 class InvalidTypeErrorModel(@SerializedName("addressCity")
-                       override val addressCity: ErrorModel?,
+                            override val addressCity: ErrorModel?,
 
                             @SerializedName("addressCountry")
-                       override val addressCountry: ErrorModel?,
+                            override val addressCountry: ErrorModel?,
 
                             @SerializedName("addressPostCode")
-                       override val addressPostCode: ErrorModel?,
+                            override val addressPostCode: ErrorModel?,
 
                             @SerializedName("addressStreet")
-                       override val addressStreet: ErrorModel?,
+                            override val addressStreet: ErrorModel?,
 
                             @SerializedName("country")
-                       override val country: ErrorModel?,
+                            override val country: ErrorModel?,
 
                             @SerializedName("dateOfBirth")
-                       override val dateOfBirth: ErrorModel?,
+                            override val dateOfBirth: ErrorModel?,
 
                             @SerializedName("oauthClientId")
-                       override val oauthClientId: ErrorModel?,
+                            override val oauthClientId: ErrorModel?,
 
                             @SerializedName("parentEmail")
-                       override val parentEmail: ErrorModel?,
+                            override val parentEmail: ErrorModel?,
 
                             @SerializedName("password")
-                       override val password: ErrorModel?,
+                            override val password: ErrorModel?,
 
                             @SerializedName("permissions")
-                       override val permissions: ErrorModel?,
+                            override val permissions: ErrorModel?,
 
                             @SerializedName("username")
-                       override val username: ErrorModel?) : Throwable(), IInvalidTypeErrorWrapperModel
+                            override val username: ErrorModel?) : Throwable(), IInvalidTypeErrorWrapperModel

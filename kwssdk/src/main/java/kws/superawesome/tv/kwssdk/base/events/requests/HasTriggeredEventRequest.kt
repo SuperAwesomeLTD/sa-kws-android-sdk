@@ -1,19 +1,19 @@
 package kws.superawesome.tv.kwssdk.base.events.requests
 
-import kws.superawesome.tv.kwssdk.base.BaseRequest
-import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.requests.AbstractRequest
+import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import tv.superawesome.samobilebase.network.NetworkMethod
 
 /**
  * Created by guilherme.mota on 05/01/2018.
  */
 /*internal*/
-class HasTriggeredEventRequest(environment: KWSNetworkEnvironment,
+class HasTriggeredEventRequest(environment: NetworkEnvironment,
                                userId: Int,
                                eventId: Int,
                                token: String
 
-) : BaseRequest(environment = environment, token = token) {
+) : AbstractRequest(environment = environment, token = token) {
 
 
     override val endpoint: String = "v1/users/$userId/has-triggered-event"

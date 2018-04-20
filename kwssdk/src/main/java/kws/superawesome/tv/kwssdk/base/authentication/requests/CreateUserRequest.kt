@@ -1,14 +1,14 @@
 package kws.superawesome.tv.kwssdk.base.authentication.requests
 
-import kws.superawesome.tv.kwssdk.base.BaseRequest
-import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.requests.AbstractRequest
+import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import tv.superawesome.samobilebase.network.NetworkMethod
 
 /**
  * Created by guilherme.mota on 12/12/2017.
  */
 /*internal*/
-class CreateUserRequest(environment: KWSNetworkEnvironment,
+class CreateUserRequest(environment: NetworkEnvironment,
                         username: String,
                         password: String,
                         dateOfBirth: String,
@@ -16,7 +16,7 @@ class CreateUserRequest(environment: KWSNetworkEnvironment,
                         parentEmail: String,
                         appID: Int,
                         token: String)
-    : BaseRequest(environment = environment) {
+    : AbstractRequest(environment = environment) {
 
     override val endpoint: String = "v1/apps/$appID/users"
 
