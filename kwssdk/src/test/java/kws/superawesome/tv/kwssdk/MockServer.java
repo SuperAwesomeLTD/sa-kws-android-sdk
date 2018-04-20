@@ -309,7 +309,7 @@ class MockServer extends MockAbstractWebServer {
                     }
 
                     if (permissionsList.contains("bad_permission"))
-                        return responseFromResource("mock_request_permissions_bad_permission_response.json", 400);
+                        return responseFromResource("mock_request_permissions_empty_permission_response.json", 400);
                     else
                         return responseFromResource("mock_generic_empty_response.json", 204);
 
