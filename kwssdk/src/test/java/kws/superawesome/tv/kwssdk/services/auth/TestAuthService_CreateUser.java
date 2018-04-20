@@ -8,7 +8,7 @@ import org.junit.Test;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
 import tv.superawesome.protobufs.features.auth.IAuthService;
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
 
@@ -56,13 +56,13 @@ public class TestAuthService_CreateUser extends TestAuthService {
     }
 
     @Test
-    public void testServiceToNotBeNull() {
+    public void test_Service_ToNot_BeNull() {
         Assert.assertNotNull(service);
     }
 
 
     @Test
-    public void testCreateUserServiceOK() {
+    public void test_AuthService_CreateUser_Service_OK() {
 
         service.createUser(goodUsername, goodPassword, timezone, goodDOB, goodCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -80,7 +80,7 @@ public class TestAuthService_CreateUser extends TestAuthService {
     }
 
     @Test
-    public void testCreateUserServiceBadEnvironment() {
+    public void test_AuthService_CreateUser_Service_BadEnvironment() {
 
         KWSNetworkEnvironment badEnvironment = new KWSNetworkEnvironment() {
             @NotNull
@@ -121,7 +121,7 @@ public class TestAuthService_CreateUser extends TestAuthService {
     }
 
     @Test
-    public void testCreateUserServiceBadUsername() {
+    public void test_AuthService_CreateUser_Service_BadUsername() {
 
         service.createUser(badUsername, goodPassword, timezone, goodDOB, goodCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -139,7 +139,7 @@ public class TestAuthService_CreateUser extends TestAuthService {
     }
 
     @Test
-    public void testCreateUserServiceBadPassword() {
+    public void test_AuthService_CreateUser_Service_BadPassword() {
 
         service.createUser(goodUsername, badPassword, timezone, goodDOB, goodCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -157,7 +157,7 @@ public class TestAuthService_CreateUser extends TestAuthService {
     }
 
     @Test
-    public void testCreateUserServiceBadDOB() {
+    public void test_AuthService_CreateUser_Service_BadDOB() {
 
         service.createUser(goodUsername, goodPassword, timezone, badDOB, goodCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -175,7 +175,7 @@ public class TestAuthService_CreateUser extends TestAuthService {
     }
 
     @Test
-    public void testCreateUserServiceBadCountry() {
+    public void test_AuthService_CreateUser_Service_BadCountry() {
 
         service.createUser(goodUsername, goodPassword, timezone, goodDOB, badCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -194,7 +194,7 @@ public class TestAuthService_CreateUser extends TestAuthService {
 
 
     @Test
-    public void testCreateUserServiceBadParentEmail() {
+    public void test_AuthService_CreateUser_Service_Bad_Parent_Email() {
 
         service.createUser(goodUsername, goodPassword, timezone, goodDOB, badCountry,
                 badParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {

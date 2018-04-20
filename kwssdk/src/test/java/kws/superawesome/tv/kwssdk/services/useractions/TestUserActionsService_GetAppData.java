@@ -13,11 +13,10 @@ import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel;
 
 public class TestUserActionsService_GetAppData extends TestUserActionsService {
 
-
     //
     //Get App Data
     @Test
-    public void testAppServiceGetAppDataOK() {
+    public void test_UserActionsService_GetAppData_OK() {
 
         service.getAppData(goodUserId, goodAppId, goodMockedToken, new Function2<IAppDataWrapperModel, Throwable, Unit>() {
             @Override
@@ -29,12 +28,10 @@ public class TestUserActionsService_GetAppData extends TestUserActionsService {
                 return null;
             }
         });
-
-
     }
 
     @Test
-    public void testAppServiceGetAppDataBadAppId() {
+    public void test_UserActionsService_GetAppData_Bad_AppId() {
 
         service.getAppData(goodUserId, badAppId, goodMockedToken, new Function2<IAppDataWrapperModel, Throwable, Unit>() {
             @Override
@@ -51,7 +48,7 @@ public class TestUserActionsService_GetAppData extends TestUserActionsService {
     }
 
     @Test
-    public void testAppServiceGetAppDataBadUserId() {
+    public void test_UserActionsService_GetAppData_Bad_UserId() {
 
         service.getAppData(goodUserId, badAppId, goodMockedToken, new Function2<IAppDataWrapperModel, Throwable, Unit>() {
             @Override
@@ -63,8 +60,5 @@ public class TestUserActionsService_GetAppData extends TestUserActionsService {
                 return null;
             }
         });
-
-
     }
-
 }

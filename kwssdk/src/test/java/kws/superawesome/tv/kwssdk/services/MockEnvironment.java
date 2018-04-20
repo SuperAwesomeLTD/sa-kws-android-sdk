@@ -2,7 +2,7 @@ package kws.superawesome.tv.kwssdk.services;
 
 import org.jetbrains.annotations.NotNull;
 
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
 
 /**
  * Created by guilherme.mota on 10/01/2018.

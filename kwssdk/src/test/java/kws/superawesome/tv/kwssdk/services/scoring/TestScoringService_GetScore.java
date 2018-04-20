@@ -14,9 +14,9 @@ import tv.superawesome.protobufs.models.score.IScoreModel;
 public class TestScoringService_GetScore extends TestScoringService {
 
 
-    //for Get Score
+    //for Get ScoreModel
     @Test
-    public void testUserServiceGetScoreOK() {
+    public void test_ScoringService_GetScore_OK() {
 
         service.getScore(goodAppId, goodMockedToken, new Function2<IScoreModel, Throwable, Unit>() {
             @Override
@@ -33,7 +33,7 @@ public class TestScoringService_GetScore extends TestScoringService {
     }
 
     @Test
-    public void testUserServiceGetScoreBadUserId() {
+    public void test_ScoringService_GetScore_Bad_User_Id() {
 
         service.getScore(badAppId, goodMockedToken, new Function2<IScoreModel, Throwable, Unit>() {
             @Override

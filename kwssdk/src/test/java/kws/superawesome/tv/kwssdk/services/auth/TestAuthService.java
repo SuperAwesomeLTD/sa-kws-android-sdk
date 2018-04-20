@@ -41,7 +41,7 @@ public class TestAuthService extends TestBaseService {
 
 
     @Test
-    public void testServiceToNotBeNull() {
+    public void testService_ToNot_BeNull() {
         Assert.assertNotNull(service);
     }
 

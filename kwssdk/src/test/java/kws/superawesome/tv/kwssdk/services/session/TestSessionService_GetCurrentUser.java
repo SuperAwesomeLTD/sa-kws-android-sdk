@@ -10,7 +10,6 @@ import org.junit.Test;
 import java.util.HashMap;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 import tv.superawesome.protobufs.features.session.ISessionService;
 import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
@@ -38,12 +37,12 @@ public class TestSessionService_GetCurrentUser extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_ToNotBeNull() {
+    public void test_SessionService_ToNotBeNull() {
         Assert.assertNotNull(service);
     }
 
     @Test
-    public void testSessionService_GetCurrentUser_WithInvalidSession() {
+    public void test_SessionService_GetCurrentUser_WithInvalidSession() {
         // given
         String token = "eyJhbGciOiJIUzzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4iOnRydWV9TJVA95OrM7E2cBabEfxjoYZgeFONFh7HgQ";
 
@@ -59,7 +58,7 @@ public class TestSessionService_GetCurrentUser extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_GetCurrentUser_WithoutPreviousSession() {
+    public void test_SessionService_GetCurrentUser_WithoutPreviousSession() {
         // when
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -72,7 +71,7 @@ public class TestSessionService_GetCurrentUser extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_GetCurrentUser_WithPreviousSession() {
+    public void test_SessionService_GetCurrentUser_WithPreviousSession() {
         // given
         String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjM0NDMsImFwcElkIjozNTgsImNsaWVudElkIjoia3dzLXNkay10ZXN0aW5nIiwic2NvcGUiOiJ1c2VyIiwiaWF0IjoxNTIxNDczMTM3LCJleHAiOjE1MjE1NTk1MzcsImlzcyI6InN1cGVyYXdlc29tZSJ9.nsZ05--MGbLcc3gvRfp0w3XJhcZeszTP5iwQg6trp7Y";
 

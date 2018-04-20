@@ -3,14 +3,13 @@ package kws.superawesome.tv.kwssdk.requests;
 import junit.framework.Assert;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.Map;
 
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
-import kws.superawesome.tv.kwssdk.base.requests.TriggerEventRequest;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.events.requests.TriggerEventRequest;
 import tv.superawesome.samobilebase.network.NetworkMethod;
 
 /**
@@ -29,8 +28,8 @@ public class TestTriggerEventRequest {
     private String endpoint, token, eventId;
     private NetworkMethod method;
 
-    @Before
-    public void setup() {
+    @Test
+    public void test_TriggerEvent_Request_Init() {
         // setup mocks
         environment = Mockito.mock(KWSNetworkEnvironment.class);
 
@@ -50,11 +49,8 @@ public class TestTriggerEventRequest {
                 userId,
                 token
         );
-    }
 
-
-    @Test
-    public void testConstants() {
+        //then
 
         Assert.assertTrue(userId > -1);
         Assert.assertTrue(points > -1);
@@ -63,34 +59,13 @@ public class TestTriggerEventRequest {
         Assert.assertNotNull(endpoint);
         Assert.assertNotNull(method);
 
-    }
-
-    @Test
-    public final void testRequest() {
-        //then
         Assert.assertNotNull(triggerEventRequest);
-    }
 
-
-    @Test
-    public final void testRequestEnvironment() {
         Assert.assertNotNull(triggerEventRequest.getEnvironment());
-    }
 
-    @Test
-    public final void testMethod() {
         Assert.assertEquals(method, triggerEventRequest.getMethod());
-    }
-
-
-    @Test
-    public final void testEndpoint() {
         Assert.assertEquals(endpoint, triggerEventRequest.getEndpoint());
-    }
 
-
-    @Test
-    public final void testBody() {
         Map<String, Object> body = triggerEventRequest.getBody();
 
         Assert.assertNotNull(body);
@@ -99,10 +74,7 @@ public class TestTriggerEventRequest {
         Assert.assertTrue(body.containsKey("token"));
         Assert.assertEquals(points, body.get("points"));
         Assert.assertEquals(eventId, body.get("token"));
-    }
 
-    @Test
-    public final void testHeader() {
         Map<String, String> header = triggerEventRequest.getHeaders();
 
         Assert.assertNotNull(header);
@@ -112,18 +84,10 @@ public class TestTriggerEventRequest {
         Assert.assertTrue(header.containsKey("Authorization"));
         Assert.assertEquals("Bearer " + token, header.get("Authorization"));
 
-    }
-
-    @Test
-    public final void testQuery() {
-
         Map<String, Object> query = triggerEventRequest.getQuery();
 
         Assert.assertNull(query);
-    }
 
-    @Test
-    public final void testFormEncodedURLs() {
         Assert.assertFalse(triggerEventRequest.getFormEncodeUrls());
     }
 

@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.KWSSDK;
-import kws.superawesome.tv.kwssdk.base.models.internal.LoggedUser;
-import kws.superawesome.tv.kwssdk.base.models.internal.TokenData;
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel;
+import kws.superawesome.tv.kwssdk.base.internal.TokenData;
 import kws.superawesome.tv.kwssdk.services.TestBaseService;
 import tv.superawesome.protobufs.features.session.ISessionService;
 
@@ -36,7 +36,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_ToNotBeNull() {
+    public void test_SessionService_ToNotBeNull() {
         Assert.assertNotNull(service);
     }
 
@@ -53,7 +53,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
         when(prefs.edit()).thenReturn(editor);
         when(editor.commit()).thenReturn(true);
 
-        LoggedUser user = new LoggedUser(token, new TokenData(), 0);
+        LoggedUserModel user = new LoggedUserModel(token, new TokenData(), 0);
 
         // then
         boolean success = service.saveLoggedUser(context, user);
@@ -61,7 +61,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testSessionService_SaveLoggedUser_NullUser() throws Exception {
+    public void test_SessionService_SaveLoggedUser_NullUser() throws Exception {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -78,7 +78,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     }
 
     @Test
-    public void testSessionService_SaveLoggedUser_OK() {
+    public void test_SessionService_SaveLoggedUser_OK() {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -99,7 +99,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
         when(prefs.edit()).thenReturn(editor);
         when(editor.commit()).thenReturn(true);
 
-        LoggedUser user = new LoggedUser(token, tokenData, userId);
+        LoggedUserModel user = new LoggedUserModel(token, tokenData, userId);
 
         // then
         boolean success = service.saveLoggedUser(context, user);

@@ -5,7 +5,7 @@ import org.junit.Before;
 
 import java.util.concurrent.Executor;
 
-import kws.superawesome.tv.kwssdk.base.environments.KWSNetworkEnvironment;
+import kws.superawesome.tv.kwssdk.base.KWSNetworkEnvironment;
 import tv.superawesome.samobilebase.network.NetworkTask;
 
 /**

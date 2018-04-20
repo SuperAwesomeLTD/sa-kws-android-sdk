@@ -19,7 +19,7 @@ public class TestUserActionsService_TriggerEvent extends TestUserActionsService 
     //
     // Trigger Event
     @Test
-    public void testEventsServiceTriggerEventOK() {
+    public void test_UserActionsService_Service_Trigger_Event_OK() {
 
         service.triggerEvent(goodEventId, points, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -30,11 +30,10 @@ public class TestUserActionsService_TriggerEvent extends TestUserActionsService 
                 return null;
             }
         });
-
     }
 
     @Test
-    public void testEventsServiceTriggerEventBadUserId() {
+    public void test_UserActionsService_TriggerEvent_Bad_User_Id() {
 
         service.triggerEvent(goodEventId, points, badUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -45,11 +44,10 @@ public class TestUserActionsService_TriggerEvent extends TestUserActionsService 
                 return null;
             }
         });
-
     }
 
     @Test
-    public void testEventsServiceTriggerEventBadEventId() {
+    public void test_UserActionsService_TriggerEvent_Bad_Event_Id() {
 
         service.triggerEvent(badEventId, points, goodUserId, goodMockedToken, new Function1<Throwable, Unit>() {
             @Override
@@ -60,8 +58,5 @@ public class TestUserActionsService_TriggerEvent extends TestUserActionsService 
                 return null;
             }
         });
-
     }
-
-
 }

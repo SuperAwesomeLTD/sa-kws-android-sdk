@@ -15,10 +15,10 @@ import kotlin.jvm.functions.Function1;
 
 public class TestUserActionsService_RequestPermissions extends TestUserActionsService {
 
-    //for Request Permissions
+    //for Request PermissionsModel
 
     @Test
-    public void testUserServiceRequestPermissionOK() {
+    public void test_UserActionsService_Request_Permission_OK() {
         List<String> listOfPermissions = new ArrayList<>();
         listOfPermissions.add(goodPermissionString);
 
@@ -35,7 +35,7 @@ public class TestUserActionsService_RequestPermissions extends TestUserActionsSe
     }
 
     @Test
-    public void testUserServiceRequestPermissionBadPermission() {
+    public void test_UserActionsService_Request_Permission_Bad_Permission() {
         List<String> listOfPermissions = new ArrayList<>();
         listOfPermissions.add(badPermissionString);
 
@@ -52,7 +52,7 @@ public class TestUserActionsService_RequestPermissions extends TestUserActionsSe
     }
 
     @Test
-    public void testUserServiceRequestPermissionBadUserId() {
+    public void test_UserActionsService_Request_Permission_Bad_User_Id() {
         List<String> listOfPermissions = new ArrayList<>();
 
         service.requestPermissions(listOfPermissions, badUserId, goodMockedToken, new Function1<Throwable, Unit>() {
