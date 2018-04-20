@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.username;
+package kws.superawesome.tv.kwssdk.username.services;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;

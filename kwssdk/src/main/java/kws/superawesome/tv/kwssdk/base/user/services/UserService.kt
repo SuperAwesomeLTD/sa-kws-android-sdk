@@ -54,9 +54,7 @@ constructor(override val environment: NetworkEnvironment,
                 userId = userId,
                 token = token)
 
-
-        val networkTask2 = NetworkTask()
-        val future = networkTask2.execute(input = updateUserDetailsNetworkRequest)
+        val future = networkTask.execute(input = updateUserDetailsNetworkRequest)
         future.onResult { networkResult ->
 
             when (networkResult) {

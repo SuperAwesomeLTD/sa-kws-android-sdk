@@ -28,30 +28,38 @@ public class TestUserService_GetUserDetails extends TestUserService {
                 Assert.assertNotNull(userDetails);
                 Assert.assertNull(throwable);
 
-                Assert.assertEquals((Integer) 25, (Integer) userDetails.getId());
-                Assert.assertEquals("username", userDetails.getName());
-                Assert.assertEquals("first_name", userDetails.getFirstName());
-                Assert.assertEquals("last_name", userDetails.getLastName());
-
-                Assert.assertNotNull(userDetails.getAddress());
-                Assert.assertEquals(userDetails.getAddress().getStreet(), "street");
-                Assert.assertEquals(userDetails.getAddress().getCity(), "city");
-                Assert.assertEquals(userDetails.getAddress().getPostCode(), "postCode");
-                Assert.assertEquals(userDetails.getAddress().getCountry(), "country");
-
-                Assert.assertEquals(userDetails.getDateOfBirth(), "dob");
+                Assert.assertNotNull(userDetails);
+                Assert.assertEquals(userDetails.getId(), (Integer) 25);
+                Assert.assertEquals(userDetails.getName(), "genioustiger123");
+                Assert.assertEquals(userDetails.getFirstName(), "John");
+                Assert.assertEquals(userDetails.getLastName(), "Doe");
+                Assert.assertEquals(userDetails.getDateOfBirth(), "2012-03-02");
                 Assert.assertEquals(userDetails.getGender(), "male");
                 Assert.assertEquals(userDetails.getLanguage(), "en");
-                Assert.assertEquals(userDetails.getEmail(), "email@email");
+                Assert.assertEquals(userDetails.getEmail(), "john.doe@email");
+
                 Assert.assertTrue(userDetails.getHasSetParentEmail());
 
+                Assert.assertEquals(userDetails.getConsentAgeForCountry(), 13);
+
+                Assert.assertTrue(userDetails.isMinor());
+
+                Assert.assertNotNull(userDetails.getAddress());
+                Assert.assertEquals(userDetails.getAddress().getStreet(), "Number 12");
+                Assert.assertEquals(userDetails.getAddress().getCity(), "London");
+                Assert.assertEquals(userDetails.getAddress().getPostCode(), "NW1 23L");
+                Assert.assertEquals(userDetails.getAddress().getCountry(), "United Kingdom");
+                Assert.assertEquals(userDetails.getAddress().getCountryCode(), "GB");
+                Assert.assertEquals(userDetails.getAddress().getCountryName(), "United Kingdom");
+
                 Assert.assertNotNull(userDetails.getApplicationProfile());
-                Assert.assertEquals(userDetails.getApplicationProfile().getName(), "username");
-                Assert.assertEquals((int) userDetails.getApplicationProfile().getCustomField1(), 0);
-                Assert.assertEquals((int) userDetails.getApplicationProfile().getCustomField2(), 0);
-                Assert.assertEquals((int) userDetails.getApplicationProfile().getAvatarId(), 0);
+                Assert.assertEquals(userDetails.getApplicationProfile().getName(), "genioustiger123");
+                Assert.assertEquals(userDetails.getApplicationProfile().getCustomField1(), (Integer) 0);
+                Assert.assertEquals(userDetails.getApplicationProfile().getCustomField2(), (Integer) 0);
+                Assert.assertEquals(userDetails.getApplicationProfile().getAvatarId(), (Integer) 0);
 
                 Assert.assertNotNull(userDetails.getApplicationPermissions());
+                Assert.assertTrue(userDetails.getApplicationPermissions().getNotifications());
                 Assert.assertFalse(userDetails.getApplicationPermissions().getAddress());
                 Assert.assertFalse(userDetails.getApplicationPermissions().getFirstName());
                 Assert.assertFalse(userDetails.getApplicationPermissions().getLastName());
@@ -60,19 +68,17 @@ public class TestUserService_GetUserDetails extends TestUserService {
                 Assert.assertFalse(userDetails.getApplicationPermissions().getCity());
                 Assert.assertFalse(userDetails.getApplicationPermissions().getPostalCode());
                 Assert.assertFalse(userDetails.getApplicationPermissions().getCountry());
-                Assert.assertTrue(userDetails.getApplicationPermissions().getNotifications());
                 Assert.assertFalse(userDetails.getApplicationPermissions().getNewsletter());
                 Assert.assertFalse(userDetails.getApplicationPermissions().getCompetition());
 
                 Assert.assertNotNull(userDetails.getPoints());
-                Assert.assertEquals((int) userDetails.getPoints().getReceived(), 600);
-                Assert.assertEquals((int) userDetails.getPoints().getTotal(), 600);
-                Assert.assertEquals((int) userDetails.getPoints().getInApp(), 600);
-                Assert.assertEquals((int) userDetails.getPoints().getBalance(), 600);
-                Assert.assertEquals((int) userDetails.getPoints().getPending(), 1);
+                Assert.assertEquals(userDetails.getPoints().getReceived(), (Integer) 600);
+                Assert.assertEquals(userDetails.getPoints().getTotal(), (Integer) 600);
+                Assert.assertEquals(userDetails.getPoints().getInApp(), (Integer) 600);
+                Assert.assertEquals(userDetails.getPoints().getBalance(), (Integer) 600);
+                Assert.assertEquals(userDetails.getPoints().getPending(), (Integer) 1);
 
-                Assert.assertEquals(userDetails.getConsentAgeForCountry(), 13);
-                Assert.assertTrue(userDetails.isMinor());
+                Assert.assertEquals(userDetails.getCreatedAt(), "2018-01-19");
 
                 return null;
             }

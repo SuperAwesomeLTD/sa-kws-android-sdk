@@ -1,5 +1,6 @@
 package kws.superawesome.tv.kwssdk.user.services;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,5 +49,10 @@ public class TestUserService extends TestBaseService {
         Assert.assertNotNull(service);
     }
 
+
+    @After
+    public void shutdown(){
+        service = null;
+    }
 
 }

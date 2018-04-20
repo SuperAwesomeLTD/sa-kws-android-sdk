@@ -1,6 +1,9 @@
 package kws.superawesome.tv.kwssdk.scoring.services;
 
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.TestBaseService;
@@ -36,4 +39,14 @@ public class TestScoringService extends TestBaseService {
 
     }
 
+    @Test
+    public void test_UserService_ToNot_BeNull() {
+        Assert.assertNotNull(service);
+    }
+
+
+    @After
+    public void shutdown(){
+        service = null;
+    }
 }
