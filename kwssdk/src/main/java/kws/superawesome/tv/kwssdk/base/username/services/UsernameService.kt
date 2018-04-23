@@ -2,8 +2,8 @@ package kws.superawesome.tv.kwssdk.base.username.services
 
 import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.app.config.models.AppConfigWrapperModel
-import kws.superawesome.tv.kwssdk.base.app.config.requests.AppConfigRequest
+import kws.superawesome.tv.kwssdk.base.config.models.AppConfigWrapperModel
+import kws.superawesome.tv.kwssdk.base.config.requests.AppConfigRequest
 import kws.superawesome.tv.kwssdk.base.username.models.RandomUsernameModel
 import kws.superawesome.tv.kwssdk.base.username.requests.RandomUsernameRequest
 import tv.superawesome.protobufs.features.auth.IUsernameService

@@ -3,7 +3,6 @@ package kws.superawesome.tv.kwssdk.scoring.models;
 import org.junit.Assert;
 import org.junit.Test;
 
-import kws.superawesome.tv.kwssdk.base.error.ErrorWrapperModel;
 import kws.superawesome.tv.kwssdk.base.scoring.models.ScoreModel;
 import kws.superawesome.tv.kwssdk.ResourceReader;
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask;

@@ -2,14 +2,14 @@ package kws.superawesome.tv.kwssdk.base.actions.services
 
 import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
-import kws.superawesome.tv.kwssdk.base.app.data.models.AppDataWrapperModel
-import kws.superawesome.tv.kwssdk.base.app.data.requests.GetAppDataRequest
-import kws.superawesome.tv.kwssdk.base.app.data.requests.SetAppDataRequest
-import kws.superawesome.tv.kwssdk.base.events.models.HasTriggeredEventModel
-import kws.superawesome.tv.kwssdk.base.events.requests.HasTriggeredEventRequest
-import kws.superawesome.tv.kwssdk.base.events.requests.TriggerEventRequest
-import kws.superawesome.tv.kwssdk.base.invite.InviteUserRequest
-import kws.superawesome.tv.kwssdk.base.permissions.PermissionsRequest
+import kws.superawesome.tv.kwssdk.base.actions.models.AppDataWrapperModel
+import kws.superawesome.tv.kwssdk.base.actions.requests.GetAppDataRequest
+import kws.superawesome.tv.kwssdk.base.actions.requests.SetAppDataRequest
+import kws.superawesome.tv.kwssdk.base.actions.models.HasTriggeredEventModel
+import kws.superawesome.tv.kwssdk.base.actions.requests.HasTriggeredEventRequest
+import kws.superawesome.tv.kwssdk.base.actions.requests.TriggerEventRequest
+import kws.superawesome.tv.kwssdk.base.actions.requests.InviteUserRequest
+import kws.superawesome.tv.kwssdk.base.actions.requests.PermissionsRequest
 import tv.superawesome.protobufs.features.user.IUserActionsService
 import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel
 import tv.superawesome.protobufs.models.score.IHasTriggeredEventModel

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.ResourceReader;
-import kws.superawesome.tv.kwssdk.base.error.ErrorWrapperModel;
+import kws.superawesome.tv.kwssdk.base.common.models.error.ErrorWrapperModel;
 import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
 
 public class TestUpdateUserDetailsMapping {
