@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.common.services
 
-import kws.superawesome.tv.kwssdk.base.error.ErrorWrapperModel
+import kws.superawesome.tv.kwssdk.base.common.models.error.ErrorWrapperModel
 import tv.superawesome.protobufs.IService
 import tv.superawesome.samobilebase.Result
 import tv.superawesome.samobilebase.network.INetworkEnvironment

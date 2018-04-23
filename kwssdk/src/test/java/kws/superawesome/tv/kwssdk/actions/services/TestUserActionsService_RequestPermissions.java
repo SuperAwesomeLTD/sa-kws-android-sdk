@@ -15,7 +15,7 @@ import kotlin.jvm.functions.Function1;
 
 public class TestUserActionsService_RequestPermissions extends TestUserActionsService {
 
-    //for Request PermissionsModel
+    //for Request UserApplicationPermissionsModel
 
     @Test
     public void test_UserActionsService_Request_Permission_OK() {
