@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.user.models
 
 import com.google.gson.annotations.SerializedName
-import tv.superawesome.protobufs.models.score.IPointsModel
+import tv.superawesome.protobufs.score.models.IPointsModel
 
 /**
  * Created by guilherme.mota on 03/01/2018.

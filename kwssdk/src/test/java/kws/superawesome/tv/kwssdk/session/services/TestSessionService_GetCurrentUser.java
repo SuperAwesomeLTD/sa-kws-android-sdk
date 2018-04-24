@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
-import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.TestBaseService;
-import tv.superawesome.protobufs.features.session.ISessionService;
-import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
+import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
+import tv.superawesome.protobufs.authentication.models.ILoggedUserModel;
+import tv.superawesome.protobufs.session.services.ISessionService;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;

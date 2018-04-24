@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.common.models.error
 
 import com.google.gson.annotations.SerializedName
-import tv.superawesome.protobufs.models.error.IInvalidTypeErrorWrapperModel
+import tv.superawesome.protobufs.common.models.error.IInvalidTypeErrorWrapperModel
 
 /**
  * Created by guilherme.mota on 13/03/2018.

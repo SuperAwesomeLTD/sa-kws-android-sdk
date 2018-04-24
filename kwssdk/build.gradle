@@ -84,15 +84,15 @@ repositories {
 }
 
 dependencies {
-    compile 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.7'
-    compile 'tv.superawesome.lib.sanetwork:sanetwork:0.3.8'
-    compile 'tv.superawesome.lib.sautils:sautils:0.3.5'
+    implementation 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.7'
+    implementation 'tv.superawesome.lib.sanetwork:sanetwork:0.3.8'
+    implementation 'tv.superawesome.lib.sautils:sautils:0.3.5'
 
     // SuperAwesome base library
-    implementation 'tv.superawesome.samobilebase:samobilebase:2.1.1'
+    implementation 'tv.superawesome.samobilebase:samobilebase:2.1.5'
 
     // SuperAwesome Protobufs
-    implementation 'tv.superawesome.protobufs:protobufs:1.4.3'
+    implementation 'tv.superawesome.protobufs:protobufs:1.5.7'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

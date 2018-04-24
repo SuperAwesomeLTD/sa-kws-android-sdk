@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import tv.superawesome.protobufs.models.user.IUserDetailsModel;
+import tv.superawesome.protobufs.user.models.IUserDetailsModel;
 
 /**
  * Created by guilherme.mota on 17/01/2018.

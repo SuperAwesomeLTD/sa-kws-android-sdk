@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.user.models
 
 import com.google.gson.annotations.SerializedName
-import tv.superawesome.protobufs.models.address.IAddressModel
+import tv.superawesome.protobufs.user.models.IAddressModel
 
 /**
  * Created by guilherme.mota on 03/01/2018.

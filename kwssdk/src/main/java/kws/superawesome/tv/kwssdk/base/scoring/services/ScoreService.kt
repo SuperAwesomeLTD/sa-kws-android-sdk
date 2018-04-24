@@ -1,17 +1,17 @@
 package kws.superawesome.tv.kwssdk.base.scoring.services
 
-import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.scoring.models.LeadersWrapperModel
 import kws.superawesome.tv.kwssdk.base.scoring.models.ScoreModel
 import kws.superawesome.tv.kwssdk.base.scoring.requests.LeadersRequest
 import kws.superawesome.tv.kwssdk.base.scoring.requests.ScoreRequest
-import tv.superawesome.protobufs.features.scoring.IScoringService
-import tv.superawesome.protobufs.models.score.ILeaderWrapperModel
-import tv.superawesome.protobufs.models.score.IScoreModel
-import tv.superawesome.samobilebase.Result
+import tv.superawesome.protobufs.score.models.ILeaderWrapperModel
+import tv.superawesome.protobufs.score.models.IScoreModel
+import tv.superawesome.protobufs.score.services.IScoringService
+import tv.superawesome.samobilebase.common.result.Result
+import tv.superawesome.samobilebase.json.ParseJsonTask
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 13/03/2018.

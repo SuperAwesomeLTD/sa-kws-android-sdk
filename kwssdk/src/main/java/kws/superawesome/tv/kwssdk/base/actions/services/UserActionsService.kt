@@ -1,22 +1,17 @@
 package kws.superawesome.tv.kwssdk.base.actions.services
 
-import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.actions.models.AppDataWrapperModel
-import kws.superawesome.tv.kwssdk.base.actions.requests.GetAppDataRequest
-import kws.superawesome.tv.kwssdk.base.actions.requests.SetAppDataRequest
 import kws.superawesome.tv.kwssdk.base.actions.models.HasTriggeredEventModel
-import kws.superawesome.tv.kwssdk.base.actions.requests.HasTriggeredEventRequest
-import kws.superawesome.tv.kwssdk.base.actions.requests.TriggerEventRequest
-import kws.superawesome.tv.kwssdk.base.actions.requests.InviteUserRequest
-import kws.superawesome.tv.kwssdk.base.actions.requests.PermissionsRequest
-import tv.superawesome.protobufs.features.user.IUserActionsService
-import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel
-import tv.superawesome.protobufs.models.score.IHasTriggeredEventModel
-import tv.superawesome.samobilebase.Result
+import kws.superawesome.tv.kwssdk.base.actions.requests.*
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
+import tv.superawesome.protobufs.actions.models.IAppDataWrapperModel
+import tv.superawesome.protobufs.actions.models.IHasTriggeredEventModel
+import tv.superawesome.protobufs.actions.services.IUserActionsService
+import tv.superawesome.samobilebase.common.result.Result
+import tv.superawesome.samobilebase.json.ParseJsonTask
 import tv.superawesome.samobilebase.network.INetworkRequest
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 05/01/2018.

@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwssdk.base.authentication.models
 
 import com.google.gson.annotations.SerializedName
-import tv.superawesome.protobufs.models.auth.ILoggedUserModel
+import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
 
 /**
  * Created by guilherme.mota on 08/12/2017.

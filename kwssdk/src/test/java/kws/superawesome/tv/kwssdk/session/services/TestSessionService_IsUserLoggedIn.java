@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
-import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.TestBaseService;
-import tv.superawesome.protobufs.features.session.ISessionService;
+import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
+import tv.superawesome.protobufs.session.services.ISessionService;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -29,19 +29,19 @@ public class TestSessionService_IsUserLoggedIn extends TestBaseService {
 
     @Override
     @Before
-    public void setup () throws Throwable {
+    public void setup() throws Throwable {
         super.setup();
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
         service = sdk.get(ISessionService.class);
     }
 
     @Test
-    public void test_SessionService_ToNotBeNull () {
+    public void test_SessionService_ToNotBeNull() {
         Assert.assertNotNull(service);
     }
 
     @Test
-    public void test_SessionService_IsUserLoggedIn_WithInvalidSession () {
+    public void test_SessionService_IsUserLoggedIn_WithInvalidSession() {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -57,7 +57,7 @@ public class TestSessionService_IsUserLoggedIn extends TestBaseService {
     }
 
     @Test
-    public void test_SessionService_IsUserLoggedIn_WithoutPreviousSession () {
+    public void test_SessionService_IsUserLoggedIn_WithoutPreviousSession() {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);
@@ -72,7 +72,7 @@ public class TestSessionService_IsUserLoggedIn extends TestBaseService {
     }
 
     @Test
-    public void test_SessionService_IsUserLoggedIn_WithPreviousSession () {
+    public void test_SessionService_IsUserLoggedIn_WithPreviousSession() {
         // given
         Context context = mock(Context.class);
         SharedPreferences prefs = mock(SharedPreferences.class);

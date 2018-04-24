@@ -1,15 +1,15 @@
 package kws.superawesome.tv.kwssdk.base.user.services
 
-import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.user.models.UserDetailsModel
-import kws.superawesome.tv.kwssdk.base.user.requests.UpdateUserDetailsRequest
 import kws.superawesome.tv.kwssdk.base.user.requests.GetUserDetailsRequest
-import tv.superawesome.protobufs.features.user.IUserService
-import tv.superawesome.protobufs.models.user.IUserDetailsModel
-import tv.superawesome.samobilebase.Result
+import kws.superawesome.tv.kwssdk.base.user.requests.UpdateUserDetailsRequest
+import tv.superawesome.protobufs.user.models.IUserDetailsModel
+import tv.superawesome.protobufs.user.services.IUserService
+import tv.superawesome.samobilebase.common.result.Result
+import tv.superawesome.samobilebase.json.ParseJsonTask
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 03/01/2018.

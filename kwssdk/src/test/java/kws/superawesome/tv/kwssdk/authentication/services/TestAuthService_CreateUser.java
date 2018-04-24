@@ -9,8 +9,8 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment;
-import tv.superawesome.protobufs.features.auth.IAuthService;
-import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
+import tv.superawesome.protobufs.authentication.models.ILoggedUserModel;
+import tv.superawesome.protobufs.authentication.services.IAuthService;
 
 /**
  * Created by guilherme.mota on 15/01/2018.

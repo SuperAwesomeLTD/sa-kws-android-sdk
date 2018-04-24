@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import tv.superawesome.protobufs.models.score.IScoreModel;
+import tv.superawesome.protobufs.score.models.IScoreModel;
 
 /**
  * Created by guilherme.mota on 17/01/2018.

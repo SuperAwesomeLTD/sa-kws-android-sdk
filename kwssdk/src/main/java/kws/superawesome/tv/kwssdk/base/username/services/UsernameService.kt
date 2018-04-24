@@ -1,17 +1,17 @@
 package kws.superawesome.tv.kwssdk.base.username.services
 
-import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.config.models.AppConfigWrapperModel
 import kws.superawesome.tv.kwssdk.base.config.requests.AppConfigRequest
 import kws.superawesome.tv.kwssdk.base.username.models.RandomUsernameModel
 import kws.superawesome.tv.kwssdk.base.username.requests.RandomUsernameRequest
-import tv.superawesome.protobufs.features.auth.IUsernameService
-import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel
-import tv.superawesome.protobufs.models.usernames.IVerifiedUsernameModel
-import tv.superawesome.samobilebase.Result
+import tv.superawesome.protobufs.usernames.models.IRandomUsernameModel
+import tv.superawesome.protobufs.usernames.models.IVerifiedUsernameModel
+import tv.superawesome.protobufs.usernames.services.IUsernameService
+import tv.superawesome.samobilebase.common.result.Result
+import tv.superawesome.samobilebase.json.ParseJsonTask
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 29/12/2017.

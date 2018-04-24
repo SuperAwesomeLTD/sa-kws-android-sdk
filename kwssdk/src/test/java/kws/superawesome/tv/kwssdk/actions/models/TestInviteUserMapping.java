@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.ResourceReader;
 import kws.superawesome.tv.kwssdk.base.common.models.error.ErrorWrapperModel;
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
+import tv.superawesome.samobilebase.json.ParseJsonTask;
 
 public class TestInviteUserMapping {
 
@@ -19,7 +19,7 @@ public class TestInviteUserMapping {
     @Test
     public void test_InviteUser_Bad_Email_Response() {
         String json = ResourceReader.readResource("mock_invite_user_bad_email_response.json");
-        ErrorWrapperModel errorWrapperModel = (ErrorWrapperModel ) new ParseJsonTask(ErrorWrapperModel .class).execute(json).take();
+        ErrorWrapperModel errorWrapperModel = (ErrorWrapperModel) new ParseJsonTask(ErrorWrapperModel.class).execute(json).take();
 
         Assert.assertNotNull(errorWrapperModel);
         Assert.assertEquals(errorWrapperModel.getCode(), (Integer) 5);

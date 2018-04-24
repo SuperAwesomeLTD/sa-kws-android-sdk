@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import tv.superawesome.protobufs.models.appdata.IAppDataWrapperModel;
+import tv.superawesome.protobufs.actions.models.IAppDataWrapperModel;
 
 /**
  * Created by guilherme.mota on 17/01/2018.

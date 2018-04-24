@@ -5,19 +5,19 @@ import android.content.Intent
 import android.net.Uri
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.authentication.models.LoginAuthResponseModel
-import kws.superawesome.tv.kwssdk.base.internal.SDKException
-import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
-import kws.superawesome.tv.kwssdk.base.internal.TokenData
-import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
 import kws.superawesome.tv.kwssdk.base.authentication.requests.OAuthUserTokenRequest
-import kws.superawesome.tv.kwssdk.base.authentication.web_auth.WebAuthController
 import kws.superawesome.tv.kwssdk.base.authentication.web_auth.OAuthCodeTask
-import tv.superawesome.protobufs.features.auth.ISingleSignOnService
-import tv.superawesome.protobufs.models.auth.ILoggedUserModel
-import tv.superawesome.samobilebase.Result
+import kws.superawesome.tv.kwssdk.base.authentication.web_auth.WebAuthController
+import kws.superawesome.tv.kwssdk.base.common.services.AbstractService
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
+import kws.superawesome.tv.kwssdk.base.internal.SDKException
+import kws.superawesome.tv.kwssdk.base.internal.TokenData
+import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
+import tv.superawesome.protobufs.authentication.services.ISingleSignOnService
+import tv.superawesome.samobilebase.base64.ParseBase64Task
+import tv.superawesome.samobilebase.common.result.Result
+import tv.superawesome.samobilebase.json.ParseJsonTask
 import tv.superawesome.samobilebase.network.NetworkTask
-import tv.superawesome.samobilebase.parsebase64.ParseBase64Task
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask
 
 /**
  * Created by guilherme.mota on 26/01/2018.

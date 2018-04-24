@@ -70,7 +70,7 @@ public class TestUserService_UpdateUserDetails extends TestUserService {
         details.put("lastName", "Droid");
 
         HashMap<String, Object> addressMap = new HashMap<>();
-        addressMap.put("","");
+        addressMap.put("", "");
         details.put("address", addressMap);
 
 

@@ -1,6 +1,6 @@
 package kws.superawesome.tv.kwssdk.base.internal
 
-import tv.superawesome.protobufs.models.auth.ILoggedUserModel
+import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
 
 /**
  * Created by guilherme.mota on 08/12/2017.
