@@ -14,11 +14,11 @@ class WebAuthController: Activity() {
         super.onCreate(savedInstanceState)
 
         //
-        // get the current intent
+        // getService the current intent
         val intent = intent
 
         //
-        // get the action
+        // getService the action
         val action = try {
             intent.action
         } catch (e: Exception) {
@@ -26,7 +26,7 @@ class WebAuthController: Activity() {
         }
 
         //
-        // get the data
+        // getService the data
         val data = try {
             intent.data
         } catch (e: Exception) {
@@ -34,7 +34,7 @@ class WebAuthController: Activity() {
         }
 
         //
-        // get the scheme
+        // getService the scheme
         val scheme = try {
             data?.scheme
         } catch (e: Exception) {
@@ -42,7 +42,7 @@ class WebAuthController: Activity() {
         }
 
         //
-        // get the package name
+        // getService the package name
         val packName = packageName
 
         //
@@ -55,11 +55,11 @@ class WebAuthController: Activity() {
         if (data != null && action != null && scheme != null && action == Intent.ACTION_VIEW && scheme == packName) {
 
             //
-            // get the fragment (data as a string)
+            // getService the fragment (data as a string)
             val dataString = intent.dataString
 
             //
-            // get the actual token
+            // getService the actual token
             val parts = try {
                 TextUtils.split(dataString, "=")
             } catch (e: Exception) {

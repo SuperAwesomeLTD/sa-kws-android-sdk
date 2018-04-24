@@ -91,7 +91,7 @@ public class KWSGetAccessTokenCreate extends KWSService {
 
     @Override
     public void execute(Context context, KWSServiceResponseInterface listener) {
-        // get listener
+        // getService listener
         this.listener = listener != null ? (KWSGetAccessTokenCreateInterface) listener : this.listener;
 
         // create endpoint
@@ -148,7 +148,7 @@ public class KWSGetAccessTokenCreate extends KWSService {
                     in = new InputStreamReader(conn.getInputStream());
                 }
 
-                // get response
+                // getService response
                 String line;
                 response = "";
                 BufferedReader reader = new BufferedReader(in);
@@ -192,7 +192,7 @@ public class KWSGetAccessTokenCreate extends KWSService {
 /**
  * This private class hold the important details needed when receiving a network saDidGetResponse from
  * a remote server: the HTTP request status (200, 201, 400, 404, etc) and a string saDidGetResponse
- * that will get parsed subsequently.
+ * that will getService parsed subsequently.
  */
 class SANetworkResult {
 

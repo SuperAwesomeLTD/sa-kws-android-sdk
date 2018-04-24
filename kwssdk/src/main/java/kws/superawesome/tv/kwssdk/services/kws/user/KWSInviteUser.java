@@ -41,10 +41,10 @@ public class KWSInviteUser extends KWSService {
     }
 
     public void execute(Context context, String emailAddress, KWSServiceResponseInterface listener) {
-        // get vars
+        // getService vars
         this.emailAddress = emailAddress;
 
-        // get listener
+        // getService listener
         this.listener = listener != null ? (KWSChildrenInviteUserInterface) listener : new KWSChildrenInviteUserInterface() { @Override public void didInviteUser(boolean success) {}};
 
         // check params

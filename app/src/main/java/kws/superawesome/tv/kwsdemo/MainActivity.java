@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
 //
-//        // get text view
+//        // getService text view
 //        logView = (TextView) findViewById(R.id.TextLogs);
 //        logView.setMovementMethod(new ScrollingMovementMethod());
 //        createUser = (Button) findViewById(R.id.CreateUser);
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
 //                        break;
 //                    }
 //                    case FirebaseCouldNotGetToken: {
-//                        log += "Firebase could not get token\n";
+//                        log += "Firebase could not getService token\n";
 //                        break;
 //                    }
 //                    case NetworkError: {
@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
 //                    log += "Got user details for " + user.username + "\n";
 //                    logView.setText(log);
 //                } else {
-//                    log += "Failed to get user details\n";
+//                    log += "Failed to getService user details\n";
 //                    logView.setText(log);
 //                }
 //            }
@@ -420,7 +420,7 @@ public class MainActivity extends AppCompatActivity {
 //        KWSChildren.sdk.getScore(this, new KWSChildrenGetScoreInterface() {
 //            @Override
 //            public void didGetScore(KWSScore score) {
-//                log += score != null ? "Rank: " + score.rank + " ScoreModel: " + score.score + "\n" : "Could not get score\n";
+//                log += score != null ? "Rank: " + score.rank + " ScoreModel: " + score.score + "\n" : "Could not getService score\n";
 //                logView.setText(log);
 //                if (score != null) {
 //                    Log.d(TAG, score.writeToJson().toString());

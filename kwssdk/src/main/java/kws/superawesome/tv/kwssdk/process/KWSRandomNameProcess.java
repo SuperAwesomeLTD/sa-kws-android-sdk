@@ -27,7 +27,7 @@ public class KWSRandomNameProcess {
                 // if the config is returned valid
                 if (config != null) {
 
-                    // finally get the random name
+                    // finally getService the random name
                     randomName.execute(context, config.id, listener);
 
                 }

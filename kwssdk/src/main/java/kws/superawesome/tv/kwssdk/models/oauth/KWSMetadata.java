@@ -113,14 +113,14 @@ public class KWSMetadata extends SABaseObject implements Parcelable {
 
     public static KWSMetadata processMetadata(String  oauthToken) {
 
-        // get token
+        // getService token
         if (oauthToken == null) return null;
         String[] components = oauthToken.split("\\.");
         String tokenO = null;
         if (components.length >= 2) tokenO = components[1];
         if (tokenO == null) return null;
 
-        // get JSON from base64 data
+        // getService JSON from base64 data
         byte[] data;
         try {
             data = Base64.decode(tokenO, Base64.DEFAULT);

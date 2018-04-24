@@ -24,7 +24,7 @@ public class KWSAuthUserProcess {
                      final String password,
                      KWSChildrenLoginUserInterface listener)
     {
-        // get vars
+        // getService vars
         this.listener = listener != null ? listener : this.listener;
         final boolean usernameValid = validateUsername(username);
         boolean passwordValid = validatePassword(password);
@@ -39,7 +39,7 @@ public class KWSAuthUserProcess {
             return;
         }
 
-        // get access token
+        // getService access token
         authUser.execute(context, username, password, new KWSAuthUserInterface() {
             @Override
             public void authUser(int status, KWSLoggedUser loggedUser) {

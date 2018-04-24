@@ -35,7 +35,7 @@ public class TestAuthService extends TestBaseService {
         //when
         // init class to test
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(IAuthService.class);
+        service = sdk.getService(IAuthService.class);
 
     }
 

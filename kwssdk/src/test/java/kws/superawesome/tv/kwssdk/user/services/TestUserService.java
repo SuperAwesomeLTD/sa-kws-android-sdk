@@ -39,7 +39,7 @@ public class TestUserService extends TestBaseService {
         // init class to test
         // init class to test
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(IUserService.class);
+        service = sdk.getService(IUserService.class);
 
 
     }

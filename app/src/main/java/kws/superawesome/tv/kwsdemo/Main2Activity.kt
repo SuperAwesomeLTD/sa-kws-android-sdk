@@ -3,20 +3,57 @@ package kws.superawesome.tv.kwsdemo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import kws.superawesome.tv.kwsdemo.environments.DemoEnvironments
+import kws.superawesome.tv.kwssdk.base.ComplianceSDK
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
+import kws.superawesome.tv.kwssdk.base.UtilsHelper
+import kws.superawesome.tv.kwssdk.base.common.models.error.ErrorWrapperModel
+import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
+import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
+import tv.superawesome.protobufs.authentication.services.IAuthService
+import tv.superawesome.protobufs.authentication.services.ISingleSignOnService
+import tv.superawesome.protobufs.session.services.ISessionService
+import java.util.*
 
 
 class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
+    //environment for SDK
     lateinit var kEnvironment: NetworkEnvironment
+
+    //text display
+    lateinit var kLogText: TextView
+    val kErrorServiceText = "\nOoh uh!! Internal issue with Services\n"
+    var stringBuilder = StringBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //set text var
+        kLogText = findViewById(R.id.TextLogs)
+
+        //set environment
         kEnvironment = DemoEnvironments()
 
+        //set click listeners
+        (findViewById<Button>(R.id.OAuth)).setOnClickListener(this)
+        (findViewById<Button>(R.id.CreateUser)).setOnClickListener(this)
+        (findViewById<Button>(R.id.Login)).setOnClickListener(this)
+        (findViewById<Button>(R.id.Logout)).setOnClickListener(this)
+        (findViewById<Button>(R.id.RandomName)).setOnClickListener(this)
+        (findViewById<Button>(R.id.SetAppData)).setOnClickListener(this)
+        (findViewById<Button>(R.id.GetAppData)).setOnClickListener(this)
+        (findViewById<Button>(R.id.InviteUser)).setOnClickListener(this)
+        (findViewById<Button>(R.id.RequestPermissions)).setOnClickListener(this)
+        (findViewById<Button>(R.id.TriggerEvent)).setOnClickListener(this)
+        (findViewById<Button>(R.id.CheckEventWithId)).setOnClickListener(this)
+        (findViewById<Button>(R.id.GetUser)).setOnClickListener(this)
+        (findViewById<Button>(R.id.UpdateUser)).setOnClickListener(this)
+        (findViewById<Button>(R.id.GetLeaderBoard)).setOnClickListener(this)
+        (findViewById<Button>(R.id.GetScore)).setOnClickListener(this)
 
     }
 
@@ -47,34 +84,132 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         //scoring
             R.id.GetLeaderBoard -> getLeaderboard()
             R.id.GetScore -> getScore()
-
-        //notifications
-            R.id.CheckIfRegistered -> checkIfUserRegistered()
-            R.id.UnregisterUser -> unregisterUser()
-            R.id.RegisterUser -> registerUser()
         }
+    }
+
+    //HELPER METHODS  ::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    private fun updateText(text: String) {
+        kLogText.append(text)
+        stringBuilder.setLength(0)
+        kLogText.movementMethod
+    }
+
+    private fun getRandomNumber(min: Int, max: Int): Int {
+        val random = Random()
+        return random.nextInt(max - min) + min
 
     }
+
+    private fun defaultErrorServiceMessage() {
+        stringBuilder.append(kErrorServiceText)
+        updateText(stringBuilder.toString())
+    }
+    //END OF HELPER METHODS ::::::::::::::::::::::::::::::::::::::::::::::
 
     private fun oAuthFlow() {
 
+        val sdk = ComplianceSDK(kEnvironment)
+        val singleSignOnService = sdk.getService(type = ISingleSignOnService::class.java)
+
+        val url = (kEnvironment as DemoEnvironments).singleSignOn
+
+        singleSignOnService?.signOn(url = url, parent = this) { responseModel, error ->
+
+            if (responseModel != null) {
+                stringBuilder.append("\nThe OAuth was success! The UserId is ${responseModel.id} \n")
+            } else {
+                val errorWrapperModel = error as ErrorWrapperModel
+                when {
+                    errorWrapperModel.message != null -> stringBuilder.append("\nThe OAuth was NOT success '${errorWrapperModel.message}'\n")
+                    errorWrapperModel.error != null -> stringBuilder.append("\nThe OAuth was NOT success: '${errorWrapperModel.error}'\n")
+                    else -> stringBuilder.append("\nThe OAuth was NOT success...\n")
+                }
+            }
+            //update text
+            updateText(stringBuilder.toString())
+
+        } ?: run {
+            defaultErrorServiceMessage()
+        }
     }
 
     private fun createNewUser() {
-        //todo
+
+        val randomNumber = getRandomNumber(0, 1000)
+        val username = "randomtestusr$randomNumber"
+        val password = "testtest"
+        val dob = "2012-02-02"
+        val country = "US"
+        val parentEmail = "mobile.dev.test@superawesome.tv"
+
+        val sdk = ComplianceSDK(kEnvironment)
+        val authService = sdk.getService(type = IAuthService::class.java)
+
+        authService?.createUser(username = username, password = password, timeZone = null, dateOfBirth = dob, country = country, parentEmail = parentEmail) { responseModel, error ->
+
+            if (responseModel != null) {
+                stringBuilder.append("\nThe Create User was success with\nUsername: '$username'\nPassword: '$password'\n The new user's ID is ${responseModel.id} \n")
+                saveUser(responseModel)
+            } else {
+                val errorWrapperModel = error as ErrorWrapperModel
+                when {
+                    errorWrapperModel.message != null -> stringBuilder.append("\nThe Create User was NOT success '${errorWrapperModel.message}'\n")
+                    errorWrapperModel.error != null -> stringBuilder.append("\nThe Create User was NOT success: '${errorWrapperModel.error}'\n")
+                    else -> stringBuilder.append("\nThe Create User was NOT success...\n")
+                }
+            }
+
+            //update text
+            updateText(stringBuilder.toString())
+
+        } ?: run {
+            defaultErrorServiceMessage()
+        }
     }
 
     private fun loginUser() {
 
-    }
+        val username = "randomtestuser123"
+        val password = "testtest"
 
-    private fun logoutUser() {
-        //todo
-    }
+        val sdk = ComplianceSDK(kEnvironment)
+        val authService = sdk.getService(type = IAuthService::class.java)
 
-    //Notifications
+        authService?.loginUser(username = username, password = password) { responseModel, error ->
+
+            if (responseModel != null) {
+                saveUser(responseModel)
+                UtilsHelper.getMetadataFromToken(responseModel.token)?.let{
+                    stringBuilder.append("\nThe Login User was success with\nUsername: '$username'\nPassword: '$password'\n This ID is ${it.userId} \n")
+                } ?: run {
+                    stringBuilder.append("\nGot a user, but something went wrong parsing the token...\n")
+                }
+            } else {
+                val errorWrapperModel = error as ErrorWrapperModel
+                when {
+                    errorWrapperModel.message != null -> stringBuilder.append("\nThe Login User was NOT success '${errorWrapperModel.message}'\n")
+                    errorWrapperModel.error != null -> stringBuilder.append("\nThe Login User was NOT success: '${errorWrapperModel.error}'\n")
+                    else -> stringBuilder.append("\nThe Login User was NOT success...\n")
+                }
+            }
+            //update text
+            updateText(stringBuilder.toString())
+
+        } ?: run {
+            defaultErrorServiceMessage()
+        }
+    }
 
     private fun randomUsername() {
+
+        getLoggedUser()?.let {
+
+            updateText("\nUser cached: ${it.toString()}\n")
+
+        } ?: run {
+            updateText("\nNo valid user!\n")
+        }
     }
 
     private fun setAppData() {
@@ -118,11 +253,59 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    //TODO WIP
-    private fun checkIfUserRegistered() {}
 
-    private fun unregisterUser() {}
-    private fun registerUser() {}
+    //SESSION SERVICES
+    private fun saveUser(user: ILoggedUserModel) {
+
+        val sdk = ComplianceSDK(kEnvironment)
+        val authService = sdk.getService(type = ISessionService::class.java)
+
+        authService?.let {
+            val success = it.saveLoggedUser(this, user)
+
+            if (success) {
+                stringBuilder.append("\nSuccess caching user!!\n")
+            } else {
+                stringBuilder.append("\nFailed caching user...\n")
+            }
+        } ?: run {
+            defaultErrorServiceMessage()
+        }
+    }
 
 
+    private fun getLoggedUser(): LoggedUserModel? {
+
+        val sdk = ComplianceSDK(kEnvironment)
+        val authService = sdk.getService(type = ISessionService::class.java)
+
+        authService?.let {
+            return it.getCurrentUser(this) as LoggedUserModel?
+        } ?: run {
+            defaultErrorServiceMessage()
+            return null
+        }
+    }
+
+    private fun logoutUser() {
+
+        val sdk = ComplianceSDK(kEnvironment)
+        val authService = sdk.getService(type = ISessionService::class.java)
+
+        authService?.let {
+
+            //clear user
+            it.clearLoggedUser(this)
+
+            //try and get a cached user
+            getLoggedUser()?.let {
+                //if it exists, we failed to clear it
+                stringBuilder.append("\nFailed clearing user...\n")
+            } ?: run {
+                stringBuilder.append("\nUser cleared!\n")
+            }
+        } ?: run {
+            defaultErrorServiceMessage()
+        }
+    }
 }

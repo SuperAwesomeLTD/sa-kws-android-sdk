@@ -35,7 +35,7 @@ public class TestScoringService extends TestBaseService {
         //then
         // init class to test
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(IScoringService.class);
+        service = sdk.getService(IScoringService.class);
 
     }
 

@@ -38,7 +38,7 @@ public class KWSCreateUserProcess {
                         final KWSChildrenCreateUserInterface listener)
     {
 
-        // get a proper callback
+        // getService a proper callback
         this.listener = listener != null ? listener : this.listener;
 
         // validate stuff
@@ -73,14 +73,14 @@ public class KWSCreateUserProcess {
             return;
         }
 
-        // get access token
+        // getService access token
         getAccessTokenCreate.execute(context, new KWSGetAccessTokenCreateInterface() {
             @Override
             public void gotToken(final KWSAccessToken accessToken) {
 
                 if (accessToken != null) {
 
-                    // get app id info mainly from the previous temporary access token
+                    // getService app id info mainly from the previous temporary access token
                     KWSMetadata metadata = KWSMetadata.processMetadata(accessToken.access_token);
 
                     // handle error

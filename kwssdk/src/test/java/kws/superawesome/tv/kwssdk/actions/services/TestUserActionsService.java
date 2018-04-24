@@ -42,7 +42,7 @@ public class TestUserActionsService extends TestBaseService {
         //when
         // init class to test
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(IUserActionsService.class);
+        service = sdk.getService(IUserActionsService.class);
 
 
     }

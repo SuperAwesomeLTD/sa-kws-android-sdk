@@ -89,10 +89,10 @@ dependencies {
     implementation 'tv.superawesome.lib.sautils:sautils:0.3.5'
 
     // SuperAwesome base library
-    implementation 'tv.superawesome.samobilebase:samobilebase:2.1.5'
+    api 'tv.superawesome.samobilebase:samobilebase:2.1.5'
 
     // SuperAwesome Protobufs
-    implementation 'tv.superawesome.protobufs:protobufs:1.5.7'
+    api 'tv.superawesome.protobufs:protobufs:1.5.7'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

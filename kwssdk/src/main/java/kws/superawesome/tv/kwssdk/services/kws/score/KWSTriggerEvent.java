@@ -49,11 +49,11 @@ public class KWSTriggerEvent extends KWSService{
     }
 
     public void execute(Context context, String token, int points, KWSServiceResponseInterface listener) {
-        // get vars
+        // getService vars
         this.evtToken = token;
         this.evtPoints = points;
 
-        // get listener
+        // getService listener
         this.listener = listener != null ? (KWSChildrenTriggerEventInterface) listener : new KWSChildrenTriggerEventInterface() { public void didTriggerEvent(boolean success) {}};
 
         // execute

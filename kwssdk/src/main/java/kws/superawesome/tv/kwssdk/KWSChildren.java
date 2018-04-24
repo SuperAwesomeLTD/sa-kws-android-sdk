@@ -172,7 +172,7 @@ public class KWSChildren {
             }
         };
 
-        // get preferences
+        // getService preferences
         preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
 
         if (preferences.contains(LOGGED_USER_KEY)) {
@@ -207,7 +207,7 @@ public class KWSChildren {
     public void createUser(final Context context, String username, String password, String dateOfBirth, String country, String parentEmail, @NotNull final KWSChildrenCreateUserInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IAuthService authService = factory.get(IAuthService.class);
+        IAuthService authService = factory.getService(IAuthService.class);
 
         if (authService != null) {
             authService.createUser(username, password, null, dateOfBirth, country, parentEmail,
@@ -241,7 +241,7 @@ public class KWSChildren {
     public void loginUser(final Context context, String username, String password, @NotNull final KWSChildrenLoginUserInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IAuthService authService = factory.get(IAuthService.class);
+        IAuthService authService = factory.getService(IAuthService.class);
 
         if (authService != null) {
             authService.loginUser(username, password, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -274,7 +274,7 @@ public class KWSChildren {
     public void authWithSingleSignOnUrl(final Context context, String singleSignOnUrl, Activity parent, @NotNull final KWSChildrenLoginUserInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        ISingleSignOnService singleSignOnService = factory.get(ISingleSignOnService.class);
+        ISingleSignOnService singleSignOnService = factory.getService(ISingleSignOnService.class);
 
         if (singleSignOnService != null) {
             singleSignOnService.signOn(singleSignOnUrl, parent, new Function2<ILoggedUserModel, Throwable, Unit>() {
@@ -302,7 +302,7 @@ public class KWSChildren {
         setLoggedUser(emptyUser, context);
 
         /**Here for legacy**/
-        // get preferences
+        // getService preferences
         preferences = context.getSharedPreferences(LOGGED_USER_KEY, 0);
         this.loggedUser = null;
         if (preferences.contains(LOGGED_USER_KEY)) {
@@ -315,7 +315,7 @@ public class KWSChildren {
 
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUsernameService usernameService = factory.get(IUsernameService.class);
+        IUsernameService usernameService = factory.getService(IUsernameService.class);
 
         if (usernameService != null) {
 
@@ -343,7 +343,7 @@ public class KWSChildren {
     public void getUser(Context context, @NotNull final KWSChildrenGetUserInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserService userService = factory.get(IUserService.class);
+        IUserService userService = factory.getService(IUserService.class);
 
         if (userService != null) {
 
@@ -485,7 +485,7 @@ public class KWSChildren {
     public void updateUser(Context context, Map<String, Object> details, @NotNull final KWSChildrenUpdateUserInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserService userService = factory.get(IUserService.class);
+        IUserService userService = factory.getService(IUserService.class);
 
         if (userService != null) {
 
@@ -520,7 +520,7 @@ public class KWSChildren {
         details.put("parentEmail", email);
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserService userService = factory.get(IUserService.class);
+        IUserService userService = factory.getService(IUserService.class);
 
         if (userService != null) {
 
@@ -551,7 +551,7 @@ public class KWSChildren {
     public void requestPermission(Context context, KWSChildrenPermissionType[] requestedPermissions, @NotNull final KWSChildrenRequestPermissionInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
 
         if (userActionsService != null) {
 
@@ -600,7 +600,7 @@ public class KWSChildren {
     public void inviteUser(Context context, String emailAddress, @NotNull final KWSChildrenInviteUserInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
 
         if (userActionsService != null) {
 
@@ -633,7 +633,7 @@ public class KWSChildren {
     public void triggerEvent(Context context, String token, int points, @NotNull final KWSChildrenTriggerEventInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
 
         if (userActionsService != null) {
 
@@ -665,7 +665,7 @@ public class KWSChildren {
     public void hasTriggeredEvent(Context context, int eventId, @NotNull final KWSChildrenHasTriggeredEventInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
 
         if (userActionsService != null) {
 
@@ -700,7 +700,7 @@ public class KWSChildren {
     public void getScore(Context context, @NotNull final KWSChildrenGetScoreInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IScoringService scoringService = factory.get(IScoringService.class);
+        IScoringService scoringService = factory.getService(IScoringService.class);
 
         if (scoringService != null) {
 
@@ -745,7 +745,7 @@ public class KWSChildren {
     public void getLeaderboard(Context context, @NotNull final KWSChildrenGetLeaderboardInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IScoringService scoringService = factory.get(IScoringService.class);
+        IScoringService scoringService = factory.getService(IScoringService.class);
 
         if (scoringService != null) {
 
@@ -804,7 +804,7 @@ public class KWSChildren {
     public void getAppData(Context context, @NotNull final KWSChildrenGetAppDataInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
 
         if (userActionsService != null) {
 
@@ -862,7 +862,7 @@ public class KWSChildren {
     public void setAppData(Context context, int value, String name, @NotNull final KWSChildrenSetAppDataInterface listener) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        IUserActionsService userActionsService = factory.get(IUserActionsService.class);
+        IUserActionsService userActionsService = factory.getService(IUserActionsService.class);
 
         if (userActionsService != null) {
 
@@ -1062,7 +1062,7 @@ public class KWSChildren {
     public LoggedUserModel getLoggedUser(final Context context) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        ISessionService sessionService = factory.get(ISessionService.class);
+        ISessionService sessionService = factory.getService(ISessionService.class);
 
         if (sessionService != null) {
             return (LoggedUserModel) sessionService.getCurrentUser(context);
@@ -1075,7 +1075,7 @@ public class KWSChildren {
     public void setLoggedUser(ILoggedUserModel loggedUser, Context context) {
 
         ComplianceSDK factory = new ComplianceSDK(kwsEnvironment);
-        ISessionService sessionService = factory.get(ISessionService.class);
+        ISessionService sessionService = factory.getService(ISessionService.class);
 
         if (sessionService != null) {
             sessionService.saveLoggedUser(context, loggedUser);

@@ -56,7 +56,7 @@ public class KWSParentEmail extends KWSService {
         KWSChildrenUpdateParentEmailInterface local = new KWSChildrenUpdateParentEmailInterface() {public void didUpdateParentEmail(KWSChildrenUpdateParentEmailStatus status) {}};
         this.listener = listener != null ? (KWSChildrenUpdateParentEmailInterface) listener : local;
 
-        // get param and correct type
+        // getService param and correct type
         if (param instanceof String) {
             emailToSubmit = (String)param;
         }  else {

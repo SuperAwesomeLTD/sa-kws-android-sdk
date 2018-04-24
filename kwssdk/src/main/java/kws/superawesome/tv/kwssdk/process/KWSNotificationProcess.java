@@ -84,13 +84,13 @@ public class KWSNotificationProcess {
                                     @Override
                                     public void gotToken(boolean success, final String token) {
 
-                                        // 3.1 - in this case, Firebase could not get a token
+                                        // 3.1 - in this case, Firebase could not getService a token
                                         if (!success) {
                                             listener.didRegisterForRemoteNotifications(KWSChildrenRegisterForRemoteNotificationsStatus.FirebaseCouldNotGetToken);
                                             return;
                                         }
 
-                                        // 3.2 - if finally I can get a token, registerForRemoteNotifications it with KWSChildren
+                                        // 3.2 - if finally I can getService a token, registerForRemoteNotifications it with KWSChildren
                                         registerToken.execute(context, token, new KWSRegisterTokenInterface() {
                                             @Override
                                             public void registered(boolean success) {
@@ -134,7 +134,7 @@ public class KWSNotificationProcess {
         KWSChildrenUnregisterForRemoteNotificationsInterface local = new KWSChildrenUnregisterForRemoteNotificationsInterface() {public void didUnregisterForRemoteNotifications(boolean unregistered) {}};
         final KWSChildrenUnregisterForRemoteNotificationsInterface listener = lis != null ? lis : local;
 
-        // get current token
+        // getService current token
         String token = getToken.getSavedToken();
 
         // unregisterForRemoteNotifications current token with KWSChildren

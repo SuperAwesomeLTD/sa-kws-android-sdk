@@ -32,7 +32,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     public void setup() throws Throwable {
         super.setup();
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(ISessionService.class);
+        service = sdk.getService(ISessionService.class);
     }
 
     @Test

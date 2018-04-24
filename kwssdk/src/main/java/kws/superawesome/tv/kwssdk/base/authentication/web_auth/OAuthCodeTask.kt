@@ -66,8 +66,8 @@ class OAuthCodeTask : ITask<Any?, OAuthData> {
             md.update(input, 0, input.size)
             signature = md.digest()
         } catch (e: NoSuchAlgorithmException) {
-            Log.e(TAG, "Failed to get SHA-256 signature", e)
-            throw IllegalStateException("Failed to get SHA-256 signature", e)
+            Log.e(TAG, "Failed to getService SHA-256 signature", e)
+            throw IllegalStateException("Failed to getService SHA-256 signature", e)
         }
 
         return signature

@@ -9,5 +9,5 @@ import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
 data class LoginAuthResponseModel(@SerializedName("access_token")
                                   override val token: String,
 
-        //we get it from the token, not directly from response like in create user
+        //we getService it from the token, not directly from response like in create user
                                   override val id: Int) : ILoggedUserModel

@@ -116,7 +116,7 @@ class MockServer extends MockAbstractWebServer {
             }
 
             //
-            // for login && for get temp access token (same endpoint)
+            // for login && for getService temp access token (same endpoint)
             case "POST /oauth/token HTTP/1.1": {
                 body = request.getBody().readUtf8();
                 try {
@@ -182,7 +182,7 @@ class MockServer extends MockAbstractWebServer {
                 }
             }
             //
-            // get app config
+            // getService app config
             case "GET /v1/apps/config?oauthClientId=bad_client_id HTTP/1.1": {
                 return responseFromResource("mock_generic_event_not_found_response.json", 404);
             }
@@ -190,7 +190,7 @@ class MockServer extends MockAbstractWebServer {
                 return responseFromResource("mock_get_app_config_success_response.json");
             }
             //
-            // get random username
+            // getService random username
             case "GET /v2/apps/0/random-display-name HTTP/1.1": {
                 return responseFromResource("mock_generic_simpler_not_found_response.json", 404);
             }
@@ -199,7 +199,7 @@ class MockServer extends MockAbstractWebServer {
 
             }
             //
-            // get user details
+            // getService user details
             case "GET /v1/users/0 HTTP/1.1": {
                 return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 404);
             }
@@ -280,7 +280,7 @@ class MockServer extends MockAbstractWebServer {
                 }
             }
             //
-            // get user score
+            // getService user score
             case "GET /v1/apps/0/score HTTP/1.1": {
                 return responseFromResource("mock_generic_operation_not_supported_for_client_response.json", 403);
             }
@@ -359,13 +359,13 @@ class MockServer extends MockAbstractWebServer {
 
         String valueToReturn = null;
 
-        //get list for given key
+        //getService list for given key
         List<String> listOfItemsForKey = stringListMap.get(value);
 
         //if the list has elems and not empty
         if (listOfItemsForKey != null
                 && !listOfItemsForKey.isEmpty()) {
-            //get the first elem to get our value to return
+            //getService the first elem to getService our value to return
             valueToReturn = listOfItemsForKey.get(0);
         }
 
