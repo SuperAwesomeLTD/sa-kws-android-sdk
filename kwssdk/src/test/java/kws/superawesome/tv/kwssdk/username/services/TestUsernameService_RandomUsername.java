@@ -52,14 +52,14 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
         NetworkEnvironment goodNetworkEnvironment = new NetworkEnvironment() {
             @NotNull
             @Override
-            public String getAppID() {
+            public String getClientID() {
                 return goodClientId;
             }
 
             @NotNull
             @Override
-            public String getMobileKey() {
-                return environment.getMobileKey();
+            public String getClientSecret() {
+                return environment.getClientSecret();
             }
 
             @NotNull
@@ -93,14 +93,14 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
         NetworkEnvironment badNetworkEnvironment = new NetworkEnvironment() {
             @NotNull
             @Override
-            public String getAppID() {
+            public String getClientID() {
                 return badClientId;
             }
 
             @NotNull
             @Override
-            public String getMobileKey() {
-                return environment.getMobileKey();
+            public String getClientSecret() {
+                return environment.getClientSecret();
             }
 
             @NotNull

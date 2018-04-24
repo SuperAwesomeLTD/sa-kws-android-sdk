@@ -155,13 +155,13 @@ public class KWSChildren {
         this.kwsEnvironment = new NetworkEnvironment() {
             @NotNull
             @Override
-            public String getAppID() {
+            public String getClientID() {
                 return clientId;
             }
 
             @NotNull
             @Override
-            public String getMobileKey() {
+            public String getClientSecret() {
                 return clientSecret;
             }
 

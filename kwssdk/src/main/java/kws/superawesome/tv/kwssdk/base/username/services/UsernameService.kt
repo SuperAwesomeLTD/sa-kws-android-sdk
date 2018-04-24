@@ -27,7 +27,7 @@ constructor(override val environment: NetworkEnvironment,
 
         val appConfigNetworkRequest = AppConfigRequest(
                 environment = environment,
-                clientID = environment.appID
+                clientID = environment.clientID
         )
 
         val parseTask = ParseJsonTask(AppConfigWrapperModel::class.java)

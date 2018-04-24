@@ -31,8 +31,8 @@ constructor(override val environment: NetworkEnvironment,
                 environment = environment,
                 username = username,
                 password = password,
-                clientID = environment.appID,
-                clientSecret = environment.mobileKey)
+                clientID = environment.clientID,
+                clientSecret = environment.clientSecret)
 
         val parseTask = ParseJsonTask(type = LoginAuthResponseModel::class.java)
         val future = networkTask.execute(input = loginUserNetworkRequest)
@@ -63,8 +63,8 @@ constructor(override val environment: NetworkEnvironment,
 
         val getTempAccessTokenNetworkRequest = TempAccessTokenRequest(
                 environment = environment,
-                clientID = environment.appID,
-                clientSecret = environment.mobileKey)
+                clientID = environment.clientID,
+                clientSecret = environment.clientSecret)
 
         val parseTask = ParseJsonTask(LoginAuthResponseModel::class.java)
         val future = networkTask

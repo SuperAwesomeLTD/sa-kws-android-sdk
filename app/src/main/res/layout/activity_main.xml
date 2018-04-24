@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="kws.superawesome.tv.kwsdemo.MainActivity">
+    tools:context="kws.superawesome.tv.kwsdemo.Main2Activity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,31 +15,30 @@
         <Button
             android:id="@+id/CreateUser"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Create new user"
-            android:onClick="createNewUser"/>
+            android:layout_weight="1"
+            android:text="Create new user" />
 
         <Button
+            android:id="@+id/Login"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Login"
-            android:onClick="loginUser"/>
+            android:layout_weight="1"
+            android:text="Login" />
 
         <Button
+            android:id="@+id/OAuth"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Auth"
-            android:onClick="authUser"/>
+            android:layout_weight="1"
+            android:text="Auth" />
 
         <Button
+            android:id="@+id/Logout"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Logout"
-            android:onClick="logoutUser"/>
+            android:layout_weight="1"
+            android:text="Logout" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,48 +49,45 @@
         <Button
             android:id="@+id/RandomName"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Rnd name"
-            android:onClick="generateRandomName"
-            android:layout_height="match_parent" />
+
+            android:text="Rnd name" />
 
         <Button
             android:id="@+id/RegisterUser"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Register"
-            android:onClick="registerAction"/>
+            android:layout_weight="1"
+            android:text="Register" />
+
         <Button
             android:id="@+id/UnregisterUser"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="UnRegister"
-            android:onClick="unregisterAction"/>
+            android:layout_weight="1"
+            android:text="UnRegister" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="35dp">
+        android:layout_height="35dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/GetUser"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Get User Details"
-            android:onClick="getUserDetails"/>
+            android:text="Get User Details" />
 
         <Button
             android:id="@+id/UpdateUser"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Update User"
-            android:onClick="updateUserDetails"/>
+            android:text="Update User" />
 
     </LinearLayout>
 
@@ -107,8 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Check if registered"
-            android:onClick="checkRegisteredAction"/>
+            android:text="Check if registered" />
 
     </LinearLayout>
 
@@ -116,8 +109,7 @@
         android:id="@+id/RequestPermissions"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Request some permissions"
-        android:onClick="requestPermissions"/>
+        android:text="Request some permissions" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -127,38 +119,37 @@
         <Button
             android:id="@+id/GetLeaderBoard"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Leaders"
-            android:onClick="getLeaderboard"/>
+            android:layout_weight="1"
+            android:text="Leaders" />
 
         <Button
             android:id="@+id/TriggerEvent"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Trigger Evt"
-            android:onClick="triggerEvent"/>
+            android:layout_weight="1"
+            android:text="Trigger Evt" />
 
         <Button
+            android:id="@+id/GetScore"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Get Score"
-            android:onClick="getScore"/>
+            android:text="Get Score" />
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/InviteUser"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Invite user"
-        android:onClick="inviteUser"/>
+        android:text="Invite user" />
+
     <Button
+        android:id="@+id/CheckEventWithId"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Check evt with ID"
-        android:onClick="checkEvent"/>
+        android:text="Check evt with ID" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -166,17 +157,18 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/SetAppData"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Set App Data"
-            android:onClick="setAppData"/>
+            android:text="Set App Data" />
+
         <Button
+            android:id="@+id/GetAppData"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Get App Data"
-            android:onClick="getAppData"/>
+            android:text="Get App Data" />
 
     </LinearLayout>
 
@@ -187,8 +179,8 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:background="#ffff00"
-        android:singleLine="false"
+        android:maxLines="1000"
         android:scrollbars="vertical"
-        android:maxLines="1000"/>
+        android:singleLine="false" />
 
 </LinearLayout>

@@ -85,13 +85,13 @@ public class TestAuthService_CreateUser extends TestAuthService {
         NetworkEnvironment badEnvironment = new NetworkEnvironment() {
             @NotNull
             @Override
-            public String getAppID() {
+            public String getClientID() {
                 return badClientId;
             }
 
             @NotNull
             @Override
-            public String getMobileKey() {
+            public String getClientSecret() {
                 return badClientSecret;
             }
 

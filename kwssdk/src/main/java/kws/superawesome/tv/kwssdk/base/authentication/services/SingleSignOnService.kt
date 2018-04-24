@@ -62,7 +62,7 @@ constructor(override val environment: NetworkEnvironment,
 
         // TODO("Maybe replace this with a custom Request object")
         val endpoint = "oauth"
-        val clientId = environment.appID
+        val clientId = environment.clientID
         val packageName = parent.packageName
         val url = "$singleSignOnUrl$endpoint?clientId=$clientId&codeChallenge=$codeChallenge&codeChallengeMethod=$codeChallengeMethod&redirectUri=$packageName://"
         val uri = Uri.parse(url)
@@ -85,10 +85,10 @@ constructor(override val environment: NetworkEnvironment,
 
         val oAuthTokenNetworkRequest = OAuthUserTokenRequest(
                 environment = environment,
-                clientID = environment.appID,
+                clientID = environment.clientID,
                 authCode = authCode,
                 codeVerifier = codeVerifier,
-                clientSecret = environment.mobileKey
+                clientSecret = environment.clientSecret
         )
 
         val parseTask = ParseJsonTask(type = LoginAuthResponseModel::class.java)
