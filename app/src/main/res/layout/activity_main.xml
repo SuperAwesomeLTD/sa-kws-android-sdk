@@ -59,16 +59,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:visibility="gone"
-            android:text="Register" />
+            android:text="Register"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/UnregisterUser"
             android:layout_width="0dp"
-            android:visibility="gone"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="UnRegister" />
+            android:text="UnRegister"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -96,16 +96,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/CheckIfRegistered"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:visibility="gone"
             android:layout_weight="1"
-            android:text="Check if registered" />
+            android:text="Check if registered"
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package kws.superawesome.tv.kwsdemo
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -15,6 +16,7 @@ import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
 import tv.superawesome.protobufs.authentication.services.IAuthService
 import tv.superawesome.protobufs.authentication.services.ISingleSignOnService
 import tv.superawesome.protobufs.session.services.ISessionService
+import tv.superawesome.protobufs.usernames.services.IUsernameService
 import java.util.*
 
 
@@ -34,6 +36,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
         //set text var
         kLogText = findViewById(R.id.TextLogs)
+        kLogText.movementMethod = ScrollingMovementMethod()
 
         //set environment
         kEnvironment = DemoEnvironments()
@@ -91,8 +94,18 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
     private fun updateText(text: String) {
         kLogText.append(text)
+
+        //scroll text view
+        val scrollAmount = kLogText.layout.getLineTop(kLogText.lineCount) - kLogText.height;
+        // if there is no need to scroll, scrollAmount will be <=0
+        if (scrollAmount > 0) {
+            kLogText.scrollTo(0, scrollAmount)
+        } else {
+            kLogText.scrollTo(0, 0)
+        }
+
+        //reset string builder
         stringBuilder.setLength(0)
-        kLogText.movementMethod
     }
 
     private fun getRandomNumber(min: Int, max: Int): Int {
@@ -155,6 +168,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
                 val errorWrapperModel = error as ErrorWrapperModel
                 when {
                     errorWrapperModel.message != null -> stringBuilder.append("\nThe Create User was NOT success '${errorWrapperModel.message}'\n")
+                    errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Create User was NOT success '${errorWrapperModel.codeMeaning}'\n")
                     errorWrapperModel.error != null -> stringBuilder.append("\nThe Create User was NOT success: '${errorWrapperModel.error}'\n")
                     else -> stringBuilder.append("\nThe Create User was NOT success...\n")
                 }
@@ -179,16 +193,20 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         authService?.loginUser(username = username, password = password) { responseModel, error ->
 
             if (responseModel != null) {
-                saveUser(responseModel)
-                UtilsHelper.getMetadataFromToken(responseModel.token)?.let{
+
+                //parse the token
+                UtilsHelper.getMetadataFromToken(responseModel.token)?.let {
                     stringBuilder.append("\nThe Login User was success with\nUsername: '$username'\nPassword: '$password'\n This ID is ${it.userId} \n")
                 } ?: run {
                     stringBuilder.append("\nGot a user, but something went wrong parsing the token...\n")
                 }
+
+                //save user
+                saveUser(responseModel)
             } else {
                 val errorWrapperModel = error as ErrorWrapperModel
                 when {
-                    errorWrapperModel.message != null -> stringBuilder.append("\nThe Login User was NOT success '${errorWrapperModel.message}'\n")
+                    errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Login User was NOT success '${errorWrapperModel.codeMeaning}'\n")
                     errorWrapperModel.error != null -> stringBuilder.append("\nThe Login User was NOT success: '${errorWrapperModel.error}'\n")
                     else -> stringBuilder.append("\nThe Login User was NOT success...\n")
                 }
@@ -203,13 +221,27 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
     private fun randomUsername() {
 
-        getLoggedUser()?.let {
+        val sdk = ComplianceSDK(kEnvironment)
+        val usernameService = sdk.getService(IUsernameService::class.java)
 
-            updateText("\nUser cached: ${it.toString()}\n")
+        usernameService?.getRandomUsername { responseModel, error ->
 
+            if (responseModel != null) {
+                stringBuilder.append("\nThe Random Username was success with: '${responseModel.randomUsername}'\n")
+            } else {
+                val errorWrapperModel = error as ErrorWrapperModel
+                when {
+                    errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Random Username was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                    errorWrapperModel.error != null -> stringBuilder.append("\nThe Random Username was NOT success: '${errorWrapperModel.error}'\n")
+                    else -> stringBuilder.append("\nThe Random Username was NOT success...\n")
+                }
+            }
+            //update text
+            updateText(stringBuilder.toString())
         } ?: run {
-            updateText("\nNo valid user!\n")
+            defaultErrorServiceMessage()
         }
+
     }
 
     private fun setAppData() {
