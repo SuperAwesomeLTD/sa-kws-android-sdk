@@ -129,8 +129,8 @@ public class KWSUser extends SABaseObject implements Parcelable {
                 "points", points != null ? points.writeToJson() : null,
                 "applicationPermissions", applicationPermissions != null ? applicationPermissions.writeToJson() : null,
                 "applicationProfile", applicationProfile != null ? applicationProfile.writeToJson() : null,
-                "consentAgeForCountry", applicationProfile != null ? applicationProfile.writeToJson() : null,
-                "isMinor", applicationProfile != null ? applicationProfile.writeToJson() : null
+                "consentAgeForCountry", consentAgeForCountry,
+                "isMinor", isMinor
         });
     }
 
