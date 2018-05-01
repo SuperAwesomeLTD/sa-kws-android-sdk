@@ -16,10 +16,11 @@ import tv.superawesome.protobufs.actions.services.IUserActionsService
 import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
 import tv.superawesome.protobufs.authentication.services.IAuthService
 import tv.superawesome.protobufs.authentication.services.ISingleSignOnService
+import tv.superawesome.protobufs.score.services.IScoringService
 import tv.superawesome.protobufs.session.services.ISessionService
+import tv.superawesome.protobufs.user.services.IUserService
 import tv.superawesome.protobufs.usernames.services.IUsernameService
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class Main2Activity : AppCompatActivity(), View.OnClickListener {
@@ -317,10 +318,10 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
                         for (i in results.indices) {
                             val item = results[i]
-                            stringBuilder.append("\nPosition ${i+1} has:\nName - '${item.name}'\nValue - '${item.value}'\n")
+                            stringBuilder.append("\nPosition ${i + 1} has:\nName - '${item.name}'\nValue - '${item.value}'\n")
                         }
                     } else {
-                        stringBuilder.append("\n...but list of results to show! Set App Data first.")
+                        stringBuilder.append("\n...but no list of results to show! Set App Data first.")
                     }
                 } else {
                     val errorWrapperModel = error as ErrorWrapperModel
@@ -383,7 +384,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         val sdk = ComplianceSDK(kEnvironment)
         val userActionsService = sdk.getService(IUserActionsService::class.java)
 
-        val permissions : List<String>  = listOf("accessEmail","accessAddress")
+        val permissions: List<String> = listOf("accessEmail", "accessAddress")
 
         val cachedUser = getLoggedUser()
         cachedUser?.let {
@@ -396,7 +397,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
                 if (error == null) {
                     stringBuilder.append("\nRequest permissions was success for")
 
-                    for(i in permissions.indices){
+                    for (i in permissions.indices) {
                         stringBuilder.append("\n-'${permissions[i]}'")
                     }
                 } else {
@@ -478,7 +479,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
                         errorWrapperModel.message != null -> stringBuilder.append("\nThe Event Has Triggered was NOT success '${errorWrapperModel.message}'\n")
                         errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Event Has Triggered  was NOT success '${errorWrapperModel.codeMeaning}'\n")
                         errorWrapperModel.error != null -> stringBuilder.append("\nThe Event Has Triggered  was NOT success: '${errorWrapperModel.error}'\n")
-                        else -> stringBuilder.append("\nThe Event Has Triggered  was NOT success...\n")
+                        else -> stringBuilder.append("\nThe Event Has Triggered was NOT success...\n")
                     }
                 }
                 //update text
@@ -493,19 +494,161 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
     private fun getUserDetails() {
 
+        val sdk = ComplianceSDK(kEnvironment)
+        val userService = sdk.getService(IUserService::class.java)
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val token = it.token
+
+            userService?.getUser(userId = userId, token = token) { responseModel, error ->
+
+                if (responseModel != null) {
+                    stringBuilder.append("\nSuccess Get User Details!\nDOB - '${responseModel.dateOfBirth}'\nCreated at - '${responseModel.createdAt}'\n")
+
+                    responseModel.firstName?.let {
+                        stringBuilder.append("First Name - '$it'\n")
+                    }
+
+                    responseModel.lastName?.let {
+                        stringBuilder.append("Last Name - '$it'\n")
+                    }
+
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Get User Details was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Get User Details  was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Get User Details  was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Get User Details was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
     private fun updateUserDetails() {
+        val sdk = ComplianceSDK(kEnvironment)
+        val userService = sdk.getService(IUserService::class.java)
 
+        val details: Map<String, Any> = mapOf(
+                "firstName" to "Droid",
+                "lastName" to "John")
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val token = it.token
+
+            userService?.updateUser(details = details, userId = userId, token = token) { error ->
+
+                if (error == null) {
+                    stringBuilder.append("\nSuccess Update User Details with '$details'\n")
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Update User Details was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Update User Details  was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Update User Details  was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Update User Details was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
     private fun getLeaderboard() {
+        val sdk = ComplianceSDK(kEnvironment)
+        val userService = sdk.getService(IScoringService::class.java)
 
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val token = it.token
+            val appId = it.tokenData.appId
+
+            userService?.getLeaderboard(appId = appId, token = token) { responseModel, error ->
+
+                if (responseModel != null) {
+                    stringBuilder.append("\nSuccess Get Leaderboard...\n")
+
+                    val results = responseModel.results
+                    if (results.isNotEmpty()) {
+
+                        for (i in results.indices) {
+                            val item = results[i]
+                            stringBuilder.append("\nUser - '${item.name}' has:\nScore - '${item.score}'\nRank - '${item.rank}'\n")
+                        }
+                    } else {
+                        stringBuilder.append("\n...but no list of results to show atm!")
+                    }
+
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Get Leaderboard was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Get Leaderboard was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Get Leaderboard was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Get Leaderboard was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
 
     private fun getScore() {
+        val sdk = ComplianceSDK(kEnvironment)
+        val userService = sdk.getService(IScoringService::class.java)
 
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val token = it.token
+            val appId = it.tokenData.appId
+
+            userService?.getScore(appId = appId, token = token) { responseModel, error ->
+
+                if (responseModel != null) {
+                    stringBuilder.append("\nSuccess Get Score with\nRank - '${responseModel.rank}'\n Score - '${responseModel.score}'\n")
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Get Score was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Get Score was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Get Score was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Get Score was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
 
