@@ -12,12 +12,14 @@ import kws.superawesome.tv.kwssdk.base.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.base.UtilsHelper
 import kws.superawesome.tv.kwssdk.base.common.models.error.ErrorWrapperModel
 import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel
+import tv.superawesome.protobufs.actions.services.IUserActionsService
 import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
 import tv.superawesome.protobufs.authentication.services.IAuthService
 import tv.superawesome.protobufs.authentication.services.ISingleSignOnService
 import tv.superawesome.protobufs.session.services.ISessionService
 import tv.superawesome.protobufs.usernames.services.IUsernameService
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Main2Activity : AppCompatActivity(), View.OnClickListener {
@@ -27,7 +29,8 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
     //text display
     lateinit var kLogText: TextView
-    val kErrorServiceText = "\nOoh uh!! Internal issue with Services\n"
+    private val kErrorServiceText = "\nOoh uh!! Internal issue with Services\n"
+    private val kNoValidUserCached = "\nOops! No valid user cached...\n"
     var stringBuilder = StringBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,6 +121,11 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
         stringBuilder.append(kErrorServiceText)
         updateText(stringBuilder.toString())
     }
+
+    private fun defaultNoValidUserCachedMessage() {
+        stringBuilder.append(kNoValidUserCached)
+        updateText(stringBuilder.toString())
+    }
     //END OF HELPER METHODS ::::::::::::::::::::::::::::::::::::::::::::::
 
     private fun oAuthFlow() {
@@ -131,10 +139,12 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
             if (responseModel != null) {
                 stringBuilder.append("\nThe OAuth was success! The UserId is ${responseModel.id} \n")
+                saveUser(responseModel)
             } else {
                 val errorWrapperModel = error as ErrorWrapperModel
                 when {
                     errorWrapperModel.message != null -> stringBuilder.append("\nThe OAuth was NOT success '${errorWrapperModel.message}'\n")
+                    errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe OAuth was NOT success '${errorWrapperModel.codeMeaning}'\n")
                     errorWrapperModel.error != null -> stringBuilder.append("\nThe OAuth was NOT success: '${errorWrapperModel.error}'\n")
                     else -> stringBuilder.append("\nThe OAuth was NOT success...\n")
                 }
@@ -206,6 +216,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
             } else {
                 val errorWrapperModel = error as ErrorWrapperModel
                 when {
+                    errorWrapperModel.message != null -> stringBuilder.append("\nThe Login User was NOT success '${errorWrapperModel.message}'\n")
                     errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Login User was NOT success '${errorWrapperModel.codeMeaning}'\n")
                     errorWrapperModel.error != null -> stringBuilder.append("\nThe Login User was NOT success: '${errorWrapperModel.error}'\n")
                     else -> stringBuilder.append("\nThe Login User was NOT success...\n")
@@ -231,6 +242,7 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
             } else {
                 val errorWrapperModel = error as ErrorWrapperModel
                 when {
+                    errorWrapperModel.message != null -> stringBuilder.append("\nThe Random Username was NOT success '${errorWrapperModel.message}'\n")
                     errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Random Username was NOT success '${errorWrapperModel.codeMeaning}'\n")
                     errorWrapperModel.error != null -> stringBuilder.append("\nThe Random Username was NOT success: '${errorWrapperModel.error}'\n")
                     else -> stringBuilder.append("\nThe Random Username was NOT success...\n")
@@ -246,26 +258,237 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
 
     private fun setAppData() {
 
+        val sdk = ComplianceSDK(kEnvironment)
+        val userActionsService = sdk.getService(IUserActionsService::class.java)
+
+        val value = 1
+        val key = "key_name"
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val appId = it.tokenData.appId
+            val token = it.token
+
+            userActionsService?.setAppData(value = value, key = key, userId = userId, appId = appId, token = token) { error ->
+
+                if (error == null) {
+                    stringBuilder.append("\nApp Data set with success!\n Value as '$value'\n Key as '$key'\n")
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Set App Data was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Set App Data was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Set App Data was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Set App Data was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
+
     }
 
     private fun getAppData() {
 
+        val sdk = ComplianceSDK(kEnvironment)
+        val userActionsService = sdk.getService(IUserActionsService::class.java)
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val appId = it.tokenData.appId
+            val token = it.token
+
+            userActionsService?.getAppData(userId = userId, appId = appId, token = token) { responseModel, error ->
+
+                if (responseModel != null) {
+                    stringBuilder.append("\nGet App Data success!")
+
+                    val results = responseModel.results
+                    if (results.isNotEmpty()) {
+
+                        for (i in results.indices) {
+                            val item = results[i]
+                            stringBuilder.append("\nPosition ${i+1} has:\nName - '${item.name}'\nValue - '${item.value}'\n")
+                        }
+                    } else {
+                        stringBuilder.append("\n...but list of results to show! Set App Data first.")
+                    }
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Get App Data was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Get App Data was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Get App Data was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Get App Data was NOT success...\n")
+                    }
+                }
+
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
     private fun inviteUser() {
 
+        val sdk = ComplianceSDK(kEnvironment)
+        val userActionsService = sdk.getService(IUserActionsService::class.java)
+
+        val email = "mobile.dev.test+3@superawesome.tv"
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val token = it.token
+
+            userActionsService?.inviteUser(email = email, userId = userId, token = token) { error ->
+
+                if (error == null) {
+                    stringBuilder.append("\nInvite user email - '$email' success!\n")
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Invite User was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Invite User was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Invite User was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Invite User was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
     private fun requestUserPermissions() {
+
+        val sdk = ComplianceSDK(kEnvironment)
+        val userActionsService = sdk.getService(IUserActionsService::class.java)
+
+        val permissions : List<String>  = listOf("accessEmail","accessAddress")
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val token = it.token
+
+            userActionsService?.requestPermissions(permissions = permissions, userId = userId, token = token) { error ->
+
+                if (error == null) {
+                    stringBuilder.append("\nRequest permissions was success for")
+
+                    for(i in permissions.indices){
+                        stringBuilder.append("\n-'${permissions[i]}'")
+                    }
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Request permissions was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Request permissions was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Request permissions was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Request permissions was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
 
     }
 
     private fun triggerEvent() {
 
+        val sdk = ComplianceSDK(kEnvironment)
+        val userActionsService = sdk.getService(IUserActionsService::class.java)
+
+        val eventId = "x9C1QxRFj27D7uc8UdPFTOEjBSz7HqQH"
+        val points = 20
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val token = it.token
+
+            userActionsService?.triggerEvent(eventId = eventId, points = points, userId = userId, token = token) { error ->
+
+                if (error == null) {
+                    stringBuilder.append("\nTrigger Event success with\nEventId - '$eventId'\nPoints - '$points'\n")
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Trigger Event was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Trigger Event was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Trigger Event was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Trigger Event was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
     private fun checkEventTriggered() {
+        val sdk = ComplianceSDK(kEnvironment)
+        val userActionsService = sdk.getService(IUserActionsService::class.java)
 
+        val eventId = 807
+
+        val cachedUser = getLoggedUser()
+        cachedUser?.let {
+
+            val userId = it.id
+            val token = it.token
+
+            userActionsService?.hasTriggeredEvent(eventId = eventId, userId = userId, token = token) { responseModel, error ->
+
+                if (responseModel != null) {
+                    stringBuilder.append("\nResponse OK! Event '$eventId' was Triggered - '${responseModel.hasTriggeredModel}'!\n")
+                } else {
+                    val errorWrapperModel = error as ErrorWrapperModel
+                    when {
+                        errorWrapperModel.message != null -> stringBuilder.append("\nThe Event Has Triggered was NOT success '${errorWrapperModel.message}'\n")
+                        errorWrapperModel.codeMeaning != null -> stringBuilder.append("\nThe Event Has Triggered  was NOT success '${errorWrapperModel.codeMeaning}'\n")
+                        errorWrapperModel.error != null -> stringBuilder.append("\nThe Event Has Triggered  was NOT success: '${errorWrapperModel.error}'\n")
+                        else -> stringBuilder.append("\nThe Event Has Triggered  was NOT success...\n")
+                    }
+                }
+                //update text
+                updateText(stringBuilder.toString())
+            } ?: run {
+                defaultErrorServiceMessage()
+            }
+        } ?: run {
+            defaultNoValidUserCachedMessage()
+        }
     }
 
     private fun getUserDetails() {
@@ -296,10 +519,12 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
             val success = it.saveLoggedUser(this, user)
 
             if (success) {
-                stringBuilder.append("\nSuccess caching user!!\n")
+                stringBuilder.append("\n--Success caching user!!\n")
             } else {
-                stringBuilder.append("\nFailed caching user...\n")
+                stringBuilder.append("\n--Failed caching user...\n")
             }
+            //update text
+            updateText(stringBuilder.toString())
         } ?: run {
             defaultErrorServiceMessage()
         }
@@ -330,12 +555,15 @@ class Main2Activity : AppCompatActivity(), View.OnClickListener {
             it.clearLoggedUser(this)
 
             //try and get a cached user
-            getLoggedUser()?.let {
+            val cachedUser = getLoggedUser()
+            cachedUser?.let {
                 //if it exists, we failed to clear it
-                stringBuilder.append("\nFailed clearing user...\n")
+                stringBuilder.append("\n--Failed clearing user...\n")
             } ?: run {
-                stringBuilder.append("\nUser cleared!\n")
+                stringBuilder.append("\n--User cleared!\n")
             }
+            //update text
+            updateText(stringBuilder.toString())
         } ?: run {
             defaultErrorServiceMessage()
         }
