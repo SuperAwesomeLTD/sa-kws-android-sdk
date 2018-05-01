@@ -23,7 +23,7 @@ import tv.superawesome.protobufs.usernames.services.IUsernameService
 import java.util.*
 
 
-class Main2Activity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //environment for SDK
     lateinit var kEnvironment: NetworkEnvironment
