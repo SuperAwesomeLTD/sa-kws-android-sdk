@@ -26,13 +26,13 @@ public class MockEnvironment implements NetworkEnvironment {
 
     @NotNull
     @Override
-    public String getAppID() {
+    public String getClientID() {
         return APPID;
     }
 
     @NotNull
     @Override
-    public String getMobileKey() {
+    public String getClientSecret() {
         return KEY;
     }
 }

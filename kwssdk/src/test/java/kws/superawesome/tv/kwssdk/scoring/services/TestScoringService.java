@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.TestBaseService;
-import tv.superawesome.protobufs.features.scoring.IScoringService;
+import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
+import tv.superawesome.protobufs.score.services.IScoringService;
 
 /**
  * Created by guilherme.mota on 19/03/2018.
@@ -35,7 +35,7 @@ public class TestScoringService extends TestBaseService {
         //then
         // init class to test
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(IScoringService.class);
+        service = sdk.getService(IScoringService.class);
 
     }
 
@@ -46,7 +46,7 @@ public class TestScoringService extends TestBaseService {
 
 
     @After
-    public void shutdown(){
+    public void shutdown() {
         service = null;
     }
 }

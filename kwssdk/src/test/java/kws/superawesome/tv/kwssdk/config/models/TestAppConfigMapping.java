@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.ResourceReader;
-import kws.superawesome.tv.kwssdk.base.config.models.AppConfigWrapperModel;
 import kws.superawesome.tv.kwssdk.base.common.models.error.ErrorWrapperModel;
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
+import kws.superawesome.tv.kwssdk.base.config.models.AppConfigWrapperModel;
+import tv.superawesome.samobilebase.json.ParseJsonTask;
 
 public class TestAppConfigMapping {
 

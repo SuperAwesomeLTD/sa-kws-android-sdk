@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.TestBaseService;
-import tv.superawesome.protobufs.features.user.IUserService;
+import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
+import tv.superawesome.protobufs.user.services.IUserService;
 
 /**
  * Created by guilherme.mota on 16/01/2018.
@@ -39,7 +39,7 @@ public class TestUserService extends TestBaseService {
         // init class to test
         // init class to test
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(IUserService.class);
+        service = sdk.getService(IUserService.class);
 
 
     }
@@ -51,7 +51,7 @@ public class TestUserService extends TestBaseService {
 
 
     @After
-    public void shutdown(){
+    public void shutdown() {
         service = null;
     }
 

@@ -84,21 +84,17 @@ repositories {
 }
 
 dependencies {
-    compile 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.7'
-    compile 'tv.superawesome.lib.sanetwork:sanetwork:0.3.8'
-    compile 'tv.superawesome.lib.sautils:sautils:0.3.5'
-
     // SuperAwesome base library
-    implementation 'tv.superawesome.samobilebase:samobilebase:2.1.1'
+    api 'tv.superawesome.samobilebase:samobilebase:2.1.5'
 
     // SuperAwesome Protobufs
-    implementation 'tv.superawesome.protobufs:protobufs:1.4.3'
+    api 'tv.superawesome.protobufs:protobufs:1.5.7'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // tests
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:2.13.0"
+    testImplementation "org.mockito:mockito-core:2.18.3"
     testImplementation "eu.codearte.catch-exception:catch-exception:1.4.4"
     testImplementation "org.assertj:assertj-core:3.8.0"
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'

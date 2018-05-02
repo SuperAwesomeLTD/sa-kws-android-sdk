@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
+import kws.superawesome.tv.kwssdk.TestBaseService;
 import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment;
-import kws.superawesome.tv.kwssdk.TestBaseService;
-import tv.superawesome.protobufs.features.auth.IUsernameService;
-import tv.superawesome.protobufs.models.usernames.IRandomUsernameModel;
+import tv.superawesome.protobufs.usernames.models.IRandomUsernameModel;
+import tv.superawesome.protobufs.usernames.services.IUsernameService;
 
 /**
  * Created by guilherme.mota on 16/01/2018.
@@ -36,7 +36,7 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
         //then
         // init class to test
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(IUsernameService.class);
+        service = sdk.getService(IUsernameService.class);
 
     }
 
@@ -52,14 +52,14 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
         NetworkEnvironment goodNetworkEnvironment = new NetworkEnvironment() {
             @NotNull
             @Override
-            public String getAppID() {
+            public String getClientID() {
                 return goodClientId;
             }
 
             @NotNull
             @Override
-            public String getMobileKey() {
-                return environment.getMobileKey();
+            public String getClientSecret() {
+                return environment.getClientSecret();
             }
 
             @NotNull
@@ -70,7 +70,7 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
         };
 
         ComplianceSDK sdk = new ComplianceSDK(goodNetworkEnvironment, task);
-        service = sdk.get(IUsernameService.class);
+        service = sdk.getService(IUsernameService.class);
 
         service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override
@@ -93,14 +93,14 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
         NetworkEnvironment badNetworkEnvironment = new NetworkEnvironment() {
             @NotNull
             @Override
-            public String getAppID() {
+            public String getClientID() {
                 return badClientId;
             }
 
             @NotNull
             @Override
-            public String getMobileKey() {
-                return environment.getMobileKey();
+            public String getClientSecret() {
+                return environment.getClientSecret();
             }
 
             @NotNull
@@ -111,7 +111,7 @@ public class TestUsernameService_RandomUsername extends TestBaseService {
         };
 
         ComplianceSDK sdk = new ComplianceSDK(badNetworkEnvironment, task);
-        service = sdk.get(IUsernameService.class);
+        service = sdk.getService(IUsernameService.class);
 
         service.getRandomUsername(new Function2<IRandomUsernameModel, Throwable, Unit>() {
             @Override

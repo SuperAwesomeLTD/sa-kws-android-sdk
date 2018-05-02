@@ -7,11 +7,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import kws.superawesome.tv.kwssdk.TestBaseService;
 import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.base.internal.LoggedUserModel;
 import kws.superawesome.tv.kwssdk.base.internal.TokenData;
-import kws.superawesome.tv.kwssdk.TestBaseService;
-import tv.superawesome.protobufs.features.session.ISessionService;
+import tv.superawesome.protobufs.session.services.ISessionService;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -32,7 +32,7 @@ public class TestSessionService_SaveLoggedUser extends TestBaseService {
     public void setup() throws Throwable {
         super.setup();
         ComplianceSDK sdk = new ComplianceSDK(environment, task);
-        service = sdk.get(ISessionService.class);
+        service = sdk.getService(ISessionService.class);
     }
 
     @Test

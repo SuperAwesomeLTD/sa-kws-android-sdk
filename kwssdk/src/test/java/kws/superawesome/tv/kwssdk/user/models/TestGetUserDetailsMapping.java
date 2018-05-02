@@ -5,12 +5,12 @@ import org.junit.Test;
 
 import kws.superawesome.tv.kwssdk.ResourceReader;
 import kws.superawesome.tv.kwssdk.base.user.models.UserDetailsModel;
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
+import tv.superawesome.samobilebase.json.ParseJsonTask;
 
 public class TestGetUserDetailsMapping {
 
     @Test
-    public void test_GetUserDetails_Mapping_Response_Success(){
+    public void test_GetUserDetails_Mapping_Response_Success() {
         String json = ResourceReader.readResource("mock_get_user_details_success_response.json");
         UserDetailsModel userDetailsModel = (UserDetailsModel) new ParseJsonTask(UserDetailsModel.class).execute(json).take();
 

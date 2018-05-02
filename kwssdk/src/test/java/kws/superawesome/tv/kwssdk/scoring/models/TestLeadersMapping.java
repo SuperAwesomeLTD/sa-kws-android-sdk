@@ -3,9 +3,9 @@ package kws.superawesome.tv.kwssdk.scoring.models;
 import org.junit.Assert;
 import org.junit.Test;
 
-import kws.superawesome.tv.kwssdk.base.scoring.models.LeadersWrapperModel;
 import kws.superawesome.tv.kwssdk.ResourceReader;
-import tv.superawesome.samobilebase.parsejson.ParseJsonTask;
+import kws.superawesome.tv.kwssdk.base.scoring.models.LeadersWrapperModel;
+import tv.superawesome.samobilebase.json.ParseJsonTask;
 
 public class TestLeadersMapping {
 

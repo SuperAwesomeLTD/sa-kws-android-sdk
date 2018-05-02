@@ -9,8 +9,8 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 import kws.superawesome.tv.kwssdk.base.ComplianceSDK;
 import kws.superawesome.tv.kwssdk.base.NetworkEnvironment;
-import tv.superawesome.protobufs.features.auth.IAuthService;
-import tv.superawesome.protobufs.models.auth.ILoggedUserModel;
+import tv.superawesome.protobufs.authentication.models.ILoggedUserModel;
+import tv.superawesome.protobufs.authentication.services.IAuthService;
 
 /**
  * Created by guilherme.mota on 15/01/2018.
@@ -85,13 +85,13 @@ public class TestAuthService_CreateUser extends TestAuthService {
         NetworkEnvironment badEnvironment = new NetworkEnvironment() {
             @NotNull
             @Override
-            public String getAppID() {
+            public String getClientID() {
                 return badClientId;
             }
 
             @NotNull
             @Override
-            public String getMobileKey() {
+            public String getClientSecret() {
                 return badClientSecret;
             }
 
@@ -103,7 +103,7 @@ public class TestAuthService_CreateUser extends TestAuthService {
         };
 
         ComplianceSDK sdk = new ComplianceSDK(badEnvironment, task);
-        service = sdk.get(IAuthService.class);
+        service = sdk.getService(IAuthService.class);
 
         service.createUser(goodUsername, goodPassword, timezone, goodDOB, goodCountry,
                 goodParentEmail, new Function2<ILoggedUserModel, Throwable, Unit>() {
