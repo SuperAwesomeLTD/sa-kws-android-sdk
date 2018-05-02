@@ -84,10 +84,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.7'
-    implementation 'tv.superawesome.lib.sanetwork:sanetwork:0.3.8'
-    implementation 'tv.superawesome.lib.sautils:sautils:0.3.5'
-
     // SuperAwesome base library
     api 'tv.superawesome.samobilebase:samobilebase:2.1.5'
 

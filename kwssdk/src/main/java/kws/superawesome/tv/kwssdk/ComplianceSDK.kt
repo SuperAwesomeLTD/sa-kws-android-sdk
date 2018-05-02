@@ -26,21 +26,6 @@ class ComplianceSDK
 constructor(private val environment: NetworkEnvironment,
             private val networkTask: NetworkTask = NetworkTask()) : IAbstractFactory {
 
-
-//    @Suppress("UNCHECKED_CAST")
-//    override fun <S : IService> getService(type: Class<S>): S? =
-//            when (type) {
-//                IAuthService::class -> AuthService(environment = environment, networkTask = networkTask)
-//                IScoringService::class -> ScoreService(environment = environment, networkTask = networkTask)
-//                IUserActionsService::class -> UserActionsService(environment = environment, networkTask = networkTask)
-//                ISingleSignOnService::class -> SingleSignOnService(environment = environment, networkTask = networkTask)
-//                ISessionService::class -> SessionService(environment = environment, networkTask = networkTask)
-//                IUsernameService::class -> UsernameService(environment = environment, networkTask = networkTask)
-//                IUserService::class -> UserService(environment = environment, networkTask = networkTask)
-//                else -> null
-//            } as S?
-
-
     @Suppress("UNCHECKED_CAST")
     override fun <S : IService> getService(type: Class<S>): S? =
             when (type) {
@@ -54,6 +39,4 @@ constructor(private val environment: NetworkEnvironment,
                 else -> null
 
             } as S?
-
-
 }
