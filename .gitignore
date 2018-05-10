@@ -38,3 +38,7 @@ wrapper/*
 .gradle/*
 local.properties
 java_pid*
+
+
+# Fastlane reports
+fastlane/report.xml
