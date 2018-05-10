@@ -43,9 +43,7 @@ dependencies {
     //KWS lib
     implementation project(':kwssdk')
 
-    //Firebase
-    implementation 'com.google.firebase:firebase-messaging:15.0.0'
-
+    //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Tests
@@ -65,9 +63,4 @@ dependencies {
 
     // For instrumentation tests on Android devices and emulators
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"
-
-
 }
-
-// ADD THIS AT THE BOTTOM
-apply plugin: 'com.google.gms.google-services'
