@@ -42,3 +42,4 @@ java_pid*
 
 # Fastlane reports
 fastlane/report.xml
+fastlane/README.md

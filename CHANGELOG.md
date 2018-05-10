@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+3.0.0
+ - First major release of the new codebase
+ - Massive clean up of the SDK, refactoring old code and fully relying on the new architecture
+ - Removed old codebase
+ - Added and improved tests
+
 2.4.0
  - Merged master with new develop branch, which includes & expects Kotlin support
  - Improved internal SDK architecture (using services, providers and a facade to abstract them away whilst also maintaing the same public interface)
