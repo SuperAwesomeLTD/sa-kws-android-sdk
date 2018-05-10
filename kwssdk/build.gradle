@@ -1,26 +1,26 @@
+apply plugin: 'com.novoda.bintray-release'//has to be BEFORE 'com.android.library'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-version = properties.getProperty("project.version")
-group = properties.getProperty("project.group")
-
-def siteUrl = 'https://github.com/SuperAwesomeLTD/sa-kws-android-sdk'
-def gitUrl = 'https://github.com/SuperAwesomeLTD/sa-kws-android-sdk.git'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.8.0'
+    }
+}
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
-        versionName version
+        versionName "2.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -32,68 +32,23 @@ android {
     }
 }
 
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "KWSSDK"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'Kids Web Services Mobile SDK for Android'
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'gabrielcoman'
-                        name 'Gabriel Coman'
-                        email 'gabriel.coman@superawesome.tv'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
-                }
-            }
-        }
-    }
-
-}
-
 repositories {
     maven { url  "http://dl.bintray.com/gabrielcoman/maven" }
     mavenCentral()
 }
 
 dependencies {
-    compile 'tv.superawesome.lib.sajsonparser:sajsonparser:0.2.7'
-    compile 'tv.superawesome.lib.sanetwork:sanetwork:0.3.8'
-    compile 'tv.superawesome.lib.sautils:sautils:0.3.5'
-    compile 'tv.superawesome.samobilebase:samobilebase:1.0.8'
+    // SuperAwesome base library
+    api 'tv.superawesome.samobilebase:samobilebase:2.1.5'
+
+    // SuperAwesome Protobufs
+    api 'tv.superawesome.protobufs:protobufs:1.5.7'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // tests
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:2.13.0"
+    testImplementation "org.mockito:mockito-core:2.18.3"
     testImplementation "eu.codearte.catch-exception:catch-exception:1.4.4"
     testImplementation "org.assertj:assertj-core:3.8.0"
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
@@ -105,7 +60,37 @@ dependencies {
     // Set this dependency if you want to use Hamcrest matching
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
-    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+}
 
+publish {
 
+    /**
+     * Code meant to be refactored in a plugin. DO NOT MODIFY HERE.
+     */
+    def versionName = System.properties.getProperty("versionName", "")
+    def groupProj = System.properties.getProperty("groupProj", "")
+    def artifactProj = System.properties.getProperty("artifactProj", "")
+
+    userOrg = System.properties.getProperty("userOrg", "")
+    groupId = groupProj
+    artifactId = artifactProj
+    publishVersion = versionName
+    website = System.properties.getProperty("webURL", "")
+    repoName = System.properties.getProperty("repoName", "")
+    uploadName = System.properties.getProperty("uploadName", "")
+
+    publishing {
+        publications {
+            SAPublication(MavenPublication) {
+                groupId groupProj
+                artifactId artifactProj
+                version versionName
+
+                artifact bundleRelease
+
+            }
+        }
+    }
+    publications = ['SAPublication']
 }

@@ -1,0 +1,12 @@
+{
+  "code": 5,
+  "codeMeaning": "validation",
+  "errorMessage": "child \"permissions\" fails because [\"permissions\" at position 0 fails because [\"0\" is not allowed to be empty]]",
+  "invalid": {
+    "permissions.0": {
+      "code": 7,
+      "codeMeaning": "invalidValue",
+      "errorMessage": "\"0\" is not allowed to be empty"
+    }
+  }
+}
