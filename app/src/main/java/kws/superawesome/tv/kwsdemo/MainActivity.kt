@@ -12,6 +12,7 @@ import kws.superawesome.tv.kwssdk.NetworkEnvironment
 import kws.superawesome.tv.kwssdk.UtilsHelper
 import kws.superawesome.tv.kwssdk.common.models.error.ErrorWrapperModel
 import kws.superawesome.tv.kwssdk.internal.LoggedUserModel
+import org.json.JSONObject
 import tv.superawesome.protobufs.actions.services.IUserActionsService
 import tv.superawesome.protobufs.authentication.models.ILoggedUserModel
 import tv.superawesome.protobufs.authentication.services.IAuthService
@@ -538,9 +539,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val sdk = ComplianceSDK(kEnvironment)
         val userService = sdk.getService(IUserService::class.java)
 
+        val myComplexModel = mapOf(
+                "street" to "Number Test",
+                "city" to "London",
+                "postCode" to "abc",
+                "country" to "GB"
+        )
+
+        val complexModelAsJSONObject = JSONObject(myComplexModel)
+
         val details: Map<String, Any> = mapOf(
                 "firstName" to "Droid",
-                "lastName" to "John")
+                "lastName" to "Test",
+                "address" to complexModelAsJSONObject)
 
         val cachedUser = getLoggedUser()
         cachedUser?.let {
