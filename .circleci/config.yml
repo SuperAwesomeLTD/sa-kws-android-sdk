@@ -3,7 +3,7 @@ jobs:
 
   build:
     docker:
-      - image: ubuntu
+      - image: circleci/android:api-27-alpha
     steps:
       - checkout
       - run: echo build
