@@ -55,7 +55,7 @@ jobs:
       - *fastlane_plugin
       - run:
           name: Run unit tests
-          command: fastlane run_all_tests #this still needs to be made a public lane and removed from the main lane
+          command: bundle exec fastlane run_all_tests
       - store_test_results:
           path: $SDK_MODULE/build/reports/tests
 
