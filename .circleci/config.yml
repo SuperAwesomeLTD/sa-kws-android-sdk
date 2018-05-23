@@ -1,10 +1,6 @@
 version: 2
-references:
-  ## Workspaces
-  #workspace: &workspace
-  #Our workspace is the project dir, where fastlane is installed.
-    #~/src
 
+references:
   ## Docker image configurations
   android_config: &android_config
     #working_directory: *workspace
@@ -55,7 +51,6 @@ jobs:
           destination: /test-results/
 
   deployment:
-      type: approval
       docker:
         - image: ubuntu
       steps:
