@@ -22,6 +22,17 @@ references:
       name: Download Android Dependencies
       command: ./gradlew androidDependencies
 
+  fastlane_dependencies: &fastlane_dependencies
+    run:
+      name: Download fastlane
+      command: gem install fastlane
+
+  fastlane_plugin: &fastlane_plugin
+    run:
+      name: Download fastlane plugin for Android
+      command: fastlane add_plugin android_versioning
+
+
 jobs:
   build:
     <<: *android_config
@@ -40,6 +51,8 @@ jobs:
       - checkout
       - *ruby_dependencies
       - *android_dependencies
+      - *fastlane_dependencies
+      - *fastlane_plugin
       - run:
           name: Run unit tests
           command: fastlane run_all_tests #this still needs to be made a public lane and removed from the main lane
