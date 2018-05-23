@@ -57,7 +57,7 @@ jobs:
           name: Run unit tests
           command: bundle exec fastlane run_all_tests
       - store_test_results:
-          path: ${SDK_MODULE}/build/test-results
+          path: "#{SDK_MODULE}/build/test-results"
 
   deployment:
       docker:
