@@ -42,7 +42,7 @@ jobs:
       - *android_dependencies
       - run:
           name: Run unit tests
-          command: bundle exec SDK_MODULE=$SDK_MODULE fastlane run_all_tests #this still needs to be made a public lane and removed from the main lane
+          command: fastlane run_all_tests #this still needs to be made a public lane and removed from the main lane
       - store_test_results:
           path: $SDK_MODULE/build/reports/tests
 
