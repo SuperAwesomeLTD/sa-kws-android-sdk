@@ -1,9 +1,7 @@
 version: 2
-## Declare de references
 references:
-  ## Docker image configurations
+
   android_config: &android_config
-    #working_directory: *workspace
     docker:
       - image: circleci/android:api-27-alpha
     environment:
@@ -11,73 +9,78 @@ references:
       _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
       GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
 
-## Dependencies
-  ruby_dependencies: &ruby_dependencies
+  bootstrap: &bootstrap
     run:
-      name: Download Ruby Dependencies
-      command: bundle check || bundle install --path vendor/bundle
-
-  android_dependencies: &android_dependencies
-    run:
-      name: Download Android Dependencies
-      command: ./gradlew androidDependencies
-
-  fastlane_dependencies: &fastlane_dependencies
-    run:
-      name: Download fastlane
-      command: gem install fastlane
-
-  fastlane_plugin: &fastlane_plugin
-    run:
-      name: Download fastlane plugin for Android
-      command: fastlane add_plugin android_versioning
-
+      name: Bootstrap
+      command: |
+        git clone "${SA_CONTINUOUS_INTEGRATION_GIT_REPO_URL}" "${SA_PATH_TO_CONTINUOUS_INTEGRATION_REPO}"
+        ${SA_PATH_TO_CONTINUOUS_INTEGRATION_REPO}/bootstrap/bootstrap-mobile-android-sdk.sh
 
 jobs:
-  build:
-    <<: *android_config
-    steps:
-      - checkout
-      - *ruby_dependencies
-      - *android_dependencies
-      - run:
-          name: Initial build
-          command: ./gradlew clean build
 
   ## Run unit tests
   test_unit:
     <<: *android_config
     steps:
       - checkout
-      - *ruby_dependencies
-      - *android_dependencies
-      - *fastlane_dependencies
-      - *fastlane_plugin
+      - *bootstrap
       - run:
           name: Run unit tests
-          command: bundle exec fastlane run_all_tests
+          command: fastlane run_all_tests
+      - run:
+          name: Copy test results to temp folder
+          command: find $PWD/$SA_ANDROID_SDKS_MODULE/build/test-results/testDebugUnitTest -name '*.xml' -exec cp {} ${PWD}/temp_files/test-results/debug \;
       - store_test_results:
-          path: "#{SDK_MODULE}/build/test-results"
+          path: temp_files/test-results
 
-  deployment:
-      docker:
-        - image: ubuntu
-      steps:
-        - checkout
-        - run: echo test
+  semantic_release:
+    <<: *android_config
+    steps:
+      - checkout
+      - run:
+          name: Run semantic release
+          command: |
+            git clone "${SA_CONTINUOUS_INTEGRATION_GIT_REPO_URL}" "${SA_PATH_TO_CONTINUOUS_INTEGRATION_REPO}"
+            ${SA_PATH_TO_CONTINUOUS_INTEGRATION_REPO}/semantic-release/semantic-release.sh
+
+  ## Run sdk push
+  sdk_push:
+    <<: *android_config
+    steps:
+      - checkout
+      - *bootstrap
+      - run:
+          name: Push the SDK to the bintrayRepo
+          command: fastlane sdk_push isPrivateRepo:${SA_MOBILE_IS_PUSH_TO_PRIVATE_REPO}
+
+  sdk_push_public:
+    <<: *android_config
+    steps:
+      - checkout
+      - *bootstrap
+      - run:
+          name: Push the SDK to the PUBLIC bintrayRepo
+          command: fastlane sdk_push isPrivateRepo:false
 
 workflows:
   version: 2
-  workflow1:
+  android_sdk_workflow:
     jobs:
-      - build
       - test_unit:
+          context: MOBILE_ANDROID_SDKS
+      - semantic_release:
+          context: MOBILE_ANDROID_SDKS
           requires:
-            - build
-      - deployment_approval:
-          type: approval
+            - test_unit
+          filters:
+            branches:
+              only: master
+      - sdk_push:
+          context: MOBILE_ANDROID_SDKS
           requires:
-           - test_unit
-      - deployment:
+            - semantic_release
+      - sdk_push_public:
+          context: MOBILE_ANDROID_SDKS
           requires:
-            - deployment_approval
+            - semantic_release
+            
