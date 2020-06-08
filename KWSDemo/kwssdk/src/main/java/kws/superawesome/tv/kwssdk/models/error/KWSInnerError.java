@@ -3,11 +3,10 @@ package kws.superawesome.tv.kwssdk.models.error;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.SABaseObject;
-import tv.superawesome.lib.sajsonparser.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.SABaseObject;
+import kws.superawesome.tv.kwssdk.json.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.

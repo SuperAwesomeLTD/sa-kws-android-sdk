@@ -1,7 +1,7 @@
 package kws.superawesome.tv.kwsdemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,9 +15,9 @@ import kws.superawesome.tv.kwssdk.KWSErrorType;
 import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
-import tv.superawesome.lib.sanetwork.request.SANetwork;
-import tv.superawesome.lib.sanetwork.request.SANetworkInterface;
-import tv.superawesome.lib.sautils.SAUtils;
+import kws.superawesome.tv.kwssdk.network.request.SANetwork;
+import kws.superawesome.tv.kwssdk.network.request.SANetworkInterface;
+import kws.superawesome.tv.kwssdk.utils.SAUtils;
 
 //import kws.superawesome.tv.kwssdk.KWSCheckInterface;
 //import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SANetwork network = new SANetwork();
-        network.sendPOST(this, "https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new SANetworkInterface() {
+        network.sendPOST("https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new SANetworkInterface() {
             @Override
             public void saDidGetResponse(int status, String payload, boolean success) {
 

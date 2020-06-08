@@ -3,14 +3,9 @@ package kws.superawesome.tv.kwssdk.kws;
 import android.content.Context;
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.SAJsonParser;
-import tv.superawesome.lib.sanetwork.request.*;
-
-import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.models.KWSMetadata;
+import kws.superawesome.tv.kwssdk.json.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 13/06/16.

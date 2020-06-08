@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 20/12/2016.

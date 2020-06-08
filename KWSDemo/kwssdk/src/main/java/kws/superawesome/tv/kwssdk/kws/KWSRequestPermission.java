@@ -2,15 +2,11 @@ package kws.superawesome.tv.kwssdk.kws;
 
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kws.superawesome.tv.kwssdk.json.SAJsonParser;
 import kws.superawesome.tv.kwssdk.models.error.KWSError;
-import tv.superawesome.lib.sajsonparser.SAJsonParser;
-import tv.superawesome.lib.sanetwork.request.*;
-import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.models.*;
 
 /**
  * Created by gabriel.coman on 23/05/16.

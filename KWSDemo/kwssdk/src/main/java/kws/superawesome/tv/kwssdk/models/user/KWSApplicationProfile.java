@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import tv.superawesome.lib.sajsonparser.SABaseObject;
-import tv.superawesome.lib.sajsonparser.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.SABaseObject;
+import kws.superawesome.tv.kwssdk.json.SAJsonParser;
 
 /**
  * Created by gabriel.coman on 28/07/16.

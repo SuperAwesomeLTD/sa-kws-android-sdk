@@ -5,10 +5,10 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.KWS;
+import kws.superawesome.tv.kwssdk.json.SAJsonParser;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import tv.superawesome.lib.sajsonparser.SAJsonParser;
-import tv.superawesome.lib.sanetwork.request.SANetwork;
-import tv.superawesome.lib.sanetwork.request.SANetworkInterface;
+import kws.superawesome.tv.kwssdk.network.request.SANetwork;
+import kws.superawesome.tv.kwssdk.network.request.SANetworkInterface;
 
 public class KWSRequest implements KWSRequestInterface {
 
@@ -85,7 +85,7 @@ public class KWSRequest implements KWSRequestInterface {
 
         // continue!
         if (getMethod() == KWSRequestMethod.POST) {
-            network.sendPOST(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+            network.sendPOST(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
                 @Override
                 public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {
@@ -96,7 +96,7 @@ public class KWSRequest implements KWSRequestInterface {
                 }
             });
         } else {
-            network.sendGET(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
+            network.sendGET(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
                 @Override
                 public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {

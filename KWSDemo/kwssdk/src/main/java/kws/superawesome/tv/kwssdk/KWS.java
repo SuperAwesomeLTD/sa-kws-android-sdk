@@ -21,8 +21,8 @@ import kws.superawesome.tv.kwssdk.managers.KWSRandomNameManager;
 import kws.superawesome.tv.kwssdk.managers.PushManager;
 import kws.superawesome.tv.kwssdk.managers.PushManagerInterface;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import tv.superawesome.lib.sautils.SAAlert;
-import tv.superawesome.lib.sautils.SAAlertInterface;
+import kws.superawesome.tv.kwssdk.utils.SAAlert;
+import kws.superawesome.tv.kwssdk.utils.SAAlertInterface;
 
 /**
  * Created by gabriel.coman on 23/05/16.
