@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         kWSNetwork network = new kWSNetwork();
-        network.sendPOST("https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new KWSNetworkInterface() {
+        network.sendPOST(this, "https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new KWSNetworkInterface() {
             @Override
             public void saDidGetResponse(int status, String payload, boolean success) {
 

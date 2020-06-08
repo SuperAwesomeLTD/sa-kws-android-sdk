@@ -85,7 +85,7 @@ public class KWSRequest implements KWSRequestInterface {
 
         // continue!
         if (getMethod() == KWSRequestMethod.POST) {
-            network.sendPOST(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new KWSNetworkInterface() {
+            network.sendPOST(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new KWSNetworkInterface() {
                 @Override
                 public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {
@@ -96,7 +96,7 @@ public class KWSRequest implements KWSRequestInterface {
                 }
             });
         } else {
-            network.sendGET(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new KWSNetworkInterface() {
+            network.sendGET(c, kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new KWSNetworkInterface() {
                 @Override
                 public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {
