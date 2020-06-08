@@ -237,7 +237,7 @@ public class kWSNetwork {
                         sendBack(listener, statusCode, response, true);
                     }
                     else {
-                        sendBack(listener, statusCode, null, false);
+                        sendBack(listener, statusCode, null, true);
                     }
 
                 } catch (Exception e) {
