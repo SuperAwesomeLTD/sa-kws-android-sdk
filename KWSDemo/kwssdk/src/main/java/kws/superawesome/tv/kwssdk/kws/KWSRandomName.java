@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 20/12/2016.
@@ -27,7 +27,7 @@ public class KWSRandomName extends KWSRequest {
 
     @Override
     public JSONObject getHeader() {
-        return SAJsonParser.newObject(new Object[]{});
+        return KWSJsonParser.newObject(new Object[]{});
     }
 
     @Override

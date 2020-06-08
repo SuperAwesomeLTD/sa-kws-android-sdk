@@ -5,7 +5,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 import kws.superawesome.tv.kwssdk.models.error.KWSError;
 
 /**
@@ -28,8 +28,8 @@ public class KWSRequestPermission extends KWSRequest {
 
     @Override
     public JSONObject getBody() {
-        return SAJsonParser.newObject(new Object[]{
-                "permissions", SAJsonParser.newArray(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
+                "permissions", KWSJsonParser.newArray(new Object[]{
                     "sendPushNotification"
             })
         });

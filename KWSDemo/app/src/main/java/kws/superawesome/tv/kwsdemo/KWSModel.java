@@ -6,13 +6,13 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 04/07/16.
  */
-public class KWSModel extends SABaseObject implements Parcelable {
+public class KWSModel extends KWSBaseObject implements Parcelable {
 
     public int status = 0;
     public int userId = 0;
@@ -60,16 +60,16 @@ public class KWSModel extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject json) {
-        status = SAJsonParser.getInt(json, "status");
-        userId = SAJsonParser.getInt(json, "userId");
-        token = SAJsonParser.getString(json, "token");
-        error = SAJsonParser.getString(json, "error");
-        username = SAJsonParser.getString(json, "username");
+        status = KWSJsonParser.getInt(json, "status");
+        userId = KWSJsonParser.getInt(json, "userId");
+        token = KWSJsonParser.getString(json, "token");
+        error = KWSJsonParser.getString(json, "error");
+        username = KWSJsonParser.getString(json, "username");
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "status", status,
                 "userId", userId,
                 "token", token,

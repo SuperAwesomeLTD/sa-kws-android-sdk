@@ -5,9 +5,9 @@
 package kws.superawesome.tv.kwssdk.utils;
 
 /**
- * This interface defines methods that correspond to the SAAlert class.
+ * This interface defines methods that correspond to the KWSAlert class.
  */
-public interface SAAlertInterface {
+public interface KWSAlertInterface {
 
     /**
      * Method gets called when a user clicks on one of the buttons of an alert dialog.

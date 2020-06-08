@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSPermissions extends SABaseObject implements Parcelable {
+public class KWSPermissions extends KWSBaseObject implements Parcelable {
 
     // push notificaiton permission
     public Object accessAddress = null;
@@ -62,22 +62,22 @@ public class KWSPermissions extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject json) {
-        accessAddress = SAJsonParser.get(json, "accessAddress");
-        accessPhoneNumber = SAJsonParser.get(json, "accessPhoneNumber");
-        accessFirstName = SAJsonParser.get(json, "accessFirstName");
-        accessLastName = SAJsonParser.get(json, "accessLastName");
-        accessEmail = SAJsonParser.get(json, "accessEmail");
-        accessStreetAddress = SAJsonParser.get(json, "accessStreetAddress");
-        accessCity = SAJsonParser.get(json, "accessCity");
-        accessPostalCode = SAJsonParser.get(json, "accessPostalCode");
-        accessCountry = SAJsonParser.get(json, "accessCountry");
-        sendPushNotification = SAJsonParser.get(json, "sendPushNotification");
-        sendNewsletter = SAJsonParser.get(json, "sendNewsletter");
+        accessAddress = KWSJsonParser.get(json, "accessAddress");
+        accessPhoneNumber = KWSJsonParser.get(json, "accessPhoneNumber");
+        accessFirstName = KWSJsonParser.get(json, "accessFirstName");
+        accessLastName = KWSJsonParser.get(json, "accessLastName");
+        accessEmail = KWSJsonParser.get(json, "accessEmail");
+        accessStreetAddress = KWSJsonParser.get(json, "accessStreetAddress");
+        accessCity = KWSJsonParser.get(json, "accessCity");
+        accessPostalCode = KWSJsonParser.get(json, "accessPostalCode");
+        accessCountry = KWSJsonParser.get(json, "accessCountry");
+        sendPushNotification = KWSJsonParser.get(json, "sendPushNotification");
+        sendNewsletter = KWSJsonParser.get(json, "sendNewsletter");
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "accessAddress", accessAddress,
                 "accessPhoneNumber", accessPhoneNumber,
                 "accessFirstName", accessFirstName,

@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 28/07/16.
  */
-public class KWSApplicationProfile extends SABaseObject implements Parcelable {
+public class KWSApplicationProfile extends KWSBaseObject implements Parcelable {
 
     public String username;
     public int avatarId;
@@ -65,18 +65,18 @@ public class KWSApplicationProfile extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject jsonObject) {
-        username = SAJsonParser.getString(jsonObject, "username");
-        avatarId = SAJsonParser.getInt(jsonObject, "avatarId");
-        customField1 = SAJsonParser.getInt(jsonObject, "customField1");
-        customField2 = SAJsonParser.getInt(jsonObject, "customField2");
-        customField3 = SAJsonParser.getInt(jsonObject, "customField3");
-        customField4 = SAJsonParser.getInt(jsonObject, "customField4");
-        customField5 = SAJsonParser.getInt(jsonObject, "customField5");
+        username = KWSJsonParser.getString(jsonObject, "username");
+        avatarId = KWSJsonParser.getInt(jsonObject, "avatarId");
+        customField1 = KWSJsonParser.getInt(jsonObject, "customField1");
+        customField2 = KWSJsonParser.getInt(jsonObject, "customField2");
+        customField3 = KWSJsonParser.getInt(jsonObject, "customField3");
+        customField4 = KWSJsonParser.getInt(jsonObject, "customField4");
+        customField5 = KWSJsonParser.getInt(jsonObject, "customField5");
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "username", username,
                 "avatarId", avatarId,
                 "customField1", customField1,

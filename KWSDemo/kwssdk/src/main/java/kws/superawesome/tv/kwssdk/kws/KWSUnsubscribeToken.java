@@ -5,7 +5,7 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 13/06/16.
@@ -30,7 +30,7 @@ public class KWSUnsubscribeToken extends KWSRequest {
 
     @Override
     public JSONObject getBody() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "token", token
         });
     }

@@ -6,13 +6,13 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSError extends SABaseObject implements Parcelable {
+public class KWSError extends KWSBaseObject implements Parcelable {
 
     public int code;
     public String codeMeaning;
@@ -64,15 +64,15 @@ public class KWSError extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject json) {
-        code = SAJsonParser.getInt(json, "code");
-        codeMeaning = SAJsonParser.getString(json, "codeMeaning");
-        errorMessage = SAJsonParser.getString(json, "errorMessage");
-        invalid = new KWSInvalid(SAJsonParser.getJsonObject(json, "invalid"));
+        code = KWSJsonParser.getInt(json, "code");
+        codeMeaning = KWSJsonParser.getString(json, "codeMeaning");
+        errorMessage = KWSJsonParser.getString(json, "errorMessage");
+        invalid = new KWSInvalid(KWSJsonParser.getJsonObject(json, "invalid"));
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "code", code,
                 "codeMeaning", codeMeaning,
                 "errorMessage", errorMessage,

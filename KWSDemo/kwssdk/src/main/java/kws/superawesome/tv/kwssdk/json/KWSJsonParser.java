@@ -8,15 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Class that groups together a large number of methods needed to do proper JSON parsing.
  * It also tries to respect the null-object-pattern so that no matter what you throw at it it'll
  * return a valid value, not a null
  */
-public class SAJsonParser {
+public class KWSJsonParser {
 
     /**
      * Function that safely puts a value in a Json object
@@ -37,10 +34,10 @@ public class SAJsonParser {
                 // do nothing
             }
         }
-        // if object isn't NULL and is a subclass of SABaseObject
-        else if (object instanceof SABaseObject) {
+        // if object isn't NULL and is a subclass of KWSBaseObject
+        else if (object instanceof KWSBaseObject) {
             try {
-                jsonObject.put(key, ((SABaseObject) object).writeToJson());
+                jsonObject.put(key, ((KWSBaseObject) object).writeToJson());
             } catch (JSONException ignored) {
                 // do nothing
             }

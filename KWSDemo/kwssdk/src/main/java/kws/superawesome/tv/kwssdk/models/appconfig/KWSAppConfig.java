@@ -5,19 +5,19 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 04/01/2017.
  */
 
-public class KWSAppConfig extends SABaseObject implements Parcelable {
+public class KWSAppConfig extends KWSBaseObject implements Parcelable {
 
     public int id;
 
     public KWSAppConfig (String json) {
-        JSONObject jsonObject = SAJsonParser.newObject(json);
+        JSONObject jsonObject = KWSJsonParser.newObject(json);
         readFromJson(jsonObject);
     }
 
@@ -53,14 +53,14 @@ public class KWSAppConfig extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject jsonObject) {
-        JSONObject app = SAJsonParser.getJsonObject(jsonObject, "app");
-        id = SAJsonParser.getInt(app, "id", 0);
+        JSONObject app = KWSJsonParser.getJsonObject(jsonObject, "app");
+        id = KWSJsonParser.getInt(app, "id", 0);
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[] {
-                "app", SAJsonParser.newObject(new Object[] {
+        return KWSJsonParser.newObject(new Object[] {
+                "app", KWSJsonParser.newObject(new Object[] {
                     "id", id
                 })
         });

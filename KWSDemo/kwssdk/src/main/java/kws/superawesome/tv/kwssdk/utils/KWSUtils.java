@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Class that contains a lot of static aux functions used across the SDK to simplify code
  */
-public class SAUtils {
+public class KWSUtils {
 
     /**
      * Function that returns a random number between two limits

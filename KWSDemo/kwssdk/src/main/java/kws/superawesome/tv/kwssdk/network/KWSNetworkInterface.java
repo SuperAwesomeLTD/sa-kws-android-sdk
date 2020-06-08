@@ -5,10 +5,10 @@
 package kws.superawesome.tv.kwssdk.network;
 
 /**
- * Interface that is used by SANetwork to send a callback when an async network operation
+ * Interface that is used by kWSNetwork to send a callback when an async network operation
  * finishes.
  */
-public interface SANetworkInterface {
+public interface KWSNetworkInterface {
 
     /**
      * Interface method that gets called as a callback saDidGetResponse to an async network operation

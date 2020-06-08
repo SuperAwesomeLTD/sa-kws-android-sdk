@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSMetadata extends SABaseObject implements Parcelable {
+public class KWSMetadata extends KWSBaseObject implements Parcelable {
 
     public int userId = 0;
     public int appId = 0;
@@ -72,18 +72,18 @@ public class KWSMetadata extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject json) {
-        userId = SAJsonParser.getInt(json, "userId");
-        appId = SAJsonParser.getInt(json, "appId");
-        clientId = SAJsonParser.getString(json, "clientId");
-        scope = SAJsonParser.getString(json, "scope");
-        iat = SAJsonParser.getInt(json, "iat");
-        exp = SAJsonParser.getInt(json, "exp");
-        iss = SAJsonParser.getString(json, "iss");
+        userId = KWSJsonParser.getInt(json, "userId");
+        appId = KWSJsonParser.getInt(json, "appId");
+        clientId = KWSJsonParser.getString(json, "clientId");
+        scope = KWSJsonParser.getString(json, "scope");
+        iat = KWSJsonParser.getInt(json, "iat");
+        exp = KWSJsonParser.getInt(json, "exp");
+        iss = KWSJsonParser.getString(json, "iss");
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "userId", userId,
                 "appId", appId,
                 "clientId", clientId,

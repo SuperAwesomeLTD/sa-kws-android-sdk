@@ -25,16 +25,16 @@ import javax.net.ssl.HttpsURLConnection;
  * This is the main class that abstracts away most major network operations needed in order
  * to communicate with the ad server
  */
-public class SANetwork {
+public class kWSNetwork {
 
     private int timeout = 15000;
     private Executor executor = null;
-    private SANetworkUtils utils = new SANetworkUtils();
+    private KWSNetworkUtils utils = new KWSNetworkUtils();
 
     /**
      * Constructor without any executor, so choose a new single thread executor
      */
-    public SANetwork () {
+    public kWSNetwork() {
         this.executor = Executors.newSingleThreadExecutor();
     }
 
@@ -42,7 +42,7 @@ public class SANetwork {
      * This is a sister method to the private "sendRequest" method that will execute a GET
      * HTTP request
      */
-    public void sendGET(String url, JSONObject query, JSONObject header, SANetworkInterface listener) {
+    public void sendGET(String url, JSONObject query, JSONObject header, KWSNetworkInterface listener) {
         sendRequest(url, "GET", query, header, new JSONObject(), listener);
     }
 
@@ -50,7 +50,7 @@ public class SANetwork {
      * This is a sister method to the private "sendRequest" method that will execute a POST
      * HTTP request
      */
-    public void sendPOST(String url, JSONObject query, JSONObject header, JSONObject body, SANetworkInterface listener) {
+    public void sendPOST(String url, JSONObject query, JSONObject header, JSONObject body, KWSNetworkInterface listener) {
         sendRequest(url, "POST", query, header, body, listener);
     }
 
@@ -71,7 +71,7 @@ public class SANetwork {
      *                  to the request
      * @param body      a JSON object containing all the body parameters to be added to
      *                  a PUT or POST request
-     * @param listener  a listener of type SANetworkInterface to be used as a callback mechanism
+     * @param listener  a listener of type KWSNetworkInterface to be used as a callback mechanism
      *                  when the network operation finally succeeds
      */
     private void sendRequest(final String endpoint,
@@ -79,7 +79,7 @@ public class SANetwork {
                              final JSONObject query,
                              final JSONObject header,
                              final JSONObject body,
-                             final SANetworkInterface listener) {
+                             final KWSNetworkInterface listener) {
 
         executor.execute(new Runnable() {
             @Override
@@ -247,7 +247,7 @@ public class SANetwork {
         });
     }
 
-    private void sendBack (final SANetworkInterface listener, final int status, final String response, final boolean success) {
+    private void sendBack (final KWSNetworkInterface listener, final int status, final String response, final boolean success) {
         /**
          * And try to return it on the main thread
          */

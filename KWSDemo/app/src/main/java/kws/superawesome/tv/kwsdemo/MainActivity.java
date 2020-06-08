@@ -15,9 +15,9 @@ import kws.superawesome.tv.kwssdk.KWSErrorType;
 import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
-import kws.superawesome.tv.kwssdk.network.SANetwork;
-import kws.superawesome.tv.kwssdk.network.SANetworkInterface;
-import kws.superawesome.tv.kwssdk.utils.SAUtils;
+import kws.superawesome.tv.kwssdk.network.kWSNetwork;
+import kws.superawesome.tv.kwssdk.network.KWSNetworkInterface;
+import kws.superawesome.tv.kwssdk.utils.KWSUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     // MARK: Actions
 
     public void registerNewUser (View v) {
-        final String username = "testuser" + SAUtils.randomNumberBetween(100, 10000);
+        final String username = "testuser" + KWSUtils.randomNumberBetween(100, 10000);
         JSONObject body = new JSONObject();
         try {
             body.put("username", username);
@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        SANetwork network = new SANetwork();
-        network.sendPOST("https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new SANetworkInterface() {
+        kWSNetwork network = new kWSNetwork();
+        network.sendPOST("https://kwsdemobackend.herokuapp.com/create", new JSONObject(), header, body, new KWSNetworkInterface() {
             @Override
             public void saDidGetResponse(int status, String payload, boolean success) {
 

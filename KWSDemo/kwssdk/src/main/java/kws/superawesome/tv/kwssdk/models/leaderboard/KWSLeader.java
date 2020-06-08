@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 28/07/16.
  */
-public class KWSLeader extends SABaseObject implements Parcelable {
+public class KWSLeader extends KWSBaseObject implements Parcelable {
 
     public int rank;
     public int score;
@@ -53,14 +53,14 @@ public class KWSLeader extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject jsonObject) {
-        rank = SAJsonParser.getInt(jsonObject, "rank");
-        score = SAJsonParser.getInt(jsonObject, "score");
-        user = SAJsonParser.getString(jsonObject, "user");
+        rank = KWSJsonParser.getInt(jsonObject, "rank");
+        score = KWSJsonParser.getInt(jsonObject, "score");
+        user = KWSJsonParser.getString(jsonObject, "user");
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "rank", rank,
                 "score", score,
                 "user", user

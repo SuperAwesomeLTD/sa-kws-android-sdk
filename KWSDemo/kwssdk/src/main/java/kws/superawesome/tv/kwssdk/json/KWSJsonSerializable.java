@@ -10,7 +10,7 @@ import org.json.JSONObject;
  * Interface that defines all the methods needed to be able to "describe" a JSON object to a
  * proper Java model and vice-versa
  */
-public interface SAJsonSerializable {
+public interface KWSJsonSerializable {
 
     /**
      * This method, when implemented, will have to describe how all the JSON fields map out to

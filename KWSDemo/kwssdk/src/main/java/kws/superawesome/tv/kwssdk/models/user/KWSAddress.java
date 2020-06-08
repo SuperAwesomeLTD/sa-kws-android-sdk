@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 28/07/16.
  */
-public class KWSAddress extends SABaseObject implements Parcelable {
+public class KWSAddress extends KWSBaseObject implements Parcelable {
 
     public String street;
     public String city;
@@ -57,15 +57,15 @@ public class KWSAddress extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject jsonObject) {
-        street = SAJsonParser.getString(jsonObject, "street");
-        city = SAJsonParser.getString(jsonObject, "city");
-        postCode = SAJsonParser.getString(jsonObject, "postCode");
-        country = SAJsonParser.getString(jsonObject, "country");
+        street = KWSJsonParser.getString(jsonObject, "street");
+        city = KWSJsonParser.getString(jsonObject, "city");
+        postCode = KWSJsonParser.getString(jsonObject, "postCode");
+        country = KWSJsonParser.getString(jsonObject, "country");
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "street", street,
                 "city", city,
                 "postCode", postCode,

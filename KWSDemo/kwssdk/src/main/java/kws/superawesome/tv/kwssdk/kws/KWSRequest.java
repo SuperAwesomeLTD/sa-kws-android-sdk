@@ -5,10 +5,10 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import kws.superawesome.tv.kwssdk.KWS;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import kws.superawesome.tv.kwssdk.network.SANetwork;
-import kws.superawesome.tv.kwssdk.network.SANetworkInterface;
+import kws.superawesome.tv.kwssdk.network.KWSNetworkInterface;
+import kws.superawesome.tv.kwssdk.network.kWSNetwork;
 
 public class KWSRequest implements KWSRequestInterface {
 
@@ -19,10 +19,10 @@ public class KWSRequest implements KWSRequestInterface {
     protected KWSMetadata metadata;
 
     // private data
-    private SANetwork network;
+    private kWSNetwork network;
 
     public KWSRequest () {
-        network = new SANetwork();
+        network = new kWSNetwork();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class KWSRequest implements KWSRequestInterface {
 
     @Override
     public JSONObject getHeader() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "Authorization", "Bearer " + oauthToken,
                 "Content-Type", "application/json",
                 "kws-sdk-version", version
@@ -85,7 +85,7 @@ public class KWSRequest implements KWSRequestInterface {
 
         // continue!
         if (getMethod() == KWSRequestMethod.POST) {
-            network.sendPOST(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new SANetworkInterface() {
+            network.sendPOST(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), getBody(), new KWSNetworkInterface() {
                 @Override
                 public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {
@@ -96,7 +96,7 @@ public class KWSRequest implements KWSRequestInterface {
                 }
             });
         } else {
-            network.sendGET(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new SANetworkInterface() {
+            network.sendGET(kwsApiUrl + getEndpoint(), getQuery(), getHeader(), new KWSNetworkInterface() {
                 @Override
                 public void saDidGetResponse(int status, String payload, boolean success) {
                     if (success) {

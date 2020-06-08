@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 28/07/16.
  */
-public class KWSPoints extends SABaseObject implements Parcelable {
+public class KWSPoints extends KWSBaseObject implements Parcelable {
 
     public int totalReceived;
     public int total;
@@ -59,16 +59,16 @@ public class KWSPoints extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject jsonObject) {
-        totalReceived = SAJsonParser.getInt(jsonObject, "totalReceived");
-        total = SAJsonParser.getInt(jsonObject, "total");
-        totalPointsReceivedInCurrentApp = SAJsonParser.getInt(jsonObject, "totalPointsReceivedInCurrentApp");
-        availableBalance = SAJsonParser.getInt(jsonObject, "availableBalance");
-        pending = SAJsonParser.getInt(jsonObject, "pending");
+        totalReceived = KWSJsonParser.getInt(jsonObject, "totalReceived");
+        total = KWSJsonParser.getInt(jsonObject, "total");
+        totalPointsReceivedInCurrentApp = KWSJsonParser.getInt(jsonObject, "totalPointsReceivedInCurrentApp");
+        availableBalance = KWSJsonParser.getInt(jsonObject, "availableBalance");
+        pending = KWSJsonParser.getInt(jsonObject, "pending");
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "totalReceived", totalReceived,
                 "total", total,
                 "totalPointsReceivedInCurrentApp", totalPointsReceivedInCurrentApp,

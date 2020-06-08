@@ -12,7 +12,7 @@ import android.widget.EditText;
 /**
  * This class abstracts away the creation of a simple alert dialog
  */
-public class SAAlert {
+public class KWSAlert {
 
     // constants
     public static final int OK_BUTTON = 0;
@@ -24,22 +24,22 @@ public class SAAlert {
     // private instance of an input box
     private EditText input;
 
-    // singleton instance for the SAAlert class
-    private static SAAlert instance = new SAAlert();
+    // singleton instance for the KWSAlert class
+    private static KWSAlert instance = new KWSAlert();
 
     /**
      * Private constructor
      */
-    private SAAlert(){
+    private KWSAlert(){
         // do nothing
     }
 
     /**
-     * Get the only existing instance of the SAAlert class
+     * Get the only existing instance of the KWSAlert class
      *
      * @return instance variable
      */
-    public static SAAlert getInstance(){
+    public static KWSAlert getInstance(){
         return instance;
     }
 
@@ -53,13 +53,13 @@ public class SAAlert {
      * @param nokTitle  the text for the "negative dismiss" button
      * @param hasInput  whether the alert should display an input box or not
      * @param inputType the text type for the input box, if present
-     * @param listener1 an instance of the SAAlertInterface, used to send messages back to the
+     * @param listener1 an instance of the KWSAlertInterface, used to send messages back to the
      *                  library user
      */
-    public void show(Context c, String title, String message, String okTitle, String nokTitle, boolean hasInput, int inputType, final SAAlertInterface listener1) {
+    public void show(Context c, String title, String message, String okTitle, String nokTitle, boolean hasInput, int inputType, final KWSAlertInterface listener1) {
 
         // create a new listener, that is never null
-        final SAAlertInterface listener = listener1 != null ? listener1 : new SAAlertInterface() {@Override public void saDidClickOnAlertButton(int button, String message) {}};
+        final KWSAlertInterface listener = listener1 != null ? listener1 : new KWSAlertInterface() {@Override public void saDidClickOnAlertButton(int button, String message) {}};
 
         // create a new alert builder
         final AlertDialog.Builder alert = new AlertDialog.Builder(c);

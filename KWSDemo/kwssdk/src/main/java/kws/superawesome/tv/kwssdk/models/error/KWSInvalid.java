@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSInvalid extends SABaseObject implements Parcelable {
+public class KWSInvalid extends KWSBaseObject implements Parcelable {
 
     public KWSInnerError parentEmail;
 
@@ -54,12 +54,12 @@ public class KWSInvalid extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject json) {
-        parentEmail = new KWSInnerError(SAJsonParser.getJsonObject(json, "parentEmail"));
+        parentEmail = new KWSInnerError(KWSJsonParser.getJsonObject(json, "parentEmail"));
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[] {
+        return KWSJsonParser.newObject(new Object[] {
                 "parentEmail", parentEmail != null ? parentEmail.writeToJson() : null
         });
     }

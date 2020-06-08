@@ -21,8 +21,8 @@ import kws.superawesome.tv.kwssdk.managers.KWSRandomNameManager;
 import kws.superawesome.tv.kwssdk.managers.PushManager;
 import kws.superawesome.tv.kwssdk.managers.PushManagerInterface;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import kws.superawesome.tv.kwssdk.utils.SAAlert;
-import kws.superawesome.tv.kwssdk.utils.SAAlertInterface;
+import kws.superawesome.tv.kwssdk.utils.KWSAlert;
+import kws.superawesome.tv.kwssdk.utils.KWSAlertInterface;
 
 /**
  * Created by gabriel.coman on 23/05/16.
@@ -95,10 +95,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
         // add registerListener
         if (stringPermissionPopup) {
 
-            SAAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new SAAlertInterface() {
+            KWSAlert.getInstance().show(context, "Hey!", "Do you want to enable Remote Notifications?", "Yes", "No", false, 0, new KWSAlertInterface() {
                 @Override
                 public void saDidClickOnAlertButton(int button, String s) {
-                    if (button == SAAlert.OK_BUTTON) {
+                    if (button == KWSAlert.OK_BUTTON) {
                         KWSManager.sharedInstance.checkIfNotficationsAreAllowed(context);
                     }
                 }
@@ -121,10 +121,10 @@ public class KWS implements KWSManagerInterface, PushManagerInterface, CheckMana
     // Aux main functions
 
     public void showParentEmailPopup () {
-        SAAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new SAAlertInterface() {
+        KWSAlert.getInstance().show(context, "Hey!", "To enable Remote Notifications in KWS you'll need to provide a parent email", "Submit", "Cancel", true, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, new KWSAlertInterface() {
             @Override
             public void saDidClickOnAlertButton(int button, String s) {
-                if (button == SAAlert.OK_BUTTON) {
+                if (button == KWSAlert.OK_BUTTON) {
                     submitParentEmail(s);
                 }
             }

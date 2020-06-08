@@ -4,8 +4,8 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
-import kws.superawesome.tv.kwssdk.utils.SAUtils;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
+import kws.superawesome.tv.kwssdk.utils.KWSUtils;
 
 /**
  * Created by gabriel.coman on 23/05/16.
@@ -30,8 +30,8 @@ public class KWSParentEmail extends KWSRequest {
 
     @Override
     public JSONObject getBody() {
-        return SAJsonParser.newObject("parentEmail", emailToSubmit,
-                "permissions", SAJsonParser.newArray(new Object[]{
+        return KWSJsonParser.newObject("parentEmail", emailToSubmit,
+                "permissions", KWSJsonParser.newArray(new Object[]{
                     "sendPushNotification"
             }));
     }
@@ -63,7 +63,7 @@ public class KWSParentEmail extends KWSRequest {
         }
 
         // check params
-        if (emailToSubmit.length() == 0 || !SAUtils.isValidEmail(emailToSubmit)) {
+        if (emailToSubmit.length() == 0 || !KWSUtils.isValidEmail(emailToSubmit)) {
             lisInvalidError();
             return;
         }

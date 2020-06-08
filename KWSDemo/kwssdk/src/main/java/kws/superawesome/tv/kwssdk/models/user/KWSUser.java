@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-import kws.superawesome.tv.kwssdk.json.SABaseObject;
-import kws.superawesome.tv.kwssdk.json.SAJsonParser;
+import kws.superawesome.tv.kwssdk.json.KWSBaseObject;
+import kws.superawesome.tv.kwssdk.json.KWSJsonParser;
 
 /**
  * Created by gabriel.coman on 23/05/16.
  */
-public class KWSUser extends SABaseObject implements Parcelable {
+public class KWSUser extends KWSBaseObject implements Parcelable {
 
     public int id;
     public String username;
@@ -90,24 +90,24 @@ public class KWSUser extends SABaseObject implements Parcelable {
 
     @Override
     public void readFromJson(JSONObject json) {
-        id = SAJsonParser.getInt(json, "id");
-        username = SAJsonParser.getString(json, "username");
-        firstName = SAJsonParser.getString(json, "firstName");
-        lastName = SAJsonParser.getString(json, "lastName");
-        dateOfBirth = SAJsonParser.getString(json, "dateOfBirth");
-        gender = SAJsonParser.getString(json, "gender");
-        phoneNumber = SAJsonParser.getString(json, "phoneNumber");
-        language = SAJsonParser.getString(json, "language");
-        email = SAJsonParser.getString(json, "email");
-        address = new KWSAddress(SAJsonParser.getJsonObject(json, "address"));
-        points = new KWSPoints(SAJsonParser.getJsonObject(json, "points"));
-        applicationPermissions = new KWSPermissions(SAJsonParser.getJsonObject(json, "applicationPermissions"));
-        applicationProfile = new KWSApplicationProfile(SAJsonParser.getJsonObject(json, "applicationProfile"));
+        id = KWSJsonParser.getInt(json, "id");
+        username = KWSJsonParser.getString(json, "username");
+        firstName = KWSJsonParser.getString(json, "firstName");
+        lastName = KWSJsonParser.getString(json, "lastName");
+        dateOfBirth = KWSJsonParser.getString(json, "dateOfBirth");
+        gender = KWSJsonParser.getString(json, "gender");
+        phoneNumber = KWSJsonParser.getString(json, "phoneNumber");
+        language = KWSJsonParser.getString(json, "language");
+        email = KWSJsonParser.getString(json, "email");
+        address = new KWSAddress(KWSJsonParser.getJsonObject(json, "address"));
+        points = new KWSPoints(KWSJsonParser.getJsonObject(json, "points"));
+        applicationPermissions = new KWSPermissions(KWSJsonParser.getJsonObject(json, "applicationPermissions"));
+        applicationProfile = new KWSApplicationProfile(KWSJsonParser.getJsonObject(json, "applicationProfile"));
     }
 
     @Override
     public JSONObject writeToJson() {
-        return SAJsonParser.newObject(new Object[]{
+        return KWSJsonParser.newObject(new Object[]{
                 "id", id,
                 "username", username,
                 "firstName", firstName,

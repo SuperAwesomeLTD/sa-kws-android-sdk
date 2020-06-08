@@ -9,7 +9,7 @@ import java.util.Iterator;
  * Created by gabriel.coman on 30/04/2018.
  */
 
-public class SANetworkUtils {
+public class KWSNetworkUtils {
 
     /**
      * This method checks all possibilities to determine if a passed JSONObject is null or empty.
