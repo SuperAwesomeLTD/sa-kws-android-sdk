@@ -23,6 +23,11 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".network.SAAsyncTask$SAAsync"
+            android:exported="false"
+            android:permission="kws.superawesome.tv.kwssdk"/>
+
     </application>
 
 </manifest>
