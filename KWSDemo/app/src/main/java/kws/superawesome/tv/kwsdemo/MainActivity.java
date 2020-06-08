@@ -15,18 +15,9 @@ import kws.superawesome.tv.kwssdk.KWSErrorType;
 import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
 import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
 import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
-import kws.superawesome.tv.kwssdk.network.request.SANetwork;
-import kws.superawesome.tv.kwssdk.network.request.SANetworkInterface;
+import kws.superawesome.tv.kwssdk.network.SANetwork;
+import kws.superawesome.tv.kwssdk.network.SANetworkInterface;
 import kws.superawesome.tv.kwssdk.utils.SAUtils;
-
-//import kws.superawesome.tv.kwssdk.KWSCheckInterface;
-//import kws.superawesome.tv.kwssdk.KWSRegisterInterface;
-//import kws.superawesome.tv.kwssdk.KWSUnregisterInterface;
-//import kws.superawesome.tv.kwssdk.kws.KWSRandomNameInterface;
-//import tv.superawesome.lib.sautils.SAUtils;
-//import tv.superawesome.lib.sanetwork.request.*;
-//import kws.superawesome.tv.kwssdk.KWS;
-//import kws.superawesome.tv.kwssdk.KWSErrorType;
 
 public class MainActivity extends AppCompatActivity {
 

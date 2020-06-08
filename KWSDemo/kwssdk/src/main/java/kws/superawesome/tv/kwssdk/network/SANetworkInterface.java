@@ -2,7 +2,7 @@
  * @Copyright:   SuperAwesome Trading Limited 2017
  * @Author:      Gabriel Coman (gabriel.coman@superawesome.tv)
  */
-package kws.superawesome.tv.kwssdk.network.request;
+package kws.superawesome.tv.kwssdk.network;
 
 /**
  * Interface that is used by SANetwork to send a callback when an async network operation

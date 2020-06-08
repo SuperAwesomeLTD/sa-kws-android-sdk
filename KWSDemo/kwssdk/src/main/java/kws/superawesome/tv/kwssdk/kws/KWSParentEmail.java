@@ -30,12 +30,10 @@ public class KWSParentEmail extends KWSRequest {
 
     @Override
     public JSONObject getBody() {
-        return SAJsonParser.newObject(new Object[]{
-                "parentEmail", emailToSubmit,
+        return SAJsonParser.newObject("parentEmail", emailToSubmit,
                 "permissions", SAJsonParser.newArray(new Object[]{
                     "sendPushNotification"
-            })
-        });
+            }));
     }
 
     @Override

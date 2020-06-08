@@ -1,4 +1,4 @@
-package kws.superawesome.tv.kwssdk.network.request;
+package kws.superawesome.tv.kwssdk.network;
 
 import org.json.JSONObject;
 

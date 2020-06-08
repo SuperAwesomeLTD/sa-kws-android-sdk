@@ -2,7 +2,7 @@
  * @Copyright:   SuperAwesome Trading Limited 2017
  * @Author:      Gabriel Coman (gabriel.coman@superawesome.tv)
  */
-package kws.superawesome.tv.kwssdk.network.request;
+package kws.superawesome.tv.kwssdk.network;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -39,15 +39,6 @@ public class SANetwork {
     }
 
     /**
-     * Constructor with executor
-     * @param executor - the executor that may be passed in as param
-     */
-    public SANetwork (Executor executor, int timeout) {
-        this.executor = executor;
-        this.timeout = timeout;
-    }
-
-    /**
      * This is a sister method to the private "sendRequest" method that will execute a GET
      * HTTP request
      */
@@ -61,15 +52,6 @@ public class SANetwork {
      */
     public void sendPOST(String url, JSONObject query, JSONObject header, JSONObject body, SANetworkInterface listener) {
         sendRequest(url, "POST", query, header, body, listener);
-    }
-
-
-    /**
-     * This is a sister method to the private "sendRequest" method that will execute a PUT
-     * HTTP request
-     */
-    public void sendPUT(String url, JSONObject query, JSONObject header, JSONObject body, SANetworkInterface listener) {
-        sendRequest(url, "PUT", query, header, body, listener);
     }
 
     /**

@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import kws.superawesome.tv.kwssdk.KWS;
 import kws.superawesome.tv.kwssdk.json.SAJsonParser;
 import kws.superawesome.tv.kwssdk.models.KWSMetadata;
-import kws.superawesome.tv.kwssdk.network.request.SANetwork;
-import kws.superawesome.tv.kwssdk.network.request.SANetworkInterface;
+import kws.superawesome.tv.kwssdk.network.SANetwork;
+import kws.superawesome.tv.kwssdk.network.SANetworkInterface;
 
 public class KWSRequest implements KWSRequestInterface {
 
